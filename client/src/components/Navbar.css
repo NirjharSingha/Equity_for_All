@@ -1,0 +1,60 @@
+html {
+  font-size: 16px;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  list-style-type: none;
+}
+.navAnchor {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: aliceblue;
+  font-weight: bold;
+}
+.navBar {
+  width: 100%;
+  height: 4.5rem;
+  display: grid;
+  background-color: rgb(3, 110, 124);
+  grid-template-columns: 4rem 1fr 2fr 1fr 4rem;
+}
+.left {
+  display: flex;
+  grid-column: 2/3;
+  align-items: center;
+}
+.center {
+  grid-column: 3/4;
+}
+.center ul {
+  display: flex;
+  height: 4.5rem;
+  justify-content: space-around;
+  align-items: center;
+}
+.right {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr 1fr;
+  height: 4.5rem;
+  justify-content: space-around;
+  align-items: center;
+}
+.right :first-child {
+  grid-column: 2/3;
+}
+.circle {
+  height: 2.7rem;
+  width: 2.7rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(185, 243, 215);
+}
+.gridItem {
+  justify-self: end; /* Align grid items at the right */
+}
