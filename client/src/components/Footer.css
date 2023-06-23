@@ -1,0 +1,136 @@
+html {
+  font-size: 16px;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+.footerDiv {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  background: rgb(47, 48, 47);
+  display: grid;
+  grid-template-columns: 4rem 1fr 2fr 1fr 4rem;
+}
+.iconContainer {
+  grid-row: 1 / span 1;
+  grid-column: 2 / span 1;
+  display: flex;
+  align-items: center;
+}
+.footerIcon {
+  display: flex;
+  align-items: center;
+}
+.footerText {
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.footerText p {
+  color: azure;
+}
+.footerRight {
+  grid-row: 1 / span 1;
+  width: 100%;
+  height: 100%;
+  grid-column: 4 / span 1;
+  display: flex;
+  justify-content: right;
+  flex-direction: column;
+}
+.heading {
+  color: #fff;
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: right;
+  right: 0;
+}
+.foooterLinkIcons {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.footerIconContainer {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(185, 243, 215);
+  margin-left: 1.7rem;
+  margin-right: 1px;
+}
+.foooterLinkIcon {
+  color: rgb(59, 67, 227);
+}
+.footerCenter {
+  grid-row: 1 / span 1;
+  grid-column: 3 / span 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.resources {
+  grid-column: 1 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.company {
+  grid-column: 2 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.support {
+  grid-column: 3 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.heading2 {
+  display: flex;
+  margin-top: 0;
+  color: rgb(235, 236, 239);
+  font-size: 1.9rem;
+  justify-content: center;
+}
+.footerScroll {
+  width: 100%;
+  height: 100px;
+  overflow-y: auto;
+}
+li {
+  font-size: 16px;
+  color: #fff;
+}
+.footerScrollContainer {
+  margin-top: 1px;
+  max-height: 2rem; /* Set the maximum height for the scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.footerScrollContainer a {
+  display: flex;
+  justify-content: center;
+}
+.footerScrollContent {
+  padding-right: 10px; /* Add a padding to accommodate scrollbar width */
+  color: #fff;
+}
+.footerScrollContent a {
+  text-decoration: none;
+  color: #fff;
+}
+/* Custom scrollbar styles */
+.footerScrollContainer::-webkit-scrollbar {
+  width: 1px;
+  display: none;
+}
