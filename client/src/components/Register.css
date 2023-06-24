@@ -1,0 +1,214 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.registerPageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.registerPage {
+  width: 50vw;
+  height: 100vh;
+  background-color: rgb(223, 234, 244);
+  box-shadow: 2px 2px 2px 2px rgb(243, 229, 206);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+.profileImage {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+.displayImage {
+  height: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: azure;
+  position: relative;
+  border-radius: 50%;
+}
+.imageInput {
+  display: none;
+}
+.imageButton {
+  height: 12%;
+  border-radius: 5%;
+  cursor: pointer;
+  text-align: center;
+  color: aliceblue;
+  background-color: rgb(20, 176, 124);
+}
+.imageButton:hover {
+  background-color: rgb(5, 113, 140);
+}
+.imageContainer {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%; /* This ensures a square aspect ratio */
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.selectedImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+.userInfoContainer {
+  margin-top: 3%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  max-height: 55%;
+}
+.userInfo {
+  width: 80%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 45px 45px 45px 45px 45px 45px 45px 135px 135px 65px;
+}
+.registerLabel {
+  grid-column: 1 / span 1;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.userInfoContainer::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+.userInfoContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.userInfoContainer::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+.userInfoContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+.registerTextArea_1 {
+  grid-row: 8 / span 1;
+  grid-column: 1 / span 2;
+  margin: 10px 10px 10px 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+.registerTextArea_2 {
+  grid-row: 9 / span 1;
+  grid-column: 1 / span 2;
+  margin: 10px 10px 10px 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+.registerInput {
+  grid-column: 2 / span 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-right: 10px;
+  border-radius: 3px;
+  text-indent: 7px;
+  cursor: pointer;
+}
+.regNameInput {
+  grid-row: 1;
+}
+.regEmailInput {
+  grid-row: 2;
+}
+.passContainer {
+  grid-row: 3;
+  grid-column: 2 / span 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-right: 10px;
+  position: relative;
+}
+.regPassInput {
+  grid-row: 3;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  text-indent: 7px;
+  cursor: pointer;
+}
+.passLabelContainer {
+  grid-column: 1;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+}
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 14px;
+  color: #333;
+}
+.regGenderInput {
+  grid-row: 4;
+}
+.regCountryInput {
+  grid-row: 5;
+}
+.regCityInput {
+  grid-row: 6;
+}
+.regNumInput {
+  grid-row: 7;
+}
+.submitContainer {
+  grid-column: 1 / span 2;
+  grid-row: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.regSubmit {
+  height: 45px;
+  width: 100px;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(73, 230, 70);
+  border-radius: 15px;
+}
+.regSubmit:hover {
+  background-color: rgb(30, 150, 194);
+  cursor: pointer;
+}
+.asterisk {
+  color: red;
+}
