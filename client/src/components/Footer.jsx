@@ -1,6 +1,5 @@
 import React from "react";
 import "./Footer.css";
-import "./temp.css";
 import {
   BsFacebook,
   BsInstagram,
@@ -40,19 +39,29 @@ const Footer = () => {
         <h1 className="heading">Equity for All</h1>
         <div className="foooterLinkIcons">
           <div className="footerIconContainer">
-            <BsFacebook className="foooterLinkIcon" />
+            <a href="#">
+              <BsFacebook className="foooterLinkIcon" />
+            </a>
           </div>
           <div className="footerIconContainer">
-            <BsInstagram className="foooterLinkIcon" />
+            <a href="#">
+              <BsInstagram className="foooterLinkIcon" />
+            </a>
           </div>
           <div className="footerIconContainer">
-            <BsGithub className="foooterLinkIcon" />
+            <a href="#">
+              <BsGithub className="foooterLinkIcon" />
+            </a>
           </div>
           <div className="footerIconContainer">
-            <BsTwitter className="foooterLinkIcon" />
+            <a href="#">
+              <BsTwitter className="foooterLinkIcon" />
+            </a>
           </div>
           <div className="footerIconContainer">
-            <BsLinkedin className="foooterLinkIcon" />
+            <a href="#">
+              <BsLinkedin className="foooterLinkIcon" />
+            </a>
           </div>
         </div>
       </div>

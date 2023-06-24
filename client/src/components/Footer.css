@@ -6,7 +6,7 @@ html {
   padding: 0;
 }
 .footerDiv {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -14,6 +14,7 @@ html {
   background: rgb(47, 48, 47);
   display: grid;
   grid-template-columns: 4rem 1fr 2fr 1fr 4rem;
+  z-index: 2;
 }
 .iconContainer {
   grid-row: 1 / span 1;
@@ -65,6 +66,11 @@ html {
   background-color: rgb(185, 243, 215);
   margin-left: 1.7rem;
   margin-right: 1px;
+}
+.footerIconContainer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .foooterLinkIcon {
   color: rgb(59, 67, 227);
