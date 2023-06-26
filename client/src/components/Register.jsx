@@ -3,8 +3,18 @@ import { useState, useRef, useEffect } from "react";
 import "./Register.css";
 import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  useEffect(() => {
+    console.log("register component loaded");
+  }, []);
+
+  const navigate = useNavigate();
+  const handleRegSubmit = () => {
+    navigate("/main");
+  };
+
   const fileInputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [password, setPassword] = useState("");
@@ -38,10 +48,6 @@ const Register = () => {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleRegSubmit = (e) => {
-    console.log(password);
   };
 
   return (
@@ -168,7 +174,7 @@ const Register = () => {
               <button
                 type="submit"
                 className="regSubmit"
-                onClick={handleRegSubmit}
+                onClick={() => handleRegSubmit()}
               >
                 Submit
               </button>

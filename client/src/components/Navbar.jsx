@@ -3,8 +3,14 @@ import Searchbar from "./Searchbar";
 import "./Navbar.css";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import ChatSharpIcon from "@mui/icons-material/ChatSharp";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
+  useEffect(() => {
+    console.log("nav bar loaded");
+  }, []);
+
   return (
     <>
       <nav className="navBar">
@@ -32,29 +38,29 @@ export const Navbar = () => {
         <div className="center">
           <ul>
             <li>
-              <a href="#" className="navAnchor">
+              <Link to="/main" className="navAnchor">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="navAnchor">
+              <Link to="/main/posts" className="navAnchor">
                 Post
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="navAnchor">
+              <Link to="/main/friends" className="navAnchor">
                 Friend
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="navAnchor">
+              <Link to="/main/groups" className="navAnchor">
                 Group
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="navAnchor">
+              <Link to="/main/help" className="navAnchor">
                 Help
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

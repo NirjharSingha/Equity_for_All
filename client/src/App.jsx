@@ -1,17 +1,16 @@
-// import Home from "./components/Home";
-// import { Navbar } from "./components/Navbar";
-import Footer from "./components/Footer";
-// import Login from "./components/Login";
-import Register from "./components/Register";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import MainPage from "./pages/MainPage";
 
 function App() {
   return (
     <div className="app">
-      {/* <Navbar /> */}
-      <Footer />
-      {/* <Login /> */}
-      <Register />
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/main/*" element={<MainPage />} />
+      </Routes>
     </div>
   );
 }

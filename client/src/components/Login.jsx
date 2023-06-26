@@ -1,7 +1,17 @@
 import React from "react";
 import "./Login.css";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  useEffect(() => {
+    console.log("login component loaded");
+  }, []);
+
+  const navigate = useNavigate();
+  const handleSignUp = () => {
+    navigate("/register");
+  };
+
   return (
     <div>
       <div className="container">
@@ -54,7 +64,9 @@ const Login = () => {
                   </label>
                 </div>
                 <div className="btnContainer">
-                  <button id="signup">Create new account</button>
+                  <button id="signup" onClick={() => handleSignUp()}>
+                    Create new account
+                  </button>
                 </div>
               </div>
             </div>

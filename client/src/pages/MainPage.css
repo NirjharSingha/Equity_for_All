@@ -1,0 +1,33 @@
+html {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-size: 16px;
+}
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  scrollbar-width: 1px;
+}
+.mainPage {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.navComponent {
+  grid-row: 1 / span 1;
+}
+.footerComponent {
+  grid-row: 3 / span 1;
+}
+.mainContainer {
+  grid-row: 2 / span 1;
+}
+.mainComponent {
+  height: 100%;
+  width: 100%;
+}

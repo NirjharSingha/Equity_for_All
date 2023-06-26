@@ -1,5 +1,7 @@
 import React from "react";
 import "./Footer.css";
+import { useEffect } from "react";
+
 import {
   BsFacebook,
   BsInstagram,
@@ -9,14 +11,18 @@ import {
 } from "react-icons/bs";
 
 const Footer = () => {
+  useEffect(() => {
+    console.log("footer component loaded");
+  }, []);
+
   return (
     <div className="footerDiv">
       <div className="iconContainer">
         <a href="#" className="footerIcon">
           <svg
             id="logo-88"
-            width="55"
-            height="57"
+            width="52"
+            height="53"
             viewBox="0 0 40 41"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
