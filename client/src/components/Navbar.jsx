@@ -3,16 +3,24 @@ import Searchbar from "./Searchbar";
 import "./Navbar.css";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import ChatSharpIcon from "@mui/icons-material/ChatSharp";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ProfileIconSidebar from "./ProfileIconSidebar";
 
 export const Navbar = () => {
   useEffect(() => {
     console.log("nav bar loaded");
   }, []);
 
+  const [showSideBar, setShowSideBar] = useState(false);
+
+  const handleProfileIcon = () => {
+    setShowSideBar((prevVisible) => !prevVisible);
+  };
+
   return (
     <>
+      {showSideBar && <ProfileIconSidebar />}
       <nav className="navBar">
         <div className="left">
           <a href="#" className="navAnchor">
@@ -77,7 +85,7 @@ export const Navbar = () => {
           </div>
           <div className="gridItem">
             <div className="circle">
-              <a href="#" className="navAnchor">
+              <a href="#" className="navAnchor" onClick={handleProfileIcon}>
                 <svg
                   id="logo-86"
                   width="2.7rem"
