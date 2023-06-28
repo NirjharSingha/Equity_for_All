@@ -8,6 +8,8 @@ import Posts from "../components/Posts";
 import Groups from "../components/Groups";
 import Friends from "../components/Friends";
 import Help from "../components/Help";
+import Profile from "../components/Profile";
+import Chat from "../components/Chat";
 
 const MainPage = () => {
   return (
@@ -19,6 +21,12 @@ const MainPage = () => {
         <Footer />
       </div>
       <div className="mainContainer">
+        <div className="profileComponent">
+          <Profile />
+        </div>
+        <div className="chatComponent">
+          <Chat />
+        </div>
         <Routes>
           <Route
             path="/"

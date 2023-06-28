@@ -12,20 +12,25 @@ body {
   font-size: 16px;
 }
 .registerPageContainer {
-  display: flex;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr;
   justify-content: center;
   align-items: center;
 }
 .registerPage {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
   width: 50vw;
   height: 100vh;
   background-color: rgb(223, 234, 244);
-  box-shadow: 2px 2px 2px 2px rgb(243, 229, 206);
-  position: fixed;
+  box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.2);
   top: 0;
   z-index: 1;
 }
-.profileImage {
+.regImage {
   width: 100%;
   height: 30%;
   display: flex;
@@ -90,7 +95,7 @@ body {
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: 45px 45px 45px 45px 45px 45px 45px 135px 135px 65px;
+  grid-template-rows: 1.5rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 8.4375rem 8.4375rem 4.0625rem;
 }
 .registerLabel {
   grid-column: 1 / span 1;
@@ -99,6 +104,42 @@ body {
   align-items: center;
   font-size: 1.2rem;
   font-weight: bold;
+}
+.regNameLabel {
+  grid-row: 2;
+}
+.regGmailLabel {
+  grid-row: 3;
+}
+.regGenderLabel {
+  grid-row: 5;
+}
+.regCountryLabel {
+  grid-row: 6;
+}
+.regCityLabel {
+  grid-row: 7;
+}
+.regDoBLabel {
+  grid-row: 8;
+}
+.regSchoolLabel {
+  grid-row: 9;
+}
+.regCollegeLabel {
+  grid-row: 10;
+}
+.regVarsityLabel {
+  grid-row: 11;
+}
+.regWorkplaceLabel {
+  grid-row: 12;
+}
+.regContactLabel {
+  grid-row: 13;
+}
+.regMaritalLabel {
+  grid-row: 14;
 }
 .userInfoContainer::-webkit-scrollbar {
   width: 2px;
@@ -115,18 +156,20 @@ body {
   background-color: #555;
 }
 .registerTextArea_1 {
-  grid-row: 8 / span 1;
+  grid-row: 15 / span 1;
   grid-column: 1 / span 2;
   margin: 10px 10px 10px 10px;
   text-align: center;
   border-radius: 5px;
+  cursor: pointer;
 }
 .registerTextArea_2 {
-  grid-row: 9 / span 1;
+  grid-row: 16 / span 1;
   grid-column: 1 / span 2;
   margin: 10px 10px 10px 10px;
   text-align: center;
   border-radius: 5px;
+  cursor: pointer;
 }
 .registerInput {
   grid-column: 2 / span 1;
@@ -138,13 +181,13 @@ body {
   cursor: pointer;
 }
 .regNameInput {
-  grid-row: 1;
-}
-.regEmailInput {
   grid-row: 2;
 }
-.passContainer {
+.regEmailInput {
   grid-row: 3;
+}
+.passContainer {
+  grid-row: 4;
   grid-column: 2 / span 1;
   margin-top: 4px;
   margin-bottom: 4px;
@@ -152,7 +195,7 @@ body {
   position: relative;
 }
 .regPassInput {
-  grid-row: 3;
+  grid-row: 4;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -162,7 +205,7 @@ body {
 }
 .passLabelContainer {
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 4;
   display: flex;
   align-items: center;
 }
@@ -179,20 +222,38 @@ body {
   color: #333;
 }
 .regGenderInput {
-  grid-row: 4;
-}
-.regCountryInput {
   grid-row: 5;
 }
-.regCityInput {
+.regCountryInput {
   grid-row: 6;
 }
-.regNumInput {
+.regCityInput {
   grid-row: 7;
+}
+.regDoBInput {
+  grid-row: 8;
+}
+.regSchoolInput {
+  grid-row: 9;
+}
+.regCollegeInput {
+  grid-row: 10;
+}
+.regVarsityInput {
+  grid-row: 11;
+}
+.regWorkplaceInput {
+  grid-row: 12;
+}
+.regNumInput {
+  grid-row: 13;
+}
+.regMaritalInput {
+  grid-row: 14;
 }
 .submitContainer {
   grid-column: 1 / span 2;
-  grid-row: 10;
+  grid-row: 17;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -211,4 +272,42 @@ body {
 }
 .asterisk {
   color: red;
+}
+.regIconContainer {
+  grid-column: 1;
+  grid-row: 1 / span 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.regLogo {
+  animation: rotate 5s infinite linear;
+  display: flex;
+  align-items: center;
+}
+.regHeadingContainer {
+  grid-column: 3;
+  grid-row: 1 / span 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.regHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(59, 67, 227);
+  font-size: 2.2rem;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

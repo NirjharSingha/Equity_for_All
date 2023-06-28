@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+/* .profileContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+} */
+.profileContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+}
+.profileImageContainer {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 1;
+  width: calc(100% - 15px);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a89393;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+.profileImage {
+  height: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(14, 134, 134);
+  border-radius: 50%;
+}
+/* .profileInfoContainer {
+  margin-top: 4px;
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  max-height: 75%;
+} */
+.profileInfoContainer {
+  margin-top: 4px;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
+  overflow-y: auto;
+}
+.profileLine {
+  white-space: nowrap; /* Prevent line breaks */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+  margin: 5px 5px 5px 10px;
+  padding: 2px 0px 2px 4px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.profileEassy {
+  margin: 5px 5px 5px 10px;
+  padding: 2px 0px 2px 4px;
+  font-size: 1.1rem;
+  font-weight: 550;
+  background-color: rgb(162, 157, 157);
+}
+.profileInfoContainer::-webkit-scrollbar,
+.profileLine::-webkit-scrollbar {
+  width: 2px;
+  height: 1px;
+}
+.profileInfoContainer::-webkit-scrollbar-track,
+.profileLine::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.profileInfoContainer::-webkit-scrollbar-thumb,
+.profileLine::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.profileInfoContainer::-webkit-scrollbar-thumb:hover,
+.profileLine::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
+}
+.profileLine:nth-child(odd) {
+  background-color: rgb(208, 204, 204);
+}
+.profileLine:nth-child(even) {
+  background-color: rgb(162, 157, 157);
+}
