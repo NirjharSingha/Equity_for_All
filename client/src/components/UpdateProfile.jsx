@@ -17,7 +17,7 @@ const UpdateProfile = ({ handleMount }) => {
           X
         </button>
       </div>
-      <Register />
+      <Register isReg={false} handleMount={handleMount} />
     </div>
   );
 };

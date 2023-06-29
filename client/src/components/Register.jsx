@@ -5,7 +5,7 @@ import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = ({ isReg, handleMount }) => {
   useEffect(() => {
     console.log("register component loaded");
   }, []);
@@ -51,8 +51,14 @@ const Register = () => {
   };
 
   return (
-    <div className="registerPageContainer">
-      <div className="regIconContainer">
+    <div
+      className={
+        isReg ? "registerPageContainer" : "upadateProfilePageContainer"
+      }
+    >
+      <div
+        className={isReg ? "regIconContainer" : "upadateProfileIconContainer"}
+      >
         <svg
           id="logo-88"
           width="80"
@@ -71,10 +77,14 @@ const Register = () => {
           ></path>
         </svg>
       </div>
-      <div className="regHeadingContainer">
+      <div
+        className={
+          isReg ? "regHeadingContainer" : "upadateProfileHeadingContainer"
+        }
+      >
         <h1 className="regHeading">Equity for All</h1>
       </div>
-      <div className="registerPage">
+      <div className={isReg ? "registerPage" : "upadateProfilePage"}>
         <div className="regImage">
           <div className="displayImage">
             <input
@@ -101,8 +111,12 @@ const Register = () => {
             )}
           </div>
         </div>
-        <div className="userInfoContainer">
-          <div className="userInfo">
+        <div
+          className={
+            isReg ? "userInfoContainer" : "upadateProfileInfoContainer"
+          }
+        >
+          <div className={isReg ? "userInfo" : "upadateProfileInfo"}>
             <label htmlFor="" className="registerLabel regNameLabel">
               Name:<span className="asterisk">*</span>
             </label>
@@ -145,6 +159,12 @@ const Register = () => {
             </label>
             <label htmlFor="" className="registerLabel regMaritalLabel">
               Relationship status:
+            </label>
+            <label htmlFor="" className="registerLabel regTextAreaLabel_1">
+              Why are you on this website ?
+            </label>
+            <label htmlFor="" className="registerLabel regTextAreaLabel_2">
+              Your opinion on Equity for All:
             </label>
             <textarea
               placeholder="Why are you on this website ?"
@@ -258,9 +278,9 @@ const Register = () => {
               <button
                 type="submit"
                 className="regSubmit"
-                onClick={() => handleRegSubmit()}
+                onClick={isReg ? () => handleRegSubmit() : () => handleMount()}
               >
-                Submit
+                {isReg ? "Submit" : "Apply"}
               </button>
             </div>
           </div>

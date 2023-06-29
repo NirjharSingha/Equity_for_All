@@ -4,7 +4,7 @@ import Register from "../components/Register";
 const RegisterPage = () => {
   return (
     <div>
-      <Register />
+      <Register isReg={true} />
     </div>
   );
 };

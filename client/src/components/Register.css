@@ -91,19 +91,22 @@ body {
   max-height: 65%;
 }
 .userInfo {
-  width: 80%;
+  width: 90%;
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: 1.5rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 8.4375rem 8.4375rem 4.0625rem;
+  grid-template-rows: 1.5rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 8.4375rem 2.8125rem 8.4375rem 4.0625rem;
 }
 .registerLabel {
   grid-column: 1 / span 1;
-  margin-left: 5%;
+  margin-left: 3%;
   display: flex;
   align-items: center;
   font-size: 1.2rem;
   font-weight: bold;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
 }
 .regNameLabel {
   grid-row: 2;
@@ -156,7 +159,7 @@ body {
   background-color: #555;
 }
 .registerTextArea_1 {
-  grid-row: 15 / span 1;
+  grid-row: 16 / span 1;
   grid-column: 1 / span 2;
   margin: 10px 10px 10px 10px;
   text-align: center;
@@ -164,7 +167,7 @@ body {
   cursor: pointer;
 }
 .registerTextArea_2 {
-  grid-row: 16 / span 1;
+  grid-row: 18 / span 1;
   grid-column: 1 / span 2;
   margin: 10px 10px 10px 10px;
   text-align: center;
@@ -253,7 +256,7 @@ body {
 }
 .submitContainer {
   grid-column: 1 / span 2;
-  grid-row: 17;
+  grid-row: 19;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -310,4 +313,33 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+.regTextAreaLabel_1 {
+  grid-row: 15 / span 1;
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+}
+.regTextAreaLabel_2 {
+  grid-row: 17;
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: center;
+}
+.registerLabel::-webkit-scrollbar {
+  width: 2px;
+  height: 1px;
+}
+.registerLabel::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.registerLabel::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.registerLabel::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
 }
