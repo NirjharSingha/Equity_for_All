@@ -343,3 +343,15 @@ body {
 .registerLabel::-webkit-scrollbar-thumb:hover {
   background-color: #3f3d3d;
 }
+.warning {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span2;
+  text-align: center;
+  color: red;
+}
+.regTick {
+  color: green;
+}
+.regCross {
+  color: red;
+}

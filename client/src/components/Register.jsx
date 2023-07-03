@@ -4,23 +4,40 @@ import "./Register.css";
 import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import { Country, City } from "country-state-city";
+import axios from "axios";
 
 const Register = ({ isReg, handleMount }) => {
-  useEffect(() => {
-    console.log("register component loaded");
-  }, []);
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const navigate = useNavigate();
-  const handleRegSubmit = () => {
-    navigate("/main");
-  };
 
   const fileInputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [password, setPassword] = useState("");
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{6,24}$/;
-  const [showTooltip, setShowTooltip] = useState();
-  const [isValidPassword, setIsValidPassword] = useState();
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [cityTooltip, setCityTooltip] = useState("Select Country First");
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [warning, setWarning] = useState("");
+  const [countryName, setCountryName] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    country: "",
+    dob: null,
+    school: "",
+    college: "",
+    university: "",
+    workplace: "",
+    contactNumber: "",
+    relationshipStatus: "",
+    reasonOfBeingHere: "",
+    opinionOnEquity: "",
+  });
 
   const handleMouseLeave = () => {
     setShowTooltip(false);
@@ -34,9 +51,18 @@ const Register = ({ isReg, handleMount }) => {
     const inputValue = e.target.value;
     setPassword(inputValue);
     setIsValidPassword(passwordRegex.test(inputValue));
-    console.log(password != null);
-    console.log(isValidPassword);
     setShowTooltip(!isValidPassword);
+    setWarning("");
+  };
+
+  const handleCity = (e) => {
+    setWarning("");
+    if (user.country === "") {
+      setCityTooltip("Select Country First");
+      setSelectedCity("");
+    } else {
+      setSelectedCity(e.target.value);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -44,10 +70,74 @@ const Register = ({ isReg, handleMount }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
+        imageByteStream = new Uint8Array(reader.result);
         setSelectedImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleInputChange = (e) => {
+    setWarning("");
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    console.log("register component loaded");
+
+    const fetchCountries = () => {
+      try {
+        const countries = Country.getAllCountries();
+        const countryData = countries.map((country) => ({
+          name: country.name,
+          code: country.isoCode,
+        }));
+        setCountries(countryData);
+      } catch (error) {
+        console.log("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  const handleRegSubmit = async (e) => {
+    if (
+      user.name === "" ||
+      user.email === "" ||
+      user.gender === "" ||
+      user.country === ""
+    ) {
+      setWarning("fill the * fields");
+    } else if (!isValidPassword) {
+      setWarning("invalid password");
+    } else {
+      console.log(countryName);
+      const postData = {
+        name: user.name,
+        email: user.email,
+        password: password,
+        gender: user.gender,
+        country: countryName,
+        city: selectedCity,
+        dob: user.dob,
+        school: user.school,
+        college: user.college,
+        university: user.university,
+        workplace: user.workplace,
+        contactNumber: user.contactNumber,
+        relationshipStatus: user.relationshipStatus,
+        reasonOfBeingHere: user.reasonOfBeingHere,
+        opinionOnEquity: user.opinionOnEquity,
+        createdAt: Date.now,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/user/reg",
+        postData
+      );
+    }
+    // navigate("/main");
   };
 
   return (
@@ -117,6 +207,7 @@ const Register = ({ isReg, handleMount }) => {
           }
         >
           <div className={isReg ? "userInfo" : "upadateProfileInfo"}>
+            <div className="warning">{warning}</div>
             <label htmlFor="" className="registerLabel regNameLabel">
               Name:<span className="asterisk">*</span>
             </label>
@@ -127,8 +218,12 @@ const Register = ({ isReg, handleMount }) => {
               <label htmlFor="" className="registerLabel">
                 Password:<span className="asterisk">*</span>
               </label>
-              {password !== "" && isValidPassword && <TiTick />}
-              {password !== "" && !isValidPassword && <RxCross2 />}
+              {password !== "" && isValidPassword && (
+                <TiTick className="regTick" />
+              )}
+              {password !== "" && !isValidPassword && (
+                <RxCross2 className="regCross" />
+              )}
             </div>
             <label htmlFor="" className="registerLabel regGenderLabel">
               Gender:<span className="asterisk">*</span>
@@ -137,7 +232,7 @@ const Register = ({ isReg, handleMount }) => {
               Country:<span className="asterisk">*</span>
             </label>
             <label htmlFor="" className="registerLabel regCityLabel">
-              City:<span className="asterisk">*</span>
+              City:
             </label>
             <label htmlFor="" className="registerLabel regDoBLabel">
               Date of Birth:
@@ -167,34 +262,46 @@ const Register = ({ isReg, handleMount }) => {
               Your opinion on Equity for All:
             </label>
             <textarea
+              id="reasonOfBeingHere"
+              name="reasonOfBeingHere"
               placeholder="Why are you on this website ?"
               className="registerTextArea_1"
+              value={user.reasonOfBeingHere}
+              onChange={handleInputChange}
             ></textarea>
             <textarea
+              id="opinionOnEquity"
+              name="opinionOnEquity"
               placeholder="What is your opinion on equity for all?"
               className="registerTextArea_2"
+              value={user.opinionOnEquity}
+              onChange={handleInputChange}
             ></textarea>
             <input
               type="text"
-              name=""
-              id=""
+              name="name"
+              id="name"
               className="registerInput regNameInput"
               required
               placeholder="Enter your name"
+              value={user.name}
+              onChange={handleInputChange}
             />
             <input
               type="email"
-              name=""
-              id=""
+              name="email"
+              id="email"
               className="registerInput regEmailInput"
               required
               placeholder="Enter your gmail"
+              value={user.email}
+              onChange={handleInputChange}
             />
             <div className="passContainer">
               <input
                 type="password"
-                name=""
-                id=""
+                name="password"
+                id="password"
                 className="regPassInput"
                 value={password}
                 required
@@ -209,70 +316,131 @@ const Register = ({ isReg, handleMount }) => {
                 </div>
               )}
             </div>
-            <select className="registerInput regGenderInput" required>
+            <select
+              id="gender"
+              name="gender"
+              className="registerInput regGenderInput"
+              required
+              value={user.gender}
+              onChange={handleInputChange}
+            >
               <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">LGBTQ+</option>
             </select>
-            <select className="registerInput regCountryInput" required>
+            <select
+              id="country"
+              name="country"
+              className="registerInput regCountryInput"
+              required
+              value={user.country}
+              onChange={(e) => {
+                const selectedOption = e.target.options[e.target.selectedIndex];
+                const country = selectedOption.text;
+                setUser({ ...user, [e.target.name]: e.target.value });
+                setWarning("");
+                setCountryName(country);
+                setSelectedCity("");
+                if (e.target.value !== "") {
+                  setCityTooltip("Select City");
+                  console.log(e.target.value);
+                  const cityData = City.getCitiesOfCountry(e.target.value);
+                  const allCities = cityData.map((city) => city.name);
+                  setCities(allCities);
+                } else {
+                  setCityTooltip("Select Country First");
+                  setCities([]);
+                }
+              }}
+            >
               <option value="">Select Country</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">LGBTQ+</option>
+              {countries.map((country, index) => (
+                <option key={index} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
             </select>
-            <select className="registerInput regCityInput" required>
-              <option value="">Select City</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">LGBTQ+</option>
+            <select
+              id="city"
+              name="city"
+              className="registerInput regCityInput"
+              value={selectedCity}
+              onChange={handleCity}
+            >
+              <option value="" style={{ fontSize: "inherit" }}>
+                {cityTooltip}
+              </option>
+              {cities.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
             </select>
-            <select className="registerInput regMaritalInput">
+            <select
+              id="relationshipStatus"
+              name="relationshipStatus"
+              className="registerInput regMaritalInput"
+              value={user.relationshipStatus}
+              onChange={handleInputChange}
+            >
               <option value="">Select Relationship status</option>
               <option value="single">Single</option>
               <option value="married">Married</option>
-              <option value="ralation">In a relationship</option>
+              <option value="ralation">In a relation</option>
             </select>
             <input
               type="number"
-              name=""
-              id=""
+              name="contactNumber"
+              id="contactNumber"
               className="registerInput regNumInput"
               placeholder="Enter your contact number"
+              value={user.contactNumber}
+              onChange={handleInputChange}
             />
             <input
               type="date"
-              name=""
-              id=""
+              name="dob"
+              id="dob"
               className="registerInput regDoBInput"
+              value={user.dob}
+              onChange={handleInputChange}
             />
             <input
               type="text"
-              name=""
-              id=""
+              name="school"
+              id="school"
               className="registerInput regSchoolInput"
               placeholder="Enter your school name"
+              value={user.school}
+              onChange={handleInputChange}
             />
             <input
               type="text"
-              name=""
-              id=""
+              name="college"
+              id="college"
               className="registerInput regCollegeInput"
               placeholder="Enter your college name"
+              value={user.college}
+              onChange={handleInputChange}
             />
             <input
               type="text"
-              name=""
-              id=""
+              name="university"
+              id="university"
               className="registerInput regVarsityInput"
               placeholder="Enter your varsity name"
+              value={user.university}
+              onChange={handleInputChange}
             />
             <input
               type="text"
-              name=""
-              id=""
+              name="workplace"
+              id="workplace"
               className="registerInput regWorkplaceInput"
               placeholder="Enter your workplace"
+              value={user.workplace}
+              onChange={handleInputChange}
             />
             <div className="submitContainer">
               <button
