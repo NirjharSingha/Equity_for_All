@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import regRouter from "./routes/register.js";
+import userRouter from "./routes/user.js";
 import cors from "cors";
 import connectDB from "./configs/connectDB.js";
 
@@ -15,7 +15,7 @@ const port = process.env.server_port;
 app.use(cors());
 app.use(express.json());
 
-app.use("/user", regRouter);
+app.use("/user", userRouter);
 
 app.listen(port, () => {
   console.log("hello world 4");

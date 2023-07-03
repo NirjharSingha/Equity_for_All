@@ -14,7 +14,7 @@ const Register = ({ isReg, handleMount }) => {
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState("");
   const [password, setPassword] = useState("");
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{6,24}$/;
   const [showTooltip, setShowTooltip] = useState(false);
@@ -23,12 +23,13 @@ const Register = ({ isReg, handleMount }) => {
   const [warning, setWarning] = useState("");
   const [countryName, setCountryName] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [image, setImage] = useState();
   const [user, setUser] = useState({
     name: "",
     email: "",
     gender: "",
     country: "",
-    dob: null,
+    dob: "",
     school: "",
     college: "",
     university: "",
@@ -67,14 +68,12 @@ const Register = ({ isReg, handleMount }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        imageByteStream = new Uint8Array(reader.result);
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setSelectedImage(reader.result);
+      console.log(selectedImage);
+    };
   };
 
   const handleInputChange = (e) => {
@@ -120,7 +119,7 @@ const Register = ({ isReg, handleMount }) => {
         gender: user.gender,
         country: countryName,
         city: selectedCity,
-        dob: user.dob,
+        dob: user.dob === "" ? user.dob : new Date(user.dob).toISOString(),
         school: user.school,
         college: user.college,
         university: user.university,
@@ -129,7 +128,8 @@ const Register = ({ isReg, handleMount }) => {
         relationshipStatus: user.relationshipStatus,
         reasonOfBeingHere: user.reasonOfBeingHere,
         opinionOnEquity: user.opinionOnEquity,
-        createdAt: Date.now,
+        profilePic: selectedImage,
+        createdAt: new Date(Date.now()).toISOString(),
       };
 
       const response = await axios.post(
@@ -341,10 +341,11 @@ const Register = ({ isReg, handleMount }) => {
                 setUser({ ...user, [e.target.name]: e.target.value });
                 setWarning("");
                 setCountryName(country);
+                console.log(countryName);
+                console.log("country name");
                 setSelectedCity("");
                 if (e.target.value !== "") {
                   setCityTooltip("Select City");
-                  console.log(e.target.value);
                   const cityData = City.getCitiesOfCountry(e.target.value);
                   const allCities = cityData.map((city) => city.name);
                   setCities(allCities);
