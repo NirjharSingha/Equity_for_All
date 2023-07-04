@@ -5,8 +5,7 @@ const validateGmailUniqueness = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    console.log("duplicate email");
-    return;
+    return res.status(409).json({ error: "Gmail address is already taken." });
   }
   next();
 });

@@ -1,7 +1,9 @@
 import React from "react";
 import "./Login.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const Login = () => {
   useEffect(() => {
     console.log("login component loaded");
@@ -10,6 +12,42 @@ const Login = () => {
   const navigate = useNavigate();
   const handleSignUp = () => {
     navigate("/register");
+  };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [warning, setWarning] = useState("");
+
+  const handleLogin = async () => {
+    const postData = {
+      email: email,
+      password: password,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/user/login",
+        postData
+      );
+      if (response.status == 200) {
+        navigate("/main");
+      }
+    } catch (error) {
+      if (error.response) {
+        const statusCode = error.response.status;
+        const errorMessage = error.response.data.error;
+        if (statusCode == 400) {
+          if (errorMessage === "Invalid gmail") {
+            setWarning("Invalid gmail. Register first");
+          } else if (errorMessage === "Invalid password") {
+            setWarning("Invalid password. Try again");
+          }
+        }
+      } else if (error.request) {
+        console.error("Error:", error.request);
+      } else {
+        console.error("Error:", error.message);
+      }
+    }
   };
 
   return (
@@ -43,28 +81,44 @@ const Login = () => {
             <div className="flexContainer">
               <div className="rightContainer">
                 <input
+                  id="email"
+                  name="email"
                   type="email"
                   className="loginInput"
                   placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => {
+                    setWarning("");
+                    setEmail(e.target.value);
+                  }}
                 />
                 <input
+                  id="password"
+                  name="password"
                   type="password"
                   className="loginInput"
                   placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => {
+                    setWarning("");
+                    setPassword(e.target.value);
+                  }}
                 />
                 <div className="labelClass">
                   <label htmlFor="" id="invalid">
-                    Invalid
+                    {warning}
                   </label>
                 </div>
-                <button id="login">Log in</button>
+                <button id="login" onClick={handleLogin}>
+                  Log in
+                </button>
                 <div className="labelClass">
                   <label htmlFor="" id="qn">
                     Don't have an account?
                   </label>
                 </div>
                 <div className="btnContainer">
-                  <button id="signup" onClick={() => handleSignUp()}>
+                  <button id="signup" onClick={handleSignUp}>
                     Create new account
                   </button>
                 </div>

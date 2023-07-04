@@ -23,7 +23,6 @@ const Register = ({ isReg, handleMount }) => {
   const [warning, setWarning] = useState("");
   const [countryName, setCountryName] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [image, setImage] = useState();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -100,7 +99,7 @@ const Register = ({ isReg, handleMount }) => {
     fetchCountries();
   }, []);
 
-  const handleRegSubmit = async (e) => {
+  const handleRegSubmit = async () => {
     if (
       user.name === "" ||
       user.email === "" ||
@@ -132,12 +131,29 @@ const Register = ({ isReg, handleMount }) => {
         createdAt: new Date(Date.now()).toISOString(),
       };
 
-      const response = await axios.post(
-        "http://localhost:5000/user/reg",
-        postData
-      );
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/user/reg",
+          postData
+        );
+      } catch (error) {
+        if (error.response) {
+          const statusCode = error.response.status;
+          const errorMessage = error.response.data.error;
+          if (
+            statusCode == 409 &&
+            errorMessage === "Gmail address is already taken."
+          ) {
+            setWarning("Duplicate gmail address");
+          }
+        } else if (error.request) {
+          console.error("Error:", error.request);
+        } else {
+          console.error("Error:", error.message);
+        }
+      }
     }
-    // navigate("/main");
+    navigate("/main");
   };
 
   return (
