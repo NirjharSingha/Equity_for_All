@@ -22,7 +22,7 @@ const register = asyncHandler(async (req, res) => {
     createdAt,
   } = req.body;
 
-  const user = await User.create({
+  const user = new User({
     name,
     email,
     password,
@@ -41,6 +41,9 @@ const register = asyncHandler(async (req, res) => {
     profilePic,
     createdAt,
   });
+
+  await user.save();
+  res.status(201).json({ message: "user registered successfully" });
 });
 
 export default register;

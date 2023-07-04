@@ -17,6 +17,7 @@ const Register = ({ isReg, handleMount }) => {
   const [selectedImage, setSelectedImage] = useState("");
   const [password, setPassword] = useState("");
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{6,24}$/;
+  const gmailRegex = /^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/;
   const [showTooltip, setShowTooltip] = useState(false);
   const [cityTooltip, setCityTooltip] = useState("Select Country First");
   const [isValidPassword, setIsValidPassword] = useState(false);
@@ -109,8 +110,9 @@ const Register = ({ isReg, handleMount }) => {
       setWarning("fill the * fields");
     } else if (!isValidPassword) {
       setWarning("invalid password");
+    } else if (!gmailRegex.test(user.email)) {
+      setWarning("invalid email format");
     } else {
-      console.log(countryName);
       const postData = {
         name: user.name,
         email: user.email,
@@ -136,6 +138,9 @@ const Register = ({ isReg, handleMount }) => {
           "http://localhost:5000/user/reg",
           postData
         );
+        if (response.status == 201) {
+          navigate("/main");
+        }
       } catch (error) {
         if (error.response) {
           const statusCode = error.response.status;
@@ -153,7 +158,6 @@ const Register = ({ isReg, handleMount }) => {
         }
       }
     }
-    navigate("/main");
   };
 
   return (
@@ -228,7 +232,7 @@ const Register = ({ isReg, handleMount }) => {
               Name:<span className="asterisk">*</span>
             </label>
             <label htmlFor="" className="registerLabel regGmailLabel">
-              Gmail:<span className="asterisk">*</span>
+              Email:<span className="asterisk">*</span>
             </label>
             <div className="passLabelContainer">
               <label htmlFor="" className="registerLabel">
