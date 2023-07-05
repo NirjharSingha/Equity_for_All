@@ -29,6 +29,7 @@ body {
   margin-right: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
+  overflow: hidden;
 }
 .profileImage {
   height: 100%;
@@ -38,6 +39,7 @@ body {
   align-items: center;
   background-color: rgb(14, 134, 134);
   border-radius: 50%;
+  object-fit: cover;
 }
 .profileInfoContainer {
   margin-top: 4px;
