@@ -21,35 +21,61 @@ const updateProfile = asyncHandler(async (req, res) => {
     relationshipStatus,
     reasonOfBeingHere,
     opinionOnEquity,
-    profilePic,
   } = req.body;
 
   const salt = await bcrypt.genSalt(10);
   password = await bcrypt.hash(password, salt);
+  let updatedUser;
 
-  const updatedUser = await User.findOneAndUpdate(
-    { email: req.email },
-    {
-      name,
-      email,
-      password,
-      gender,
-      country,
-      countryCode,
-      city,
-      dob,
-      school,
-      college,
-      university,
-      workplace,
-      contactNumber,
-      relationshipStatus,
-      reasonOfBeingHere,
-      opinionOnEquity,
-      profilePic,
-    },
-    { new: true }
-  );
+  if (req.file === undefined) {
+    updatedUser = await User.findOneAndUpdate(
+      { email: req.email },
+      {
+        name,
+        email,
+        password,
+        gender,
+        country,
+        countryCode,
+        city,
+        dob,
+        school,
+        college,
+        university,
+        workplace,
+        contactNumber,
+        relationshipStatus,
+        reasonOfBeingHere,
+        opinionOnEquity,
+      },
+      { new: true }
+    );
+  } else {
+    let profilePic = process.env.server_url + req.file.path;
+    updatedUser = await User.findOneAndUpdate(
+      { email: req.email },
+      {
+        name,
+        email,
+        password,
+        gender,
+        country,
+        countryCode,
+        city,
+        dob,
+        school,
+        college,
+        university,
+        workplace,
+        contactNumber,
+        relationshipStatus,
+        reasonOfBeingHere,
+        opinionOnEquity,
+        profilePic,
+      },
+      { new: true }
+    );
+  }
 
   if (updatedUser) {
     const expiresIn = "1h";

@@ -3,6 +3,13 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 const register = asyncHandler(async (req, res) => {
+  let profilePic;
+  if (req.file === undefined) {
+    profilePic = "";
+  } else {
+    profilePic = process.env.server_url + req.file.path;
+  }
+
   const {
     name,
     email,
@@ -20,7 +27,6 @@ const register = asyncHandler(async (req, res) => {
     relationshipStatus,
     reasonOfBeingHere,
     opinionOnEquity,
-    profilePic,
     createdAt,
   } = req.body;
 

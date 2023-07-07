@@ -17,7 +17,7 @@ const Register = ({ isReg, profileData, handleMount }) => {
   const [selectedImage, setSelectedImage] = useState(
     isReg ? "" : profileData.profilePic
   );
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState({});
   const [password, setPassword] = useState("");
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{6,24}$/;
   const gmailRegex = /^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/;
@@ -62,7 +62,7 @@ const Register = ({ isReg, profileData, handleMount }) => {
     setShowTooltip(false);
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
     fileInputRef.current.click();
   };
 
@@ -86,7 +86,9 @@ const Register = ({ isReg, profileData, handleMount }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     setProfilePic(file);
+    console.log(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -102,7 +104,6 @@ const Register = ({ isReg, profileData, handleMount }) => {
 
   useEffect(() => {
     console.log("register component loaded");
-    console.log(profileData);
 
     const fetchCountries = () => {
       try {
@@ -144,33 +145,44 @@ const Register = ({ isReg, profileData, handleMount }) => {
     } else if (!gmailRegex.test(user.email)) {
       setWarning("invalid email format");
     } else {
-      const dataToSend = {
-        name: user.name,
-        email: user.email,
-        password: password,
-        gender: user.gender,
-        country: countryName,
-        countryCode: user.country,
-        city: selectedCity,
-        dob: user.dob === "" ? user.dob : new Date(user.dob).toISOString(),
-        school: user.school,
-        college: user.college,
-        university: user.university,
-        workplace: user.workplace,
-        contactNumber: user.contactNumber,
-        relationshipStatus: user.relationshipStatus,
-        reasonOfBeingHere: user.reasonOfBeingHere,
-        opinionOnEquity: user.opinionOnEquity,
-        profilePic: profilePic,
-        createdAt: new Date(Date.now()).toISOString(),
-        isReg: isReg,
-      };
+      const formData = new FormData(); // Create a new FormData object
+
+      // Append the form data to the FormData object
+      formData.append("name", user.name);
+      formData.append("email", user.email);
+      formData.append("password", password);
+      formData.append("gender", user.gender);
+      formData.append("country", countryName);
+      formData.append("countryCode", user.country);
+      formData.append("city", selectedCity);
+      formData.append(
+        "dob",
+        user.dob === "" ? user.dob : new Date(user.dob).toISOString()
+      );
+      formData.append("school", user.school);
+      formData.append("college", user.college);
+      formData.append("university", user.university);
+      formData.append("workplace", user.workplace);
+      formData.append("contactNumber", user.contactNumber);
+      formData.append("relationshipStatus", user.relationshipStatus);
+      formData.append("reasonOfBeingHere", user.reasonOfBeingHere);
+      formData.append("opinionOnEquity", user.opinionOnEquity);
+      formData.append("profilePic", profilePic);
+      formData.append("createdAt", new Date(Date.now()).toISOString());
+      formData.append("isReg", isReg);
+
+      console.log(profilePic);
 
       if (isReg) {
         try {
           const response = await axios.post(
             "http://localhost:5000/user/reg",
-            dataToSend
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data", // Set the Content-Type header to multipart/form-data
+              },
+            }
           );
           if (response.status == 201) {
             localStorage.setItem("token", response.data.token);
@@ -197,9 +209,10 @@ const Register = ({ isReg, profileData, handleMount }) => {
           const token = localStorage.getItem("token");
           const response = await axios.put(
             "http://localhost:5000/user/updateProfile",
-            dataToSend,
+            formData,
             {
               headers: {
+                "Content-Type": "multipart/form-data",
                 token: token,
               },
             }
@@ -210,6 +223,7 @@ const Register = ({ isReg, profileData, handleMount }) => {
             response.data.message === "User updated successfully"
           ) {
             localStorage.setItem("token", response.data.token);
+            handleMount();
           }
         } catch (error) {
           if (error.response) {
@@ -268,6 +282,7 @@ const Register = ({ isReg, profileData, handleMount }) => {
       <form
         onSubmit={handleRegSubmit}
         className={isReg ? "registerPage" : "upadateProfilePage"}
+        encType="multipart/form-data"
       >
         <div className="regImage">
           <div className="displayImage">
@@ -284,7 +299,11 @@ const Register = ({ isReg, profileData, handleMount }) => {
               <img src={selectedImage} className="selectedImage" />
             </div>
           </div>
-          <button className="imageButton" onClick={handleButtonClick}>
+          <button
+            type="button"
+            className="imageButton"
+            onClick={handleButtonClick}
+          >
             {isReg ? "Upload profile pic" : "Update profile pic"}
           </button>
         </div>
@@ -422,7 +441,6 @@ const Register = ({ isReg, profileData, handleMount }) => {
               className="registerInput regCountryInput"
               required
               value={user.country}
-              defaultValue={isReg ? "" : profileData.country}
               onChange={(e) => {
                 const selectedOption = e.target.options[e.target.selectedIndex];
                 const country = selectedOption.text;
@@ -456,7 +474,6 @@ const Register = ({ isReg, profileData, handleMount }) => {
               className="registerInput regCityInput"
               value={selectedCity}
               onChange={handleCity}
-              defaultValue={isReg ? "" : profileData.city}
             >
               <option value="" style={{ fontSize: "inherit" }}>
                 {cityTooltip}
