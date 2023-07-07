@@ -7,37 +7,55 @@ import { useNavigate } from "react-router-dom";
 import { Country, City } from "country-state-city";
 import axios from "axios";
 
-const Register = ({ isReg, handleMount }) => {
+const Register = ({ isReg, profileData, handleMount }) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
 
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(
+    isReg ? "" : profileData.profilePic
+  );
+  const [profilePic, setProfilePic] = useState("");
   const [password, setPassword] = useState("");
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{6,24}$/;
   const gmailRegex = /^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/;
   const [showTooltip, setShowTooltip] = useState(false);
-  const [cityTooltip, setCityTooltip] = useState("Select Country First");
+  const [cityTooltip, setCityTooltip] = useState(
+    !isReg
+      ? profileData.country === ""
+        ? "Select Country First"
+        : profileData.city == ""
+        ? "Select City"
+        : profileData.city
+      : "Select Country First"
+  );
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [warning, setWarning] = useState("");
-  const [countryName, setCountryName] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [countryName, setCountryName] = useState(
+    isReg ? "" : profileData.country
+  );
+  const [selectedCity, setSelectedCity] = useState(
+    isReg ? "" : profileData.city
+  );
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    gender: "",
-    country: "",
-    dob: "",
-    school: "",
-    college: "",
-    university: "",
-    workplace: "",
-    contactNumber: "",
-    relationshipStatus: "",
-    reasonOfBeingHere: "",
-    opinionOnEquity: "",
+    name: isReg ? "" : profileData.name,
+    email: isReg ? "" : profileData.email,
+    gender: isReg ? "" : profileData.gender,
+    country: isReg ? "" : profileData.countryCode,
+    dob:
+      isReg || profileData.dob === "" || profileData.dob == null
+        ? ""
+        : profileData.dob.substring(0, 10),
+    school: isReg ? "" : profileData.school,
+    college: isReg ? "" : profileData.college,
+    university: isReg ? "" : profileData.university,
+    workplace: isReg ? "" : profileData.workplace,
+    contactNumber: isReg ? "" : profileData.contactNumber,
+    relationshipStatus: isReg ? "" : profileData.relationshipStatus,
+    reasonOfBeingHere: isReg ? "" : profileData.reasonOfBeingHere,
+    opinionOnEquity: isReg ? "" : profileData.opinionOnEquity,
   });
 
   const handleMouseLeave = () => {
@@ -68,6 +86,7 @@ const Register = ({ isReg, handleMount }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    setProfilePic(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -83,6 +102,7 @@ const Register = ({ isReg, handleMount }) => {
 
   useEffect(() => {
     console.log("register component loaded");
+    console.log(profileData);
 
     const fetchCountries = () => {
       try {
@@ -98,9 +118,20 @@ const Register = ({ isReg, handleMount }) => {
     };
 
     fetchCountries();
+
+    if (
+      !isReg &&
+      profileData.countryCode != null &&
+      profileData.countryCode !== ""
+    ) {
+      const cityData = City.getCitiesOfCountry(profileData.countryCode);
+      const allCities = cityData.map((city) => city.name);
+      setCities(allCities);
+    }
   }, []);
 
-  const handleRegSubmit = async () => {
+  const handleRegSubmit = async (e) => {
+    e.preventDefault();
     if (
       user.name === "" ||
       user.email === "" ||
@@ -113,12 +144,13 @@ const Register = ({ isReg, handleMount }) => {
     } else if (!gmailRegex.test(user.email)) {
       setWarning("invalid email format");
     } else {
-      const postData = {
+      const dataToSend = {
         name: user.name,
         email: user.email,
         password: password,
         gender: user.gender,
         country: countryName,
+        countryCode: user.country,
         city: selectedCity,
         dob: user.dob === "" ? user.dob : new Date(user.dob).toISOString(),
         school: user.school,
@@ -129,32 +161,71 @@ const Register = ({ isReg, handleMount }) => {
         relationshipStatus: user.relationshipStatus,
         reasonOfBeingHere: user.reasonOfBeingHere,
         opinionOnEquity: user.opinionOnEquity,
-        profilePic: selectedImage,
+        profilePic: profilePic,
         createdAt: new Date(Date.now()).toISOString(),
+        isReg: isReg,
       };
 
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/user/reg",
-          postData
-        );
-        if (response.status == 201) {
-          navigate("/main");
-        }
-      } catch (error) {
-        if (error.response) {
-          const statusCode = error.response.status;
-          const errorMessage = error.response.data.error;
-          if (
-            statusCode == 409 &&
-            errorMessage === "Gmail address is already taken."
-          ) {
-            setWarning("Duplicate gmail address");
+      if (isReg) {
+        try {
+          const response = await axios.post(
+            "http://localhost:5000/user/reg",
+            dataToSend
+          );
+          if (response.status == 201) {
+            localStorage.setItem("token", response.data.token);
+            navigate("/main");
           }
-        } else if (error.request) {
-          console.error("Error:", error.request);
-        } else {
-          console.error("Error:", error.message);
+        } catch (error) {
+          if (error.response) {
+            const statusCode = error.response.status;
+            const errorMessage = error.response.data.error;
+            if (
+              statusCode == 409 &&
+              errorMessage === "Gmail address is already taken."
+            ) {
+              setWarning("Duplicate gmail address");
+            }
+          } else if (error.request) {
+            console.error("Error:", error.request);
+          } else {
+            console.error("Error:", error.message);
+          }
+        }
+      } else {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await axios.put(
+            "http://localhost:5000/user/updateProfile",
+            dataToSend,
+            {
+              headers: {
+                token: token,
+              },
+            }
+          );
+          console.log(response);
+          if (
+            response.status == 200 &&
+            response.data.message === "User updated successfully"
+          ) {
+            localStorage.setItem("token", response.data.token);
+          }
+        } catch (error) {
+          if (error.response) {
+            const statusCode = error.response.status;
+            const errorMessage = error.response.data.error;
+            if (
+              statusCode == 409 &&
+              errorMessage === "Gmail address is already taken."
+            ) {
+              setWarning("Duplicate gmail address");
+            }
+          } else if (error.request) {
+            console.error("Error:", error.request);
+          } else {
+            console.error("Error:", error.message);
+          }
         }
       }
     }
@@ -194,7 +265,10 @@ const Register = ({ isReg, handleMount }) => {
       >
         <h1 className="regHeading">Equity for All</h1>
       </div>
-      <div className={isReg ? "registerPage" : "upadateProfilePage"}>
+      <form
+        onSubmit={handleRegSubmit}
+        className={isReg ? "registerPage" : "upadateProfilePage"}
+      >
         <div className="regImage">
           <div className="displayImage">
             <input
@@ -206,20 +280,13 @@ const Register = ({ isReg, handleMount }) => {
               ref={fileInputRef}
               onChange={handleFileChange}
             />
-            {selectedImage ? (
-              <div className="imageContainer">
-                <img
-                  src={selectedImage}
-                  alt="Selected"
-                  className="selectedImage"
-                />
-              </div>
-            ) : (
-              <button className="imageButton" onClick={handleButtonClick}>
-                Upload profile pic
-              </button>
-            )}
+            <div className="imageContainer">
+              <img src={selectedImage} className="selectedImage" />
+            </div>
           </div>
+          <button className="imageButton" onClick={handleButtonClick}>
+            {isReg ? "Upload profile pic" : "Update profile pic"}
+          </button>
         </div>
         <div
           className={
@@ -355,6 +422,7 @@ const Register = ({ isReg, handleMount }) => {
               className="registerInput regCountryInput"
               required
               value={user.country}
+              defaultValue={isReg ? "" : profileData.country}
               onChange={(e) => {
                 const selectedOption = e.target.options[e.target.selectedIndex];
                 const country = selectedOption.text;
@@ -388,6 +456,7 @@ const Register = ({ isReg, handleMount }) => {
               className="registerInput regCityInput"
               value={selectedCity}
               onChange={handleCity}
+              defaultValue={isReg ? "" : profileData.city}
             >
               <option value="" style={{ fontSize: "inherit" }}>
                 {cityTooltip}
@@ -467,14 +536,14 @@ const Register = ({ isReg, handleMount }) => {
               <button
                 type="submit"
                 className="regSubmit"
-                onClick={isReg ? () => handleRegSubmit() : () => handleMount()}
+                // onClick={handleRegSubmit}
               >
                 {isReg ? "Submit" : "Apply"}
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

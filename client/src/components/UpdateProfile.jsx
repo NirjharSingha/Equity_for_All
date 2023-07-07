@@ -3,7 +3,7 @@ import "./UpdateProfile.css";
 import { useEffect, useState } from "react";
 import Register from "./Register";
 
-const UpdateProfile = ({ handleMount }) => {
+const UpdateProfile = ({ profileData, handleMount }) => {
   const [showUpdateProfile, setShowUpdateProfile] = useState(true);
 
   useEffect(() => {
@@ -17,7 +17,11 @@ const UpdateProfile = ({ handleMount }) => {
           X
         </button>
       </div>
-      <Register isReg={false} handleMount={handleMount} />
+      <Register
+        isReg={false}
+        profileData={profileData}
+        handleMount={handleMount}
+      />
     </div>
   );
 };

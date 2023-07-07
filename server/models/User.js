@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    countryCode: {
+      type: String,
+      required: true,
+    },
     city: String,
     dob: Date,
     school: String,
@@ -74,6 +78,7 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", hashPassword);
+userSchema.pre("findOneAndUpdate", hashPassword);
 
 const User = mongoose.model("User", userSchema);
 export default User;

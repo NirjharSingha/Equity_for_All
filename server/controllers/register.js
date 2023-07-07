@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
 const register = asyncHandler(async (req, res) => {
   const {
@@ -8,6 +9,7 @@ const register = asyncHandler(async (req, res) => {
     password,
     gender,
     country,
+    countryCode,
     city,
     dob,
     school,
@@ -28,6 +30,7 @@ const register = asyncHandler(async (req, res) => {
     password,
     gender,
     country,
+    countryCode,
     city,
     dob,
     school,
@@ -43,7 +46,11 @@ const register = asyncHandler(async (req, res) => {
   });
 
   await user.save();
-  res.status(201).json({ message: "user registered successfully" });
+  const expiresIn = "1h";
+  const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
+  res
+    .status(201)
+    .json({ message: "user registered successfully", token: token });
 });
 
 export default register;

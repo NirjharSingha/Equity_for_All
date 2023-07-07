@@ -32,7 +32,9 @@ const Profile = () => {
 
   const handleUpdateProfile = () => {
     setShowUpdateProfile((prevState) => !prevState);
-    setShouldFetch(true);
+    if (showUpdateProfile) {
+      setShouldFetch(true);
+    }
   };
 
   useEffect(() => {
@@ -52,11 +54,7 @@ const Profile = () => {
       )}
       <div className="profileContainer">
         <div className="profileImageContainer">
-          <img
-            src={profileData.profilePic}
-            alt="Selected"
-            className="profileImage"
-          />
+          <img src={profileData.profilePic} className="profileImage" />
         </div>
         <div className="profileInfoContainer">
           <div className="profileInfo">
