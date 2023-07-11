@@ -1,0 +1,15 @@
+.preview-item {
+  width: 100%;
+  text-align: center;
+}
+.file-info {
+  margin-bottom: 5px;
+}
+.file-preview {
+  margin-top: 5px;
+}
+.file-preview img,
+.file-preview video {
+  max-width: calc(100% - 10px);
+  max-height: 60%;
+}

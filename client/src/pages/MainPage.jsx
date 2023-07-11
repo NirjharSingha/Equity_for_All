@@ -10,6 +10,7 @@ import Friends from "../components/Friends";
 import Help from "../components/Help";
 import Profile from "../components/Profile";
 import Chat from "../components/Chat";
+import PostComponent from "../components/PostComponent";
 
 const MainPage = () => {
   return (
@@ -21,9 +22,6 @@ const MainPage = () => {
         <Footer />
       </div>
       <div className="mainContainer">
-        <div className="profileComponent">
-          <Profile />
-        </div>
         <div className="chatComponent">
           <Chat />
         </div>
@@ -31,18 +29,23 @@ const MainPage = () => {
           <Route
             path="/"
             element={
-              <div className="mainComponent">
-                {" "}
-                <Home />{" "}
-              </div>
+              <>
+                <div className="mainComponent">
+                  {" "}
+                  <Home />{" "}
+                </div>
+                <div className="leftComponent">
+                  <Profile />
+                </div>
+              </>
             }
           />
           <Route
-            path="/posts"
+            path="/posts/*"
             element={
-              <div className="mainComponent">
+              <div className="doubleColumn">
                 {" "}
-                <Posts />{" "}
+                <PostComponent />{" "}
               </div>
             }
           />

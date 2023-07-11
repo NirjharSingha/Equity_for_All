@@ -1,17 +1,32 @@
 import React from "react";
 import "./UpdateProfile.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Register from "./Register";
 
-const UpdateProfile = ({ profileData, handleMount }) => {
-  const [showUpdateProfile, setShowUpdateProfile] = useState(true);
+const UpdateProfile = ({ profileData, handleMount, fetchProfileData }) => {
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    console.log("profile update component loaded");
+    console.log("update profile component loaded");
+
+    const handleOutsideClick = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        handleMount();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
   }, []);
 
   return (
-    <div className="updateProfileContainer">
+    <div className="updateProfileContainer" ref={containerRef}>
       <div className="updateProfileCrossContainer">
         <button className="updateProfileCross" onClick={handleMount}>
           X
@@ -21,6 +36,7 @@ const UpdateProfile = ({ profileData, handleMount }) => {
         isReg={false}
         profileData={profileData}
         handleMount={handleMount}
+        fetchProfileData={fetchProfileData}
       />
     </div>
   );

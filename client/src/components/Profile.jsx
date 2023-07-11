@@ -31,10 +31,8 @@ const Profile = () => {
   const [shouldFetch, setShouldFetch] = useState(false);
 
   const handleUpdateProfile = () => {
+    console.log("handle mount is called");
     setShowUpdateProfile((prevState) => !prevState);
-    if (showUpdateProfile) {
-      setShouldFetch(true);
-    }
   };
 
   useEffect(() => {
@@ -50,6 +48,7 @@ const Profile = () => {
         <UpdateProfile
           profileData={profileData}
           handleMount={handleUpdateProfile}
+          fetchProfileData={setShouldFetch}
         />
       )}
       <div className="profileContainer">

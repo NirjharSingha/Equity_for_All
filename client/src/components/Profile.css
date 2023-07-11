@@ -19,13 +19,13 @@ body {
 .profileImageContainer {
   grid-row: 1 / span 1;
   grid-column: 1 / span 1;
-  width: calc(100% - 15px);
+  width: calc(100% - 10px);
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #a89393;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-right: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -54,13 +54,13 @@ body {
   white-space: nowrap; /* Prevent line breaks */
   overflow-x: auto; /* Enable horizontal scrolling */
   overflow-y: hidden; /* Disable vertical scrolling */
-  margin: 5px 5px 5px 10px;
+  margin: 5px 5px 5px 5px;
   padding: 2px 0px 2px 4px;
   font-size: 1.2rem;
   font-weight: bold;
 }
 .profileEassy {
-  margin: 5px 5px 5px 10px;
+  margin: 5px 5px 5px 5px;
   padding: 2px 0px 2px 4px;
   font-size: 1.1rem;
   font-weight: 550;
@@ -96,9 +96,9 @@ body {
   background-color: rgb(162, 157, 157);
 }
 .updateProfileButtonContainer {
-  width: calc(100% - 15px);
+  width: calc(100% - 10px);
   height: 60px;
-  margin: 5px 5px 5px 10px;
+  margin: 5px 5px 5px 5px;
   padding: 2px 0px 2px 4px;
   display: flex;
   justify-content: center;
