@@ -31,6 +31,15 @@ body {
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: calc(100vh - 8.1rem);
 }
+.doubleColumn {
+  grid-row: 1;
+  grid-column: 1 / span 2;
+  height: 100%;
+  width: 100%;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
 .mainComponent {
   grid-row: 1;
   grid-column: 2 / span 1;
@@ -53,13 +62,4 @@ body {
   height: 100%;
   width: 100%;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
-}
-.doubleColumn {
-  grid-row: 1;
-  grid-column: 1 / span 2;
-  height: 100%;
-  width: 100%;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
-  display: grid;
-  grid-template-columns: 1fr 2fr;
 }

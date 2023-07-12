@@ -1,19 +1,31 @@
 import React from "react";
-import "./Home.css";
+import "./Posts.css";
 import { useEffect } from "react";
+import PostCard from "./PostCard";
 
-const Home = () => {
+const Post = () => {
   useEffect(() => {
     console.log("post component loaded");
   }, []);
 
   return (
-    <div className="homeDiv">
-      <div className="homeContainer">
-        <h1>Post page</h1>
+    <div className="postDiv">
+      <div className="postOption">
+        <button className="borderLessPostOption">Your Post</button>
+        <button className="borderLessPostOption">Other Post</button>
+      </div>
+      <div className="postContainer">
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />{" "}
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Post;

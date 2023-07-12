@@ -1,0 +1,130 @@
+.postCard {
+  margin: 5px;
+  width: calc(100% - 15px);
+  border-radius: 5px;
+  background: rgb(240, 240, 217);
+  display: grid;
+  grid-template-rows: 3rem auto 2rem 2rem;
+  margin-left: 10px;
+}
+.postContent {
+  grid-row: 2 / span 1;
+  grid-column: 1;
+  overflow: hidden;
+  padding: 3px;
+  padding-left: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Show three lines of content */
+  -webkit-box-orient: vertical;
+  line-height: 1.2em; /* Adjust line height as needed */
+  max-height: calc(1.2em * 3);
+}
+.expandedPostContent {
+  grid-row: 2 / span 1;
+  padding: 3px;
+  padding-left: 6px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.postHeading {
+  grid-row: 1 / span 1;
+  grid-column: 1;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 3rem auto;
+}
+.postUserProfilePic {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  height: 3rem;
+  width: 3rem;
+  background-color: rgb(14, 134, 134);
+  border-radius: 50%;
+  object-fit: cover;
+}
+.postUserName {
+  grid-column: 2 / span 1;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.seeMore {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  grid-column: 2;
+}
+.postOptions {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.flexContainerPost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thirdRow {
+  grid-row: 3 / span 1;
+  display: grid;
+  grid-template-columns: auto 150px;
+  grid-template-rows: 1fr;
+}
+.seeMoreButton {
+  border: none;
+  background: rgb(240, 240, 217);
+  margin-right: 5px;
+  cursor: pointer;
+}
+.allLikes {
+  display: flex;
+  justify-content: flex-start;
+  grid-column: 1;
+}
+.likeContainer {
+  padding-bottom: 4px;
+  display: flex;
+  align-items: flex-end;
+  grid-row: 1;
+  grid-column: 1;
+}
+.likeContainer:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(179, 171, 171);
+}
+.commentIcon {
+  padding-bottom: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  grid-row: 1;
+  grid-column: 2;
+}
+.commentIcon:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(179, 171, 171);
+}
+.gray {
+  color: rgb(83, 86, 86);
+}
+.shareIcon {
+  padding-bottom: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  grid-row: 1;
+  grid-column: 3;
+}
+.shareIcon:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(179, 171, 171);
+}
+.postFiles:hover {
+  cursor: pointer;
+}
