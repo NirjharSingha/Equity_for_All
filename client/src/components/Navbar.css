@@ -15,6 +15,9 @@ ul {
   color: aliceblue;
   font-weight: bold;
 }
+.navAnchor:hover {
+  text-decoration: underline;
+}
 .navBar {
   position: sticky;
   top: 0;

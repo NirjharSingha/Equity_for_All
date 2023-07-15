@@ -5,9 +5,9 @@ import EmojiList from "./EmojiList";
 import PreviewItem from "./PreviewItem";
 
 const CreatePost = () => {
-  const [previewResult, setPreviewResult] = useState("");
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -29,10 +29,15 @@ const CreatePost = () => {
 
   return (
     <div className="createPost">
-      <EmojiList
-        previewResult={previewResult}
-        setPreviewResult={setPreviewResult}
-      />
+      <div>
+        <textarea
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+          placeholder="What's on your mind"
+          className="postDescription"
+        />
+      </div>
+      <EmojiList setInputValue={setInputValue} />
       <div className="postAttachment">
         {selectedFiles.map((file, index) => (
           <PreviewItem
@@ -58,7 +63,7 @@ const CreatePost = () => {
         Attach image/video
       </button>
       <button
-        onClick={() => console.log(previewResult)}
+        onClick={() => console.log(inputValue)}
         className="createPostButton"
       >
         Create Post

@@ -2,7 +2,7 @@
   margin: 5px;
   width: calc(100% - 15px);
   border-radius: 5px;
-  background: rgb(240, 240, 217);
+  background: rgb(242, 237, 237);
   display: grid;
   grid-template-rows: 3rem auto 2rem 2rem;
   margin-left: 10px;
@@ -70,12 +70,12 @@
 .thirdRow {
   grid-row: 3 / span 1;
   display: grid;
-  grid-template-columns: auto 150px;
+  grid-template-columns: auto 100px;
   grid-template-rows: 1fr;
 }
 .seeMoreButton {
   border: none;
-  background: rgb(240, 240, 217);
+  background: rgb(242, 237, 237);
   margin-right: 5px;
   cursor: pointer;
 }

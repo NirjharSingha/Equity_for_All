@@ -60,40 +60,13 @@ const emojis = [
   "\u{1F637}", // Face with Medical Mask
 ];
 
-const EmojiList = ({ previewResult, setPreviewResult }) => {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-    updatePreviewResult(event.target.value);
-  };
-
+const EmojiList = ({ setInputValue }) => {
   const handleEmojiClick = (emoji) => {
     setInputValue((prevValue) => prevValue + emoji);
-    updatePreviewResult(inputValue + emoji);
-  };
-
-  const updatePreviewResult = (value) => {
-    let result = value;
-    emojis.forEach((emoji) => {
-      result = result.replaceAll(
-        emoji,
-        String.fromCodePoint(emoji.codePointAt(0))
-      );
-    });
-    setPreviewResult(result);
   };
 
   return (
     <div>
-      <div>
-        <textarea
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="What's on your mind"
-          className="postDescription"
-        />
-      </div>
       <div className="allEmojis">
         {emojis.map((emoji, index) => (
           <span
@@ -107,7 +80,6 @@ const EmojiList = ({ previewResult, setPreviewResult }) => {
           </span>
         ))}
       </div>
-      <div></div>
     </div>
   );
 };
