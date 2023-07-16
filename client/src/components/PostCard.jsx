@@ -40,7 +40,9 @@ const PostCard = () => {
   };
 
   const handleMouseLeaveFromLike = () => {
-    setMouseOnLike(false);
+    setTimeout(() => {
+      setMouseOnLike(false);
+    }, 500);
   };
 
   useEffect(() => {
@@ -147,6 +149,7 @@ const PostCard = () => {
               <AllLikes
                 setSelected={setSelected}
                 setShouldDisplayAllLikes={setShouldDisplayAllLikes}
+                isCommentPage={false}
               />
             )}
           </div>

@@ -12,6 +12,8 @@ import EmojiList from "./EmojiList";
 const Comment = ({ setShowComments }) => {
   const commentContainerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const emojiRef = useRef(null);
 
   const handleEmojiClick = () => {
     setShowEmojis((prev) => !prev);
@@ -26,6 +28,22 @@ const Comment = ({ setShowComments }) => {
         !commentContainerRef.current.contains(event.target)
       ) {
         setShowComments(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("Comment card loaded");
+
+    const handleOutsideClick = (event) => {
+      if (emojiRef.current && !emojiRef.current.contains(event.target)) {
+        setShowEmojis(false);
       }
     };
 
@@ -89,9 +107,9 @@ const Comment = ({ setShowComments }) => {
       </div>
       <div className="writeAComment">
         {showEmojis && (
-          <div className="commentMainEmoji">
+          <div className="commentMainEmoji" ref={emojiRef}>
             {" "}
-            <EmojiList />{" "}
+            <EmojiList setInputValue={setInputValue} />{" "}
           </div>
         )}
         <BsEmojiSmile
@@ -99,7 +117,12 @@ const Comment = ({ setShowComments }) => {
           style={{ fontSize: "1.7rem" }}
           onClick={handleEmojiClick}
         />
-        <input type="text" className="commentReply" />
+        <input
+          type="text"
+          className="commentReply"
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+        />
         <BiSolidSend
           className="commentSubmitIcon"
           style={{ fontSize: "1.7rem" }}

@@ -49,8 +49,9 @@ body {
   grid-row: 3;
   padding-left: 10px;
   border-top: 2px solid gray;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  position: relative;
 }
 .commentForthRow {
   grid-row: 4;
@@ -99,4 +100,14 @@ body {
 .emojiClass {
   margin-left: 2rem;
   margin-right: 2rem;
+}
+.commentLikes {
+  height: 20px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.commentLike {
+  display: flex;
+  align-items: center;
 }

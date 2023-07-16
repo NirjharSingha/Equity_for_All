@@ -4,7 +4,7 @@ import { FaLaughSquint, FaSadCry, FaAngry } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import "./AllLikes.css";
 
-const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
+const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
   return (
     <div className="allLikesContainer">
       <AiFillLike
@@ -13,6 +13,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
           setSelected("Like");
           setShouldDisplayAllLikes(false);
         }}
+        style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <AiFillDislike
         className="iconFlex blue"
@@ -20,6 +21,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
           setSelected("Dislike");
           setShouldDisplayAllLikes(false);
         }}
+        style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaLaughSquint
         className="iconFlex yellow"
@@ -27,6 +29,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
           setSelected("Laugh");
           setShouldDisplayAllLikes(false);
         }}
+        style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaAngry
         className="iconFlex red"
@@ -34,6 +37,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
           setSelected("Angry");
           setShouldDisplayAllLikes(false);
         }}
+        style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaSadCry
         className="iconFlex yellow"
@@ -41,6 +45,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
           setSelected("Sad");
           setShouldDisplayAllLikes(false);
         }}
+        style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FcLike
         className="iconFlex"
@@ -48,6 +53,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes }) => {
           setSelected("Love");
           setShouldDisplayAllLikes(false);
         }}
+        style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
     </div>
   );
