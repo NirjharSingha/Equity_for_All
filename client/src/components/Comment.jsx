@@ -7,9 +7,15 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { BiSolidSend } from "react-icons/bi";
 import CommentCard from "./CommentCard";
+import EmojiList from "./EmojiList";
 
 const Comment = ({ setShowComments }) => {
   const commentContainerRef = useRef(null);
+  const [showEmojis, setShowEmojis] = useState(false);
+
+  const handleEmojiClick = () => {
+    setShowEmojis((prev) => !prev);
+  };
 
   useEffect(() => {
     console.log("Comment component loaded");
@@ -59,11 +65,39 @@ const Comment = ({ setShowComments }) => {
         <div className="level_3">
           <CommentCard />
         </div>
+        <CommentCard />
+        <div className="level_2">
+          <CommentCard />
+        </div>
+        <div className="level_3">
+          <CommentCard />
+        </div>
+        <CommentCard />
+        <div className="level_2">
+          <CommentCard />
+        </div>
+        <div className="level_3">
+          <CommentCard />
+        </div>
+        <CommentCard />
+        <div className="level_2">
+          <CommentCard />
+        </div>
+        <div className="level_3">
+          <CommentCard />
+        </div>
       </div>
       <div className="writeAComment">
+        {showEmojis && (
+          <div className="commentMainEmoji">
+            {" "}
+            <EmojiList />{" "}
+          </div>
+        )}
         <BsEmojiSmile
           className="commentEmojiIcon"
           style={{ fontSize: "1.7rem" }}
+          onClick={handleEmojiClick}
         />
         <input type="text" className="commentReply" />
         <BiSolidSend

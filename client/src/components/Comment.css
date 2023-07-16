@@ -48,6 +48,7 @@ body {
   max-height: calc(90% - 2.5rem);
   margin-top: 5px;
   overflow-y: auto;
+  position: relative;
 }
 .level_2 {
   margin-left: 2rem;
@@ -66,4 +67,11 @@ body {
   margin-right: 2rem;
   background-color: rgb(141, 138, 138);
   border-radius: 5px;
+}
+.commentMainEmoji {
+  position: absolute;
+  bottom: 3.4rem;
+  z-index: 999;
+  width: 125px;
+  height: 120px;
 }

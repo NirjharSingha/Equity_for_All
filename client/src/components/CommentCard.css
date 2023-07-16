@@ -55,13 +55,15 @@ body {
 .commentForthRow {
   grid-row: 4;
   display: flex;
-  justify-content: space-around;
+  padding-left: 20px;
+  padding-right: 20px;
   border-top: 2px solid gray;
+  justify-content: space-between;
 }
 .commentIcons {
   display: flex;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
 }
 .commentFifthRow {
@@ -93,4 +95,8 @@ body {
   margin-left: 10px;
   margin-right: 10px;
   cursor: pointer;
+}
+.emojiClass {
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
