@@ -6,11 +6,7 @@ const Chat = () => {
   useEffect(() => {
     console.log("chat component loaded");
   }, []);
-  return (
-    <div>
-      <Share />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Chat;

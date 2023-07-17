@@ -7,7 +7,7 @@ import { PiShareFatBold } from "react-icons/pi";
 import AllLikes from "./AllLikes";
 import Comment from "./Comment";
 
-const PostCard = () => {
+const PostCard = ({ setShowPostShare }) => {
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
@@ -192,7 +192,10 @@ const PostCard = () => {
             <FaComment className="iconFlex gray" />
             <span>Comment</span>
           </div>
-          <div className="shareIcon">
+          <div
+            className="shareIcon"
+            onClick={() => setShowPostShare((prev) => !prev)}
+          >
             <PiShareFatBold className="iconFlex" />
             <span>Share</span>
           </div>

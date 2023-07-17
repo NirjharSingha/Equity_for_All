@@ -1,0 +1,32 @@
+.shareComponent {
+  width: 25vw;
+  min-width: 200px;
+  height: calc(100vh - 11rem);
+  max-height: calc(100vh - 11rem);
+  background-color: antiquewhite;
+  position: fixed;
+  bottom: 4.25rem;
+  left: 44vw;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 5vw;
+}
+.shareOptionIcon {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.shareOptionContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
