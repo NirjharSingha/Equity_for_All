@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.js";
+import postRouter from "./routes/post.js";
 import cors from "cors";
 import connectDB from "./configs/connectDB.js";
 import bodyParser from "body-parser";
@@ -26,6 +27,7 @@ app.use("/uploads", express.static(join(__dirname, "uploads")));
 
 //routes
 app.use("/user", userRouter);
+app.use("/post", postRouter);
 
 const server = http.createServer(app);
 

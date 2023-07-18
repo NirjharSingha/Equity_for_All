@@ -19,7 +19,6 @@ const CommentCard = () => {
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
   const commentCardRef = useRef(null);
-  const commentLikeRef = useRef(null);
 
   useEffect(() => {
     console.log("Comment card loaded");
@@ -31,23 +30,6 @@ const CommentCard = () => {
       ) {
         setShouldDisplayAllLikes(false);
         setMouseOnAllLikes(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (
-        commentLikeRef.current &&
-        !commentLikeRef.current.contains(event.target)
-      ) {
-        setShowReply(false);
       }
     };
 
@@ -107,7 +89,7 @@ const CommentCard = () => {
             {selected === "" &&
               shouldDisplayAllLikes &&
               (mouseOnAllLikes || mouseOnLike) && (
-                <div className="commentLikes" ref={commentLikeRef}>
+                <div className="commentLikes">
                   <AllLikes
                     setSelected={setSelected}
                     setShouldDisplayAllLikes={setShouldDisplayAllLikes}
