@@ -10,7 +10,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
       <AiFillLike
         className="iconFlex blue"
         onClick={() => {
-          setSelected("Like");
+          setSelected("like");
           setShouldDisplayAllLikes(false);
         }}
         style={isCommentPage ? { fontSize: "1rem" } : {}}
@@ -18,7 +18,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
       <AiFillDislike
         className="iconFlex blue"
         onClick={() => {
-          setSelected("Dislike");
+          setSelected("dislike");
           setShouldDisplayAllLikes(false);
         }}
         style={isCommentPage ? { fontSize: "1rem" } : {}}
@@ -26,7 +26,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
       <FaLaughSquint
         className="iconFlex yellow"
         onClick={() => {
-          setSelected("Laugh");
+          setSelected("laugh");
           setShouldDisplayAllLikes(false);
         }}
         style={isCommentPage ? { fontSize: "1rem" } : {}}
@@ -34,7 +34,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
       <FaAngry
         className="iconFlex red"
         onClick={() => {
-          setSelected("Angry");
+          setSelected("angry");
           setShouldDisplayAllLikes(false);
         }}
         style={isCommentPage ? { fontSize: "1rem" } : {}}
@@ -42,7 +42,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
       <FaSadCry
         className="iconFlex yellow"
         onClick={() => {
-          setSelected("Sad");
+          setSelected("sad");
           setShouldDisplayAllLikes(false);
         }}
         style={isCommentPage ? { fontSize: "1rem" } : {}}
@@ -50,7 +50,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
       <FcLike
         className="iconFlex"
         onClick={() => {
-          setSelected("Love");
+          setSelected("love");
           setShouldDisplayAllLikes(false);
         }}
         style={isCommentPage ? { fontSize: "1rem" } : {}}

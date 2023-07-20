@@ -14,9 +14,9 @@
   padding: 3px;
   padding-left: 6px;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Show three lines of content */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  line-height: 1.2em; /* Adjust line height as needed */
+  line-height: 1.2em;
   max-height: calc(1.2em * 3);
 }
 .expandedPostContent {
@@ -79,6 +79,9 @@
   margin-right: 5px;
   cursor: pointer;
 }
+.seeMoreButton:hover {
+  text-decoration: underline;
+}
 .allLikes {
   display: flex;
   justify-content: flex-start;
@@ -125,6 +128,21 @@
   border-radius: 5px;
   background-color: rgb(179, 171, 171);
 }
+.postFiles {
+  width: 250px;
+  height: 200px;
+  margin-bottom: 10px;
+}
+.postFiles,
+.postFiles video {
+  display: block; /* You can adjust this to 'block' or 'inline-block' based on your layout needs */
+}
+
 .postFiles:hover {
   cursor: pointer;
+}
+.displayNone {
+  display: none;
+  width: 0;
+  height: 0;
 }

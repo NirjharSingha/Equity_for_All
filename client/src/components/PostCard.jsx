@@ -6,18 +6,29 @@ import { FcLike } from "react-icons/fc";
 import { PiShareFatBold } from "react-icons/pi";
 import AllLikes from "./AllLikes";
 import Comment from "./Comment";
+import axios from "axios";
 
-const PostCard = ({ setShowPostShare }) => {
+const PostCard = ({ setShowPostShare, post }) => {
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
   const [selected, setSelected] = useState("");
+  const [prevLike, setPrevLike] = useState("");
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
-  const imageRef = useRef(null);
+  const imageRef = useRef([]);
   const [showComments, setShowComments] = useState(false);
+  const isInitialMount = useRef(true);
 
-  const toggleFullscreen = () => {
-    const imageElement = imageRef.current;
+  const getEmailFromToken = () => {
+    const token = localStorage.getItem("token");
+    const payload = token.split(".")[1];
+    const decodedPayload = atob(payload);
+    const { email } = JSON.parse(decodedPayload);
+    return email;
+  };
+
+  const toggleFullscreen = (index) => {
+    const imageElement = imageRef.current[index];
 
     if (!document.fullscreenElement) {
       if (imageElement.requestFullscreen) {
@@ -51,6 +62,55 @@ const PostCard = ({ setShowPostShare }) => {
     }
   }, [mouseOnAllLikes, mouseOnLike]);
 
+  const handleLikePut = async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(
+      "http://localhost:5000/post/postOptions/like",
+      { selectedLike: selected, postID: post._id, prevLike: prevLike },
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+    if (response.status == 200) {
+      console.log("like added");
+      setPrevLike(selected);
+    }
+  };
+
+  useEffect(() => {
+    // Skip the API call on initial mount
+    if (!isInitialMount.current) {
+      handleLikePut();
+    } else {
+      isInitialMount.current = false;
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    const email = getEmailFromToken();
+    if (post.like.includes(email)) {
+      setSelected("like");
+      setPrevLike("like");
+    } else if (post.dislike.includes(email)) {
+      setSelected("dislike");
+      setPrevLike("dislike");
+    } else if (post.laugh.includes(email)) {
+      setSelected("laugh");
+      setPrevLike("laugh");
+    } else if (post.love.includes(email)) {
+      setSelected("love");
+      setPrevLike("love");
+    } else if (post.sad.includes(email)) {
+      setSelected("sad");
+      setPrevLike("sad");
+    } else if (post.angry.includes(email)) {
+      setSelected("angry");
+      setPrevLike("angry");
+    }
+  }, []);
+
   const handleSeeMore = () => {
     setExpanded((prev) => !prev);
   };
@@ -60,82 +120,52 @@ const PostCard = ({ setShowPostShare }) => {
       {showComments && <Comment setShowComments={setShowComments} />}
       <div className="postCard">
         <div className="postHeading">
-          <img
+          {/* <img
             src="http://localhost:5000/uploads/1688751295691-database.png"
             alt=""
             className="postUserProfilePic"
-          />
-          <h2 className="postUserName">User Name</h2>
+          /> */}
+          <h3 className="postUserName">User Name</h3>
         </div>
         <div className={expanded ? "expandedPostContent" : "postContent"}>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident
-            ipsa aperiam error totam facere consequuntur dolorum? Natus
-            reiciendis id, sequi quo quaerat, et voluptas vitae iure voluptate
-            consequuntur odio asperiores! Expedita corporis animi at amet
-            dignissimos nemo exercitationem vitae repellat non veniam nobis enim
-            magni et delectus fugit voluptatibus accusantium natus incidunt ipsa
-            ad sed, nihil neque eum id! Ad rerum placeat dicta fugiat, at
-            dolorem consectetur soluta temporibus quasi impedit qui delectus
-            esse atque cumque porro sit accusantium perspiciatis rem. Maxime,
-            dolore? Animi nam cumque itaque, natus est at minus, nisi veritatis
-            aspernatur aliquid saepe nesciunt autem adipisci eligendi et odit,
-            recusandae tempora vitae id. Assumenda, repudiandae ea sunt porro
-            doloremque error sapiente autem sed, eligendi beatae, magnam culpa
-            commodi consequuntur dolorem odio recusandae voluptatem eius.
-            Numquam modi sint aliquam veritatis est ipsam ducimus? Consectetur
-            ad aspernatur id. Pariatur culpa nostrum et dignissimos unde
-            mollitia magni tenetur, debitis hic sapiente? Maxime nihil explicabo
-            molestias velit debitis eligendi temporibus facilis ea nisi optio
-            dolore nam commodi sed delectus assumenda modi doloremque
-            repudiandae, iusto ab expedita dolorem magni ducimus fuga officia!
-            Repudiandae qui incidunt eos adipisci voluptatem eius vitae cum
-            consequuntur nobis velit? Non quisquam eius sapiente quis quasi,
-            quidem exercitationem. Lorem ipsum dolor sit amet consectetur,
-            adipisicing elit. Ad, velit dolor! Aliquid voluptas praesentium
-            molestiae aut. Suscipit libero vel, neque laboriosam odit pariatur
-            consectetur ullam rerum architecto eaque! Fugit, laboriosam? Lorem
-            ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis
-            quibusdam nostrum officiis fugiat laudantium impedit provident!
-            Accusamus, quam eum assumenda provident totam praesentium quidem
-            expedita facere consectetur, repellat ipsa incidunt ad qui
-            molestiae, culpa quaerat nemo. Quibusdam officia alias voluptas?
-            Iste dolore aliquid, sequi odit vel commodi dolorum quae modi
-            ratione. Commodi exercitationem, optio totam earum atque quasi ut
-            ipsam est magni inventore at excepturi cupiditate quaerat odit vitae
-            beatae libero voluptates, labore, impedit dolor. Est nesciunt
-            quaerat accusamus dolorem? Quasi, autem. Accusantium commodi sit
-            fuga possimus rerum ut expedita aliquid numquam tempora? Delectus
-            officiis dicta recusandae error, veritatis excepturi, quidem officia
-            dignissimos doloremque, veniam earum unde nam optio. Saepe
-            exercitationem fugit ducimus recusandae provident, sed magni dolorum
-            consequatur sunt repellendus enim adipisci odio alias hic autem
-            magnam vel sint quidem a voluptatem, corporis error blanditiis. A
-            explicabo doloremque molestias eos tenetur. Vitae dolor
-            necessitatibus voluptates, odio consectetur deleniti voluptate in
-            cum nesciunt nostrum at error est eligendi facere totam non tenetur
-            consequatur iusto! Non et ullam laudantium eum cumque cupiditate,
-            doloremque ducimus, aperiam omnis eligendi iure natus incidunt
-            quisquam quas sit! Tempora sapiente sit molestias neque enim
-            tempore? Vero libero exercitationem ab laudantium amet excepturi
-            soluta velit quis consequatur.
-          </p>
-          <img
-            src="http://localhost:5000/uploads/1688751295691-database.png"
-            alt=""
-            width={200}
-            height={200}
-            ref={imageRef}
-            onClick={toggleFullscreen}
-            className="postFiles"
-          />
-          <video
-            src="http://localhost:5000/uploads/video1089712846.mp4"
-            width={200}
-            height={200}
-            controls
-            className="postFiles"
-          ></video>
+          <p>{post.postDescription}</p>
+          {/* Use curly braces to enclose the JSX inside the ternary operator */}
+          {expanded ? (
+            <>
+              {post.postAttachments.map((attachment, index) => (
+                <div key={index}>
+                  {attachment.endsWith(".jpg") ||
+                  attachment.endsWith(".png") ||
+                  attachment.endsWith(".jpeg") ? (
+                    <img
+                      key={index}
+                      src={attachment}
+                      alt=""
+                      width={250}
+                      height={200}
+                      ref={(el) => (imageRef.current[index] = el)}
+                      onClick={() => toggleFullscreen(index)}
+                      className="postFiles"
+                    />
+                  ) : attachment.endsWith(".mp4") ? (
+                    <video controls width="250">
+                      <source
+                        src={attachment}
+                        width={200}
+                        height={200}
+                        controls
+                        className="postFiles"
+                      />
+                    </video>
+                  ) : (
+                    <p></p>
+                  )}
+                </div>
+              ))}
+            </>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="thirdRow">
           <div
@@ -169,17 +199,17 @@ const PostCard = ({ setShowPostShare }) => {
             onMouseLeave={handleMouseLeaveFromLike}
             onClick={() => setSelected("")}
           >
-            {selected === "Like" ? (
+            {selected === "like" ? (
               <AiFillLike className="iconFlex blue" />
-            ) : selected === "Dislike" ? (
+            ) : selected === "dislike" ? (
               <AiFillDislike className="iconFlex blue" />
-            ) : selected === "Laugh" ? (
+            ) : selected === "laugh" ? (
               <FaLaughSquint className="iconFlex yellow" />
-            ) : selected === "Angry" ? (
+            ) : selected === "angry" ? (
               <FaAngry className="iconFlex red" />
-            ) : selected === "Sad" ? (
+            ) : selected === "sad" ? (
               <FaSadCry className="iconFlex yellow" />
-            ) : selected === "Love" ? (
+            ) : selected === "love" ? (
               <FcLike className="iconFlex" />
             ) : (
               <AiOutlineLike className="likeIcon iconFlex" />

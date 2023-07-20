@@ -62,7 +62,19 @@ const CreatePost = () => {
         }
       );
       if (response.status == 201) {
-        console.log("post created successfully");
+        const data = {
+          email: response.data.email,
+          postID: response.data.postId,
+        };
+        console.log("post created");
+        try {
+          const res = await axios.put("http://localhost:5000/user/post", data);
+          if (res.status === 200) {
+            console.log("user updated");
+          }
+        } catch (e) {
+          console.log(e);
+        }
       }
     } catch (error) {
       console.log(error);

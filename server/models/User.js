@@ -78,7 +78,6 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", hashPassword);
-userSchema.pre("findOneAndUpdate", hashPassword);
 
 const User = mongoose.model("User", userSchema);
 export default User;

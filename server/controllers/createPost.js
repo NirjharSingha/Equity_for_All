@@ -23,7 +23,17 @@ const createPost = asyncHandler(async (req, res) => {
   });
 
   await post.save();
-  res.status(201).json({ message: "post created successfully" });
+  const postId = post._id;
+
+  console.log(postId);
+
+  res
+    .status(201)
+    .json({
+      message: "post created successfully",
+      postId: postId,
+      email: userEmail,
+    });
 });
 
 export default createPost;

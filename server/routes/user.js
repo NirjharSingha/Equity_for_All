@@ -6,6 +6,7 @@ import verifyJWT from "../middlewares/verifyJWT.js";
 import profile from "../controllers/profile.js";
 import updateProfile from "../controllers/updateProfile.js";
 import upload from "../configs/multerConfig.js";
+import handleUser from "../controllers/handleUser.js";
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.put(
   [verifyJWT, validateGmailUniqueness, upload.single("profilePic")],
   updateProfile
 );
+router.put("/post", handleUser);
 
 export default router;
