@@ -9,8 +9,9 @@ import { FcLike } from "react-icons/fc";
 import EmojiList from "./EmojiList";
 import AllLikes from "./AllLikes";
 import "./CommentCard.css";
+import axios from "axios";
 
-const CommentCard = () => {
+const CommentCard = ({ c, postID }) => {
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -22,6 +23,7 @@ const CommentCard = () => {
 
   useEffect(() => {
     console.log("Comment card loaded");
+    console.log(c);
 
     const handleOutsideClick = (event) => {
       if (
@@ -56,6 +58,41 @@ const CommentCard = () => {
     }
   }, [mouseOnAllLikes, mouseOnLike]);
 
+  const handleCommentReply = async () => {
+    const sendData = {
+      postId: postID,
+      commentDesc: inputValue,
+      timeStamp: new Date(Date.now()).toLocaleString(),
+      parentID: c.commentID,
+      level: 1,
+      levelParent: c.level === 0 ? c.commentID : c.levelParent,
+      like: [],
+      dislike: [],
+      laugh: [],
+      love: [],
+      angry: [],
+      sad: [],
+      reply: [],
+    };
+    try {
+      console.log(sendData.level);
+      const token = localStorage.getItem("token");
+      console.log("sending req");
+      const response = await axios.put(
+        "http://localhost:5000/post/postOptions/createComment",
+        sendData,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div ref={commentCardRef}>
       <div className="comment">
@@ -71,14 +108,7 @@ const CommentCard = () => {
           {new Date(Date.now()).toLocaleString()}
         </div>
         <div className="commentThirdRow">
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo
-            optio laudantium error dolor consequatur facilis repellat, molestias
-            quasi ut tenetur facere sapiente ipsam? Temporibus architecto quos
-            iure quisquam at cupiditate nostrum quae? Ex nulla reprehenderit
-            vitae facere amet sit fugit nobis ratione! Culpa temporibus eum
-            molestias placeat delectus nobis illo!
-          </p>
+          <p>{c.commentDesc}</p>
           <div
             className="commentLikes"
             onMouseEnter={() => {
@@ -111,17 +141,17 @@ const CommentCard = () => {
               setSelected("");
             }}
           >
-            {selected === "Like" ? (
+            {selected === "like" ? (
               <AiFillLike className="commentIcons blue" />
-            ) : selected === "Dislike" ? (
+            ) : selected === "dislike" ? (
               <AiFillDislike className="commentIcons blue" />
-            ) : selected === "Laugh" ? (
+            ) : selected === "laugh" ? (
               <FaLaughSquint className="commentIcons yellow" />
-            ) : selected === "Angry" ? (
+            ) : selected === "angry" ? (
               <FaAngry className="commentIcons red" />
-            ) : selected === "Sad" ? (
+            ) : selected === "sad" ? (
               <FaSadCry className="commentIcons yellow" />
-            ) : selected === "Love" ? (
+            ) : selected === "love" ? (
               <FcLike className="commentIcons" />
             ) : (
               <AiOutlineLike className="blue commentIcons" />
@@ -157,7 +187,10 @@ const CommentCard = () => {
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
             />
-            <BiSolidSend className="commentSubmitIcon" />
+            <BiSolidSend
+              className="commentSubmitIcon"
+              onClick={handleCommentReply}
+            />
           </div>
         </div>
       )}

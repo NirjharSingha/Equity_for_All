@@ -1,26 +1,59 @@
 import React from "react";
 import "./Comment.css";
 import { useEffect, useState, useRef } from "react";
-import { AiOutlineLike } from "react-icons/ai";
-import { BsFillReplyFill, BsEmojiSmile } from "react-icons/bs";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { BsEmojiSmile } from "react-icons/bs";
 import { BiSolidSend } from "react-icons/bi";
 import CommentCard from "./CommentCard";
 import EmojiList from "./EmojiList";
+import axios from "axios";
 
-const Comment = ({ setShowComments }) => {
+const Comment = ({ setShowComments, post }) => {
   const commentContainerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const emojiRef = useRef(null);
+  const { comment } = post;
 
   const handleEmojiClick = () => {
     setShowEmojis((prev) => !prev);
   };
 
+  const handleCommentSubmit = async () => {
+    const sendData = {
+      postId: post._id,
+      commentDesc: inputValue,
+      timeStamp: new Date(Date.now()).toLocaleString(),
+      parentID: "",
+      level: 0,
+      levelParent: "",
+      like: [],
+      dislike: [],
+      laugh: [],
+      love: [],
+      angry: [],
+      sad: [],
+      reply: [],
+    };
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        "http://localhost:5000/post/postOptions/createComment",
+        sendData,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     console.log("Comment component loaded");
+    console.log(post);
 
     const handleOutsideClick = (event) => {
       if (
@@ -62,8 +95,17 @@ const Comment = ({ setShowComments }) => {
         </button>
       </div>
       <div className="allComments">
-        <CommentCard />
-        <div className="level_2">
+        {comment.map((c) => (
+          <div key={c.commentID}>
+            <CommentCard c={c} postID={post._id} />
+            {c.reply.map((x) => (
+              <div className="level_2" key={x.commentID}>
+                <CommentCard c={x} postID={post._id} />
+              </div>
+            ))}
+          </div>
+        ))}
+        {/* <div className="level_2">
           <CommentCard />
         </div>
         <div className="level_3">
@@ -103,7 +145,7 @@ const Comment = ({ setShowComments }) => {
         </div>
         <div className="level_3">
           <CommentCard />
-        </div>
+        </div> */}
       </div>
       <div className="writeAComment">
         {showEmojis && (
@@ -126,6 +168,7 @@ const Comment = ({ setShowComments }) => {
         <BiSolidSend
           className="commentSubmitIcon"
           style={{ fontSize: "1.7rem" }}
+          onClick={handleCommentSubmit}
         />
       </div>
     </div>

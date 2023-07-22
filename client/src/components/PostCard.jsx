@@ -117,7 +117,9 @@ const PostCard = ({ setShowPostShare, post }) => {
 
   return (
     <>
-      {showComments && <Comment setShowComments={setShowComments} />}
+      {showComments && (
+        <Comment setShowComments={setShowComments} post={post} />
+      )}
       <div className="postCard">
         <div className="postHeading">
           {/* <img
