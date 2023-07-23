@@ -5,6 +5,7 @@ const createComment = asyncHandler(async (req, res) => {
   const userEmail = req.email;
   const {
     postId,
+    commentID,
     commentDesc,
     timeStamp,
     parentID,
@@ -18,8 +19,6 @@ const createComment = asyncHandler(async (req, res) => {
     sad,
     reply,
   } = req.body;
-
-  const commentID = `${Date.now()}${userEmail}`;
 
   const comment = {
     commentID,
@@ -56,6 +55,8 @@ const createComment = asyncHandler(async (req, res) => {
     }
   } else {
     try {
+      console.log(levelParent);
+      console.log(postId);
       const updatedComment = await Post.findOneAndUpdate(
         { _id: postId, "comment.commentID": levelParent }, // Find the specific comment using both postId and commentId
         {

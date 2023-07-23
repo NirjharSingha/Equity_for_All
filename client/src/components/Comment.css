@@ -27,16 +27,23 @@ body {
   border-radius: 10px 10px 0px 0px;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
 }
 .commentCross {
   height: 90%;
   aspect-ratio: 1/1;
   border-radius: 5px 5px 0px 0px;
+  margin-right: 2px;
 }
 .commentCross:hover {
   color: white;
   background-color: red;
+  cursor: pointer;
+}
+.commentReload {
+  align-items: center;
+  margin-left: 5px;
+  font-size: 1.6rem;
   cursor: pointer;
 }
 ::-webkit-scrollbar {
@@ -74,4 +81,18 @@ body {
   z-index: 999;
   width: 125px;
   height: 120px;
+}
+@keyframes rotateOnce {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.rotating-element {
+  cursor: pointer;
+}
+.rotate-once {
+  animation: rotateOnce 0.5s linear;
 }

@@ -90,12 +90,22 @@ body {
   border-radius: 10px;
   text-indent: 5px;
 }
+.commentSubmitIconDisabled {
+  color: blue;
+  font-size: 1.4rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: not-allowed;
+}
 .commentSubmitIcon {
   color: blue;
   font-size: 1.4rem;
   margin-left: 10px;
   margin-right: 10px;
   cursor: pointer;
+}
+.commentSubmitIcon:hover {
+  background-color: rgb(92, 89, 89);
 }
 .emojiClass {
   margin-left: 2rem;

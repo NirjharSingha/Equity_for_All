@@ -11,7 +11,7 @@ import AllLikes from "./AllLikes";
 import "./CommentCard.css";
 import axios from "axios";
 
-const CommentCard = ({ c, postID }) => {
+const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -20,10 +20,10 @@ const CommentCard = ({ c, postID }) => {
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
   const commentCardRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     console.log("Comment card loaded");
-    console.log(c);
 
     const handleOutsideClick = (event) => {
       if (
@@ -41,6 +41,12 @@ const CommentCard = ({ c, postID }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    if (showReply) {
+      inputRef.current.focus();
+    }
+  }, [showReply]);
 
   const handleEmojiClick = () => {
     setShowEmojis((prev) => !prev);
@@ -63,16 +69,10 @@ const CommentCard = ({ c, postID }) => {
       postId: postID,
       commentDesc: inputValue,
       timeStamp: new Date(Date.now()).toLocaleString(),
-      parentID: c.commentID,
+      parentID: comment.commentID,
       level: 1,
-      levelParent: c.level === 0 ? c.commentID : c.levelParent,
-      like: [],
-      dislike: [],
-      laugh: [],
-      love: [],
-      angry: [],
-      sad: [],
-      reply: [],
+      levelParent:
+        comment.level === 0 ? comment.commentID : comment.levelParent,
     };
     try {
       console.log(sendData.level);
@@ -87,7 +87,24 @@ const CommentCard = ({ c, postID }) => {
           },
         }
       );
-      console.log(response);
+      if (level === 1) {
+        const index = allComments.findIndex(
+          (c) => c.commentID === comment.commentID
+        );
+        const updatedComments = [...allComments];
+        updatedComments[index].reply.push(sendData);
+        setComments(updatedComments);
+      } else {
+        const index = allComments.findIndex(
+          (c) => c.commentID === comment.levelParent
+        );
+        const updatedComments = [...allComments];
+        updatedComments[index].reply.push(sendData);
+        setComments(updatedComments);
+      }
+      setInputValue("");
+      setShowReply((prev) => !prev);
+      setShowEmojis(false);
     } catch (e) {
       console.log(e);
     }
@@ -104,11 +121,9 @@ const CommentCard = ({ c, postID }) => {
           />
           <h3 className="commentUserName">User name</h3>
         </div>
-        <div className="commentSecondRow">
-          {new Date(Date.now()).toLocaleString()}
-        </div>
+        <div className="commentSecondRow">{comment.timeStamp}</div>
         <div className="commentThirdRow">
-          <p>{c.commentDesc}</p>
+          <p>{comment.commentDesc}</p>
           <div
             className="commentLikes"
             onMouseEnter={() => {
@@ -184,11 +199,16 @@ const CommentCard = ({ c, postID }) => {
             <input
               type="text"
               className="commentReply"
+              ref={inputRef}
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
             />
             <BiSolidSend
-              className="commentSubmitIcon"
+              className={
+                inputValue === ""
+                  ? "commentSubmitIconDisabled"
+                  : "commentSubmitIcon"
+              }
               onClick={handleCommentReply}
             />
           </div>
