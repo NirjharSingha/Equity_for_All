@@ -90,6 +90,7 @@ const PostCard = ({ setShowPostShare, post }) => {
   useEffect(() => {
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     const email = decodedToken.email;
+    console.log(email);
 
     const fetchUserInfo = async () => {
       try {

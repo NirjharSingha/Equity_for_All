@@ -36,3 +36,38 @@ const server = http.createServer(app);
 server.listen(port, () => {
   console.log("hello world 4");
 });
+
+const connectedClients = new Set();
+
+function addClient(res) {
+  connectedClients.add(res);
+}
+
+function removeClient(res) {
+  connectedClients.delete(res);
+}
+
+function sendSseData(data) {
+  const formattedData = JSON.stringify(data);
+  connectedClients.forEach((client) => {
+    client.write(`data: ${formattedData}\n\n`);
+  });
+}
+
+export function sendSseDataToClients(data) {
+  sendSseData(data);
+}
+
+app.get("/commentSSE", (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+
+  addClient(res);
+
+  req.on("close", () => {
+    removeClient(res);
+  });
+});

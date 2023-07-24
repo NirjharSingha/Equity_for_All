@@ -3,7 +3,10 @@ import "./ProfileIconSidebar.css";
 import { BiLogOut } from "react-icons/bi";
 
 const ProfileIconSidebar = () => {
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "http://localhost:5173/";
+  };
   return (
     <>
       <div className="sideBarContainer">

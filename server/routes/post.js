@@ -16,7 +16,7 @@ router.post(
 );
 router.get("/all", getAllPosts);
 router.put("/postOptions/like", verifyJWT, handleLike);
-router.put("/postOptions/createComment", verifyJWT, createComment);
+router.put("/postOptions/createComment", createComment);
 router.get("/postOptions/getComments/:postId", getComments);
 
 export default router;

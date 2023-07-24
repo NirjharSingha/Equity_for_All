@@ -12,6 +12,7 @@ import "./CommentCard.css";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
+import jwtDecode from "jwt-decode";
 
 const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
   const [showReply, setShowReply] = useState(false);
@@ -45,7 +46,7 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
           setUserName(name);
           setUserImg(profilePic);
         } else {
-          console.error("post.userEmail is undefined");
+          console.error("comment.userEmail is undefined");
         }
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -98,14 +99,26 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
   }, [mouseOnAllLikes, mouseOnLike]);
 
   const handleCommentReply = async () => {
+    const decodedToken = jwtDecode(localStorage.getItem("token"));
+    const commentID = `${Date.now()}${decodedToken.email}`;
     const sendData = {
       postId: postID,
+      commentID: commentID,
+      userEmail: decodedToken.email,
       commentDesc: inputValue,
       timeStamp: new Date(Date.now()).toLocaleString(),
       parentID: comment.commentID,
-      level: 1,
+      level: level,
       levelParent:
         comment.level === 0 ? comment.commentID : comment.levelParent,
+      like: [],
+      dislike: [],
+      laugh: [],
+      love: [],
+      angry: [],
+      sad: [],
+      reply: [],
+      helperComment: comment,
     };
     try {
       const token = localStorage.getItem("token");
@@ -119,19 +132,19 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
         }
       );
       if (level === 1) {
-        const index = allComments.findIndex(
-          (c) => c.commentID === comment.commentID
-        );
-        const updatedComments = [...allComments];
-        updatedComments[index].reply.push(sendData);
-        setComments(updatedComments);
+        // const index = allComments.findIndex(
+        //   (c) => c.commentID === comment.commentID
+        // );
+        // const updatedComments = [...allComments];
+        // updatedComments[index].reply.push(sendData);
+        // setComments(updatedComments);
       } else {
-        const index = allComments.findIndex(
-          (c) => c.commentID === comment.levelParent
-        );
-        const updatedComments = [...allComments];
-        updatedComments[index].reply.push(sendData);
-        setComments(updatedComments);
+        // const index = allComments.findIndex(
+        //   (c) => c.commentID === comment.levelParent
+        // );
+        // const updatedComments = [...allComments];
+        // updatedComments[index].reply.push(sendData);
+        // setComments(updatedComments);
       }
       setInputValue("");
       setShowReply((prev) => !prev);
