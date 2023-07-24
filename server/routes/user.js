@@ -7,6 +7,7 @@ import profile from "../controllers/profile.js";
 import updateProfile from "../controllers/updateProfile.js";
 import upload from "../configs/multerConfig.js";
 import handleUser from "../controllers/handleUser.js";
+import getUserInfo from "../controllers/getUserInfo.js";
 
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.put(
   updateProfile
 );
 router.put("/post", handleUser);
+router.get("/info/:email", getUserInfo);
 
 export default router;

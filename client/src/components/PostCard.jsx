@@ -7,6 +7,9 @@ import { PiShareFatBold } from "react-icons/pi";
 import AllLikes from "./AllLikes";
 import Comment from "./Comment";
 import axios from "axios";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { useVerifyFileContext } from "../contexts/VerifyFileContext";
+import jwtDecode from "jwt-decode";
 
 const PostCard = ({ setShowPostShare, post }) => {
   const [expanded, setExpanded] = useState(false);
@@ -18,14 +21,11 @@ const PostCard = ({ setShowPostShare, post }) => {
   const imageRef = useRef([]);
   const [showComments, setShowComments] = useState(false);
   const isInitialMount = useRef(true);
-
-  const getEmailFromToken = () => {
-    const token = localStorage.getItem("token");
-    const payload = token.split(".")[1];
-    const decodedPayload = atob(payload);
-    const { email } = JSON.parse(decodedPayload);
-    return email;
-  };
+  const { getUserInfo } = useUserInfoContext();
+  const { isFileExists } = useVerifyFileContext();
+  const [userName, setUserName] = useState("");
+  const [userImg, setUserImg] = useState("");
+  const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -74,7 +74,6 @@ const PostCard = ({ setShowPostShare, post }) => {
       }
     );
     if (response.status == 200) {
-      console.log("like added");
       setPrevLike(selected);
     }
   };
@@ -89,7 +88,33 @@ const PostCard = ({ setShowPostShare, post }) => {
   }, [selected]);
 
   useEffect(() => {
-    const email = getEmailFromToken();
+    const decodedToken = jwtDecode(localStorage.getItem("token"));
+    const email = decodedToken.email;
+
+    const fetchUserInfo = async () => {
+      try {
+        if (post.userEmail) {
+          const userInfo = await getUserInfo(post.userEmail);
+          const { name, profilePic } = userInfo;
+          const baseUrl = "http://localhost:5000/";
+          const imgVerify = await isFileExists(
+            profilePic.substring(baseUrl.length)
+          );
+          if (profilePic !== "" && imgVerify.data.exists) {
+            setShouldDisplayUserImg(true);
+          }
+          setUserName(name);
+          setUserImg(profilePic);
+        } else {
+          console.error("post.userEmail is undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+
     if (post.like.includes(email)) {
       setSelected("like");
       setPrevLike("like");
@@ -122,16 +147,45 @@ const PostCard = ({ setShowPostShare, post }) => {
       )}
       <div className="postCard">
         <div className="postHeading">
-          {/* <img
-            src="http://localhost:5000/uploads/1688751295691-database.png"
-            alt=""
-            className="postUserProfilePic"
-          /> */}
-          <h3 className="postUserName">User Name</h3>
+          {shouldDisplayUserImg && (
+            <img src={userImg} alt="" className="postUserProfilePic" />
+          )}
+          {!shouldDisplayUserImg && (
+            <svg
+              id="logo-15"
+              width="3rem"
+              height="3rem"
+              viewBox="0 0 49 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {" "}
+              <path
+                d="M24.5 12.75C24.5 18.9632 19.4632 24 13.25 24H2V12.75C2 6.53679 7.03679 1.5 13.25 1.5C19.4632 1.5 24.5 6.53679 24.5 12.75Z"
+                className="ccustom"
+                fill="#17CF97"
+              ></path>{" "}
+              <path
+                d="M24.5 35.25C24.5 29.0368 29.5368 24 35.75 24H47V35.25C47 41.4632 41.9632 46.5 35.75 46.5C29.5368 46.5 24.5 41.4632 24.5 35.25Z"
+                className="ccustom"
+                fill="#17CF97"
+              ></path>{" "}
+              <path
+                d="M2 35.25C2 41.4632 7.03679 46.5 13.25 46.5H24.5V35.25C24.5 29.0368 19.4632 24 13.25 24C7.03679 24 2 29.0368 2 35.25Z"
+                className="ccustom"
+                fill="#17CF97"
+              ></path>{" "}
+              <path
+                d="M47 12.75C47 6.53679 41.9632 1.5 35.75 1.5H24.5V12.75C24.5 18.9632 29.5368 24 35.75 24C41.9632 24 47 18.9632 47 12.75Z"
+                className="ccustom"
+                fill="#17CF97"
+              ></path>{" "}
+            </svg>
+          )}
+          <h3 className="postUserName">{userName}</h3>
         </div>
         <div className={expanded ? "expandedPostContent" : "postContent"}>
           <p>{post.postDescription}</p>
-          {/* Use curly braces to enclose the JSX inside the ternary operator */}
           {expanded ? (
             <>
               {post.postAttachments.map((attachment, index) => (

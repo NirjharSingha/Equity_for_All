@@ -36,7 +36,7 @@ const Comment = ({ setShowComments, post }) => {
 
   const handleCommentSubmit = async () => {
     const decodedToken = jwtDecode(localStorage.getItem("token"));
-    const commentID = `${Date.now()}${decodedToken}`;
+    const commentID = `${Date.now()}${decodedToken.email}`;
     const sendData = {
       postId: post._id,
       commentID: commentID,
@@ -64,7 +64,6 @@ const Comment = ({ setShowComments, post }) => {
           },
         }
       );
-      console.log(response);
       setComments((prevComments) => [sendData, ...prevComments]);
       setCommentInput("");
     } catch (e) {
@@ -78,7 +77,6 @@ const Comment = ({ setShowComments, post }) => {
 
   useEffect(() => {
     console.log("Comment component loaded");
-    console.log(post);
 
     const handleOutsideClick = (event) => {
       if (
