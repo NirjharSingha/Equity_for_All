@@ -145,7 +145,6 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
-    console.log("Comment component loaded");
     handleRotateClick();
 
     const handleOutsideClick = (event) => {

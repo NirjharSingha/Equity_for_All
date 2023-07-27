@@ -9,7 +9,8 @@ import Comment from "./Comment";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
-import jwtDecode from "jwt-decode";
+import { useLikesContext } from "../contexts/LikesContext";
+import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 
 const PostCard = ({ setShowPostShare, post }) => {
   const [expanded, setExpanded] = useState(false);
@@ -23,6 +24,8 @@ const PostCard = ({ setShowPostShare, post }) => {
   const isInitialMount = useRef(true);
   const { getUserInfo } = useUserInfoContext();
   const { isFileExists } = useVerifyFileContext();
+  const { checkInitialMount, setUserLikes } = useLikesContext();
+  const { displayUser } = useDisplayUserContext();
   const [userName, setUserName] = useState("");
   const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
@@ -34,13 +37,10 @@ const PostCard = ({ setShowPostShare, post }) => {
       if (imageElement.requestFullscreen) {
         imageElement.requestFullscreen();
       } else if (imageElement.mozRequestFullScreen) {
-        // Firefox
         imageElement.mozRequestFullScreen();
       } else if (imageElement.webkitRequestFullscreen) {
-        // Chrome, Safari and Opera
         imageElement.webkitRequestFullscreen();
       } else if (imageElement.msRequestFullscreen) {
-        // IE/Edge
         imageElement.msRequestFullscreen();
       }
     } else {
@@ -79,64 +79,19 @@ const PostCard = ({ setShowPostShare, post }) => {
   };
 
   useEffect(() => {
-    // Skip the API call on initial mount
-    if (!isInitialMount.current) {
-      handleLikePut();
-    } else {
-      isInitialMount.current = false;
-    }
+    checkInitialMount(isInitialMount, handleLikePut);
   }, [selected]);
 
   useEffect(() => {
-    const decodedToken = jwtDecode(localStorage.getItem("token"));
-    const email = decodedToken.email;
-
-    const fetchUserInfo = async () => {
-      try {
-        if (post.userEmail) {
-          const userInfo = await getUserInfo(post.userEmail);
-          const { name, profilePic } = userInfo;
-          const baseUrl = "http://localhost:5000/";
-          const imgVerify = await isFileExists(
-            profilePic.substring(baseUrl.length)
-          );
-          if (profilePic !== "" && imgVerify.data.exists) {
-            setShouldDisplayUserImg(true);
-          }
-          setUserName(name);
-          setUserImg(profilePic);
-        } else {
-          console.error("post.userEmail is undefined");
-        }
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-
-    fetchUserInfo();
-
-    if (post.like.includes(email)) {
-      setSelected("like");
-      setPrevLike("like");
-    } else if (post.dislike.includes(email)) {
-      setSelected("dislike");
-      setPrevLike("dislike");
-    } else if (post.laugh.includes(email)) {
-      setSelected("laugh");
-      setPrevLike("laugh");
-    } else if (post.love.includes(email)) {
-      setSelected("love");
-      setPrevLike("love");
-    } else if (post.sad.includes(email)) {
-      setSelected("sad");
-      setPrevLike("sad");
-    } else if (post.angry.includes(email)) {
-      setSelected("angry");
-      setPrevLike("angry");
-    } else {
-      setSelected("");
-      setPrevLike("");
-    }
+    displayUser(
+      post.userEmail,
+      getUserInfo,
+      isFileExists,
+      setShouldDisplayUserImg,
+      setUserName,
+      setUserImg
+    );
+    setUserLikes(post, setSelected, setPrevLike);
   }, []);
 
   const handleSeeMore = () => {

@@ -12,6 +12,8 @@ import "./CommentCard.css";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
+import { useLikesContext } from "../contexts/LikesContext";
+import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import jwtDecode from "jwt-decode";
 
 const CommentCard = ({ comment, postID }) => {
@@ -27,6 +29,8 @@ const CommentCard = ({ comment, postID }) => {
   const inputRef = useRef(null);
   const { getUserInfo } = useUserInfoContext();
   const { isFileExists } = useVerifyFileContext();
+  const { checkInitialMount, setUserLikes } = useLikesContext();
+  const { displayUser } = useDisplayUserContext();
   const [userName, setUserName] = useState("");
   const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
@@ -57,68 +61,19 @@ const CommentCard = ({ comment, postID }) => {
   };
 
   useEffect(() => {
-    // Skip the API call on initial mount
-    if (!isInitialMount.current) {
-      console.log("on initial mount");
-      handleLikePut();
-    } else {
-      isInitialMount.current = false;
-      console.log("skipped");
-    }
+    checkInitialMount(isInitialMount, handleLikePut);
   }, [selectedLike]);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        if (comment.userEmail) {
-          const userInfo = await getUserInfo(comment.userEmail);
-          const { name, profilePic } = userInfo;
-          const baseUrl = "http://localhost:5000/";
-          const imgVerify = await isFileExists(
-            profilePic.substring(baseUrl.length)
-          );
-          if (profilePic !== "" && imgVerify.data.exists) {
-            setShouldDisplayUserImg(true);
-          }
-          setUserName(name);
-          setUserImg(profilePic);
-        } else {
-          console.error("comment.userEmail is undefined");
-        }
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-
-    fetchUserInfo();
-    const decodedToken = jwtDecode(localStorage.getItem("token"));
-    const email = decodedToken.email;
-
-    if (Array.isArray(comment.like) && comment.like.includes(email)) {
-      setSelectedLike("like");
-      setPrevSecLike("like");
-    } else if (
-      Array.isArray(comment.dislike) &&
-      comment.dislike.includes(email)
-    ) {
-      setSelectedLike("dislike");
-      setPrevSecLike("dislike");
-    } else if (Array.isArray(comment.laugh) && comment.laugh.includes(email)) {
-      setSelectedLike("laugh");
-      setPrevSecLike("laugh");
-    } else if (Array.isArray(comment.love) && comment.love.includes(email)) {
-      setSelectedLike("love");
-      setPrevSecLike("love");
-    } else if (Array.isArray(comment.like) && comment.sad.includes(email)) {
-      setSelectedLike("sad");
-      setPrevSecLike("sad");
-    } else if (Array.isArray(comment.angry) && comment.angry.includes(email)) {
-      setSelectedLike("angry");
-      setPrevSecLike("angry");
-    } else {
-      setSelectedLike("");
-      setPrevSecLike("");
-    }
+    displayUser(
+      comment.userEmail,
+      getUserInfo,
+      isFileExists,
+      setShouldDisplayUserImg,
+      setUserName,
+      setUserImg
+    );
+    setUserLikes(comment, setSelectedLike, setPrevSecLike);
   }, []);
 
   useEffect(() => {
@@ -164,7 +119,6 @@ const CommentCard = ({ comment, postID }) => {
   }, [mouseOnAllLikes, mouseOnLike]);
 
   const handleCommentReply = async () => {
-    console.log("inside");
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     const commentID = `${Date.now()}${decodedToken.email}`;
 
