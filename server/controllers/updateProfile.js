@@ -20,7 +20,7 @@ const updateProfile = asyncHandler(async (req, res) => {
     contactNumber,
     relationshipStatus,
     reasonOfBeingHere,
-    opinionOnEquity,
+    aboutYourself,
   } = req.body;
 
   const salt = await bcrypt.genSalt(10);
@@ -46,7 +46,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         contactNumber,
         relationshipStatus,
         reasonOfBeingHere,
-        opinionOnEquity,
+        aboutYourself,
       },
       { new: true }
     );
@@ -70,7 +70,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         contactNumber,
         relationshipStatus,
         reasonOfBeingHere,
-        opinionOnEquity,
+        aboutYourself,
         profilePic,
       },
       { new: true }

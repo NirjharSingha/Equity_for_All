@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footerRight">
-        <h1 className="heading">Equity for All</h1>
+        <h1 className="heading">Nexus Sphere</h1>
         <div className="foooterLinkIcons">
           <div className="footerIconContainer">
             <a href="#">

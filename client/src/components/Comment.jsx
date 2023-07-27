@@ -57,7 +57,7 @@ const Comment = ({ setShowComments, post }) => {
                 reply.commentID === data.helperComment.commentID
                   ? {
                       ...reply,
-                      reply: [...reply.reply, data], // Add the new reply to the "reply" array
+                      reply: [...reply.reply, data],
                     }
                   : reply
               ),
@@ -77,7 +77,7 @@ const Comment = ({ setShowComments, post }) => {
                 reply.commentID === data.helperComment.levelParent
                   ? {
                       ...reply,
-                      reply: [...reply.reply, data], // Add the new reply to the "reply" array
+                      reply: [...reply.reply, data],
                     }
                   : reply
               ),

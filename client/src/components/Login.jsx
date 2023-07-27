@@ -75,7 +75,7 @@ const Login = () => {
                   ></path>
                 </svg>
               </a>
-              <h1 className="loginHeading">Equity for All</h1>
+              <h1 className="loginHeading">Nexus Sphere</h1>
             </div>
           </div>
           <div className="loginRight">

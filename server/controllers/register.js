@@ -26,7 +26,7 @@ const register = asyncHandler(async (req, res) => {
     contactNumber,
     relationshipStatus,
     reasonOfBeingHere,
-    opinionOnEquity,
+    aboutYourself,
     createdAt,
   } = req.body;
 
@@ -46,7 +46,7 @@ const register = asyncHandler(async (req, res) => {
     contactNumber,
     relationshipStatus,
     reasonOfBeingHere,
-    opinionOnEquity,
+    aboutYourself,
     profilePic,
     createdAt,
   });

@@ -61,13 +61,8 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/main/posts/1" className="navAnchor">
+              <Link to="/main/groups" className="navAnchor">
                 Group
-              </Link>
-            </li>
-            <li>
-              <Link to="/main/help" className="navAnchor">
-                Help
               </Link>
             </li>
           </ul>

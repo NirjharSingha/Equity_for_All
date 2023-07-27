@@ -107,10 +107,8 @@ const Profile = () => {
             </div>
             <div className="profileLine">Why are you on this website:</div>
             <div className="profileEassy">{profileData.reasonOfBeingHere}</div>
-            <div className="profileLine">
-              What is your opinion on Equity for All:
-            </div>
-            <div className="profileEassy">{profileData.opinionOnEquity}</div>
+            <div className="profileLine">About Yourself:</div>
+            <div className="profileEassy">{profileData.aboutYourself}</div>
           </div>
           <div className="updateProfileButtonContainer">
             <button

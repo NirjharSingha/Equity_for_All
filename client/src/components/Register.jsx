@@ -20,7 +20,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
   const [profilePic, setProfilePic] = useState({});
   const [password, setPassword] = useState("");
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{6,24}$/;
-  const gmailRegex = /^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/;
   const [showTooltip, setShowTooltip] = useState(false);
   const [cityTooltip, setCityTooltip] = useState(
     !isReg
@@ -55,7 +54,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     contactNumber: isReg ? "" : profileData.contactNumber,
     relationshipStatus: isReg ? "" : profileData.relationshipStatus,
     reasonOfBeingHere: isReg ? "" : profileData.reasonOfBeingHere,
-    opinionOnEquity: isReg ? "" : profileData.opinionOnEquity,
+    aboutYourself: isReg ? "" : profileData.aboutYourself,
   });
 
   const handleMouseLeave = () => {
@@ -133,17 +132,10 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
 
   const handleRegSubmit = async (e) => {
     e.preventDefault();
-    if (
-      user.name === "" ||
-      user.email === "" ||
-      user.gender === "" ||
-      user.country === ""
-    ) {
+    if (user.name === "" || user.email === "") {
       setWarning("fill the * fields");
     } else if (!isValidPassword) {
       setWarning("invalid password");
-    } else if (!gmailRegex.test(user.email)) {
-      setWarning("invalid email format");
     } else {
       const formData = new FormData(); // Create a new FormData object
 
@@ -166,7 +158,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       formData.append("contactNumber", user.contactNumber);
       formData.append("relationshipStatus", user.relationshipStatus);
       formData.append("reasonOfBeingHere", user.reasonOfBeingHere);
-      formData.append("opinionOnEquity", user.opinionOnEquity);
+      formData.append("aboutYourself", user.aboutYourself);
       formData.append("profilePic", profilePic);
       formData.append("createdAt", new Date(Date.now()).toISOString());
       formData.append("isReg", isReg);
@@ -278,7 +270,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
           isReg ? "regHeadingContainer" : "upadateProfileHeadingContainer"
         }
       >
-        <h1 className="regHeading">Equity for All</h1>
+        <h1 className="regHeading">Nexus Sphere</h1>
       </div>
       <form
         onSubmit={handleRegSubmit}
@@ -333,10 +325,10 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               )}
             </div>
             <label htmlFor="" className="registerLabel regGenderLabel">
-              Gender:<span className="asterisk">*</span>
+              Gender:
             </label>
             <label htmlFor="" className="registerLabel regCountryLabel">
-              Country:<span className="asterisk">*</span>
+              Country:
             </label>
             <label htmlFor="" className="registerLabel regCityLabel">
               City:
@@ -366,7 +358,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               Why are you on this website ?
             </label>
             <label htmlFor="" className="registerLabel regTextAreaLabel_2">
-              Your opinion on Equity for All:
+              Say something about yourself:
             </label>
             <textarea
               id="reasonOfBeingHere"
@@ -377,11 +369,11 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               onChange={handleInputChange}
             ></textarea>
             <textarea
-              id="opinionOnEquity"
-              name="opinionOnEquity"
-              placeholder="What is your opinion on equity for all?"
+              id="aboutYourself"
+              name="aboutYourself"
+              placeholder="Say something about yourself"
               className="registerTextArea_2"
-              value={user.opinionOnEquity}
+              value={user.aboutYourself}
               onChange={handleInputChange}
             ></textarea>
             <input
@@ -427,7 +419,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               id="gender"
               name="gender"
               className="registerInput regGenderInput"
-              required
               value={user.gender}
               onChange={handleInputChange}
             >
@@ -440,7 +431,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               id="country"
               name="country"
               className="registerInput regCountryInput"
-              required
               value={user.country}
               onChange={(e) => {
                 const selectedOption = e.target.options[e.target.selectedIndex];

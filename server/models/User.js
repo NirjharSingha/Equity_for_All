@@ -20,15 +20,12 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      required: true,
     },
     country: {
       type: String,
-      required: true,
     },
     countryCode: {
       type: String,
-      required: true,
     },
     city: String,
     dob: Date,
@@ -39,7 +36,7 @@ const userSchema = mongoose.Schema(
     contactNumber: String,
     relationshipStatus: String,
     reasonOfBeingHere: String,
-    opinionOnEquity: String,
+    aboutYourself: String,
     friends: {
       type: Array,
       default: [],

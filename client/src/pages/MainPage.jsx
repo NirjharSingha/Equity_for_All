@@ -4,10 +4,8 @@ import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import Home from "../components/Home";
 import { Routes, Route } from "react-router-dom";
-import Posts from "../components/Posts";
 import Groups from "../components/Groups";
 import Friends from "../components/Friends";
-import Help from "../components/Help";
 import Profile from "../components/Profile";
 import Chat from "../components/Chat";
 import PostComponent from "../components/PostComponent";
@@ -50,15 +48,6 @@ const MainPage = () => {
             }
           />
           <Route
-            path="/groups"
-            element={
-              <div className="mainComponent">
-                {" "}
-                <Groups />{" "}
-              </div>
-            }
-          />
-          <Route
             path="/friends"
             element={
               <div className="mainComponent">
@@ -68,11 +57,11 @@ const MainPage = () => {
             }
           />
           <Route
-            path="/help"
+            path="/groups"
             element={
               <div className="mainComponent">
                 {" "}
-                <Help />{" "}
+                <Groups />{" "}
               </div>
             }
           />
