@@ -1,9 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Post from "../models/Post.js";
-import { sendSseDataToClients } from "../index.js";
+import { sendSseDataToClients } from "../utils/sse.js";
 
 const createComment = asyncHandler(async (req, res) => {
-  console.log("inside createComment");
   const {
     postId,
     commentID,
@@ -23,10 +22,6 @@ const createComment = asyncHandler(async (req, res) => {
     reply,
     helperComment,
   } = req.body;
-
-  console.log(postId);
-  console.log(higherParent);
-  console.log(levelParent);
 
   const comment = {
     commentID,
@@ -66,28 +61,17 @@ const createComment = asyncHandler(async (req, res) => {
     helperComment,
   };
 
-  console.log(level);
+  let updatedPost;
 
-  if (level === 0) {
-    try {
-      const updatedPost = await Post.findOneAndUpdate(
+  try {
+    if (level === 0) {
+      updatedPost = await Post.findOneAndUpdate(
         { _id: postId },
         { $push: { comment: comment } },
         { new: true }
       );
-
-      if (updatedPost) {
-        sendSseDataToClients(comment);
-        res.status(200).json(updatedPost);
-      } else {
-        res.status(404).json({ message: "Post not found" });
-      }
-    } catch (error) {
-      res.status(500).json({ message: "Failed to add comment to post" });
-    }
-  } else if (level === 1) {
-    try {
-      const updatedComment = await Post.findOneAndUpdate(
+    } else if (level === 1) {
+      updatedPost = await Post.findOneAndUpdate(
         { _id: postId },
         {
           $push: {
@@ -99,18 +83,8 @@ const createComment = asyncHandler(async (req, res) => {
           arrayFilters: [{ "elem.commentID": levelParent }],
         }
       );
-      if (updatedComment) {
-        sendSseDataToClients(dataToSend);
-        res.status(200).json(updatedComment);
-      } else {
-        res.status(404).json({ message: "Comment not found" });
-      }
-    } catch (error) {
-      res.status(500).json({ message: "Failed to add reply to comment" });
-    }
-  } else {
-    try {
-      const updatedComment = await Post.findOneAndUpdate(
+    } else {
+      updatedPost = await Post.findOneAndUpdate(
         {
           _id: postId,
           "comment.commentID": higherParent,
@@ -133,15 +107,16 @@ const createComment = asyncHandler(async (req, res) => {
           ],
         }
       );
-      if (updatedComment) {
-        sendSseDataToClients(dataToSend);
-        res.status(200).json(updatedComment);
-      } else {
-        res.status(404).json({ message: "Comment not found" });
-      }
-    } catch (error) {
-      res.status(500).json({ message: "Failed to add reply to comment" });
     }
+
+    if (updatedPost) {
+      sendSseDataToClients(dataToSend);
+      res.status(200).json(updatedPost);
+    } else {
+      res.status(404).json({ message: "Post not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add comment to post" });
   }
 });
 

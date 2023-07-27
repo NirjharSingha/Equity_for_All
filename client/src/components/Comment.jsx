@@ -68,32 +68,6 @@ const Comment = ({ setShowComments, post }) => {
         return updatedComments;
       });
     } else {
-      // let parentIndex = -1;
-      // for (let i = 0; i < comments.length; i++) {
-      //   if (comments[i].commentID === data.helperComment.higherParent) {
-      //     parentIndex = i;
-      //     break;
-      //   }
-      // }
-
-      // if (parentIndex !== -1) {
-      //   // Find the index of the reply with matching commentID within the found comment
-      //   let replyIndex = -1;
-      //   for (let j = 0; j < comments[parentIndex].reply.length; j++) {
-      //     if (
-      //       comments[parentIndex].reply[j].commentID ===
-      //       data.helperComment.levelParent
-      //     ) {
-      //       replyIndex = j;
-      //       break;
-      //     }
-      //   }
-
-      //   if (replyIndex !== -1) {
-      //     // Add the new reply to the "reply" array
-      //     comments[parentIndex].reply[replyIndex].reply.push(data);
-      //   }
-      // }
       setComments((prevComments) => {
         const updatedComments = prevComments.map((comment) => {
           if (comment.commentID === data.helperComment.higherParent) {
@@ -118,7 +92,7 @@ const Comment = ({ setShowComments, post }) => {
 
   useEffect(() => {
     handleRotateClick();
-    const eventSource = new EventSource("http://localhost:5000/commentSSE");
+    const eventSource = new EventSource("http://localhost:5000/api/commentSSE");
 
     eventSource.addEventListener("message", handleSSEData);
 

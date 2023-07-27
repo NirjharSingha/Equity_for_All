@@ -164,6 +164,7 @@ const CommentCard = ({ comment, postID }) => {
   }, [mouseOnAllLikes, mouseOnLike]);
 
   const handleCommentReply = async () => {
+    console.log("inside");
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     const commentID = `${Date.now()}${decodedToken.email}`;
 
@@ -207,9 +208,11 @@ const CommentCard = ({ comment, postID }) => {
           },
         }
       );
-      setInputValue("");
-      setShowReply((prev) => !prev);
-      setShowEmojis(false);
+      if (response) {
+        setInputValue("");
+        setShowReply((prev) => !prev);
+        setShowEmojis(false);
+      }
     } catch (e) {
       console.log(e);
     }

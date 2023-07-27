@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../configs/multerConfig.js";
+import upload from "../middlewares/multer.js";
 import verifyJWT from "../middlewares/verifyJWT.js";
 import createPost from "../controllers/createPost.js";
 import getAllPosts from "../controllers/getAllPosts.js";

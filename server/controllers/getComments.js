@@ -3,7 +3,6 @@ import Post from "../models/Post.js";
 
 const getComments = asyncHandler(async (req, res) => {
   const postId = req.params.postId;
-  console.log(postId);
   const comments = await Post.findOne({ _id: postId }, "comment").exec();
 
   if (comments) {
