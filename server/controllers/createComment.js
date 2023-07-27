@@ -77,16 +77,17 @@ const createComment = asyncHandler(async (req, res) => {
     }
   } else {
     try {
-      console.log(levelParent);
-      console.log(postId);
       const updatedComment = await Post.findOneAndUpdate(
-        { _id: postId, "comment.commentID": levelParent }, // Find the specific comment using both postId and commentId
+        { _id: postId },
         {
           $push: {
-            "comment.$.reply": comment,
+            "comment.$[elem].reply": comment,
           },
         },
-        { new: true }
+        {
+          new: true,
+          arrayFilters: [{ "elem.commentID": levelParent }],
+        }
       );
       if (updatedComment) {
         sendSseDataToClients(dataToSend);

@@ -8,7 +8,6 @@ import CommentCard from "./CommentCard";
 import EmojiList from "./EmojiList";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import useSSE from "./useSSE";
 
 const Comment = ({ setShowComments, post }) => {
   const commentContainerRef = useRef(null);
@@ -37,7 +36,7 @@ const Comment = ({ setShowComments, post }) => {
 
   useEffect(() => {
     console.log("Updated comments:", comments);
-  }, [comments]); // Dependency array with 'comments' ensures that the effect runs whenever 'comments' changes
+  }, [comments]);
 
   const handleSSEData = (event) => {
     const data = JSON.parse(event.data);
@@ -45,15 +44,6 @@ const Comment = ({ setShowComments, post }) => {
     if (data.level === 0) {
       setComments((prevComments) => [data, ...prevComments]);
     } else if (data.level === 1) {
-      // console.log(comments);
-      // const comment = data.helperComment;
-      // const index = comments.findIndex(
-      //   (c) => c.commentID === comment.commentID
-      // );
-      // console.log(index);
-      // const updatedComments = [...comments];
-      // updatedComments[index].reply.push(data);
-      // setComments(updatedComments);
       setComments((prevComments) =>
         prevComments.map((c) =>
           c.commentID === data.helperComment.commentID
@@ -62,14 +52,6 @@ const Comment = ({ setShowComments, post }) => {
         )
       );
     } else {
-      // console.log(comments);
-      // const comment = data.helperComment;
-      // const index = comments.findIndex(
-      //   (c) => c.commentID === comment.levelParent
-      // );
-      // const updatedComments = [...comments];
-      // updatedComments[index].reply.push(data);
-      // setComments(updatedComments);
       setComments((prevComments) =>
         prevComments.map((c) =>
           c.commentID === data.helperComment.levelParent
@@ -81,14 +63,11 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
-    // Establish SSE connection when the component mounts
     const eventSource = new EventSource("http://localhost:5000/commentSSE");
 
-    // Add event listener to handle SSE data
     eventSource.addEventListener("message", handleSSEData);
 
     return () => {
-      // Clean up the SSE connection when the component unmounts
       eventSource.removeEventListener("message", handleSSEData);
       eventSource.close();
     };
@@ -190,8 +169,6 @@ const Comment = ({ setShowComments, post }) => {
             <CommentCard
               key={comment.commentID}
               level={1}
-              allComments={comments}
-              setComments={setComments}
               comment={comment}
               postID={post._id}
             />
@@ -200,8 +177,6 @@ const Comment = ({ setShowComments, post }) => {
                 <CommentCard
                   key={c.commentID}
                   level={2}
-                  allComments={comments}
-                  setComments={setComments}
                   comment={c}
                   postID={post._id}
                 />

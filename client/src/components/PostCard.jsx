@@ -65,7 +65,7 @@ const PostCard = ({ setShowPostShare, post }) => {
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.put(
-      "http://localhost:5000/post/postOptions/like",
+      "http://localhost:5000/post/postOptions/postLike",
       { selectedLike: selected, postID: post._id, prevLike: prevLike },
       {
         headers: {
@@ -90,7 +90,6 @@ const PostCard = ({ setShowPostShare, post }) => {
   useEffect(() => {
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     const email = decodedToken.email;
-    console.log(email);
 
     const fetchUserInfo = async () => {
       try {
@@ -134,6 +133,9 @@ const PostCard = ({ setShowPostShare, post }) => {
     } else if (post.angry.includes(email)) {
       setSelected("angry");
       setPrevLike("angry");
+    } else {
+      setSelected("");
+      setPrevLike("");
     }
   }, []);
 

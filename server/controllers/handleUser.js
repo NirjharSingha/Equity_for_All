@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 
 const handleUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { email } = req.body;
   const route = req.path;
   let updatedUser;

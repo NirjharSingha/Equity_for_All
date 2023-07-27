@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Post from "../models/Post.js";
 
-const handleLike = asyncHandler(async (req, res) => {
+const handlePostLike = asyncHandler(async (req, res) => {
   const { postID } = req.body;
   const { selectedLike, prevLike } = req.body;
   const email = req.email;
@@ -31,4 +31,4 @@ const handleLike = asyncHandler(async (req, res) => {
   }
 });
 
-export default handleLike;
+export default handlePostLike;

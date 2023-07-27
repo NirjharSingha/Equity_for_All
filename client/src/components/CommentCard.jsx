@@ -14,11 +14,12 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import jwtDecode from "jwt-decode";
 
-const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
+const CommentCard = ({ level, comment, postID }) => {
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [selected, setSelected] = useState("");
+  const [selectedLike, setSelectedLike] = useState("");
+  const [prevSecLike, setPrevSecLike] = useState("");
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
@@ -29,6 +30,42 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
   const [userName, setUserName] = useState("");
   const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
+  const isInitialMount = useRef(true);
+
+  const handleLikePut = async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(
+      "http://localhost:5000/post/postOptions/commentLike",
+      {
+        selectedLike: selectedLike,
+        prevLike: prevSecLike,
+        postID: postID,
+        commentID: comment.commentID,
+        level: comment.level,
+        levelParent:
+          comment.level === 0 ? comment.commentID : comment.levelParent,
+      },
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+    if (response.status == 200) {
+      setPrevSecLike(selectedLike);
+    }
+  };
+
+  useEffect(() => {
+    // Skip the API call on initial mount
+    if (!isInitialMount.current) {
+      console.log("on initial mount");
+      handleLikePut();
+    } else {
+      isInitialMount.current = false;
+      console.log("skipped");
+    }
+  }, [selectedLike]);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -54,6 +91,34 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
     };
 
     fetchUserInfo();
+    const decodedToken = jwtDecode(localStorage.getItem("token"));
+    const email = decodedToken.email;
+    console.log(comment);
+    if (Array.isArray(comment.like) && comment.like.includes(email)) {
+      setSelectedLike("like");
+      setPrevSecLike("like");
+    } else if (
+      Array.isArray(comment.dislike) &&
+      comment.dislike.includes(email)
+    ) {
+      setSelectedLike("dislike");
+      setPrevSecLike("dislike");
+    } else if (Array.isArray(comment.laugh) && comment.laugh.includes(email)) {
+      setSelectedLike("laugh");
+      setPrevSecLike("laugh");
+    } else if (Array.isArray(comment.love) && comment.love.includes(email)) {
+      setSelectedLike("love");
+      setPrevSecLike("love");
+    } else if (Array.isArray(comment.like) && comment.sad.includes(email)) {
+      setSelectedLike("sad");
+      setPrevSecLike("sad");
+    } else if (Array.isArray(comment.angry) && comment.angry.includes(email)) {
+      setSelectedLike("angry");
+      setPrevSecLike("angry");
+    } else {
+      setSelectedLike("");
+      setPrevSecLike("");
+    }
   }, []);
 
   useEffect(() => {
@@ -131,21 +196,6 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
           },
         }
       );
-      if (level === 1) {
-        // const index = allComments.findIndex(
-        //   (c) => c.commentID === comment.commentID
-        // );
-        // const updatedComments = [...allComments];
-        // updatedComments[index].reply.push(sendData);
-        // setComments(updatedComments);
-      } else {
-        // const index = allComments.findIndex(
-        //   (c) => c.commentID === comment.levelParent
-        // );
-        // const updatedComments = [...allComments];
-        // updatedComments[index].reply.push(sendData);
-        // setComments(updatedComments);
-      }
       setInputValue("");
       setShowReply((prev) => !prev);
       setShowEmojis(false);
@@ -205,12 +255,12 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
             }}
             onMouseLeave={() => setMouseOnAllLikes(false)}
           >
-            {selected === "" &&
+            {selectedLike === "" &&
               shouldDisplayAllLikes &&
               (mouseOnAllLikes || mouseOnLike) && (
                 <div className="commentLikes">
                   <AllLikes
-                    setSelected={setSelected}
+                    setSelected={setSelectedLike}
                     setShouldDisplayAllLikes={setShouldDisplayAllLikes}
                     isCommentPage={true}
                   />
@@ -227,20 +277,20 @@ const CommentCard = ({ level, allComments, setComments, comment, postID }) => {
             }}
             onMouseLeave={handleMouseLeaveFromLike}
             onClick={() => {
-              setSelected("");
+              setSelectedLike("");
             }}
           >
-            {selected === "like" ? (
+            {selectedLike === "like" ? (
               <AiFillLike className="commentIcons blue" />
-            ) : selected === "dislike" ? (
+            ) : selectedLike === "dislike" ? (
               <AiFillDislike className="commentIcons blue" />
-            ) : selected === "laugh" ? (
+            ) : selectedLike === "laugh" ? (
               <FaLaughSquint className="commentIcons yellow" />
-            ) : selected === "angry" ? (
+            ) : selectedLike === "angry" ? (
               <FaAngry className="commentIcons red" />
-            ) : selected === "sad" ? (
+            ) : selectedLike === "sad" ? (
               <FaSadCry className="commentIcons yellow" />
-            ) : selected === "love" ? (
+            ) : selectedLike === "love" ? (
               <FcLike className="commentIcons" />
             ) : (
               <AiOutlineLike className="blue commentIcons" />

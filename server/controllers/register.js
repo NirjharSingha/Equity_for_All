@@ -8,7 +8,6 @@ const register = asyncHandler(async (req, res) => {
     profilePic = "";
   } else {
     profilePic = process.env.server_url + req.file.path;
-    console.log(profilePic);
   }
 
   const {

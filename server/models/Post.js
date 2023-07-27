@@ -1,5 +1,123 @@
 import mongoose from "mongoose";
 
+const replySchema = mongoose.Schema({
+  commentID: {
+    type: String,
+    required: true,
+  },
+  userEmail: {
+    type: String,
+    required: true,
+  },
+  commentDesc: {
+    type: String,
+    required: true,
+  },
+  timeStamp: {
+    type: String,
+    required: true,
+  },
+  parentID: {
+    type: String,
+    default: "",
+  },
+  level: {
+    type: Number,
+    default: 0,
+  },
+  levelParent: {
+    type: String,
+    default: "",
+  },
+  like: {
+    type: Array,
+    default: [],
+  },
+  dislike: {
+    type: Array,
+    default: [],
+  },
+  laugh: {
+    type: Array,
+    default: [],
+  },
+  love: {
+    type: Array,
+    default: [],
+  },
+  angry: {
+    type: Array,
+    default: [],
+  },
+  sad: {
+    type: Array,
+    default: [],
+  },
+  reply: {
+    type: Array, // Nesting the reply schema within the comment schema
+    default: [],
+  },
+});
+
+const commentSchema = mongoose.Schema({
+  commentID: {
+    type: String,
+    required: true,
+  },
+  userEmail: {
+    type: String,
+    required: true,
+  },
+  commentDesc: {
+    type: String,
+    required: true,
+  },
+  timeStamp: {
+    type: String,
+    required: true,
+  },
+  parentID: {
+    type: String,
+    default: "",
+  },
+  level: {
+    type: Number,
+    default: 0,
+  },
+  levelParent: {
+    type: String,
+    default: "",
+  },
+  like: {
+    type: Array,
+    default: [],
+  },
+  dislike: {
+    type: Array,
+    default: [],
+  },
+  laugh: {
+    type: Array,
+    default: [],
+  },
+  love: {
+    type: Array,
+    default: [],
+  },
+  angry: {
+    type: Array,
+    default: [],
+  },
+  sad: {
+    type: Array,
+    default: [],
+  },
+  reply: {
+    type: [replySchema], // Nesting the reply schema within the comment schema
+    default: [],
+  },
+});
+
 const postSchema = mongoose.Schema(
   {
     userEmail: {
@@ -46,7 +164,7 @@ const postSchema = mongoose.Schema(
       default: [],
     },
     comment: {
-      type: Array,
+      type: [commentSchema],
       default: [],
     },
     createdAt: {
