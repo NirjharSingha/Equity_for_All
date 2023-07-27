@@ -14,7 +14,7 @@ const Comment = ({ setShowComments, post }) => {
   const [showEmojis, setShowEmojis] = useState(false);
   const [commentInput, setCommentInput] = useState("");
   const emojiRef = useRef(null);
-  const [comments, setComments] = useState([...post.comment].reverse());
+  const [comments, setComments] = useState([]);
   const [isRotating, setIsRotating] = useState(false);
 
   const handleRotateClick = async () => {
@@ -33,10 +33,6 @@ const Comment = ({ setShowComments, post }) => {
       console.error("Error fetching posts:", error);
     }
   };
-
-  useEffect(() => {
-    console.log("Updated comments:", comments);
-  }, [comments]);
 
   const handleSSEData = (event) => {
     const data = JSON.parse(event.data);
@@ -63,6 +59,7 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
+    handleRotateClick();
     const eventSource = new EventSource("http://localhost:5000/commentSSE");
 
     eventSource.addEventListener("message", handleSSEData);

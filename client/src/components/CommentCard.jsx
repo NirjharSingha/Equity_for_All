@@ -93,7 +93,7 @@ const CommentCard = ({ level, comment, postID }) => {
     fetchUserInfo();
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     const email = decodedToken.email;
-    console.log(comment);
+
     if (Array.isArray(comment.like) && comment.like.includes(email)) {
       setSelectedLike("like");
       setPrevSecLike("like");
