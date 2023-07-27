@@ -3,13 +3,9 @@ import Post from "../models/Post.js";
 
 const handleCommentLike = asyncHandler(async (req, res) => {
   const { postID, commentID } = req.body;
-  const { selectedLike, prevLike, level, levelParent } = req.body;
+  const { selectedLike, prevLike, level, levelParent, higherParent } = req.body;
   const email = req.email;
   let updatedComment;
-
-  console.log(postID);
-  console.log(levelParent);
-  console.log(commentID);
 
   if (level === 0) {
     if (prevLike !== "") {
@@ -34,7 +30,7 @@ const handleCommentLike = asyncHandler(async (req, res) => {
         { new: true }
       );
     }
-  } else {
+  } else if (level === 1) {
     if (prevLike !== "") {
       updatedComment = await Post.findOneAndUpdate(
         {
@@ -72,6 +68,55 @@ const handleCommentLike = asyncHandler(async (req, res) => {
         {
           new: true,
           arrayFilters: [
+            { "outerComment.commentID": levelParent },
+            { "innerReply.commentID": commentID },
+          ],
+        }
+      );
+    }
+  } else {
+    if (prevLike !== "") {
+      updatedComment = await Post.findOneAndUpdate(
+        {
+          _id: postID,
+          "comment.commentID": higherParent,
+          "comment.reply.commentID": levelParent,
+          "comment.reply.reply.commentID": commentID,
+        },
+        {
+          $pull: {
+            [`comment.$[mainComment].reply.$[outerComment].reply.$[innerReply].${prevLike}`]:
+              email,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [
+            { "mainComment.commentID": higherParent },
+            { "outerComment.commentID": levelParent },
+            { "innerReply.commentID": commentID },
+          ],
+        }
+      );
+    }
+    if (selectedLike !== "") {
+      updatedComment = await Post.findOneAndUpdate(
+        {
+          _id: postID,
+          "comment.commentID": higherParent,
+          "comment.reply.commentID": levelParent,
+          "comment.reply.reply.commentID": commentID,
+        },
+        {
+          $push: {
+            [`comment.$[mainComment].reply.$[outerComment].reply.$[innerReply].${selectedLike}`]:
+              email,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [
+            { "mainComment.commentID": higherParent },
             { "outerComment.commentID": levelParent },
             { "innerReply.commentID": commentID },
           ],

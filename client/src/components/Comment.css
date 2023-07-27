@@ -57,12 +57,12 @@ body {
   overflow-y: auto;
   position: relative;
 }
-.level_2 {
+.level_1 {
   margin-left: 2rem;
   border-left: 2px solid gray;
 }
-.level_3 {
-  margin-left: 4rem;
+.level_2 {
+  margin-left: 2rem;
   border-left: 2px solid gray;
 }
 .writeAComment {

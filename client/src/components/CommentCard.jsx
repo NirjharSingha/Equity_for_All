@@ -14,7 +14,7 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import jwtDecode from "jwt-decode";
 
-const CommentCard = ({ level, comment, postID }) => {
+const CommentCard = ({ comment, postID }) => {
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -42,8 +42,8 @@ const CommentCard = ({ level, comment, postID }) => {
         postID: postID,
         commentID: comment.commentID,
         level: comment.level,
-        levelParent:
-          comment.level === 0 ? comment.commentID : comment.levelParent,
+        levelParent: comment.levelParent,
+        higherParent: comment.higherParent,
       },
       {
         headers: {
@@ -166,6 +166,7 @@ const CommentCard = ({ level, comment, postID }) => {
   const handleCommentReply = async () => {
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     const commentID = `${Date.now()}${decodedToken.email}`;
+
     const sendData = {
       postId: postID,
       commentID: commentID,
@@ -173,9 +174,19 @@ const CommentCard = ({ level, comment, postID }) => {
       commentDesc: inputValue,
       timeStamp: new Date(Date.now()).toLocaleString(),
       parentID: comment.commentID,
-      level: level,
+      level: comment.level === 3 ? comment.level : comment.level + 1,
       levelParent:
-        comment.level === 0 ? comment.commentID : comment.levelParent,
+        comment.level === 0
+          ? comment.commentID
+          : comment.level === 1
+          ? comment.commentID
+          : comment.levelParent,
+      higherParent:
+        comment.level === 0
+          ? ""
+          : comment.level === 1
+          ? comment.levelParent
+          : comment.higherParent,
       like: [],
       dislike: [],
       laugh: [],

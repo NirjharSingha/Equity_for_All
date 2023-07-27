@@ -29,6 +29,10 @@ const replySchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  higherParent: {
+    type: String,
+    default: "",
+  },
   like: {
     type: Array,
     default: [],
@@ -85,6 +89,10 @@ const commentSchema = mongoose.Schema({
     default: 0,
   },
   levelParent: {
+    type: String,
+    default: "",
+  },
+  higherParent: {
     type: String,
     default: "",
   },

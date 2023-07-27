@@ -47,14 +47,72 @@ const Comment = ({ setShowComments, post }) => {
             : c
         )
       );
+    } else if (data.level === 2) {
+      setComments((prevComments) => {
+        const updatedComments = prevComments.map((comment) => {
+          if (comment.commentID === data.helperComment.levelParent) {
+            return {
+              ...comment,
+              reply: comment.reply.map((reply) =>
+                reply.commentID === data.helperComment.commentID
+                  ? {
+                      ...reply,
+                      reply: [...reply.reply, data], // Add the new reply to the "reply" array
+                    }
+                  : reply
+              ),
+            };
+          }
+          return comment;
+        });
+        return updatedComments;
+      });
     } else {
-      setComments((prevComments) =>
-        prevComments.map((c) =>
-          c.commentID === data.helperComment.levelParent
-            ? { ...c, reply: [...c.reply, data] }
-            : c
-        )
-      );
+      // let parentIndex = -1;
+      // for (let i = 0; i < comments.length; i++) {
+      //   if (comments[i].commentID === data.helperComment.higherParent) {
+      //     parentIndex = i;
+      //     break;
+      //   }
+      // }
+
+      // if (parentIndex !== -1) {
+      //   // Find the index of the reply with matching commentID within the found comment
+      //   let replyIndex = -1;
+      //   for (let j = 0; j < comments[parentIndex].reply.length; j++) {
+      //     if (
+      //       comments[parentIndex].reply[j].commentID ===
+      //       data.helperComment.levelParent
+      //     ) {
+      //       replyIndex = j;
+      //       break;
+      //     }
+      //   }
+
+      //   if (replyIndex !== -1) {
+      //     // Add the new reply to the "reply" array
+      //     comments[parentIndex].reply[replyIndex].reply.push(data);
+      //   }
+      // }
+      setComments((prevComments) => {
+        const updatedComments = prevComments.map((comment) => {
+          if (comment.commentID === data.helperComment.higherParent) {
+            return {
+              ...comment,
+              reply: comment.reply.map((reply) =>
+                reply.commentID === data.helperComment.levelParent
+                  ? {
+                      ...reply,
+                      reply: [...reply.reply, data], // Add the new reply to the "reply" array
+                    }
+                  : reply
+              ),
+            };
+          }
+          return comment;
+        });
+        return updatedComments;
+      });
     }
   };
 
@@ -82,6 +140,7 @@ const Comment = ({ setShowComments, post }) => {
       parentID: "",
       level: 0,
       levelParent: "",
+      higherParent: "",
       like: [],
       dislike: [],
       laugh: [],
@@ -165,18 +224,21 @@ const Comment = ({ setShowComments, post }) => {
           <div key={comment.commentID}>
             <CommentCard
               key={comment.commentID}
-              level={1}
               comment={comment}
               postID={post._id}
             />
             {comment.reply.map((c) => (
-              <div className="level_2" key={c.commentID}>
-                <CommentCard
-                  key={c.commentID}
-                  level={2}
-                  comment={c}
-                  postID={post._id}
-                />
+              <div className="level_1" key={c.commentID}>
+                <CommentCard key={c.commentID} comment={c} postID={post._id} />
+                {c.reply.map((x) => (
+                  <div className="level_2" key={x.commentID}>
+                    <CommentCard
+                      key={x.commentID}
+                      comment={x}
+                      postID={post._id}
+                    />
+                  </div>
+                ))}
               </div>
             ))}
           </div>
