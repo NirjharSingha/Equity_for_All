@@ -16,7 +16,7 @@ body {
   margin-top: 1rem;
   border: 2px solid gray;
   display: grid;
-  grid-template-rows: 2rem 1rem auto 1.5rem;
+  grid-template-rows: 2.3rem auto 1.5rem 1.7rem;
   border-radius: 8px;
 }
 .commentFirstRow {
@@ -24,42 +24,70 @@ body {
   display: grid;
   grid-template-columns: 2.7rem 1fr;
 }
+.commentPicContainer {
+  display: flex;
+  align-items: center;
+  grid-column: 1;
+}
 .commentUserProfilePic {
-  height: 2rem;
-  width: 2rem;
+  height: 2.2rem;
+  width: 2.2rem;
   background-color: rgb(14, 134, 134);
   border-radius: 50%;
   object-fit: cover;
-  grid-column: 1;
-  margin-left: 10px;
+  margin-left: 2px;
 }
-.commentUserName {
+.commentUser {
   margin-left: 5px;
   grid-column: 2;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.commentUserName {
+  font-size: medium;
+}
+.time {
+  font-size: small;
 }
 .commentSecondRow {
   grid-row: 2;
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 7px;
-}
-.commentThirdRow {
-  grid-row: 3;
   padding-left: 10px;
   border-top: 2px solid gray;
   padding-top: 3px;
   padding-bottom: 3px;
   position: relative;
 }
-.commentForthRow {
-  grid-row: 4;
+.commentThirdRow {
+  grid-row: 3;
   display: flex;
   padding-left: 20px;
   padding-right: 20px;
   border-top: 2px solid gray;
   justify-content: space-between;
+}
+.commentFourthRow {
+  border-top: 2px solid gray;
+  grid-row: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.commentButton {
+  height: 1.4rem;
+  font-weight: 500;
+  color: azure;
+  background-color: rgb(30, 131, 131);
+  border-radius: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
+  cursor: pointer;
+  border: none;
+}
+.commentButton:hover {
+  background-color: rgb(25, 135, 25);
 }
 .commentIcons {
   display: flex;
@@ -120,4 +148,7 @@ body {
 .commentLike {
   display: flex;
   align-items: center;
+}
+.displayNone {
+  display: none;
 }

@@ -22,19 +22,11 @@ const Comment = ({ setShowComments, post }) => {
     setTimeout(() => {
       setIsRotating(false);
     }, 500);
-
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/post/postOptions/getComments/${post._id}`
-      );
-      const getComments = response.data.comment.reverse();
-      setComments(getComments);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
   };
 
   const handleSSEData = (event) => {
+    handleRotateClick();
+
     const data = JSON.parse(event.data);
 
     if (data.level === 0) {
@@ -43,7 +35,7 @@ const Comment = ({ setShowComments, post }) => {
       setComments((prevComments) =>
         prevComments.map((c) =>
           c.commentID === data.helperComment.commentID
-            ? { ...c, reply: [...c.reply, data] }
+            ? { ...c, reply: [data, ...c.reply] }
             : c
         )
       );
@@ -91,7 +83,19 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
-    handleRotateClick();
+    const fetchAllComments = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/post/postOptions/getComments/${post._id}`
+        );
+        const getComments = response.data.comment.reverse();
+        setComments(getComments);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchAllComments();
     const eventSource = new EventSource("http://localhost:5000/api/commentSSE");
 
     eventSource.addEventListener("message", handleSSEData);
@@ -145,8 +149,6 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
-    handleRotateClick();
-
     const handleOutsideClick = (event) => {
       if (
         commentContainerRef.current &&
@@ -193,27 +195,15 @@ const Comment = ({ setShowComments, post }) => {
         </button>
       </div>
       <div className="allComments">
-        {comments.map((comment) => (
+        {comments.map((comment, index) => (
           <div key={comment.commentID}>
             <CommentCard
               key={comment.commentID}
               comment={comment}
               postID={post._id}
+              allComments={comment.reply}
+              level={0}
             />
-            {comment.reply.map((c) => (
-              <div className="level_1" key={c.commentID}>
-                <CommentCard key={c.commentID} comment={c} postID={post._id} />
-                {c.reply.map((x) => (
-                  <div className="level_2" key={x.commentID}>
-                    <CommentCard
-                      key={x.commentID}
-                      comment={x}
-                      postID={post._id}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
           </div>
         ))}
       </div>

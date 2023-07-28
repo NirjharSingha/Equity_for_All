@@ -16,7 +16,7 @@ import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import jwtDecode from "jwt-decode";
 
-const CommentCard = ({ comment, postID }) => {
+const CommentCard = ({ comment, postID, level, allComments }) => {
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -35,6 +35,7 @@ const CommentCard = ({ comment, postID }) => {
   const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const isInitialMount = useRef(true);
+  const [showReplyComments, setShowReplyComments] = useState(false);
 
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
@@ -74,6 +75,9 @@ const CommentCard = ({ comment, postID }) => {
       setUserImg
     );
     setUserLikes(comment, setSelectedLike, setPrevSecLike);
+    if (level === 0) {
+      allComments = allComments.reverse();
+    }
   }, []);
 
   useEffect(() => {
@@ -166,6 +170,7 @@ const CommentCard = ({ comment, postID }) => {
         setInputValue("");
         setShowReply((prev) => !prev);
         setShowEmojis(false);
+        setShowReplyComments(true);
       }
     } catch (e) {
       console.log(e);
@@ -173,140 +178,180 @@ const CommentCard = ({ comment, postID }) => {
   };
 
   return (
-    <div ref={commentCardRef}>
-      <div className="comment">
-        <div className="commentFirstRow">
-          {shouldDisplayUserImg && (
-            <img src={userImg} alt="" className="commentUserProfilePic" />
-          )}
-          {!shouldDisplayUserImg && (
-            <svg
-              id="logo-15"
-              width="2rem"
-              height="2rem"
-              viewBox="0 0 49 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {" "}
-              <path
-                d="M24.5 12.75C24.5 18.9632 19.4632 24 13.25 24H2V12.75C2 6.53679 7.03679 1.5 13.25 1.5C19.4632 1.5 24.5 6.53679 24.5 12.75Z"
-                className="ccustom"
-                fill="#17CF97"
-              ></path>{" "}
-              <path
-                d="M24.5 35.25C24.5 29.0368 29.5368 24 35.75 24H47V35.25C47 41.4632 41.9632 46.5 35.75 46.5C29.5368 46.5 24.5 41.4632 24.5 35.25Z"
-                className="ccustom"
-                fill="#17CF97"
-              ></path>{" "}
-              <path
-                d="M2 35.25C2 41.4632 7.03679 46.5 13.25 46.5H24.5V35.25C24.5 29.0368 19.4632 24 13.25 24C7.03679 24 2 29.0368 2 35.25Z"
-                className="ccustom"
-                fill="#17CF97"
-              ></path>{" "}
-              <path
-                d="M47 12.75C47 6.53679 41.9632 1.5 35.75 1.5H24.5V12.75C24.5 18.9632 29.5368 24 35.75 24C41.9632 24 47 18.9632 47 12.75Z"
-                className="ccustom"
-                fill="#17CF97"
-              ></path>{" "}
-            </svg>
-          )}
-          <h3 className="commentUserName">{userName}</h3>
-        </div>
-        <div className="commentSecondRow">{comment.timeStamp}</div>
-        <div className="commentThirdRow">
-          <p>{comment.commentDesc}</p>
-          <div
-            className="commentLikes"
-            onMouseEnter={() => {
-              setMouseOnAllLikes(true);
-            }}
-            onMouseLeave={() => setMouseOnAllLikes(false)}
-          >
-            {selectedLike === "" &&
-              shouldDisplayAllLikes &&
-              (mouseOnAllLikes || mouseOnLike) && (
-                <div className="commentLikes">
-                  <AllLikes
-                    setSelected={setSelectedLike}
-                    setShouldDisplayAllLikes={setShouldDisplayAllLikes}
-                    isCommentPage={true}
-                  />
-                </div>
+    <>
+      <div ref={commentCardRef}>
+        <div className="comment">
+          <div className="commentFirstRow">
+            <div className="commentPicContainer">
+              {shouldDisplayUserImg && (
+                <img src={userImg} alt="" className="commentUserProfilePic" />
               )}
+              {!shouldDisplayUserImg && (
+                <svg
+                  id="logo-15"
+                  width="2.2rem"
+                  height="2.2rem"
+                  viewBox="0 0 49 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {" "}
+                  <path
+                    d="M24.5 12.75C24.5 18.9632 19.4632 24 13.25 24H2V12.75C2 6.53679 7.03679 1.5 13.25 1.5C19.4632 1.5 24.5 6.53679 24.5 12.75Z"
+                    className="ccustom"
+                    fill="#17CF97"
+                  ></path>{" "}
+                  <path
+                    d="M24.5 35.25C24.5 29.0368 29.5368 24 35.75 24H47V35.25C47 41.4632 41.9632 46.5 35.75 46.5C29.5368 46.5 24.5 41.4632 24.5 35.25Z"
+                    className="ccustom"
+                    fill="#17CF97"
+                  ></path>{" "}
+                  <path
+                    d="M2 35.25C2 41.4632 7.03679 46.5 13.25 46.5H24.5V35.25C24.5 29.0368 19.4632 24 13.25 24C7.03679 24 2 29.0368 2 35.25Z"
+                    className="ccustom"
+                    fill="#17CF97"
+                  ></path>{" "}
+                  <path
+                    d="M47 12.75C47 6.53679 41.9632 1.5 35.75 1.5H24.5V12.75C24.5 18.9632 29.5368 24 35.75 24C41.9632 24 47 18.9632 47 12.75Z"
+                    className="ccustom"
+                    fill="#17CF97"
+                  ></path>{" "}
+                </svg>
+              )}
+            </div>
+            <div className="commentUser">
+              <h3 className="commentUserName">{userName}</h3>
+              <div className="time">{comment.timeStamp}</div>
+            </div>
           </div>
-        </div>
-        <div className="commentForthRow">
-          <div
-            className="commentLike"
-            onMouseEnter={() => {
-              setMouseOnLike(true);
-              setShouldDisplayAllLikes(true);
-            }}
-            onMouseLeave={handleMouseLeaveFromLike}
-            onClick={() => {
-              setSelectedLike("");
-            }}
-          >
-            {selectedLike === "like" ? (
-              <AiFillLike className="commentIcons blue" />
-            ) : selectedLike === "dislike" ? (
-              <AiFillDislike className="commentIcons blue" />
-            ) : selectedLike === "laugh" ? (
-              <FaLaughSquint className="commentIcons yellow" />
-            ) : selectedLike === "angry" ? (
-              <FaAngry className="commentIcons red" />
-            ) : selectedLike === "sad" ? (
-              <FaSadCry className="commentIcons yellow" />
-            ) : selectedLike === "love" ? (
-              <FcLike className="commentIcons" />
-            ) : (
-              <AiOutlineLike className="blue commentIcons" />
+          <div className="commentSecondRow">
+            <p>{comment.commentDesc}</p>
+            <div
+              className="commentLikes"
+              onMouseEnter={() => {
+                setMouseOnAllLikes(true);
+              }}
+              onMouseLeave={() => setMouseOnAllLikes(false)}
+            >
+              {selectedLike === "" &&
+                shouldDisplayAllLikes &&
+                (mouseOnAllLikes || mouseOnLike) && (
+                  <div className="commentLikes">
+                    <AllLikes
+                      setSelected={setSelectedLike}
+                      setShouldDisplayAllLikes={setShouldDisplayAllLikes}
+                      isCommentPage={true}
+                    />
+                  </div>
+                )}
+            </div>
+          </div>
+          <div className="commentThirdRow">
+            <div
+              className="commentLike"
+              onMouseEnter={() => {
+                setMouseOnLike(true);
+                setShouldDisplayAllLikes(true);
+              }}
+              onMouseLeave={handleMouseLeaveFromLike}
+              onClick={() => {
+                setSelectedLike("");
+              }}
+            >
+              {selectedLike === "like" ? (
+                <AiFillLike className="commentIcons blue" />
+              ) : selectedLike === "dislike" ? (
+                <AiFillDislike className="commentIcons blue" />
+              ) : selectedLike === "laugh" ? (
+                <FaLaughSquint className="commentIcons yellow" />
+              ) : selectedLike === "angry" ? (
+                <FaAngry className="commentIcons red" />
+              ) : selectedLike === "sad" ? (
+                <FaSadCry className="commentIcons yellow" />
+              ) : selectedLike === "love" ? (
+                <FcLike className="commentIcons" />
+              ) : (
+                <AiOutlineLike className="blue commentIcons" />
+              )}
+            </div>
+            <FaEdit className="commentIcons blue" />
+            <MdDelete className="commentIcons blue" />
+            <BsFillReplyFill
+              className="commentIcons blue"
+              onClick={() => {
+                setShowReply((prev) => !prev);
+                setShowEmojis(false);
+              }}
+            />
+          </div>
+          <div className="commentFourthRow">
+            <button className="commentButton">All likes</button>
+            {level === 0 && allComments.length > 0 && (
+              <button
+                className="commentButton"
+                onClick={() => setShowReplyComments((prev) => !prev)}
+              >
+                {showReplyComments ? "Hide replies" : "Show replies"}
+              </button>
             )}
           </div>
-          <BsFillReplyFill
-            className="commentIcons blue"
-            onClick={() => {
-              setShowReply((prev) => !prev);
-              setShowEmojis(false);
-            }}
-          />
-          <FaEdit className="commentIcons blue" />
-          <MdDelete className="commentIcons blue" />
         </div>
-      </div>
-      {showReply && (
-        <div>
-          {showEmojis && (
-            <div className="emojiClass">
-              <EmojiList setInputValue={setInputValue} />
+        {showReply && (
+          <div>
+            {showEmojis && (
+              <div className="emojiClass">
+                <EmojiList setInputValue={setInputValue} />
+              </div>
+            )}
+            <div className="commentFifthRow">
+              <BsEmojiSmile
+                className="commentEmojiIcon"
+                onClick={handleEmojiClick}
+              />
+              <input
+                type="text"
+                className="commentReply"
+                ref={inputRef}
+                value={inputValue}
+                onChange={(event) => setInputValue(event.target.value)}
+              />
+              <BiSolidSend
+                className={
+                  inputValue === ""
+                    ? "commentSubmitIconDisabled"
+                    : "commentSubmitIcon"
+                }
+                onClick={handleCommentReply}
+              />
             </div>
-          )}
-
-          <div className="commentFifthRow">
-            <BsEmojiSmile
-              className="commentEmojiIcon"
-              onClick={handleEmojiClick}
-            />
-            <input
-              type="text"
-              className="commentReply"
-              ref={inputRef}
-              value={inputValue}
-              onChange={(event) => setInputValue(event.target.value)}
-            />
-            <BiSolidSend
-              className={
-                inputValue === ""
-                  ? "commentSubmitIconDisabled"
-                  : "commentSubmitIcon"
-              }
-              onClick={handleCommentReply}
-            />
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      {level === 0 &&
+        allComments.map((c) => (
+          <div
+            className={
+              level === 0 && !showReplyComments
+                ? "level_1 displayNone"
+                : "level_1"
+            }
+            key={c.commentID}
+          >
+            <CommentCard
+              key={c.commentID}
+              comment={c}
+              postID={postID}
+              allComments={c.reply}
+              level={1}
+            />
+            {c.reply.map((x) => (
+              <div className="level_2" key={x.commentID}>
+                <CommentCard key={x.commentID} comment={x} postID={postID} />
+              </div>
+            ))}
+          </div>
+        ))}
+    </>
   );
 };
 
