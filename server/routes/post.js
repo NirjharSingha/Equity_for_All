@@ -7,6 +7,7 @@ import handlePostLike from "../controllers/handlePostLike.js";
 import createComment from "../controllers/createComment.js";
 import getComments from "../controllers/getComments.js";
 import handleCommentLike from "../controllers/handleCommentLike.js";
+import editOrDeleteComment from "../controllers/editOrDeleteComment.js";
 
 const router = express.Router();
 
@@ -15,10 +16,11 @@ router.post(
   [verifyJWT, upload.array("postAttachments")],
   createPost
 );
-router.get("/all", getAllPosts);
+router.get("/all", verifyJWT, getAllPosts);
 router.put("/postOptions/postLike", verifyJWT, handlePostLike);
 router.put("/postOptions/commentLike", verifyJWT, handleCommentLike);
-router.put("/postOptions/createComment", createComment);
-router.get("/postOptions/getComments/:postId", getComments);
+router.put("/postOptions/createComment", verifyJWT, createComment);
+router.put("/postOptions/editOrDeleteComment", verifyJWT, editOrDeleteComment);
+router.get("/postOptions/getComments/:postId", verifyJWT, getComments);
 
 export default router;

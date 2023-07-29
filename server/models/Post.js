@@ -57,6 +57,14 @@ const replySchema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  editedAt: {
+    type: String,
+    default: "",
+  },
+  deletedAt: {
+    type: String,
+    default: "",
+  },
   reply: {
     type: Array, // Nesting the reply schema within the comment schema
     default: [],
@@ -119,6 +127,14 @@ const commentSchema = mongoose.Schema({
   sad: {
     type: Array,
     default: [],
+  },
+  editedAt: {
+    type: String,
+    default: "",
+  },
+  deletedAt: {
+    type: String,
+    default: "",
   },
   reply: {
     type: [replySchema], // Nesting the reply schema within the comment schema

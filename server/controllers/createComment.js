@@ -23,6 +23,9 @@ const createComment = asyncHandler(async (req, res) => {
     helperComment,
   } = req.body;
 
+  const editedAt = "";
+  const deletedAt = "";
+
   const comment = {
     commentID,
     userEmail,
@@ -40,6 +43,8 @@ const createComment = asyncHandler(async (req, res) => {
     sad,
     reply,
   };
+
+  const createFlag = true;
 
   const dataToSend = {
     postId,
@@ -59,6 +64,9 @@ const createComment = asyncHandler(async (req, res) => {
     sad,
     reply,
     helperComment,
+    createFlag,
+    deletedAt,
+    editedAt,
   };
 
   let updatedPost;

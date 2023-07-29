@@ -89,6 +89,16 @@ body {
 .commentButton:hover {
   background-color: rgb(25, 135, 25);
 }
+.isEdited {
+  height: 1.2rem;
+  font-weight: 500;
+  color: azure;
+  background-color: rgb(77, 73, 73);
+  border-radius: 10px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border: none;
+}
 .commentIcons {
   display: flex;
   align-items: center;

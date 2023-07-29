@@ -31,7 +31,12 @@ const Post = () => {
   useEffect(() => {
     async function fetchAllPosts() {
       try {
-        const response = await axios.get("http://localhost:5000/post/all");
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:5000/post/all", {
+          headers: {
+            token: token,
+          },
+        });
         setPostArray(response.data);
       } catch (error) {
         console.error("Error fetching posts:", error);

@@ -29,55 +29,115 @@ const Comment = ({ setShowComments, post }) => {
 
     const data = JSON.parse(event.data);
 
-    if (data.level === 0) {
-      setComments((prevComments) => [data, ...prevComments]);
-    } else if (data.level === 1) {
-      setComments((prevComments) =>
-        prevComments.map((c) =>
-          c.commentID === data.helperComment.commentID
-            ? { ...c, reply: [data, ...c.reply] }
-            : c
-        )
-      );
-    } else if (data.level === 2) {
-      setComments((prevComments) => {
-        const updatedComments = prevComments.map((comment) => {
-          if (comment.commentID === data.helperComment.levelParent) {
-            return {
-              ...comment,
-              reply: comment.reply.map((reply) =>
-                reply.commentID === data.helperComment.commentID
-                  ? {
-                      ...reply,
-                      reply: [...reply.reply, data],
-                    }
-                  : reply
-              ),
-            };
-          }
-          return comment;
+    if (data.createFlag) {
+      if (data.level === 0) {
+        setComments((prevComments) => [data, ...prevComments]);
+      } else if (data.level === 1) {
+        setComments((prevComments) =>
+          prevComments.map((c) =>
+            c.commentID === data.helperComment.commentID
+              ? { ...c, reply: [data, ...c.reply] }
+              : c
+          )
+        );
+      } else if (data.level === 2) {
+        setComments((prevComments) => {
+          const updatedComments = prevComments.map((comment) => {
+            if (comment.commentID === data.helperComment.levelParent) {
+              return {
+                ...comment,
+                reply: comment.reply.map((reply) =>
+                  reply.commentID === data.helperComment.commentID
+                    ? {
+                        ...reply,
+                        reply: [...reply.reply, data],
+                      }
+                    : reply
+                ),
+              };
+            }
+            return comment;
+          });
+          return updatedComments;
         });
-        return updatedComments;
-      });
+      } else {
+        setComments((prevComments) => {
+          const updatedComments = prevComments.map((comment) => {
+            if (comment.commentID === data.helperComment.higherParent) {
+              return {
+                ...comment,
+                reply: comment.reply.map((reply) =>
+                  reply.commentID === data.helperComment.levelParent
+                    ? {
+                        ...reply,
+                        reply: [...reply.reply, data],
+                      }
+                    : reply
+                ),
+              };
+            }
+            return comment;
+          });
+          return updatedComments;
+        });
+      }
     } else {
       setComments((prevComments) => {
-        const updatedComments = prevComments.map((comment) => {
-          if (comment.commentID === data.helperComment.higherParent) {
-            return {
-              ...comment,
-              reply: comment.reply.map((reply) =>
-                reply.commentID === data.helperComment.levelParent
-                  ? {
-                      ...reply,
-                      reply: [...reply.reply, data],
-                    }
-                  : reply
-              ),
-            };
-          }
-          return comment;
-        });
-        return updatedComments;
+        if (data.comment.level === 0) {
+          return prevComments.map((comment) =>
+            comment.commentID === data.comment.commentID
+              ? {
+                  ...comment,
+                  commentDesc: data.newDesc,
+                  editedAt: data.editedAt,
+                  deletedAt: data.deletedAt,
+                }
+              : comment
+          );
+        } else if (data.comment.level === 1) {
+          return prevComments.map((comment) =>
+            comment.commentID === data.comment.levelParent
+              ? {
+                  ...comment,
+                  reply: comment.reply.map((reply) =>
+                    reply.commentID === data.comment.commentID
+                      ? {
+                          ...reply,
+                          commentDesc: data.newDesc,
+                          editedAt: data.editedAt,
+                          deletedAt: data.deletedAt,
+                        }
+                      : reply
+                  ),
+                }
+              : comment
+          );
+        } else {
+          return prevComments.map((comment) =>
+            comment.commentID === data.comment.higherParent
+              ? {
+                  ...comment,
+                  reply: comment.reply.map((reply) =>
+                    reply.commentID === data.comment.levelParent
+                      ? {
+                          ...reply,
+                          reply: reply.reply.map((nestedReply) =>
+                            nestedReply.commentID === data.comment.commentID
+                              ? {
+                                  ...nestedReply,
+                                  commentDesc: data.newDesc,
+                                  editedAt: data.editedAt,
+                                  deletedAt: data.deletedAt,
+                                }
+                              : nestedReply
+                          ),
+                        }
+                      : reply
+                  ),
+                }
+              : comment
+          );
+        }
       });
     }
   };
@@ -85,8 +145,14 @@ const Comment = ({ setShowComments, post }) => {
   useEffect(() => {
     const fetchAllComments = async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/post/postOptions/getComments/${post._id}`
+          `http://localhost:5000/post/postOptions/getComments/${post._id}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
         );
         const getComments = response.data.comment.reverse();
         setComments(getComments);

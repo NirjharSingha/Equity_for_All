@@ -36,6 +36,46 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const isInitialMount = useRef(true);
   const [showReplyComments, setShowReplyComments] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isReply, setIsReply] = useState(false);
+
+  useEffect(() => {
+    if (isEdit) {
+      setIsReply(false);
+      setInputValue(comment.commentDesc);
+    }
+  }, [isEdit]);
+
+  useEffect(() => {
+    if (isReply) {
+      setIsEdit(false);
+      setInputValue("");
+    }
+  }, [isReply]);
+
+  const handleDeleteComment = async () => {
+    const sendData = {
+      postID: postID,
+      comment: comment,
+      newDesc: "",
+      deletedAt: new Date(Date.now()).toLocaleString(),
+      editedAt: "",
+    };
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        "http://localhost:5000/post/postOptions/editOrDeleteComment",
+        sendData,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
@@ -66,6 +106,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   }, [selectedLike]);
 
   useEffect(() => {
+    console.log(comment);
     displayUser(
       comment.userEmail,
       getUserInfo,
@@ -123,57 +164,88 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   }, [mouseOnAllLikes, mouseOnLike]);
 
   const handleCommentReply = async () => {
-    const decodedToken = jwtDecode(localStorage.getItem("token"));
-    const commentID = `${Date.now()}${decodedToken.email}`;
+    if (isReply) {
+      const decodedToken = jwtDecode(localStorage.getItem("token"));
+      const commentID = `${Date.now()}${decodedToken.email}`;
 
-    const sendData = {
-      postId: postID,
-      commentID: commentID,
-      userEmail: decodedToken.email,
-      commentDesc: inputValue,
-      timeStamp: new Date(Date.now()).toLocaleString(),
-      parentID: comment.commentID,
-      level: comment.level === 3 ? comment.level : comment.level + 1,
-      levelParent:
-        comment.level === 0
-          ? comment.commentID
-          : comment.level === 1
-          ? comment.commentID
-          : comment.levelParent,
-      higherParent:
-        comment.level === 0
-          ? ""
-          : comment.level === 1
-          ? comment.levelParent
-          : comment.higherParent,
-      like: [],
-      dislike: [],
-      laugh: [],
-      love: [],
-      angry: [],
-      sad: [],
-      reply: [],
-      helperComment: comment,
-    };
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.put(
-        "http://localhost:5000/post/postOptions/createComment",
-        sendData,
-        {
-          headers: {
-            token: token,
-          },
+      const sendData = {
+        postId: postID,
+        commentID: commentID,
+        userEmail: decodedToken.email,
+        commentDesc: inputValue,
+        timeStamp: new Date(Date.now()).toLocaleString(),
+        parentID: comment.commentID,
+        level: comment.level === 3 ? comment.level : comment.level + 1,
+        levelParent:
+          comment.level === 0
+            ? comment.commentID
+            : comment.level === 1
+            ? comment.commentID
+            : comment.levelParent,
+        higherParent:
+          comment.level === 0
+            ? ""
+            : comment.level === 1
+            ? comment.levelParent
+            : comment.higherParent,
+        like: [],
+        dislike: [],
+        laugh: [],
+        love: [],
+        angry: [],
+        sad: [],
+        reply: [],
+        helperComment: comment,
+      };
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.put(
+          "http://localhost:5000/post/postOptions/createComment",
+          sendData,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setInputValue("");
+          setShowReply((prev) => !prev);
+          setShowEmojis(false);
+          setShowReplyComments(true);
+          setIsReply(false);
         }
-      );
-      if (response) {
-        setInputValue("");
-        setShowReply((prev) => !prev);
-        setShowEmojis(false);
-        setShowReplyComments(true);
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+    } else {
+      const sendData = {
+        postID: postID,
+        comment: comment,
+        newDesc: inputValue,
+        editedAt: new Date(Date.now()).toLocaleString(),
+        deletedAt: "",
+      };
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.put(
+          "http://localhost:5000/post/postOptions/editOrDeleteComment",
+          sendData,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setInputValue("");
+          setShowReply((prev) => !prev);
+          setShowEmojis(false);
+          setIsEdit(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -274,18 +346,29 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                 <AiOutlineLike className="blue commentIcons" />
               )}
             </div>
-            <FaEdit className="commentIcons blue" />
-            <MdDelete className="commentIcons blue" />
-            <BsFillReplyFill
+            <MdDelete
               className="commentIcons blue"
+              onClick={handleDeleteComment}
+            />
+            <FaEdit
+              className={isReply ? "displayNone" : "commentIcons blue"}
               onClick={() => {
+                setIsEdit((prev) => !prev);
+                setShowReply((prev) => !prev);
+                setShowEmojis(false);
+              }}
+            />
+            <BsFillReplyFill
+              className={isEdit ? "displayNone" : "commentIcons blue"}
+              onClick={() => {
+                setIsReply((prev) => !prev);
                 setShowReply((prev) => !prev);
                 setShowEmojis(false);
               }}
             />
           </div>
           <div className="commentFourthRow">
-            <button className="commentButton">All likes</button>
+            <button className="commentButton">All reactions</button>
             {level === 0 && allComments.length > 0 && (
               <button
                 className="commentButton"
@@ -294,6 +377,19 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                 {showReplyComments ? "Hide replies" : "Show replies"}
               </button>
             )}
+            <div
+              className={
+                comment.deletedAt !== "" || comment.editedAt !== ""
+                  ? "isEdited"
+                  : "displayNone"
+              }
+            >
+              {comment.deletedAt !== ""
+                ? "deleted"
+                : comment.editedAt !== ""
+                ? "edited"
+                : ""}
+            </div>
           </div>
         </div>
         {showReply && (
