@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { AiOutlineLike, AiFillLike, AiFillDislike } from "react-icons/ai";
 import { BsFillReplyFill, BsEmojiSmile } from "react-icons/bs";
 import { FaLaughSquint, FaSadCry, FaAngry, FaEdit } from "react-icons/fa";
+import { ImBlocked } from "react-icons/im";
 import { MdDelete } from "react-icons/md";
 import { BiSolidSend } from "react-icons/bi";
 import { FcLike } from "react-icons/fc";
@@ -31,8 +32,6 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const { isFileExists } = useVerifyFileContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
   const { displayUser } = useDisplayUserContext();
-  const [userName, setUserName] = useState("");
-  const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const isInitialMount = useRef(true);
   const [showReplyComments, setShowReplyComments] = useState(false);
@@ -106,15 +105,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   }, [selectedLike]);
 
   useEffect(() => {
-    console.log(comment);
-    displayUser(
-      comment.userEmail,
-      getUserInfo,
-      isFileExists,
-      setShouldDisplayUserImg,
-      setUserName,
-      setUserImg
-    );
+    displayUser(isFileExists, setShouldDisplayUserImg, comment.profilePic);
     setUserLikes(comment, setSelectedLike, setPrevSecLike);
     if (level === 0) {
       allComments = allComments.reverse();
@@ -164,17 +155,25 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   }, [mouseOnAllLikes, mouseOnLike]);
 
   const handleCommentReply = async () => {
+    if (inputValue === "") {
+      return;
+    }
     if (isReply) {
       const decodedToken = jwtDecode(localStorage.getItem("token"));
+      const userInfo = await getUserInfo(decodedToken.email);
+      const { name, profilePic } = userInfo;
       const commentID = `${Date.now()}${decodedToken.email}`;
 
       const sendData = {
         postId: postID,
         commentID: commentID,
         userEmail: decodedToken.email,
+        userName: name,
+        profilePic: profilePic,
         commentDesc: inputValue,
         timeStamp: new Date(Date.now()).toLocaleString(),
         parentID: comment.commentID,
+        parentName: comment.userName,
         level: comment.level === 3 ? comment.level : comment.level + 1,
         levelParent:
           comment.level === 0
@@ -255,10 +254,14 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
         <div className="comment">
           <div className="commentFirstRow">
             <div className="commentPicContainer">
-              {shouldDisplayUserImg && (
-                <img src={userImg} alt="" className="commentUserProfilePic" />
+              {comment.deletedAt === "" && shouldDisplayUserImg && (
+                <img
+                  src={comment.profilePic}
+                  alt=""
+                  className="commentUserProfilePic"
+                />
               )}
-              {!shouldDisplayUserImg && (
+              {comment.deletedAt === "" && !shouldDisplayUserImg && (
                 <svg
                   id="logo-15"
                   width="2.2rem"
@@ -290,14 +293,37 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                   ></path>{" "}
                 </svg>
               )}
+              {comment.deletedAt !== "" && (
+                <ImBlocked
+                  className="commentUserProfilePic"
+                  style={{ color: "red", background: "brown" }}
+                />
+              )}
             </div>
-            <div className="commentUser">
-              <h3 className="commentUserName">{userName}</h3>
+            <div
+              className={
+                comment.deletedAt === "" ? "commentUser" : "displayNone"
+              }
+            >
+              <h3 className="commentUserName">{comment.userName}</h3>
               <div className="time">{comment.timeStamp}</div>
             </div>
           </div>
           <div className="commentSecondRow">
-            <p>{comment.commentDesc}</p>
+            {comment.deletedAt === "" ? (
+              <p>
+                {" "}
+                <span style={{ color: "blue" }}>
+                  {" "}
+                  {comment.parentName}{" "}
+                </span>{" "}
+                {` ${comment.commentDesc}`}
+              </p>
+            ) : (
+              <p style={{ color: "red" }}>
+                This comment is deleted by the owner
+              </p>
+            )}
             <div
               className="commentLikes"
               onMouseEnter={() => {
@@ -318,7 +344,11 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                 )}
             </div>
           </div>
-          <div className="commentThirdRow">
+          <div
+            className={
+              comment.deletedAt === "" ? "commentThirdRow" : "displayNone"
+            }
+          >
             <div
               className="commentLike"
               onMouseEnter={() => {
@@ -346,18 +376,24 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                 <AiOutlineLike className="blue commentIcons" />
               )}
             </div>
-            <MdDelete
-              className="commentIcons blue"
-              onClick={handleDeleteComment}
-            />
-            <FaEdit
-              className={isReply ? "displayNone" : "commentIcons blue"}
-              onClick={() => {
-                setIsEdit((prev) => !prev);
-                setShowReply((prev) => !prev);
-                setShowEmojis(false);
-              }}
-            />
+            {comment.userEmail ===
+              jwtDecode(localStorage.getItem("token")).email && (
+              <MdDelete
+                className="commentIcons blue"
+                onClick={handleDeleteComment}
+              />
+            )}
+            {comment.userEmail ===
+              jwtDecode(localStorage.getItem("token")).email && (
+              <FaEdit
+                className={isReply ? "displayNone" : "commentIcons blue"}
+                onClick={() => {
+                  setIsEdit((prev) => !prev);
+                  setShowReply((prev) => !prev);
+                  setShowEmojis(false);
+                }}
+              />
+            )}
             <BsFillReplyFill
               className={isEdit ? "displayNone" : "commentIcons blue"}
               onClick={() => {

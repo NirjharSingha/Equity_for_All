@@ -83,14 +83,12 @@ const PostCard = ({ setShowPostShare, post }) => {
   }, [selected]);
 
   useEffect(() => {
-    displayUser(
-      post.userEmail,
-      getUserInfo,
-      isFileExists,
-      setShouldDisplayUserImg,
-      setUserName,
-      setUserImg
-    );
+    const displayPostUser = async () => {
+      const { name, profilePic } = await getUserInfo(post.userEmail);
+      setUserName(name), setUserImg(profilePic);
+      displayUser(isFileExists, setShouldDisplayUserImg, profilePic);
+    };
+    displayPostUser();
     setUserLikes(post, setSelected, setPrevLike);
   }, []);
 

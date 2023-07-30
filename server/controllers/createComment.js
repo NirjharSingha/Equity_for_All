@@ -7,6 +7,9 @@ const createComment = asyncHandler(async (req, res) => {
     postId,
     commentID,
     userEmail,
+    userName,
+    profilePic,
+    parentName,
     commentDesc,
     timeStamp,
     parentID,
@@ -29,6 +32,9 @@ const createComment = asyncHandler(async (req, res) => {
   const comment = {
     commentID,
     userEmail,
+    userName,
+    profilePic,
+    parentName,
     commentDesc,
     timeStamp,
     parentID,
@@ -42,6 +48,8 @@ const createComment = asyncHandler(async (req, res) => {
     angry,
     sad,
     reply,
+    editedAt,
+    deletedAt,
   };
 
   const createFlag = true;
@@ -50,6 +58,9 @@ const createComment = asyncHandler(async (req, res) => {
     postId,
     commentID,
     userEmail,
+    userName,
+    profilePic,
+    parentName,
     commentDesc,
     timeStamp,
     parentID,

@@ -9,6 +9,14 @@ const replySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  userName: {
+    type: String,
+    required: true,
+  },
+  profilePic: {
+    type: String,
+    default: "",
+  },
   commentDesc: {
     type: String,
     required: true,
@@ -18,6 +26,10 @@ const replySchema = mongoose.Schema({
     required: true,
   },
   parentID: {
+    type: String,
+    default: "",
+  },
+  parentName: {
     type: String,
     default: "",
   },
@@ -80,6 +92,14 @@ const commentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  userName: {
+    type: String,
+    required: true,
+  },
+  profilePic: {
+    type: String,
+    default: "",
+  },
   commentDesc: {
     type: String,
     required: true,
@@ -89,6 +109,10 @@ const commentSchema = mongoose.Schema({
     required: true,
   },
   parentID: {
+    type: String,
+    default: "",
+  },
+  parentName: {
     type: String,
     default: "",
   },

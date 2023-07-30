@@ -8,28 +8,19 @@ export function useDisplayUserContext() {
 
 const DisplayUser = ({ children }) => {
   const displayUser = async (
-    email,
-    getUserInfo,
     isFileExists,
     setShouldDisplayUserImg,
-    setUserName,
-    setUserImg
+    profilePic
   ) => {
     try {
-      if (email) {
-        const userInfo = await getUserInfo(email);
-        const { name, profilePic } = userInfo;
+      if (profilePic !== "") {
         const baseUrl = "http://localhost:5000/";
         const imgVerify = await isFileExists(
           profilePic.substring(baseUrl.length)
         );
-        if (profilePic !== "" && imgVerify.data.exists) {
+        if (imgVerify.data.exists) {
           setShouldDisplayUserImg(true);
         }
-        setUserName(name);
-        setUserImg(profilePic);
-      } else {
-        console.error("post.userEmail is undefined");
       }
     } catch (error) {
       console.error("Error fetching user info:", error);

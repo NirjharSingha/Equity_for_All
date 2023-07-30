@@ -8,6 +8,7 @@ import CommentCard from "./CommentCard";
 import EmojiList from "./EmojiList";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
 const Comment = ({ setShowComments, post }) => {
   const commentContainerRef = useRef(null);
@@ -16,6 +17,7 @@ const Comment = ({ setShowComments, post }) => {
   const emojiRef = useRef(null);
   const [comments, setComments] = useState([]);
   const [isRotating, setIsRotating] = useState(false);
+  const { getUserInfo } = useUserInfoContext();
 
   const handleRotateClick = async () => {
     setIsRotating(true);
@@ -173,15 +175,23 @@ const Comment = ({ setShowComments, post }) => {
   }, []);
 
   const handleCommentSubmit = async () => {
+    if (commentInput === "") {
+      return;
+    }
     const decodedToken = jwtDecode(localStorage.getItem("token"));
+    const userInfo = await getUserInfo(decodedToken.email);
+    const { name, profilePic } = userInfo;
     const commentID = `${Date.now()}${decodedToken.email}`;
     const sendData = {
       postId: post._id,
       commentID: commentID,
       userEmail: decodedToken.email,
+      userName: name,
+      profilePic: profilePic,
       commentDesc: commentInput,
       timeStamp: new Date(Date.now()).toLocaleString(),
       parentID: "",
+      parentName: "",
       level: 0,
       levelParent: "",
       higherParent: "",
