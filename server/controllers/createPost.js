@@ -30,6 +30,7 @@ const createPost = asyncHandler(async (req, res) => {
     message: "post created successfully",
     postId: postId,
     email: userEmail,
+    post: post,
   });
 });
 

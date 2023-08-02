@@ -6,10 +6,11 @@ import Share from "./Share";
 import axios from "axios";
 import EditPost from "./EditPost";
 import { useEditPostContext } from "../contexts/EditPostContext";
+import { useDisplayPostContext } from "../contexts/DisplayPostContext";
 
 const Posts = () => {
   const shareComponentRef = useRef(null);
-  const [postArray, setPostArray] = useState([]);
+  const { postArray, setPostArray } = useDisplayPostContext();
   const { editPost } = useEditPostContext();
 
   useEffect(() => {
@@ -40,7 +41,8 @@ const Posts = () => {
             token: token,
           },
         });
-        setPostArray(response.data);
+        const posts = response.data.reverse();
+        setPostArray(posts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }

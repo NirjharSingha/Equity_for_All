@@ -12,6 +12,7 @@ import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { useEditPostContext } from "../contexts/EditPostContext";
+import { useDisplayPostContext } from "../contexts/DisplayPostContext";
 import jwtDecode from "jwt-decode";
 
 const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
@@ -35,6 +36,7 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
   const [showEdit, setShowEdit] = useState(false);
   const { setEditPost } = useEditPostContext();
   const editContainerRef = useRef(null);
+  const { setPostArray } = useDisplayPostContext();
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -69,6 +71,9 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
     if (response.status == 200) {
       console.log("post deleted successfully");
       setShowEdit(false);
+      setPostArray((prevPosts) => {
+        return prevPosts.filter((post) => post._id !== response.data.id);
+      });
     } else {
       console.log(response);
     }

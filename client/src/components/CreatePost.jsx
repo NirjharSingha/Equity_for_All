@@ -5,6 +5,7 @@ import EmojiList from "./EmojiList";
 import PreviewItem from "./PreviewItem";
 import axios from "axios";
 import { useEditPostContext } from "../contexts/EditPostContext";
+import { useDisplayPostContext } from "../contexts/DisplayPostContext";
 
 const CreatePost = ({ postToEdit }) => {
   const fileInputRef = useRef(null);
@@ -12,8 +13,9 @@ const CreatePost = ({ postToEdit }) => {
   const [inputValue, setInputValue] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const [postCategory, setPostCategory] = useState("public");
-  const { editPost } = useEditPostContext();
+  const { editPost, setEditPost } = useEditPostContext();
   const [isDeleted, setIsDeleted] = useState(false);
+  const { setPostArray } = useDisplayPostContext();
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -123,9 +125,18 @@ const CreatePost = ({ postToEdit }) => {
         } catch (e) {
           console.log(e);
         }
+        setPostArray((prevPosts) => [response.data.post, ...prevPosts]);
       }
       if (response.status === 200) {
         console.log("post updated successfully");
+        const updatedPost = response.data.updatedPost;
+
+        setPostArray((prevPosts) => {
+          return prevPosts.map((post) => {
+            return post._id === updatedPost._id ? { ...updatedPost } : post;
+          });
+        });
+        setEditPost(false);
       }
     } catch (error) {
       console.log(error);

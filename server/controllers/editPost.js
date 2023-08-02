@@ -22,16 +22,10 @@ const editPost = asyncHandler(async (req, res) => {
     );
   }
 
-  let finalAttachments = [];
-
   if (isDeleted === "false") {
     console.log(isDeleted);
     postAttachments = postAttachments.concat(prevAttachments);
   }
-
-  console.log(postAttachments);
-  console.log(prevAttachments);
-  console.log(isDeleted);
 
   const updatedPost = await Post.findOneAndUpdate(
     { _id: id },
@@ -45,7 +39,9 @@ const editPost = asyncHandler(async (req, res) => {
   );
 
   if (updatedPost) {
-    return res.status(200).json({ message: "Post updated successfully" });
+    return res
+      .status(200)
+      .json({ message: "Post updated successfully", updatedPost: updatedPost });
   } else {
     return res.status(404).json({ error: "Post not found" });
   }
