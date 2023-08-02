@@ -11,8 +11,10 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
+import { useEditPostContext } from "../contexts/EditPostContext";
+import jwtDecode from "jwt-decode";
 
-const PostCard = ({ setShowPostShare, post }) => {
+const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
@@ -29,6 +31,10 @@ const PostCard = ({ setShowPostShare, post }) => {
   const [userName, setUserName] = useState("");
   const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
+  const [showEditButton, setShowEditButton] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const { setEditPost } = useEditPostContext();
+  const editContainerRef = useRef(null);
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -90,11 +96,30 @@ const PostCard = ({ setShowPostShare, post }) => {
     };
     displayPostUser();
     setUserLikes(post, setSelected, setPrevLike);
+    const email = jwtDecode(localStorage.getItem("token")).email;
+    if (post.userEmail === email) {
+      setShowEditButton(true);
+    }
   }, []);
 
   const handleSeeMore = () => {
     setExpanded((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        editContainerRef.current &&
+        !editContainerRef.current.contains(event.target)
+      ) {
+        setShowEdit(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <>
@@ -102,6 +127,21 @@ const PostCard = ({ setShowPostShare, post }) => {
         <Comment setShowComments={setShowComments} post={post} />
       )}
       <div className="postCard">
+        {showEdit && (
+          <div className="editPostButton" ref={editContainerRef}>
+            <div
+              className="editOrDelete"
+              onClick={() => {
+                setPostToEdit(post);
+                setEditPost(true);
+                setShowEdit(false);
+              }}
+            >
+              Edit Post
+            </div>
+            <div className="editOrDelete">Delete Post</div>
+          </div>
+        )}
         <div className="postHeading">
           {shouldDisplayUserImg && (
             <img src={userImg} alt="" className="postUserProfilePic" />
@@ -114,6 +154,7 @@ const PostCard = ({ setShowPostShare, post }) => {
               viewBox="0 0 49 48"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              className="postUserProfilePic"
             >
               {" "}
               <path
@@ -138,12 +179,23 @@ const PostCard = ({ setShowPostShare, post }) => {
               ></path>{" "}
             </svg>
           )}
-          <h3 className="postUserName">{userName}</h3>
+          <div className="postHelperInfo">
+            <div className="postEditOptionContainer">
+              <h3 className="postUserName">{userName}</h3>
+              <div
+                className={showEditButton ? "editShow" : "displayNone"}
+                onClick={() => setShowEdit((prev) => !prev)}
+              >
+                ...
+              </div>
+            </div>
+            <p className="postTime">{post.createdAt}</p>
+          </div>
         </div>
         <div className={expanded ? "expandedPostContent" : "postContent"}>
           <p>{post.postDescription}</p>
           {expanded ? (
-            <>
+            <div className="postAttachmentAll">
               {post.postAttachments.map((attachment, index) => (
                 <div key={index}>
                   {attachment.endsWith(".jpg") ||
@@ -174,7 +226,7 @@ const PostCard = ({ setShowPostShare, post }) => {
                   )}
                 </div>
               ))}
-            </>
+            </div>
           ) : (
             <></>
           )}

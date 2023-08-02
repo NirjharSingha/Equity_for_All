@@ -4,7 +4,7 @@ import userRouter from "./routes/user.js";
 import postRouter from "./routes/post.js";
 import apiRouter from "./routes/api.js";
 import cors from "cors";
-import connectDB from "./configs/connectDB.js";
+import dbConfig from "./configs/dbConfig.js";
 import bodyParser from "body-parser";
 import http from "http";
 import { fileURLToPath } from "url";
@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 
 //configs
 dotenv.config();
-connectDB();
+dbConfig();
 
 const app = express();
 const port = process.env.server_port;

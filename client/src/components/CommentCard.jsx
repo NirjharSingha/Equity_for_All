@@ -269,6 +269,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                   viewBox="0 0 49 48"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="commentUserProfilePic"
                 >
                   {" "}
                   <path
@@ -311,7 +312,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           </div>
           <div className="commentSecondRow">
             {comment.deletedAt === "" ? (
-              <p>
+              <p className="overFlowWrap">
                 {" "}
                 <span style={{ color: "blue" }}>
                   {" "}

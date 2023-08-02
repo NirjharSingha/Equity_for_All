@@ -4,10 +4,13 @@ import { useEffect } from "react";
 import PostCard from "./PostCard";
 import Share from "./Share";
 import axios from "axios";
+import EditPost from "./EditPost";
+import { useEditPostContext } from "../contexts/EditPostContext";
 
-const Post = () => {
+const Posts = () => {
   const shareComponentRef = useRef(null);
   const [postArray, setPostArray] = useState([]);
+  const { editPost } = useEditPostContext();
 
   useEffect(() => {
     console.log("post component loaded");
@@ -47,9 +50,11 @@ const Post = () => {
 
   const [showPostShare, setShowPostShare] = useState(false);
   const [showYourPost, setShowYourPost] = useState(false);
+  const [postToEdit, setPostToEdit] = useState();
 
   return (
     <div className="postDiv">
+      {editPost && <EditPost postToEdit={postToEdit} />}
       <div className="postOption">
         <button
           className="borderLessPostOption"
@@ -70,6 +75,7 @@ const Post = () => {
             key={post._id}
             setShowPostShare={setShowPostShare}
             post={post}
+            setPostToEdit={setPostToEdit}
           />
         ))}
       </div>
@@ -77,4 +83,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Posts;

@@ -14,7 +14,7 @@ html {
   background: rgb(47, 48, 47);
   display: grid;
   grid-template-columns: 2rem 1fr 2fr 1fr 2rem;
-  /* z-index: 2; */
+  z-index: 950;
 }
 .iconContainer {
   grid-row: 1 / span 1;

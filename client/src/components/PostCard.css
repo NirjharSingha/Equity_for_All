@@ -6,6 +6,7 @@
   display: grid;
   grid-template-rows: 3rem auto 2rem 2rem;
   margin-left: 10px;
+  position: relative;
 }
 .postContent {
   grid-row: 2 / span 1;
@@ -18,11 +19,17 @@
   -webkit-box-orient: vertical;
   line-height: 1.2em;
   max-height: calc(1.2em * 3);
+  overflow-wrap: break-word;
 }
 .expandedPostContent {
   grid-row: 2 / span 1;
   padding: 3px;
   padding-left: 6px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+.postAttachmentAll {
+  margin-top: 8px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -44,11 +51,37 @@
   border-radius: 50%;
   object-fit: cover;
 }
+.postEditOptionContainer {
+  grid-row: 1 / span 1;
+  display: grid;
+  grid-template-columns: auto 2rem;
+}
 .postUserName {
-  grid-column: 2 / span 1;
+  grid-column: 1 / span 1;
   display: flex;
   align-items: center;
   margin-left: 10px;
+  overflow: hidden;
+}
+.editShow {
+  grid-column: 2 / span 1;
+  font-weight: bold;
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+.postTime {
+  grid-row: 2 / span 1;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  font-size: small;
+}
+.postHelperInfo {
+  grid-column: 2 / span 1;
+  display: grid;
+  grid-template-rows: 2rem 1rem;
 }
 .seeMore {
   display: flex;
@@ -135,9 +168,8 @@
 }
 .postFiles,
 .postFiles video {
-  display: block; /* You can adjust this to 'block' or 'inline-block' based on your layout needs */
+  display: block;
 }
-
 .postFiles:hover {
   cursor: pointer;
 }
@@ -145,4 +177,33 @@
   display: none;
   width: 0;
   height: 0;
+}
+.editPostContainer {
+  width: 35vw;
+  height: calc(100vh - 8.1rem);
+  position: absolute;
+  top: 4rem;
+  left: 20vw;
+  background-color: aliceblue;
+  z-index: 999;
+}
+.editPostButton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 5.5rem;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  background-color: rgb(196, 190, 190);
+}
+.editOrDelete {
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  text-align: right;
+}
+.editOrDelete:hover {
+  cursor: pointer;
+  background-color: rgb(120, 119, 118);
 }

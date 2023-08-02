@@ -6,6 +6,7 @@ import UserInfoProvider from "./contexts/UserInfoContext.jsx";
 import VerifyFile from "./contexts/VerifyFileContext.jsx";
 import LikesContextProvider from "./contexts/LikesContext.jsx";
 import DisplayUser from "./contexts/DisplayUserContext.jsx";
+import EditPostContext from "./contexts/EditPostContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <VerifyFile>
         <DisplayUser>
           <LikesContextProvider>
-            <App />
+            <EditPostContext>
+              <App />
+            </EditPostContext>
           </LikesContextProvider>
         </DisplayUser>
       </VerifyFile>

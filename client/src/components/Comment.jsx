@@ -225,6 +225,7 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
+    console.log("comment component loaded");
     const handleOutsideClick = (event) => {
       if (
         commentContainerRef.current &&
@@ -242,16 +243,12 @@ const Comment = ({ setShowComments, post }) => {
   }, []);
 
   useEffect(() => {
-    console.log("Comment card loaded");
-
     const handleOutsideClick = (event) => {
       if (emojiRef.current && !emojiRef.current.contains(event.target)) {
         setShowEmojis(false);
       }
     };
-
     document.addEventListener("mousedown", handleOutsideClick);
-
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
