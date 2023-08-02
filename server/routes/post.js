@@ -9,6 +9,7 @@ import getComments from "../controllers/getComments.js";
 import handleCommentLike from "../controllers/handleCommentLike.js";
 import editOrDeleteComment from "../controllers/editOrDeleteComment.js";
 import editPost from "../controllers/editPost.js";
+import deletePost from "../controllers/deletePost.js";
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.put("/postOptions/commentLike", verifyJWT, handleCommentLike);
 router.put("/postOptions/createComment", verifyJWT, createComment);
 router.put("/postOptions/editOrDeleteComment", verifyJWT, editOrDeleteComment);
 router.get("/postOptions/getComments/:postId", verifyJWT, getComments);
+router.delete("/deletePost/:postId", verifyJWT, deletePost);
 
 export default router;

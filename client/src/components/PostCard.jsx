@@ -56,6 +56,24 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
     }
   };
 
+  const handleDeletePost = async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(
+      `http://localhost:5000/post/deletePost/${post._id}`,
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+    if (response.status == 200) {
+      console.log("post deleted successfully");
+      setShowEdit(false);
+    } else {
+      console.log(response);
+    }
+  };
+
   const handleMouseLeaveFromLike = () => {
     setTimeout(() => {
       setMouseOnLike(false);
@@ -139,7 +157,9 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
             >
               Edit Post
             </div>
-            <div className="editOrDelete">Delete Post</div>
+            <div className="editOrDelete" onClick={handleDeletePost}>
+              Delete Post
+            </div>
           </div>
         )}
         <div className="postHeading">
