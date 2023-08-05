@@ -1,6 +1,7 @@
 import React from "react";
-import "./Home.css";
+import "./Friends.css";
 import { useEffect } from "react";
+import PersonCard from "./PersonCard";
 
 const Home = () => {
   useEffect(() => {
@@ -8,9 +9,80 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="homeDiv">
-      <div className="homeContainer">
-        <h1>Friend page</h1>
+    <div className="friendDiv">
+      <div className="friendContainer">
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
+        <div className="personFlex">
+          <PersonCard />
+        </div>
       </div>
     </div>
   );

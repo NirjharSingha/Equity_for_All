@@ -7,6 +7,7 @@ import axios from "axios";
 import EditPost from "./EditPost";
 import { useEditPostContext } from "../contexts/EditPostContext";
 import { useDisplayPostContext } from "../contexts/DisplayPostContext";
+import OptionList from "./OptionList";
 
 const Posts = () => {
   const shareComponentRef = useRef(null);
@@ -56,6 +57,7 @@ const Posts = () => {
 
   return (
     <div className="postDiv">
+      <OptionList />
       {editPost && <EditPost postToEdit={postToEdit} />}
       <div className="postOption">
         <button

@@ -19,8 +19,11 @@
   color: blue;
 }
 .yellow {
-  color: yellow;
+  color: rgb(199, 211, 29);
 }
 .red {
-  color: #ebb4b4;
+  color: #fa9191f3;
+}
+.lightBlue {
+  color: rgb(83, 229, 229);
 }

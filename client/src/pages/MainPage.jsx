@@ -50,10 +50,15 @@ const MainPage = () => {
           <Route
             path="/friends"
             element={
-              <div className="mainComponent">
-                {" "}
-                <Friends />{" "}
-              </div>
+              <>
+                <div className="mainComponent">
+                  {" "}
+                  <Friends />{" "}
+                </div>
+                <div className="leftComponent">
+                  <Profile />
+                </div>
+              </>
             }
           />
           <Route

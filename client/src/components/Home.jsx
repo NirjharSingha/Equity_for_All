@@ -1,6 +1,7 @@
 import React from "react";
 import "./Home.css";
 import { useEffect } from "react";
+import PersonCard from "./PersonCard";
 
 const Home = () => {
   useEffect(() => {
@@ -10,7 +11,7 @@ const Home = () => {
   return (
     <div className="homeDiv">
       <div className="homeContainer">
-        <h1></h1>
+        <PersonCard />
       </div>
     </div>
   );

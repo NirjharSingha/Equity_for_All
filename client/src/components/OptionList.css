@@ -1,0 +1,72 @@
+.optionListContainer {
+  position: absolute;
+  width: 24vw;
+  height: 50vh;
+  max-height: 50vh;
+  background-color: rgb(167, 165, 159);
+  left: 27vw;
+  top: 9rem;
+  z-index: 950;
+  border-radius: 0.5rem;
+}
+.horizontalBar {
+  height: 2.5rem;
+  max-width: 24vw;
+  overflow-x: auto;
+  display: flex;
+}
+.horizontalIcon {
+  font-size: 1.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.horizontalItemContainer {
+  min-width: 6vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.horizontalItemContainer:hover {
+  cursor: pointer;
+  background-color: rgb(119, 116, 116);
+  border-radius: 5px;
+}
+.selectedItem {
+  border-bottom: 2px solid rgb(4, 38, 133);
+}
+.verticalContainer {
+  width: 98%;
+  height: calc(50vh - 2.5rem);
+  max-height: calc(50vh - 2.7rem);
+  margin-left: 1%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.verticalContainerLine {
+  width: 100%;
+  height: calc(2rem + 10px);
+  padding: 5px;
+  padding-bottom: 0px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+.optionListImg {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+.optionListName {
+  margin-left: 0.5rem;
+  font-weight: bold;
+  overflow-x: auto;
+  white-space: nowrap; /* Prevent content from wrapping to a new line */
+}
+::-webkit-scrollbar {
+  display: none;
+}

@@ -183,6 +183,12 @@ body {
   border-radius: 3px;
   text-indent: 7px;
   cursor: pointer;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.registerInput, .regPassInput:focus {
+  outline: none;
 }
 .regNameInput {
   grid-row: 2;
@@ -206,6 +212,9 @@ body {
   overflow: hidden;
   text-indent: 7px;
   cursor: pointer;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 .passLabelContainer {
   grid-column: 1;
