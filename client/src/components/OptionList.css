@@ -1,11 +1,20 @@
-.optionListContainer {
+.outerBlurContainer {
+  width: 50vw;
+  height: calc(100vh - 8.2rem);
   position: absolute;
+  top: 4.05rem;
+  left: 25vw;
+  background-color: rgba(207, 205, 205, 0.6);
+  z-index: 500;
+}
+.optionListContainer {
+  position: relative;
   width: 24vw;
   height: 50vh;
   max-height: 50vh;
-  background-color: rgb(167, 165, 159);
-  left: 27vw;
-  top: 9rem;
+  background-color: rgb(138, 137, 132);
+  left: 6%;
+  top: 20%;
   z-index: 950;
   border-radius: 0.5rem;
 }
@@ -30,7 +39,7 @@
 }
 .horizontalItemContainer:hover {
   cursor: pointer;
-  background-color: rgb(119, 116, 116);
+  background-color: rgb(91, 88, 88);
   border-radius: 5px;
 }
 .selectedItem {
@@ -58,15 +67,23 @@
 }
 .optionListImg {
   width: 2rem;
+  min-width: 2rem;
   height: 2rem;
   border-radius: 50%;
+  background-color: rgb(14, 134, 134);
 }
 .optionListName {
   margin-left: 0.5rem;
   font-weight: bold;
   overflow-x: auto;
-  white-space: nowrap; /* Prevent content from wrapping to a new line */
+  white-space: nowrap;
 }
 ::-webkit-scrollbar {
   display: none;
+}
+body {
+  scrollbar-width: none;
+}
+body {
+  -ms-overflow-style: none;
 }

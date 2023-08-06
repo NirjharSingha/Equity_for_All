@@ -4,18 +4,17 @@ import { useState, useRef } from "react";
 import EmojiList from "./EmojiList";
 import PreviewItem from "./PreviewItem";
 import axios from "axios";
-import { useEditPostContext } from "../contexts/EditPostContext";
-import { useDisplayPostContext } from "../contexts/DisplayPostContext";
+import { usePostContext } from "../contexts/PostContext";
 
-const CreatePost = ({ postToEdit }) => {
+const CreatePost = () => {
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const [postCategory, setPostCategory] = useState("public");
-  const { editPost, setEditPost } = useEditPostContext();
+  const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
-  const { setPostArray } = useDisplayPostContext();
+  const { setPostArray, selectedPost } = usePostContext();
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -23,14 +22,14 @@ const CreatePost = ({ postToEdit }) => {
 
   useEffect(() => {
     if (editPost) {
-      setInputValue(postToEdit.postDescription);
-      setPostCategory(postToEdit.postCategory);
+      setInputValue(selectedPost.postDescription);
+      setPostCategory(selectedPost.postCategory);
     }
     if (
       editPost &&
-      postToEdit &&
-      postToEdit.postAttachments &&
-      postToEdit.postAttachments.length === 0
+      selectedPost &&
+      selectedPost.postAttachments &&
+      selectedPost.postAttachments.length === 0
     ) {
       setIsDeleted(true);
     }
@@ -71,12 +70,12 @@ const CreatePost = ({ postToEdit }) => {
 
     if (editPost) {
       postData.append("updatedAt", new Date(Date.now()).toLocaleString());
-      postData.append("id", postToEdit._id);
+      postData.append("id", selectedPost._id);
       postData.append("isDeleted", isDeleted);
 
-      if (postToEdit && postToEdit.postAttachments) {
-        for (let i = 0; i < postToEdit.postAttachments.length; i++) {
-          postData.append("prevAttachments", postToEdit.postAttachments[i]);
+      if (selectedPost && selectedPost.postAttachments) {
+        for (let i = 0; i < selectedPost.postAttachments.length; i++) {
+          postData.append("prevAttachments", selectedPost.postAttachments[i]);
         }
       }
     }
@@ -179,16 +178,18 @@ const CreatePost = ({ postToEdit }) => {
           accept="image/*, video/*"
         />
         {editPost &&
-          postToEdit &&
-          postToEdit.postAttachments &&
+          selectedPost &&
+          selectedPost.postAttachments &&
           !isDeleted &&
-          postToEdit.postAttachments.length > 0 && (
+          selectedPost.postAttachments.length > 0 && (
             <button
               type="buton"
               style={{ cursor: "pointer" }}
               onClick={() => setIsDeleted(true)}
-            >{`click to delete previous ${postToEdit.postAttachments.length} ${
-              postToEdit.postAttachments.length === 1 ? "file" : "files"
+            >{`click to delete previous ${
+              selectedPost.postAttachments.length
+            } ${
+              selectedPost.postAttachments.length === 1 ? "file" : "files"
             }`}</button>
           )}
         <button

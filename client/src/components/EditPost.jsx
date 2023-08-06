@@ -1,11 +1,11 @@
 import React from "react";
 import CreatePost from "./CreatePost";
 import { useEffect, useRef } from "react";
-import { useEditPostContext } from "../contexts/EditPostContext";
+import { usePostContext } from "../contexts/PostContext";
 
-const EditPost = ({ postToEdit }) => {
+const EditPost = () => {
   const editPostRef = useRef(null);
-  const { setEditPost } = useEditPostContext();
+  const { setEditPost, selectedPost } = usePostContext();
   useEffect(() => {
     console.log("edit post loaded");
     const handleOutsideClick = (event) => {
@@ -20,7 +20,7 @@ const EditPost = ({ postToEdit }) => {
   }, []);
   return (
     <div className="editPostContainer" ref={editPostRef}>
-      <CreatePost postToEdit={postToEdit} />
+      <CreatePost />
     </div>
   );
 };

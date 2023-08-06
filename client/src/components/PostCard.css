@@ -4,7 +4,7 @@
   border-radius: 5px;
   background: rgb(242, 237, 237);
   display: grid;
-  grid-template-rows: 3rem auto 2rem 2rem;
+  grid-template-rows: 3rem auto 2rem 2rem 1.5rem;
   margin-left: 10px;
   position: relative;
 }
@@ -206,6 +206,20 @@
 .editOrDelete:hover {
   cursor: pointer;
   background-color: rgb(120, 119, 118);
+}
+.postOptionCount {
+  grid-row: 5;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.postOptionCountText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.postOptionCountText:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 ::-webkit-scrollbar {
   display: none;

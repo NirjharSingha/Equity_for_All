@@ -1,6 +1,6 @@
 import React from "react";
 import "./UpdateProfile.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Register from "./Register";
 
 const UpdateProfile = ({ profileData, handleMount, fetchProfileData }) => {

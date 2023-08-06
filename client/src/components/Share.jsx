@@ -42,10 +42,14 @@ import {
   WhatsappShareButton,
   WorkplaceShareButton,
 } from "react-share";
-import React from "react";
+import React, { useEffect } from "react";
 import "./Share.css";
 
 const Share = () => {
+  useEffect(() => {
+    console.log("share component loaded");
+  }, []);
+
   return (
     <div className="shareComponent">
       <EmailShareButton

@@ -121,6 +121,6 @@ body {
   height: calc(100vh - 8.1rem);
   position: absolute;
   top: 4rem;
-  background-color: rgb(207, 205, 205);
+  background-color: rgba(207, 205, 205, 0.6);
   z-index: 950;
 }

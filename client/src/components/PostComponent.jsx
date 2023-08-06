@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Chat from "./Chat";
 import Posts from "./Posts";
 import Groups from "./Groups";
 import "../pages/MainPage.css";
 import CreatePost from "./CreatePost";
-import { useEditPostContext } from "../contexts/EditPostContext";
+import { usePostContext } from "../contexts/PostContext";
 
 const PostComponent = () => {
-  const { editPost } = useEditPostContext();
+  const { editPost } = usePostContext();
   const { pathname } = useLocation();
   return (
     <>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./PostCard.css";
 import { AiFillLike, AiOutlineLike, AiFillDislike } from "react-icons/ai";
-import { FaLaughSquint, FaSadCry, FaAngry, FaComment } from "react-icons/fa";
+import { FaLaughSquint, FaSadCry, FaAngry, FaRegComment } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { PiShareFatBold } from "react-icons/pi";
 import AllLikes from "./AllLikes";
@@ -11,11 +11,12 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
-import { useEditPostContext } from "../contexts/EditPostContext";
-import { useDisplayPostContext } from "../contexts/DisplayPostContext";
+import { usePostContext } from "../contexts/PostContext";
 import jwtDecode from "jwt-decode";
+import Share from "./Share";
+import OptionList from "./OptionList";
 
-const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
+const PostCard = ({ post }) => {
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
@@ -34,9 +35,21 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const [showEditButton, setShowEditButton] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const { setEditPost } = useEditPostContext();
+  const { setEditPost, setSelectedPost } = usePostContext();
   const editContainerRef = useRef(null);
-  const { setPostArray } = useDisplayPostContext();
+  const { setPostArray } = usePostContext();
+  const [showOptionList, setShowOptionList] = useState(false);
+  const shareComponentRef = useRef(null);
+  const [showPostShare, setShowPostShare] = useState(false);
+  const [likesData, setLikesData] = useState({
+    like: post.like,
+    dislike: post.dislike,
+    laugh: post.laugh,
+    angry: post.angry,
+    sad: post.sad,
+    love: post.love,
+  });
+  const [total, setTotal] = useState();
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -108,7 +121,64 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
   };
 
   useEffect(() => {
+    const userEmail = jwtDecode(localStorage.getItem("token")).email;
+    const newLikesData = { ...likesData };
+
+    if (selected === "like" && !newLikesData.like.includes(userEmail)) {
+      newLikesData.like.push(userEmail);
+    } else if (selected !== "like" && newLikesData.like.includes(userEmail)) {
+      newLikesData.like = newLikesData.like.filter(
+        (email) => email !== userEmail
+      );
+    }
+    if (selected === "dislike" && !newLikesData.dislike.includes(userEmail)) {
+      newLikesData.dislike.push(userEmail);
+    } else if (
+      selected !== "dislike" &&
+      newLikesData.dislike.includes(userEmail)
+    ) {
+      newLikesData.dislike = newLikesData.dislike.filter(
+        (email) => email !== userEmail
+      );
+    }
+    if (selected === "laugh" && !newLikesData.laugh.includes(userEmail)) {
+      newLikesData.laugh.push(userEmail);
+    } else if (selected !== "laugh" && newLikesData.laugh.includes(userEmail)) {
+      newLikesData.laugh = newLikesData.laugh.filter(
+        (email) => email !== userEmail
+      );
+    }
+    if (selected === "angry" && !newLikesData.angry.includes(userEmail)) {
+      newLikesData.angry.push(userEmail);
+    } else if (selected !== "angry" && newLikesData.angry.includes(userEmail)) {
+      newLikesData.angry = newLikesData.angry.filter(
+        (email) => email !== userEmail
+      );
+    }
+    if (selected === "sad" && !newLikesData.sad.includes(userEmail)) {
+      newLikesData.sad.push(userEmail);
+    } else if (selected !== "sad" && newLikesData.sad.includes(userEmail)) {
+      newLikesData.sad = newLikesData.sad.filter(
+        (email) => email !== userEmail
+      );
+    }
+    if (selected === "love" && !newLikesData.love.includes(userEmail)) {
+      newLikesData.love.push(userEmail);
+    } else if (selected !== "love" && newLikesData.love.includes(userEmail)) {
+      newLikesData.love = newLikesData.love.filter(
+        (email) => email !== userEmail
+      );
+    }
+    setLikesData(newLikesData);
     checkInitialMount(isInitialMount, handleLikePut);
+    setTotal(
+      newLikesData.like.length +
+        newLikesData.dislike.length +
+        newLikesData.laugh.length +
+        newLikesData.sad.length +
+        newLikesData.angry.length +
+        newLikesData.love.length
+    );
   }, [selected]);
 
   useEffect(() => {
@@ -144,8 +214,37 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        shareComponentRef.current &&
+        !shareComponentRef.current.contains(event.target)
+      ) {
+        setShowPostShare(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   return (
     <>
+      {showOptionList && (
+        <OptionList
+          setShowOptionList={setShowOptionList}
+          likesData={likesData}
+          total={total}
+        />
+      )}
+      {showPostShare && (
+        <div ref={shareComponentRef}>
+          <Share />
+        </div>
+      )}
       {showComments && (
         <Comment setShowComments={setShowComments} post={post} />
       )}
@@ -155,7 +254,7 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
             <div
               className="editOrDelete"
               onClick={() => {
-                setPostToEdit(post);
+                setSelectedPost(post);
                 setEditPost(true);
                 setShowEdit(false);
               }}
@@ -308,7 +407,7 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
             </span>
           </div>
           <div className="commentIcon" onClick={() => setShowComments(true)}>
-            <FaComment className="iconFlex gray" />
+            <FaRegComment className="iconFlex" />
             <span>Comment</span>
           </div>
           <div
@@ -318,6 +417,19 @@ const PostCard = ({ setShowPostShare, post, setPostToEdit }) => {
             <PiShareFatBold className="iconFlex" />
             <span>Share</span>
           </div>
+        </div>
+        <div className="postOptionCount">
+          <p
+            className="postOptionCountText"
+            onClick={() => {
+              setSelectedPost(post);
+              setShowOptionList((prev) => !prev);
+            }}
+          >
+            {`${total} reactions`}
+          </p>
+          <p className="postOptionCountText">all comments</p>
+          <p className="postOptionCountText">all shares</p>
         </div>
       </div>
     </>
