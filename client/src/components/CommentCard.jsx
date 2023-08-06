@@ -15,6 +15,8 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
+import { useOptionListContext } from "../contexts/OptionListContext";
+import OptionList from "./OptionList";
 import jwtDecode from "jwt-decode";
 
 const CommentCard = ({ comment, postID, level, allComments }) => {
@@ -37,6 +39,17 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const [showReplyComments, setShowReplyComments] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isReply, setIsReply] = useState(false);
+  const [likesData, setLikesData] = useState({
+    like: comment.like,
+    dislike: comment.dislike,
+    laugh: comment.laugh,
+    angry: comment.angry,
+    sad: comment.sad,
+    love: comment.love,
+  });
+  const [total, setTotal] = useState();
+  const { loadOptionListData } = useOptionListContext();
+  const [showOptionList, setShowOptionList] = useState(false);
 
   useEffect(() => {
     if (isEdit) {
@@ -101,6 +114,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   };
 
   useEffect(() => {
+    loadOptionListData(likesData, selectedLike, setLikesData, setTotal);
     checkInitialMount(isInitialMount, handleLikePut);
   }, [selectedLike]);
 
@@ -250,6 +264,13 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
 
   return (
     <>
+      {showOptionList && (
+        <OptionList
+          setShowOptionList={setShowOptionList}
+          likesData={likesData}
+          total={total}
+        />
+      )}
       <div ref={commentCardRef}>
         <div className="comment">
           <div className="commentFirstRow">
@@ -405,7 +426,12 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
             />
           </div>
           <div className="commentFourthRow">
-            <button className="commentButton">All reactions</button>
+            <button
+              className="commentButton"
+              onClick={() => {
+                setShowOptionList((prev) => !prev);
+              }}
+            >{`${total} reactions`}</button>
             {level === 0 && allComments.length > 0 && (
               <button
                 className="commentButton"

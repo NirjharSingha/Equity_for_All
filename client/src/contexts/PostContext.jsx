@@ -10,7 +10,6 @@ const PostContextProvider = ({ children }) => {
   const [editPost, setEditPost] = useState(false);
   const [postArray, setPostArray] = useState([]);
   const [selectedPost, setSelectedPost] = useState();
-  const [showOptionList, setShowOptionList] = useState(false);
   return (
     <PostContext.Provider
       value={{
@@ -20,8 +19,6 @@ const PostContextProvider = ({ children }) => {
         setPostArray,
         selectedPost,
         setSelectedPost,
-        showOptionList,
-        setShowOptionList,
       }}
     >
       {children}

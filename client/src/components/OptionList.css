@@ -1,11 +1,11 @@
 .outerBlurContainer {
   width: 50vw;
   height: calc(100vh - 8.2rem);
-  position: absolute;
+  position: fixed;
   top: 4.05rem;
   left: 25vw;
   background-color: rgba(207, 205, 205, 0.6);
-  z-index: 500;
+  z-index: 999;
 }
 .optionListContainer {
   position: relative;

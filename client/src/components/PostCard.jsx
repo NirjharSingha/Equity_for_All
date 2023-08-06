@@ -12,6 +12,7 @@ import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { usePostContext } from "../contexts/PostContext";
+import { useOptionListContext } from "../contexts/OptionListContext";
 import jwtDecode from "jwt-decode";
 import Share from "./Share";
 import OptionList from "./OptionList";
@@ -50,6 +51,7 @@ const PostCard = ({ post }) => {
     love: post.love,
   });
   const [total, setTotal] = useState();
+  const { loadOptionListData } = useOptionListContext();
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -121,64 +123,8 @@ const PostCard = ({ post }) => {
   };
 
   useEffect(() => {
-    const userEmail = jwtDecode(localStorage.getItem("token")).email;
-    const newLikesData = { ...likesData };
-
-    if (selected === "like" && !newLikesData.like.includes(userEmail)) {
-      newLikesData.like.push(userEmail);
-    } else if (selected !== "like" && newLikesData.like.includes(userEmail)) {
-      newLikesData.like = newLikesData.like.filter(
-        (email) => email !== userEmail
-      );
-    }
-    if (selected === "dislike" && !newLikesData.dislike.includes(userEmail)) {
-      newLikesData.dislike.push(userEmail);
-    } else if (
-      selected !== "dislike" &&
-      newLikesData.dislike.includes(userEmail)
-    ) {
-      newLikesData.dislike = newLikesData.dislike.filter(
-        (email) => email !== userEmail
-      );
-    }
-    if (selected === "laugh" && !newLikesData.laugh.includes(userEmail)) {
-      newLikesData.laugh.push(userEmail);
-    } else if (selected !== "laugh" && newLikesData.laugh.includes(userEmail)) {
-      newLikesData.laugh = newLikesData.laugh.filter(
-        (email) => email !== userEmail
-      );
-    }
-    if (selected === "angry" && !newLikesData.angry.includes(userEmail)) {
-      newLikesData.angry.push(userEmail);
-    } else if (selected !== "angry" && newLikesData.angry.includes(userEmail)) {
-      newLikesData.angry = newLikesData.angry.filter(
-        (email) => email !== userEmail
-      );
-    }
-    if (selected === "sad" && !newLikesData.sad.includes(userEmail)) {
-      newLikesData.sad.push(userEmail);
-    } else if (selected !== "sad" && newLikesData.sad.includes(userEmail)) {
-      newLikesData.sad = newLikesData.sad.filter(
-        (email) => email !== userEmail
-      );
-    }
-    if (selected === "love" && !newLikesData.love.includes(userEmail)) {
-      newLikesData.love.push(userEmail);
-    } else if (selected !== "love" && newLikesData.love.includes(userEmail)) {
-      newLikesData.love = newLikesData.love.filter(
-        (email) => email !== userEmail
-      );
-    }
-    setLikesData(newLikesData);
+    loadOptionListData(likesData, selected, setLikesData, setTotal);
     checkInitialMount(isInitialMount, handleLikePut);
-    setTotal(
-      newLikesData.like.length +
-        newLikesData.dislike.length +
-        newLikesData.laugh.length +
-        newLikesData.sad.length +
-        newLikesData.angry.length +
-        newLikesData.love.length
-    );
   }, [selected]);
 
   useEffect(() => {
@@ -428,7 +374,7 @@ const PostCard = ({ post }) => {
           >
             {`${total} reactions`}
           </p>
-          <p className="postOptionCountText">all comments</p>
+          <p></p>
           <p className="postOptionCountText">all shares</p>
         </div>
       </div>
