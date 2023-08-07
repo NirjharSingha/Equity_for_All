@@ -12,6 +12,7 @@ const PersonCard = () => {
       <h3 style={{ overflow: "hidden" }}>Demo Name</h3>
       <p>4 mutual friends</p>
       <button className="personCardButton personCardElement">Add Friend</button>
+      <button className="personCardButton personCardElement">Follow</button>
       <button className="personCardButton personCardElement">Remove</button>
       <button className="personCardButton personCardElement">Block</button>
     </div>

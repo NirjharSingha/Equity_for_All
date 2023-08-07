@@ -9,6 +9,7 @@ import Friends from "../components/Friends";
 import Profile from "../components/Profile";
 import Chat from "../components/Chat";
 import PostComponent from "../components/PostComponent";
+import FriendOptions from "../components/FriendOptions";
 
 const MainPage = () => {
   return (
@@ -56,7 +57,7 @@ const MainPage = () => {
                   <Friends />{" "}
                 </div>
                 <div className="leftComponent">
-                  <Profile />
+                  <FriendOptions />
                 </div>
               </>
             }

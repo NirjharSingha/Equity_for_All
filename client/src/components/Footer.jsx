@@ -42,32 +42,34 @@ const Footer = () => {
         </div>
       </div>
       <div className="footerRight">
-        <h1 className="heading">Nexus Sphere</h1>
-        <div className="foooterLinkIcons">
-          <div className="footerIconContainer">
-            <a href="#">
-              <BsFacebook className="foooterLinkIcon" />
-            </a>
-          </div>
-          <div className="footerIconContainer">
-            <a href="#">
-              <BsInstagram className="foooterLinkIcon" />
-            </a>
-          </div>
-          <div className="footerIconContainer">
-            <a href="#">
-              <BsGithub className="foooterLinkIcon" />
-            </a>
-          </div>
-          <div className="footerIconContainer">
-            <a href="#">
-              <BsTwitter className="foooterLinkIcon" />
-            </a>
-          </div>
-          <div className="footerIconContainer">
-            <a href="#">
-              <BsLinkedin className="foooterLinkIcon" />
-            </a>
+        <div className="footerRightDiv">
+          <h1 className="heading">Nexus Sphere</h1>
+          <div className="footerLinkIcons">
+            <div className="footerIconContainer">
+              <a href="#">
+                <BsFacebook className="footerLinkIcon" />
+              </a>
+            </div>
+            <div className="footerIconContainer">
+              <a href="#">
+                <BsInstagram className="footerLinkIcon" />
+              </a>
+            </div>
+            <div className="footerIconContainer">
+              <a href="#">
+                <BsGithub className="footerLinkIcon" />
+              </a>
+            </div>
+            <div className="footerIconContainer">
+              <a href="#">
+                <BsTwitter className="footerLinkIcon" />
+              </a>
+            </div>
+            <div className="footerIconContainer">
+              <a href="#">
+                <BsLinkedin className="footerLinkIcon" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

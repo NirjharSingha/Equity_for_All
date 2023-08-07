@@ -42,8 +42,12 @@ html {
   height: 100%;
   grid-column: 4 / span 1;
   display: flex;
-  justify-content: right;
+  justify-content: flex-start;
+  align-items: flex-end;
   flex-direction: column;
+}
+.footerRightDiv {
+  max-width: fit-content;
 }
 .heading {
   color: #fff;
@@ -51,11 +55,13 @@ html {
   display: flex;
   justify-content: right;
   right: 0;
+  margin: 0;
 }
-.foooterLinkIcons {
+.footerLinkIcons {
   display: flex;
-  align-items: center;
+  align-items: space-between;
   flex-direction: row-reverse;
+  justify-content: space-between;
 }
 .footerIconContainer {
   height: 1.5rem;
@@ -65,8 +71,6 @@ html {
   justify-content: center;
   align-items: center;
   background-color: rgb(185, 243, 215);
-  margin-left: 1rem;
-  margin-right: 1px;
 }
 .footerIconContainer a {
   display: flex;
