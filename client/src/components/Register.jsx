@@ -53,6 +53,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     workplace: isReg ? "" : profileData.workplace,
     contactNumber: isReg ? "" : profileData.contactNumber,
     relationshipStatus: isReg ? "" : profileData.relationshipStatus,
+    profileStatus: isReg ? "Public" : profileData.profileStatus,
     reasonOfBeingHere: isReg ? "" : profileData.reasonOfBeingHere,
     aboutYourself: isReg ? "" : profileData.aboutYourself,
   });
@@ -157,6 +158,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       formData.append("workplace", user.workplace);
       formData.append("contactNumber", user.contactNumber);
       formData.append("relationshipStatus", user.relationshipStatus);
+      formData.append("profileStatus", user.profileStatus);
       formData.append("reasonOfBeingHere", user.reasonOfBeingHere);
       formData.append("aboutYourself", user.aboutYourself);
       formData.append("profilePic", profilePic);
@@ -354,6 +356,9 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
             <label htmlFor="" className="registerLabel regMaritalLabel">
               Relationship status:
             </label>
+            <label htmlFor="" className="registerLabel regProfileStatusLabel">
+              Profile status:
+            </label>
             <label htmlFor="" className="registerLabel regTextAreaLabel_1">
               Why are you on this website ?
             </label>
@@ -540,6 +545,17 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               value={user.workplace}
               onChange={handleInputChange}
             />
+            <select
+              id="profileStatus"
+              name="profileStatus"
+              className="registerInput regProfileStatusInput"
+              value={user.profileStatus}
+              onChange={handleInputChange}
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+              <option value="locked">Locked</option>
+            </select>
             <div className="submitContainer">
               <button type="submit" className="regSubmit">
                 {isReg ? "Submit" : "Apply"}

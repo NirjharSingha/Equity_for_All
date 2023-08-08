@@ -18,13 +18,13 @@ body {
   bottom: 4.1rem;
   left: 0;
   background-color: rgba(255, 255, 255, 1);
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 6px 6px 0px 0px;
 }
 .updateProfileCrossContainer {
   width: 100%;
   height: 6%;
-  background-color: rgb(86, 79, 79);
-  border-radius: 10px 10px 0px 0px;
+  background-color: rgb(125, 124, 124);
+  border-radius: 6px 6px 0px 0px;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -32,7 +32,9 @@ body {
 .updateProfileCross {
   height: 90%;
   aspect-ratio: 1/1;
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 50%;
+  border: none;
+  margin-right: 2px;
 }
 .updateProfileCross:hover {
   color: white;
@@ -42,7 +44,7 @@ body {
 .upadateProfilePageContainer {
   width: 100%;
   height: 94%;
-  background-color: rgb(114, 97, 97);
+  background-color: rgb(199, 195, 195);
   overflow: auto;
 }
 .upadateProfileIconContainer {
@@ -65,7 +67,7 @@ body {
   height: 100%;
   display: grid;
   grid-template-columns: 2fr 3fr;
-  grid-template-rows: 1.5rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 8.4375rem 2.8125rem 8.4375rem 4.0625rem;
+  grid-template-rows: 1.5rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 8.4375rem 2.8125rem 8.4375rem 4.0625rem;
 }
 ::-webkit-scrollbar {
   width: 3px; /* Set the width of the scrollbar */

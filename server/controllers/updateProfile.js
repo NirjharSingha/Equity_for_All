@@ -19,6 +19,7 @@ const updateProfile = asyncHandler(async (req, res) => {
     workplace,
     contactNumber,
     relationshipStatus,
+    profileStatus,
     reasonOfBeingHere,
     aboutYourself,
   } = req.body;
@@ -45,6 +46,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         workplace,
         contactNumber,
         relationshipStatus,
+        profileStatus,
         reasonOfBeingHere,
         aboutYourself,
       },
@@ -69,6 +71,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         workplace,
         contactNumber,
         relationshipStatus,
+        profileStatus,
         reasonOfBeingHere,
         aboutYourself,
         profilePic,

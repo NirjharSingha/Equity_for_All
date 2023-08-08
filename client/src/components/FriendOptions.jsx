@@ -22,63 +22,63 @@ const FriendOptions = () => {
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <BsPersonFillAdd className="friendIcon" />
         </div>
         <p className="friendButtonText">Friend request send</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <BsPersonFillDown className="friendIcon" />
         </div>
         <p className="friendButtonText">Friend request received</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <BsFillPersonPlusFill className="friendIcon" />
         </div>
         <p className="friendButtonText">Suggessions</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <BsFillPersonFill className="friendIcon" />
         </div>
         <p className="friendButtonText">Followers</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <BsFillPersonFill className="friendIcon" />
         </div>
         <p className="friendButtonText">Followings</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <FaUserFriends className="friendIcon" />
         </div>
         <p className="friendButtonText">Friends & Followers</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <FaUserFriends className="friendIcon" />
         </div>
         <p className="friendButtonText">Friends & Followings</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <BsPersonFillSlash className="friendIcon" />
         </div>
         <p className="friendButtonText">Blocklist</p>
         <p className="friendCount">999K+</p>
       </div>
       <div className="friendOptionsButton">
         <div className="friendIconContainer">
-          <BsFillPersonLinesFill className="friendIcon" />
+          <FaBirthdayCake className="friendIcon" />
         </div>
         <p className="friendButtonText">Birthdays</p>
       </div>

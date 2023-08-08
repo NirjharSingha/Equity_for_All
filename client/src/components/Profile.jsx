@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import UpdateProfile from "./UpdateProfile";
 import axios from "axios";
 
-const Profile = () => {
+const Profile = ({ own }) => {
   const [profileData, setProfileData] = useState({});
 
   const fetchProfileData = async () => {
@@ -55,7 +55,11 @@ const Profile = () => {
         <div className="profileImageContainer">
           <img src={profileData.profilePic} className="profileImage" />
         </div>
-        <div className="profileInfoContainer">
+        <div
+          className={
+            own ? "profileInfoContainer" : "friendProfileInfoContainer"
+          }
+        >
           <div className="profileInfo">
             <div className="profileLine">
               Name:
@@ -105,19 +109,25 @@ const Profile = () => {
                 {profileData.relationshipStatus}
               </span>
             </div>
+            <div className="profileLine">
+              Profile status:
+              <span className="profileAns">{profileData.profileStatus}</span>
+            </div>
             <div className="profileLine">Why are you on this website:</div>
             <div className="profileEassy">{profileData.reasonOfBeingHere}</div>
             <div className="profileLine">About Yourself:</div>
             <div className="profileEassy">{profileData.aboutYourself}</div>
           </div>
-          <div className="updateProfileButtonContainer">
-            <button
-              className="profileUpdateButton"
-              onClick={handleUpdateProfile}
-            >
-              Edit
-            </button>
-          </div>
+          {own && (
+            <div className="updateProfileButtonContainer">
+              <button
+                className="profileUpdateButton"
+                onClick={handleUpdateProfile}
+              >
+                Edit
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

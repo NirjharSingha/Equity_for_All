@@ -35,6 +35,8 @@
 .friendButtonText {
   margin-left: 4px;
   grid-column: 2;
+  overflow-x: auto;
+  min-width: 5rem;
 }
 .friendCount {
   grid-column: 3;

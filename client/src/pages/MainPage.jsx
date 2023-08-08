@@ -34,7 +34,7 @@ const MainPage = () => {
                   <Home />{" "}
                 </div>
                 <div className="leftComponent">
-                  <Profile />
+                  <Profile own={true} />
                 </div>
               </>
             }
