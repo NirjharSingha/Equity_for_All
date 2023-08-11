@@ -13,7 +13,7 @@ const login = asyncHandler(async (req, res) => {
   if (!(await bcrypt.compare(password, user.password))) {
     return res.status(400).json({ error: "Invalid password" });
   }
-  const expiresIn = "1h";
+  const expiresIn = "1d";
   const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
   return res.status(200).json({ message: "Successful login", token: token });
 });

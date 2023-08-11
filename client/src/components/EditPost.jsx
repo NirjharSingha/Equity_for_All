@@ -2,6 +2,7 @@ import React from "react";
 import CreatePost from "./CreatePost";
 import { useEffect, useRef } from "react";
 import { usePostContext } from "../contexts/PostContext";
+import "./EditPost.css";
 
 const EditPost = () => {
   const editPostRef = useRef(null);
@@ -19,8 +20,13 @@ const EditPost = () => {
     };
   }, []);
   return (
-    <div className="editPostContainer" ref={editPostRef}>
-      <CreatePost />
+    <div className="blurComponent" ref={editPostRef}>
+      <div className="editPostCross" onClick={() => setEditPost(false)}>
+        X
+      </div>
+      <div className="editPostContainer">
+        <CreatePost />
+      </div>
     </div>
   );
 };

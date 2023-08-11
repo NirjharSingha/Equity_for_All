@@ -116,8 +116,12 @@ const CreatePost = () => {
           postID: response.data.postId,
         };
         console.log("post created");
+        setInputValue("");
         try {
-          const res = await axios.put("http://localhost:5000/user/post", data);
+          const res = await axios.put(
+            "http://localhost:5000/user/addPostID",
+            data
+          );
           if (res.status === 200) {
             console.log("user updated");
           }

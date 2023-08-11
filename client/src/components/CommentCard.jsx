@@ -18,6 +18,7 @@ import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { useOptionListContext } from "../contexts/OptionListContext";
 import OptionList from "./OptionList";
 import jwtDecode from "jwt-decode";
+import ConfirmWindow from "./ConfirmWindow";
 
 const CommentCard = ({ comment, postID, level, allComments }) => {
   const [showReply, setShowReply] = useState(false);
@@ -50,6 +51,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const [total, setTotal] = useState();
   const { loadOptionListData } = useOptionListContext();
   const [showOptionList, setShowOptionList] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     if (isEdit) {
@@ -264,6 +266,13 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
 
   return (
     <>
+      {showConfirm && (
+        <ConfirmWindow
+          handleAction={handleDeleteComment}
+          setShowConfirm={setShowConfirm}
+          message="comment"
+        />
+      )}
       {showOptionList && (
         <OptionList
           setShowOptionList={setShowOptionList}
@@ -402,7 +411,8 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
               jwtDecode(localStorage.getItem("token")).email && (
               <MdDelete
                 className="commentIcons blue"
-                onClick={handleDeleteComment}
+                // onClick={handleDeleteComment}
+                onClick={() => setShowConfirm(true)}
               />
             )}
             {comment.userEmail ===

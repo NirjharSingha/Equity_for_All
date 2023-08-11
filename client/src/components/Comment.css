@@ -13,7 +13,7 @@ body {
 .commentContainer {
   width: 50vw;
   height: calc(100vh - 8.1rem);
-  z-index: 900;
+  z-index: 500;
   position: absolute;
   bottom: 4.1rem;
   left: calc(25vw + 2px);

@@ -1,0 +1,40 @@
+html,
+body {
+  font-size: 16px;
+}
+.blurComponent {
+  width: 75vw;
+  height: calc(100vh - 8.1rem);
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  background-color: rgba(207, 205, 205, 0.6);
+  z-index: 550;
+}
+.editPostContainer {
+  width: 35vw;
+  height: calc(100vh - 8.1rem);
+  position: fixed;
+  top: 4rem;
+  left: 20vw;
+  background-color: aliceblue;
+  z-index: 750;
+}
+.editPostCross {
+  position: fixed;
+  top: 4rem;
+  right: 25vw;
+  z-index: 750;
+  background-color: rgb(157, 62, 62);
+  width: 2.5rem;
+  height: 1.7rem;
+  border-radius: 10%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.editPostCross:hover {
+  cursor: pointer;
+  background-color: rgb(255, 0, 0);
+}

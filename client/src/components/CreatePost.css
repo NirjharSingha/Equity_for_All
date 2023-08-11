@@ -116,11 +116,3 @@ body {
 .categotyOptionClass {
   background-color: rgb(239, 113, 239);
 }
-.blurComponent {
-  width: 75vw;
-  height: calc(100vh - 8.1rem);
-  position: absolute;
-  top: 4rem;
-  background-color: rgba(207, 205, 205, 0.6);
-  z-index: 950;
-}

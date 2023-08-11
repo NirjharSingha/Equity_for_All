@@ -5,11 +5,19 @@ const handleUser = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const route = req.path;
   let updatedUser;
-  if (route === "/post") {
+  if (route === "/addPostID") {
     const { postID } = req.body;
     updatedUser = await User.findOneAndUpdate(
       { email: email },
       { $push: { posts: postID } },
+      { new: true }
+    );
+  }
+  if (route === "/removePostID") {
+    const { postID } = req.body;
+    updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      { $pull: { posts: postID } },
       { new: true }
     );
   }

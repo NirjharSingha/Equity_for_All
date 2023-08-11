@@ -27,7 +27,7 @@ ul {
   display: grid;
   background-color: rgb(3, 110, 124);
   grid-template-columns: 2rem 1fr 2fr 1fr 2rem;
-  z-index: 2;
+  z-index: 600;
 }
 .left {
   display: flex;

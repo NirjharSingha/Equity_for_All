@@ -16,6 +16,7 @@ import { useOptionListContext } from "../contexts/OptionListContext";
 import jwtDecode from "jwt-decode";
 import Share from "./Share";
 import OptionList from "./OptionList";
+import ConfirmWindow from "./ConfirmWindow";
 
 const PostCard = ({ post }) => {
   const [expanded, setExpanded] = useState(false);
@@ -52,6 +53,7 @@ const PostCard = ({ post }) => {
   });
   const [total, setTotal] = useState();
   const { loadOptionListData } = useOptionListContext();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -89,6 +91,22 @@ const PostCard = ({ post }) => {
       setPostArray((prevPosts) => {
         return prevPosts.filter((post) => post._id !== response.data.id);
       });
+
+      const data = {
+        email: response.data.email,
+        postID: response.data.id,
+      };
+      try {
+        const res = await axios.put(
+          "http://localhost:5000/user/removePostID",
+          data
+        );
+        if (res.status === 200) {
+          console.log("user updated");
+        }
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       console.log(response);
     }
@@ -179,6 +197,13 @@ const PostCard = ({ post }) => {
 
   return (
     <>
+      {showConfirm && (
+        <ConfirmWindow
+          handleAction={handleDeletePost}
+          setShowConfirm={setShowConfirm}
+          message="post"
+        />
+      )}
       {showOptionList && (
         <OptionList
           setShowOptionList={setShowOptionList}
@@ -207,7 +232,14 @@ const PostCard = ({ post }) => {
             >
               Edit Post
             </div>
-            <div className="editOrDelete" onClick={handleDeletePost}>
+            <div
+              className="editOrDelete"
+              // onClick={handleDeletePost}
+              onClick={() => {
+                setShowConfirm(true);
+                setShowEdit(false);
+              }}
+            >
               Delete Post
             </div>
           </div>

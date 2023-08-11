@@ -23,7 +23,8 @@ router.put(
   [verifyJWT, validateGmailUniqueness, upload.single("profilePic")],
   updateProfile
 );
-router.put("/post", handleUser);
+router.put("/addPostID", handleUser);
+router.put("/removePostID", handleUser);
 router.get("/info/:email", getUserInfo);
 
 export default router;

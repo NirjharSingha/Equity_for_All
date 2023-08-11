@@ -10,7 +10,7 @@
   min-height: 2.7rem;
   background-color: rgb(209, 207, 205);
   margin: 5px;
-  padding-left: 2px;
+  padding-left: 1px;
   padding-right: 5px;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -20,7 +20,20 @@
   font-weight: bold;
 }
 .friendOptionsButton:hover {
-  background-color: rgb(197, 193, 193);
+  background-color: rgb(162, 158, 158);
+}
+.selectedFriendOption {
+  min-height: 2.7rem;
+  background-color: rgb(57, 202, 238);
+  margin: 5px;
+  padding-left: 1px;
+  padding-right: 5px;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 2.7rem auto 3.8rem;
+  align-items: center;
+  font-weight: bold;
 }
 .friendIconContainer {
   width: 2.5rem;

@@ -178,15 +178,6 @@
   width: 0;
   height: 0;
 }
-.editPostContainer {
-  width: 35vw;
-  height: calc(100vh - 8.1rem);
-  position: absolute;
-  top: 4rem;
-  left: 20vw;
-  background-color: aliceblue;
-  z-index: 999;
-}
 .editPostButton {
   display: flex;
   flex-direction: column;

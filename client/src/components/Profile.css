@@ -141,3 +141,12 @@ body {
   position: fixed;
   background-color: #f1f1f1;
 }
+.friendProfileBlurContainer {
+  width: 50vw;
+  height: calc(100vh - 8.2rem);
+  position: fixed;
+  top: 4.05rem;
+  left: 25vw;
+  background-color: rgba(68, 57, 85, 0.8);
+  z-index: 999;
+}
