@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 import Post from "../models/Post.js";
 
-const getFriendsPostsInLastDay = asyncHandler(async (req, res) => {
+const getOtherPostIDs = asyncHandler(async (req, res) => {
   const userEmail = req.email;
 
   console.log("id fetch");
@@ -104,4 +104,4 @@ const getFriendsPostsInLastDay = asyncHandler(async (req, res) => {
   }
 });
 
-export default getFriendsPostsInLastDay;
+export default getOtherPostIDs;

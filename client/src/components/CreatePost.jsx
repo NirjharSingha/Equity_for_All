@@ -14,7 +14,7 @@ const CreatePost = () => {
   const [postCategory, setPostCategory] = useState("public");
   const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
-  const { setPostArray, selectedPost } = usePostContext();
+  const { setYourPostArray, selectedPost } = usePostContext();
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -129,13 +129,13 @@ const CreatePost = () => {
         } catch (e) {
           console.log(e);
         }
-        setPostArray((prevPosts) => [response.data.post, ...prevPosts]);
+        setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
       }
       if (response.status === 200) {
         console.log("post updated successfully");
         const updatedPost = response.data.updatedPost;
 
-        setPostArray((prevPosts) => {
+        setYourPostArray((prevPosts) => {
           return prevPosts.map((post) => {
             return post._id === updatedPost._id ? { ...updatedPost } : post;
           });

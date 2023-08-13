@@ -26,6 +26,7 @@ body {
   align-items: center;
   max-height: calc(100vh - 8.5rem - 50px);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .postDescription {
   width: 24vw;

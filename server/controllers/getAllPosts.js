@@ -1,9 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Post from "../models/Post.js";
-import mongoose from "mongoose";
 
 const getAllPosts = asyncHandler(async (req, res) => {
-  console.log("post fetch");
   const idsString = req.query.ids;
   if (idsString.length <= 1) {
     res.send([]);
@@ -11,10 +9,19 @@ const getAllPosts = asyncHandler(async (req, res) => {
   }
   const idArray = idsString.split(",").filter((id) => id);
 
-  const posts = await Post.find({ _id: { $in: idArray } }).select(
-    "-share -comment"
-  );
-  res.json(posts);
+  try {
+    const dataToSend = await Promise.all(
+      idArray.map(async (id) => {
+        const post = await Post.findOne({ _id: id }, "-share -comment");
+        return post;
+      })
+    );
+    console.log(dataToSend);
+    res.json(dataToSend);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "An error occurred while fetching posts" });
+  }
 });
 
 export default getAllPosts;

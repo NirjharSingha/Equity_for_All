@@ -45,5 +45,14 @@ body {
   background-color: rgb(25, 199, 252);
 }
 .selectedPostOption {
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 8px;
   background-color: rgb(25, 199, 252);
 }

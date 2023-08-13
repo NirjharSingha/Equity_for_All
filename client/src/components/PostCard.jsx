@@ -39,7 +39,7 @@ const PostCard = ({ post }) => {
   const [showEdit, setShowEdit] = useState(false);
   const { setEditPost, setSelectedPost } = usePostContext();
   const editContainerRef = useRef(null);
-  const { setPostArray } = usePostContext();
+  const { setYourPostArray } = usePostContext();
   const [showOptionList, setShowOptionList] = useState(false);
   const shareComponentRef = useRef(null);
   const [showPostShare, setShowPostShare] = useState(false);
@@ -88,7 +88,7 @@ const PostCard = ({ post }) => {
     if (response.status == 200) {
       console.log("post deleted successfully");
       setShowEdit(false);
-      setPostArray((prevPosts) => {
+      setYourPostArray((prevPosts) => {
         return prevPosts.filter((post) => post._id !== response.data.id);
       });
 
