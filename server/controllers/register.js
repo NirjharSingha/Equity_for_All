@@ -54,7 +54,7 @@ const register = asyncHandler(async (req, res) => {
   });
 
   await user.save();
-  const expiresIn = "1h";
+  const expiresIn = "1d";
   const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
   res
     .status(201)

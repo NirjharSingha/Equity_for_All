@@ -179,6 +179,7 @@ const PostCard = ({ post }) => {
   }, []);
 
   useEffect(() => {
+    console.log("post card loaded");
     const handleOutsideClick = (event) => {
       if (
         shareComponentRef.current &&
@@ -234,7 +235,6 @@ const PostCard = ({ post }) => {
             </div>
             <div
               className="editOrDelete"
-              // onClick={handleDeletePost}
               onClick={() => {
                 setShowConfirm(true);
                 setShowEdit(false);
@@ -291,7 +291,9 @@ const PostCard = ({ post }) => {
                 ...
               </div>
             </div>
-            <p className="postTime">{post.createdAt}</p>
+            <p className="postTime">
+              {new Date(post.createdAt).toLocaleString()}
+            </p>
           </div>
         </div>
         <div className={expanded ? "expandedPostContent" : "postContent"}>

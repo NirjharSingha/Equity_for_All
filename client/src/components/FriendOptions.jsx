@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./FriendOptions.css";
 import {
   BsFillPersonPlusFill,
@@ -9,9 +9,63 @@ import {
   BsPersonFillDown,
 } from "react-icons/bs";
 import { FaUserFriends, FaBirthdayCake } from "react-icons/fa";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 const FriendOptions = () => {
   const [selectedOption, setSelectedOption] = useState(0);
+  const [displayArray, setDisplayArray] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const decodedToken = jwtDecode(localStorage.getItem("token"));
+        const email = decodedToken.email;
+        let flag;
+
+        if (selectedOption === 0) {
+          flag = "friends";
+        }
+        if (selectedOption === 1) {
+          flag = "friendRequestSend";
+        }
+        if (selectedOption === 2) {
+          flag = "friendRequestReceived";
+        }
+        if (selectedOption === 4) {
+          flag = "followers";
+        }
+        if (selectedOption === 5) {
+          flag = "followings";
+        }
+        if (selectedOption === 6) {
+          flag = "friendsAndFollowers";
+        }
+        if (selectedOption === 7) {
+          flag = "friendsAndFollowings";
+        }
+        if (selectedOption === 8) {
+          flag = "blockList";
+        }
+
+        const queryParams = new URLSearchParams({
+          flag: flag,
+        });
+        const response = await axios.get(
+          `http://localhost:5000/user/getFriends/${email}?${queryParams}`
+        );
+        if (response) {
+          setDisplayArray(response.data);
+          console.log(response);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [selectedOption]);
+
   return (
     <div className="friendOptionsContainer">
       <div
@@ -35,7 +89,7 @@ const FriendOptions = () => {
         <div className="friendIconContainer">
           <BsPersonFillAdd className="friendIcon" />
         </div>
-        <p className="friendButtonText">Friend request send</p>
+        <p className="friendButtonText">Request send</p>
         <p className="friendCount">999K+</p>
       </div>
       <div
@@ -47,7 +101,7 @@ const FriendOptions = () => {
         <div className="friendIconContainer">
           <BsPersonFillDown className="friendIcon" />
         </div>
-        <p className="friendButtonText">Friend request received</p>
+        <p className="friendButtonText">Request received</p>
         <p className="friendCount">999K+</p>
       </div>
       <div

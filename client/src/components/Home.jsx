@@ -10,9 +10,7 @@ const Home = () => {
 
   return (
     <div className="homeDiv">
-      <div className="homeContainer">
-        <PersonCard />
-      </div>
+      <div className="homeContainer"></div>
     </div>
   );
 };

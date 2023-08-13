@@ -12,7 +12,6 @@ const LikesContextProvider = ({ children }) => {
     if (!isInitialMount.current) {
       handleLikePut();
     } else {
-      console.log("on initial mount");
       isInitialMount.current = false;
     }
   };

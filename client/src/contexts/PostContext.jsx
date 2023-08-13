@@ -10,6 +10,9 @@ const PostContextProvider = ({ children }) => {
   const [editPost, setEditPost] = useState(false);
   const [postArray, setPostArray] = useState([]);
   const [selectedPost, setSelectedPost] = useState();
+  const [showYourPost, setShowYourPost] = useState(false);
+  const [postInfiniteScrollIndex, setPostInfiniteScrollIndex] = useState(0);
+  const [postIds, setPostIds] = useState([]);
   return (
     <PostContext.Provider
       value={{
@@ -19,6 +22,12 @@ const PostContextProvider = ({ children }) => {
         setPostArray,
         selectedPost,
         setSelectedPost,
+        showYourPost,
+        setShowYourPost,
+        postInfiniteScrollIndex,
+        setPostInfiniteScrollIndex,
+        postIds,
+        setPostIds,
       }}
     >
       {children}

@@ -34,5 +34,5 @@ app.use("/api", apiRouter);
 const server = http.createServer(app);
 
 server.listen(port, () => {
-  console.log("hello world 4");
+  console.log("hello world");
 });

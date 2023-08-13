@@ -116,7 +116,8 @@ const CreatePost = () => {
           postID: response.data.postId,
         };
         console.log("post created");
-        setInputValue("");
+        setSelectedFiles([]);
+        setPostCategory("public");
         try {
           const res = await axios.put(
             "http://localhost:5000/user/addPostID",

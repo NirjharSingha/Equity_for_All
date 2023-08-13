@@ -24,8 +24,8 @@ const FriendProfile = ({ setShowFriendProfile }) => {
   }, []);
 
   return (
-    <div className="friendProfileBlurContainer">
-      <div className="friendProfileContainer" ref={friendProfileRef}>
+    <div className="friendProfileBlurContainer" ref={friendProfileRef}>
+      <div className="friendProfileContainer">
         <div className="updateProfileCrossContainer">
           <button
             className="updateProfileCross"

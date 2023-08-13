@@ -183,6 +183,10 @@ const postSchema = mongoose.Schema(
       type: String,
       default: "public",
     },
+    group: {
+      type: String,
+      default: "",
+    },
     like: {
       type: Array,
       default: [],
@@ -216,12 +220,10 @@ const postSchema = mongoose.Schema(
       default: [],
     },
     createdAt: {
-      type: String,
-      default: "",
+      type: Date,
     },
     updatedAt: {
-      type: String,
-      default: "",
+      type: Date,
     },
   },
   {

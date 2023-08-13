@@ -42,11 +42,23 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    friendRequestSend: {
+      type: Array,
+      default: [],
+    },
+    friendRequestReceived: {
+      type: Array,
+      default: [],
+    },
     followers: {
       type: Array,
       default: [],
     },
     followings: {
+      type: Array,
+      default: [],
+    },
+    blockList: {
       type: Array,
       default: [],
     },
