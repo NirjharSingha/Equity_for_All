@@ -7,13 +7,22 @@ import EditPost from "./EditPost";
 import { usePostContext } from "../contexts/PostContext";
 
 const Posts = () => {
-  const { postArray, setPostArray, setShowYourPost, postIds, setPostIds } =
-    usePostContext();
+  const {
+    postArray,
+    setPostArray,
+    setShowYourPost,
+    postIds,
+    setPostIds,
+    postInfiniteScrollIndex,
+    setPostInfiniteScrollIndex,
+    shouldFetchPostIds,
+    setShouldFetchPostIds,
+  } = usePostContext();
   const { editPost } = usePostContext();
   const divRef = useRef(null);
-  const [postInfiniteScrollIndex, setPostInfiniteScrollIndex] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
+  const [componentDidMount, setComponentDidMount] = useState(true);
 
   const handleScroll = () => {
     const currentScrollTop = divRef.current.scrollTop;
@@ -43,9 +52,20 @@ const Posts = () => {
   }, []);
 
   useEffect(() => {
+    setPostArray([]);
+    setPostInfiniteScrollIndex(0);
+
+    return () => {
+      setPostIds([]);
+      setPostArray([]);
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchPostDetails = async () => {
       let arrayToSend = [];
       if (postIds.length > 0 && postInfiniteScrollIndex * 8 <= postIds.length) {
+        console.log(postInfiniteScrollIndex);
         for (
           let index = postInfiniteScrollIndex * 8;
           index < postIds.length && index < postInfiniteScrollIndex * 8 + 8;
@@ -71,7 +91,11 @@ const Posts = () => {
         }
       }
     };
-    fetchPostDetails();
+    if (!componentDidMount) {
+      fetchPostDetails();
+    } else {
+      setComponentDidMount(false);
+    }
   }, [postInfiniteScrollIndex, postIds]);
 
   useEffect(() => {
@@ -92,6 +116,9 @@ const Posts = () => {
       }
     };
     fetchAllPostIDs();
+    if (shouldFetchPostIds) {
+      setShouldFetchPostIds(false);
+    }
   }, []);
 
   return (

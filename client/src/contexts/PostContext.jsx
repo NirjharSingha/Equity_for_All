@@ -13,6 +13,7 @@ const PostContextProvider = ({ children }) => {
   const [showYourPost, setShowYourPost] = useState(false);
   const [postInfiniteScrollIndex, setPostInfiniteScrollIndex] = useState(0);
   const [postIds, setPostIds] = useState([]);
+  const [shouldFetchPostIds, setShouldFetchPostIds] = useState(true);
   return (
     <PostContext.Provider
       value={{
@@ -28,6 +29,8 @@ const PostContextProvider = ({ children }) => {
         setPostInfiniteScrollIndex,
         postIds,
         setPostIds,
+        shouldFetchPostIds,
+        setShouldFetchPostIds,
       }}
     >
       {children}

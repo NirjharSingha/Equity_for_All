@@ -3,6 +3,7 @@ import Post from "../models/Post.js";
 import mongoose from "mongoose";
 
 const getAllPosts = asyncHandler(async (req, res) => {
+  console.log("post fetch");
   const idsString = req.query.ids;
   if (idsString.length <= 1) {
     res.send([]);
