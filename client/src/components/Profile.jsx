@@ -3,9 +3,11 @@ import "./Profile.css";
 import { useEffect, useState } from "react";
 import UpdateProfile from "./UpdateProfile";
 import axios from "axios";
+import { useFriendContext } from "../contexts/FriendContext";
 
 const Profile = ({ own }) => {
   const [profileData, setProfileData] = useState({});
+  const { setShowFriendProfile } = useFriendContext();
 
   const fetchProfileData = async () => {
     console.log("fetching profile data");
@@ -55,6 +57,12 @@ const Profile = ({ own }) => {
       <div className="profileContainer">
         <div className="profileImageContainer">
           <img src={profileData.profilePic} className="profileImage" />
+          <button
+            className="friendProfileCross"
+            onClick={() => setShowFriendProfile(false)}
+          >
+            X
+          </button>
         </div>
         <div
           className={

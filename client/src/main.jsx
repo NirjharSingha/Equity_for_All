@@ -8,6 +8,7 @@ import LikesContextProvider from "./contexts/LikesContext.jsx";
 import DisplayUser from "./contexts/DisplayUserContext.jsx";
 import PostContext from "./contexts/PostContext.jsx";
 import OptionListContextProvider from "./contexts/OptionListContext.jsx";
+import FriendContextProvider from "./contexts/FriendContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <LikesContextProvider>
             <PostContext>
               <OptionListContextProvider>
-                <App />
+                <FriendContextProvider>
+                  <App />
+                </FriendContextProvider>
               </OptionListContextProvider>
             </PostContext>
           </LikesContextProvider>

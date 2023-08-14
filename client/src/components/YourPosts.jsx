@@ -15,6 +15,7 @@ const YourPosts = () => {
     fetchPostDetails,
     handleScroll,
     fetchPostIds,
+    postPerPage,
   } = usePostContext();
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
@@ -46,7 +47,12 @@ const YourPosts = () => {
 
   useEffect(() => {
     if (!componentDidMount) {
-      fetchPostDetails(yourPostIds, yourPostPage, setYourPostArray);
+      fetchPostDetails(
+        yourPostIds,
+        yourPostPage,
+        setYourPostArray,
+        postPerPage
+      );
     } else {
       setComponentDidMount(false);
     }

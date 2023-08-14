@@ -140,8 +140,7 @@ li {
   text-decoration: none;
   color: #fff;
 }
-/* Custom scrollbar styles */
+
 .footerScrollContainer::-webkit-scrollbar {
-  width: 1px;
   display: none;
 }

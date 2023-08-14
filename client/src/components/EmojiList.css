@@ -21,3 +21,6 @@ body {
   z-index: 600;
   background-color: azure;
 }
+.allEmojis::-webkit-scrollbar {
+  display: none;
+}

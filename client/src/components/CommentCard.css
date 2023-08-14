@@ -167,6 +167,6 @@ body {
 .displayNone {
   display: none;
 }
-::-webkit-scrollbar {
+.commentUser::-webkit-scrollbar {
   display: none;
 }

@@ -25,3 +25,16 @@ body {
   display: flex;
   justify-content: center;
 }
+.friendContainer::-webkit-scrollbar {
+  width: 2px;
+}
+.friendContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.friendContainer::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.friendContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
+}

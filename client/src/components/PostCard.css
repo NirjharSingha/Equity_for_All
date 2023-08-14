@@ -212,6 +212,6 @@
   cursor: pointer;
   text-decoration: underline;
 }
-::-webkit-scrollbar {
+.postUserName::-webkit-scrollbar {
   display: none;
 }

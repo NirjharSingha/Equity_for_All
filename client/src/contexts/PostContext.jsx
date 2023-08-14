@@ -17,14 +17,20 @@ const PostContextProvider = ({ children }) => {
   const [yourPostArray, setYourPostArray] = useState([]);
   const [yourPostPage, setYourPostPage] = useState(0);
   const [yourPostIds, setYourPostIds] = useState([]);
+  const [postPerPage] = useState(8);
 
-  const fetchPostDetails = async (postIds, postPage, setPostArray) => {
+  const fetchPostDetails = async (
+    postIds,
+    postPage,
+    setPostArray,
+    postPerPage
+  ) => {
     let arrayToSend = [];
-    if (postIds.length > 0 && postPage * 8 <= postIds.length) {
+    if (postIds.length > 0 && postPage * postPerPage <= postIds.length) {
       console.log(postPage);
       for (
-        let index = postPage * 8;
-        index < postIds.length && index < postPage * 8 + 8;
+        let index = postPage * postPerPage;
+        index < postIds.length && index < postPage * postPerPage + postPerPage;
         index++
       ) {
         const element = postIds[index];
@@ -106,6 +112,7 @@ const PostContextProvider = ({ children }) => {
         setYourPostPage,
         yourPostIds,
         setYourPostIds,
+        postPerPage,
         fetchPostDetails,
         fetchPostIds,
         handleScroll,

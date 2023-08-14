@@ -346,17 +346,25 @@ body {
   display: flex;
   justify-content: center;
 }
+.registerTextArea_1::-webkit-scrollbar,
+.registerTextArea_2::-webkit-scrollbar,
 .registerLabel::-webkit-scrollbar {
   width: 2px;
   height: 1px;
 }
+.registerTextArea_1::-webkit-scrollbar,
+.registerTextArea_2::-webkit-scrollbar,
 .registerLabel::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+.registerTextArea_1::-webkit-scrollbar,
+.registerTextArea_2::-webkit-scrollbar,
 .registerLabel::-webkit-scrollbar-thumb {
   background-color: #706d6d;
   border-radius: 5px;
 }
+.registerTextArea_1::-webkit-scrollbar,
+.registerTextArea_2::-webkit-scrollbar,
 .registerLabel::-webkit-scrollbar-thumb:hover {
   background-color: #3f3d3d;
 }

@@ -2,14 +2,13 @@ import React from "react";
 import { useState } from "react";
 import FriendProfile from "./FriendProfile";
 import "./PersonCard.css";
+import { useFriendContext } from "../contexts/FriendContext";
 
 const PersonCard = () => {
-  const [showFriendProfile, setShowFriendProfile] = useState(false);
+  const { showFriendProfile, setShowFriendProfile } = useFriendContext();
   return (
     <div>
-      {showFriendProfile && (
-        <FriendProfile setShowFriendProfile={setShowFriendProfile} />
-      )}
+      {showFriendProfile && <FriendProfile />}
       <div className="personCardContainer">
         <img
           src="http://localhost:5000/uploads/1690475843217-curriculum.png"

@@ -78,12 +78,20 @@
   overflow-x: auto;
   white-space: nowrap;
 }
-::-webkit-scrollbar {
+.horizontalBar::-webkit-scrollbar {
   display: none;
 }
-body {
-  scrollbar-width: none;
+.verticalContainer::-webkit-scrollbar {
+  width: 2.2px;
+  max-height: 5px;
 }
-body {
-  -ms-overflow-style: none;
+.verticalContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.verticalContainer::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.verticalContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
 }

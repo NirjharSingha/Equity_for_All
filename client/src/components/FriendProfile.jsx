@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import Profile from "./Profile";
+import { useFriendContext } from "../contexts/FriendContext";
 
-const FriendProfile = ({ setShowFriendProfile }) => {
-  const friendProfileRef = useRef(null);
+const FriendProfile = () => {
+  const { showFriendProfile, setShowFriendProfile, friendProfileRef } =
+    useFriendContext();
 
   useEffect(() => {
     console.log("friend profile component loaded");
@@ -26,14 +28,6 @@ const FriendProfile = ({ setShowFriendProfile }) => {
   return (
     <div className="friendProfileBlurContainer" ref={friendProfileRef}>
       <div className="friendProfileContainer">
-        <div className="updateProfileCrossContainer">
-          <button
-            className="updateProfileCross"
-            onClick={() => setShowFriendProfile(false)}
-          >
-            X
-          </button>
-        </div>
         <Profile own={false} />
       </div>
     </div>
