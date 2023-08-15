@@ -1,0 +1,21 @@
+.sharePage {
+  width: 70vw;
+  max-height: 60vh;
+  margin-top: 20vh;
+  margin-bottom: 20vh;
+  margin-left: 15vw;
+  overflow-y: auto;
+}
+.sharePage::-webkit-scrollbar {
+  width: 2px;
+}
+.sharePage::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.sharePage::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.sharePage::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
+}

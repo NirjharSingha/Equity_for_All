@@ -78,6 +78,7 @@
   overflow-x: auto;
   white-space: nowrap;
 }
+.optionListName::-webkit-scrollbar,
 .horizontalBar::-webkit-scrollbar {
   display: none;
 }

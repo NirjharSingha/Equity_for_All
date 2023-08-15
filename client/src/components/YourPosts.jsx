@@ -40,7 +40,7 @@ const YourPosts = () => {
     setYourPostPage(0);
 
     return () => {
-      setYourPostIds([]);
+      setYourPostPage(0);
       setYourPostArray([]);
     };
   }, []);
@@ -64,9 +64,10 @@ const YourPosts = () => {
 
   return (
     <div className="postContainer" ref={divRef}>
-      {yourPostArray.map((post) => (
-        <PostCard key={post._id} post={post} />
-      ))}
+      {yourPostArray.map(
+        (post) =>
+          post && <PostCard key={post._id} post={post} shareFlag={false} />
+      )}
     </div>
   );
 };

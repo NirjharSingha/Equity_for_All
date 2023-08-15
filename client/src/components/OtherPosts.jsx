@@ -16,6 +16,8 @@ const OtherPosts = () => {
     handleScroll,
     fetchPostIds,
     postPerPage,
+    shouldFetchOtherPostIds,
+    setShouldFetchOtherPostIds,
   } = usePostContext();
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
@@ -38,9 +40,15 @@ const OtherPosts = () => {
   useEffect(() => {
     setOtherPostArray([]);
     setOtherPostPage(0);
+    fetchPostDetails(
+      otherPostIds,
+      otherPostPage,
+      setOtherPostArray,
+      postPerPage
+    );
 
     return () => {
-      setOtherPostIds([]);
+      setOtherPostPage(0);
       setOtherPostArray([]);
     };
   }, []);
@@ -59,13 +67,19 @@ const OtherPosts = () => {
   }, [otherPostPage, otherPostIds]);
 
   useEffect(() => {
-    fetchPostIds(`http://localhost:5000/post/getOtherPostIDs`, setOtherPostIds);
+    if (shouldFetchOtherPostIds) {
+      fetchPostIds(
+        `http://localhost:5000/post/getOtherPostIDs`,
+        setOtherPostIds
+      );
+      setShouldFetchOtherPostIds(false);
+    }
   }, []);
 
   return (
     <div className="postContainer" ref={divRef}>
       {otherPostArray.map((post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard key={post._id} post={post} shareFlag={false} />
       ))}
     </div>
   );

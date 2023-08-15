@@ -9,14 +9,16 @@ export function useUserInfoContext() {
 
 const UserInfoProvider = ({ children }) => {
   const getUserInfo = async (email) => {
-    const response = await axios.get(
-      `http://localhost:5000/user/info/${email}`
-    );
-    const userInfo = {
-      name: response.data.name,
-      profilePic: response.data.profilePic,
-    };
-    return userInfo;
+    if (email !== undefined) {
+      const response = await axios.get(
+        `http://localhost:5000/user/info/${email}`
+      );
+      const userInfo = {
+        name: response.data.name,
+        profilePic: response.data.profilePic,
+      };
+      return userInfo;
+    }
   };
 
   return (

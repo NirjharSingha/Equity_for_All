@@ -18,6 +18,7 @@ const PostContextProvider = ({ children }) => {
   const [yourPostPage, setYourPostPage] = useState(0);
   const [yourPostIds, setYourPostIds] = useState([]);
   const [postPerPage] = useState(8);
+  const [shouldFetchOtherPostIds, setShouldFetchOtherPostIds] = useState(true);
 
   const fetchPostDetails = async (
     postIds,
@@ -116,6 +117,8 @@ const PostContextProvider = ({ children }) => {
         fetchPostDetails,
         fetchPostIds,
         handleScroll,
+        shouldFetchOtherPostIds,
+        setShouldFetchOtherPostIds,
       }}
     >
       {children}

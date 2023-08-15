@@ -11,7 +11,7 @@ const PersonCard = () => {
       {showFriendProfile && <FriendProfile />}
       <div className="personCardContainer">
         <img
-          src="http://localhost:5000/uploads/1690475843217-curriculum.png"
+          src="http://localhost:5000/uploads/1691885027943-Screenshot from 2023-08-04 11-09-25.png"
           alt=""
           className="personImg personCardElement"
           onClick={() => setShowFriendProfile(true)}

@@ -18,7 +18,7 @@ import Share from "./Share";
 import OptionList from "./OptionList";
 import ConfirmWindow from "./ConfirmWindow";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, shareFlag }) => {
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
@@ -32,7 +32,7 @@ const PostCard = ({ post }) => {
   const { isFileExists } = useVerifyFileContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
   const { displayUser } = useDisplayUserContext();
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const [showEditButton, setShowEditButton] = useState(false);
@@ -119,7 +119,7 @@ const PostCard = ({ post }) => {
   };
 
   useEffect(() => {
-    if (!mouseOnAllLikes && !mouseOnLike) {
+    if (!mouseOnAllLikes && !mouseOnLike && !shareFlag) {
       setShouldDisplayAllLikes(false);
     }
   }, [mouseOnAllLikes, mouseOnLike]);
@@ -141,8 +141,12 @@ const PostCard = ({ post }) => {
   };
 
   useEffect(() => {
-    loadOptionListData(likesData, selected, setLikesData, setTotal);
-    checkInitialMount(isInitialMount, handleLikePut);
+    if (!shareFlag) {
+      loadOptionListData(likesData, selected, setLikesData, setTotal);
+    }
+    if (!shareFlag) {
+      checkInitialMount(isInitialMount, handleLikePut);
+    }
   }, [selected]);
 
   useEffect(() => {
@@ -151,10 +155,16 @@ const PostCard = ({ post }) => {
       setUserName(name), setUserImg(profilePic);
       displayUser(isFileExists, setShouldDisplayUserImg, profilePic);
     };
-    displayPostUser();
-    setUserLikes(post, setSelected, setPrevLike);
-    const email = jwtDecode(localStorage.getItem("token")).email;
-    if (post.userEmail === email) {
+
+    if (!shareFlag) {
+      displayPostUser();
+      setUserLikes(post, setSelected, setPrevLike);
+    }
+    let email;
+    if (!shareFlag) {
+      email = jwtDecode(localStorage.getItem("token")).email;
+    }
+    if (!shareFlag && post.userEmail === email) {
       setShowEditButton(true);
     }
   }, []);
@@ -214,7 +224,7 @@ const PostCard = ({ post }) => {
       )}
       {showPostShare && (
         <div ref={shareComponentRef}>
-          <Share />
+          <Share post={post} />
         </div>
       )}
       {showComments && (
@@ -357,60 +367,67 @@ const PostCard = ({ post }) => {
             </button>{" "}
           </div>
         </div>
-        <div className="postOptions">
-          <div
-            className="likeContainer flexContainerPost"
-            onMouseEnter={() => {
-              setMouseOnLike(true);
-              setShouldDisplayAllLikes(true);
-            }}
-            onMouseLeave={handleMouseLeaveFromLike}
-            onClick={() => setSelected("")}
-          >
-            {selected === "like" ? (
-              <AiFillLike className="iconFlex blue" />
-            ) : selected === "dislike" ? (
-              <AiFillDislike className="iconFlex blue" />
-            ) : selected === "laugh" ? (
-              <FaLaughSquint className="iconFlex yellow" />
-            ) : selected === "angry" ? (
-              <FaAngry className="iconFlex red" />
-            ) : selected === "sad" ? (
-              <FaSadCry className="iconFlex yellow" />
-            ) : selected === "love" ? (
-              <FcLike className="iconFlex" />
-            ) : (
-              <AiOutlineLike className="likeIcon iconFlex" />
-            )}{" "}
-            <span className="postOptionText">
-              {selected === "" ? "Like" : ""}
-            </span>
-          </div>
-          <div className="commentIcon" onClick={() => setShowComments(true)}>
-            <FaRegComment className="iconFlex" />
-            <span>Comment</span>
-          </div>
-          <div
-            className="shareIcon"
-            onClick={() => setShowPostShare((prev) => !prev)}
-          >
-            <PiShareFatBold className="iconFlex" />
-            <span>Share</span>
-          </div>
-        </div>
-        <div className="postOptionCount">
-          <p
-            className="postOptionCountText"
-            onClick={() => {
-              setSelectedPost(post);
-              setShowOptionList((prev) => !prev);
-            }}
-          >
-            {`${total} reactions`}
-          </p>
-          <p></p>
-          <p className="postOptionCountText">all shares</p>
-        </div>
+        {!shareFlag && (
+          <>
+            <div className="postOptions">
+              <div
+                className="likeContainer flexContainerPost"
+                onMouseEnter={() => {
+                  setMouseOnLike(true);
+                  setShouldDisplayAllLikes(true);
+                }}
+                onMouseLeave={handleMouseLeaveFromLike}
+                onClick={() => setSelected("")}
+              >
+                {selected === "like" ? (
+                  <AiFillLike className="iconFlex blue" />
+                ) : selected === "dislike" ? (
+                  <AiFillDislike className="iconFlex blue" />
+                ) : selected === "laugh" ? (
+                  <FaLaughSquint className="iconFlex yellow" />
+                ) : selected === "angry" ? (
+                  <FaAngry className="iconFlex red" />
+                ) : selected === "sad" ? (
+                  <FaSadCry className="iconFlex yellow" />
+                ) : selected === "love" ? (
+                  <FcLike className="iconFlex" />
+                ) : (
+                  <AiOutlineLike className="likeIcon iconFlex" />
+                )}{" "}
+                <span className="postOptionText">
+                  {selected === "" ? "Like" : ""}
+                </span>
+              </div>
+              <div
+                className="commentIcon"
+                onClick={() => setShowComments(true)}
+              >
+                <FaRegComment className="iconFlex" />
+                <span>Comment</span>
+              </div>
+              <div
+                className="shareIcon"
+                onClick={() => setShowPostShare((prev) => !prev)}
+              >
+                <PiShareFatBold className="iconFlex" />
+                <span>Share</span>
+              </div>
+            </div>
+            <div className="postOptionCount">
+              <p
+                className="postOptionCountText"
+                onClick={() => {
+                  setSelectedPost(post);
+                  setShowOptionList((prev) => !prev);
+                }}
+              >
+                {`${total} reactions`}
+              </p>
+              <p></p>
+              <p className="postOptionCountText"></p>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
