@@ -219,6 +219,10 @@ const postSchema = mongoose.Schema(
       type: [commentSchema],
       default: [],
     },
+    commentID: {
+      type: Array,
+      default: [],
+    },
     createdAt: {
       type: Date,
     },

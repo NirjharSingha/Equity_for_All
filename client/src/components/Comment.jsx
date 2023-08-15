@@ -18,6 +18,9 @@ const Comment = ({ setShowComments, post }) => {
   const [comments, setComments] = useState([]);
   const [isRotating, setIsRotating] = useState(false);
   const { getUserInfo } = useUserInfoContext();
+  const [commentPage, setCommentPage] = useState(0);
+  const [commentLimit] = useState(3);
+  const [commentIds, setCommentIds] = useState([]);
 
   const handleRotateClick = async () => {
     setIsRotating(true);
@@ -145,25 +148,25 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   useEffect(() => {
-    const fetchAllComments = async () => {
+    const fetchCommentIds = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/post/postOptions/getComments/${post._id}`,
+          `http://localhost:5000/post/postOptions/getCommentIds/${post._id}`,
           {
             headers: {
               token: token,
             },
           }
         );
-        const getComments = response.data.comment.reverse();
-        setComments(getComments);
+        setCommentIds(response.data.commentID.reverse());
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error("Error fetching comment count:", error);
       }
     };
 
-    fetchAllComments();
+    fetchCommentIds();
+
     const eventSource = new EventSource("http://localhost:5000/api/commentSSE");
 
     eventSource.addEventListener("message", handleSSEData);
@@ -173,6 +176,46 @@ const Comment = ({ setShowComments, post }) => {
       eventSource.close();
     };
   }, []);
+
+  useEffect(() => {
+    const fetchAllComments = async () => {
+      let arrayToSend = [];
+      if (
+        commentIds.length > 0 &&
+        commentPage * commentLimit <= commentIds.length
+      ) {
+        console.log(commentPage);
+        for (
+          let index = commentPage * commentLimit;
+          index < commentIds.length &&
+          index < commentPage * commentLimit + commentLimit;
+          index++
+        ) {
+          const element = commentIds[index];
+          arrayToSend.push(element);
+        }
+      }
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:5000/post/postOptions/getComments/${post._id}?ids=${arrayToSend}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        const getComments = response.data;
+        setComments((prev) => [...prev, ...getComments]);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+    if (commentIds.length > 0) {
+      console.log(commentIds);
+      fetchAllComments();
+    }
+  }, [commentIds, commentPage]);
 
   const handleCommentSubmit = async () => {
     if (commentInput === "") {
@@ -254,6 +297,10 @@ const Comment = ({ setShowComments, post }) => {
     };
   }, []);
 
+  const handleViewComment = () => {
+    setCommentPage((prev) => prev + 1);
+  };
+
   return (
     <div className="commentContainer" ref={commentContainerRef}>
       <div className="commentCrossContainer">
@@ -268,7 +315,7 @@ const Comment = ({ setShowComments, post }) => {
         </button>
       </div>
       <div className="allComments">
-        {comments.map((comment, index) => (
+        {comments.map((comment) => (
           <div key={comment.commentID}>
             <CommentCard
               key={comment.commentID}
@@ -279,6 +326,11 @@ const Comment = ({ setShowComments, post }) => {
             />
           </div>
         ))}
+        {(commentPage + 1) * commentLimit < commentIds.length && (
+          <button className="viewMoreComments" onClick={handleViewComment}>
+            View more comments
+          </button>
+        )}
       </div>
       <div className="writeAComment">
         {showEmojis && (

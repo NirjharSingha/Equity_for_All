@@ -12,7 +12,10 @@ const getAllPosts = asyncHandler(async (req, res) => {
   try {
     const dataToSend = await Promise.all(
       idArray.map(async (id) => {
-        const post = await Post.findOne({ _id: id }, "-share -comment");
+        const post = await Post.findOne(
+          { _id: id },
+          "-share -comment -commentCount"
+        );
         return post;
       })
     );

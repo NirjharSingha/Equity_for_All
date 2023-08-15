@@ -12,7 +12,7 @@ body {
 }
 .commentContainer {
   width: 50vw;
-  height: calc(100vh - 8.1rem);
+  height: calc(100vh - 8.15rem);
   z-index: 500;
   position: absolute;
   bottom: 4.1rem;
@@ -54,6 +54,22 @@ body {
   margin-top: 5px;
   overflow-y: auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.viewMoreComments {
+  width: auto;
+  display: inline-block;
+  margin-top: 0.4rem;
+  border: none;
+  font-weight: bold;
+  color: #636161;
+  text-align: center;
+  background-color: rgb(248, 244, 244);
+}
+.viewMoreComments:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 .allComments::-webkit-scrollbar {
   width: 2px;

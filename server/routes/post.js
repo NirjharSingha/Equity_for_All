@@ -12,6 +12,7 @@ import editPost from "../controllers/editPost.js";
 import deletePost from "../controllers/deletePost.js";
 import getOtherPostIDs from "../controllers/otherPostIDs.js";
 import yourPostIDs from "../controllers/yourPostIDs.js";
+import getCommentIds from "../controllers/getCommentIds.js";
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.put("/postOptions/commentLike", verifyJWT, handleCommentLike);
 router.put("/postOptions/createComment", verifyJWT, createComment);
 router.put("/postOptions/editOrDeleteComment", verifyJWT, editOrDeleteComment);
 router.get("/postOptions/getComments/:postId", verifyJWT, getComments);
+router.get("/postOptions/getCommentIds/:postId", verifyJWT, getCommentIds);
 router.delete("/deletePost/:postId", verifyJWT, deletePost);
 router.get("/getOtherPostIDs", verifyJWT, getOtherPostIDs);
 router.get("/getYourPostIDs", verifyJWT, yourPostIDs);

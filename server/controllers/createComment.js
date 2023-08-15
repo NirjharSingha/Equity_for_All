@@ -86,7 +86,12 @@ const createComment = asyncHandler(async (req, res) => {
     if (level === 0) {
       updatedPost = await Post.findOneAndUpdate(
         { _id: postId },
-        { $push: { comment: comment } },
+        {
+          $push: {
+            comment: comment,
+            commentID: commentID,
+          },
+        },
         { new: true }
       );
     } else if (level === 1) {
