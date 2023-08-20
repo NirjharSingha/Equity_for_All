@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Friends.css";
 import { useEffect } from "react";
 import PersonCard from "./PersonCard";
@@ -24,11 +24,22 @@ const Friends = () => {
     setSuggessionsID,
   } = useFriendContext();
 
+  const [flags, setFlags] = useState({
+    friendFlag: false,
+    reqSendFlag: false,
+    reqReceivedFlag: false,
+    blockFlag: false,
+  });
+
   const [idToDisplay, setIdToDisplay] = useState([]);
   const [page, setPage] = useState(0);
+  const divRef = useRef(null);
+  const [prevScrollTop, setPrevScrollTop] = useState(0);
+  const [cardPerPage] = useState(9);
 
   useEffect(() => {
     console.log("friend component loaded");
+    setSelectedOption(0);
   }, []);
 
   const fetchData = async () => {
@@ -43,11 +54,11 @@ const Friends = () => {
       setBlockID(response.data.blockList);
       setReqSendID(response.data.friendRequestSend);
       setReqReceivedID(response.data.friendRequestReceived);
-      setPage(0);
     }
   };
 
   const fetchSuggessionData = async (dataToSend) => {
+    console.log("fetching suggessions");
     const token = localStorage.getItem("token");
     const response = await axios.get(
       `http://localhost:5000/user/getFriendSuggessions?ids=${dataToSend}`,
@@ -78,22 +89,72 @@ const Friends = () => {
   };
 
   useEffect(() => {
+    setFlags((prevFlags) => ({
+      ...prevFlags,
+      friendFlag: true,
+    }));
+  }, [friendsID]);
+
+  useEffect(() => {
+    setFlags((prevFlags) => ({
+      ...prevFlags,
+      reqSendFlag: true,
+    }));
+  }, [reqSendID]);
+
+  useEffect(() => {
+    setFlags((prevFlags) => ({
+      ...prevFlags,
+      reqReceivedFlag: true,
+    }));
+  }, [reqReceivedID]);
+
+  useEffect(() => {
+    setFlags((prevFlags) => ({
+      ...prevFlags,
+      blockFlag: true,
+    }));
+  }, [blockID]);
+
+  useEffect(() => {
     fetchData();
-    setPage(0);
   }, []);
 
   useEffect(() => {
+    // if (selectedOption === 0) {
+    //   setIdToDisplay(friendsID);
+    // } else if (selectedOption === 1) {
+    //   setIdToDisplay(reqSendID);
+    // } else if (selectedOption === 2) {
+    //   setIdToDisplay(reqReceivedID);
+    // } else if (selectedOption === 3) {
+    //   setIdToDisplay(suggessionsID);
+    // } else if (selectedOption === 4) {
+    //   setIdToDisplay(blockID);
+    // }
+    setPage(0);
+    let idsToAdd = [];
+    let selecArray;
     if (selectedOption === 0) {
-      setIdToDisplay(friendsID);
+      selecArray = friendsID;
     } else if (selectedOption === 1) {
-      setIdToDisplay(reqSendID);
+      selecArray = reqSendID;
     } else if (selectedOption === 2) {
-      setIdToDisplay(reqReceivedID);
+      selecArray = reqReceivedID;
     } else if (selectedOption === 3) {
-      setIdToDisplay(suggessionsID);
+      selecArray = suggessionsID;
     } else if (selectedOption === 4) {
-      setIdToDisplay(blockID);
+      selecArray = blockID;
     }
+    for (
+      let index = 0;
+      index < selecArray.length && index < cardPerPage;
+      index++
+    ) {
+      const element = selecArray[index];
+      idsToAdd.push(element);
+    }
+    setIdToDisplay([...idsToAdd]);
   }, [
     selectedOption,
     friendsID,
@@ -102,6 +163,37 @@ const Friends = () => {
     reqReceivedID,
     suggessionsID,
   ]);
+
+  // useEffect(() => {
+  //   setIdToDisplay([]);
+  // }, [selectedOption]);
+
+  useEffect(() => {
+    if (page !== 0) {
+      let idsToAdd = [];
+      let selecArray;
+      if (selectedOption === 0) {
+        selecArray = friendsID;
+      } else if (selectedOption === 1) {
+        selecArray = reqSendID;
+      } else if (selectedOption === 2) {
+        selecArray = reqReceivedID;
+      } else if (selectedOption === 3) {
+        selecArray = suggessionsID;
+      } else if (selectedOption === 4) {
+        selecArray = blockID;
+      }
+      for (
+        let index = page * cardPerPage;
+        index < selecArray.length && index < page * cardPerPage + cardPerPage;
+        index++
+      ) {
+        const element = selecArray[index];
+        idsToAdd.push(element);
+      }
+      setIdToDisplay((prev) => [...prev, ...idsToAdd]);
+    }
+  }, [page]);
 
   useEffect(() => {
     const shuffleArray = (originalArray) => {
@@ -112,25 +204,62 @@ const Friends = () => {
       }
       return array;
     };
-    if (selectedOption === 3 && fetchSuggessions) {
-      setFetchSuggessions(false);
-      const shuffledFriends = shuffleArray(friendsID);
-      let arrayToSend = [];
-      for (
-        let index = 0;
-        index < shuffledFriends.length && index < 10;
-        index++
-      ) {
-        const element = shuffledFriends[index];
-        arrayToSend.push(element);
+    if (
+      flags.friendFlag &&
+      flags.reqSendFlag &&
+      flags.reqReceivedFlag &&
+      flags.blockFlag
+    ) {
+      console.log("trying to fetch suggession");
+      if (fetchSuggessions) {
+        setFetchSuggessions(false);
+        const shuffledFriends = shuffleArray(friendsID);
+        let arrayToSend = [];
+        for (
+          let index = 0;
+          index < shuffledFriends.length && index < 10;
+          index++
+        ) {
+          const element = shuffledFriends[index];
+          arrayToSend.push(element);
+        }
+        fetchSuggessionData(arrayToSend);
       }
-      fetchSuggessionData(arrayToSend);
     }
-  }, [selectedOption, friendsID, blockID, reqSendID, reqReceivedID]);
+  }, [friendsID, blockID, reqSendID, reqReceivedID]);
+
+  useEffect(() => {
+    const currentDivRef = divRef.current;
+
+    if (currentDivRef) {
+      const scrollHandler = () =>
+        handleScroll(divRef, prevScrollTop, setPrevScrollTop);
+      currentDivRef.addEventListener("scroll", scrollHandler);
+
+      return () => {
+        currentDivRef.removeEventListener("scroll", scrollHandler);
+      };
+    }
+  }, []);
+
+  const handleScroll = (divRef, prevScrollTop, setPrevScrollTop) => {
+    const currentScrollTop = divRef.current.scrollTop;
+    if (currentScrollTop > prevScrollTop) {
+      if (
+        divRef.current.scrollHeight -
+          divRef.current.scrollTop -
+          divRef.current.clientHeight <
+        1
+      ) {
+        setPage((prev) => prev + 1);
+      }
+    }
+    setPrevScrollTop(currentScrollTop);
+  };
 
   return (
     <div className="friendDiv">
-      <div className="friendContainer">
+      <div className="friendContainer" ref={divRef}>
         {idToDisplay.map((id) => (
           <div key={id} className="personFlex">
             <PersonCard email={id} />

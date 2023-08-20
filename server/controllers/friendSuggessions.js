@@ -1,55 +1,16 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 
-const getFriendSuggession = asyncHandler(async (req, res) => {
-  const email = req.params.email;
+const friendSuggession = asyncHandler(async (req, res) => {
   try {
-    const mutualFriends = await User.aggregate([
-      { $match: { email: email } }, // Match the user by email
-      { $unwind: "$friends" }, // Unwind the friends array
-      {
-        $lookup: {
-          from: "users", // Your collection name
-          localField: "friends",
-          foreignField: "email",
-          as: "friendInfo",
-        },
-      },
-      { $unwind: "$friendInfo" }, // Unwind the friendInfo array
-      {
-        $lookup: {
-          from: "users", // Your collection name
-          localField: "friendInfo.friends",
-          foreignField: "email",
-          as: "mutualFriends",
-        },
-      },
-      { $unwind: "$mutualFriends" }, // Unwind the mutualFriends array
-      {
-        $match: {
-          "mutualFriends.email": { $ne: email }, // Exclude the user by email
-          //   "mutualFriends.email": { $nin: "$friends" },
-        },
-      },
-      {
-        $group: {
-          _id: "$mutualFriends.email",
-          name: { $first: "$mutualFriends.name" },
-        },
-      },
-      {
-        $sort: {
-          name: 1, // Sort by name in ascending order
-        },
-      },
-      { $limit: 100 }, // Limit to 100 mutual friends
-    ]);
-
-    console.log(mutualFriends);
-    res.send(mutualFriends);
+    const users = await User.find({}, { email: 1 }); // Projection to select only email
+    // Extract emails from the users array
+    const emails = users.map((user) => user.email);
+    res.json(emails);
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching users:", error);
+    res.json({ error: error });
   }
 });
 
-export default getFriendSuggession;
+export default friendSuggession;

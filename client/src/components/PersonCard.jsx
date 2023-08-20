@@ -10,8 +10,25 @@ import axios from "axios";
 import ConfirmWindow from "./ConfirmWindow";
 
 const PersonCard = ({ email }) => {
-  const { showFriendProfile, setShowFriendProfile, selectedOption } =
-    useFriendContext();
+  const {
+    showFriendProfile,
+    setShowFriendProfile,
+    friendProfileRef,
+    friendsID,
+    setFriendsID,
+    selectedOption,
+    setSelectedOption,
+    reqReceivedID,
+    setReqReceivedID,
+    blockID,
+    setBlockID,
+    reqSendID,
+    setReqSendID,
+    fetchSuggessions,
+    setFetchSuggessions,
+    suggessionsID,
+    setSuggessionsID,
+  } = useFriendContext();
 
   const { getUserInfo } = useUserInfoContext();
   const { isFileExists } = useVerifyFileContext();
@@ -48,6 +65,7 @@ const PersonCard = ({ email }) => {
 
     displayPerson();
     countMutualFriends();
+    console.log("person card loaded");
   }, []);
 
   const updateFriends = async (option, action) => {
@@ -70,6 +88,16 @@ const PersonCard = ({ email }) => {
     }
   };
 
+  const updateIDArray = (setArray, action) => {
+    if (action === "add") {
+      setArray((prev) => [email, ...prev]);
+    } else {
+      setArray((prev) =>
+        prev.filter((existingEmail) => existingEmail !== email)
+      );
+    }
+  };
+
   const handleAddFriend = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -86,6 +114,8 @@ const PersonCard = ({ email }) => {
         return;
       } else {
         updateFriends("friendRequestSend", "add");
+        updateIDArray(setReqSendID, "add");
+        updateIDArray(setSuggessionsID, "remove");
       }
     } catch (error) {
       console.log(error);
@@ -121,6 +151,7 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friends", "remove");
+                updateIDArray(setFriendsID, "remove");
               }}
             >
               Unfriend
@@ -129,7 +160,9 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friends", "remove");
+                updateIDArray(setFriendsID, "remove");
                 updateFriends("blockList", "add");
+                updateIDArray(setBlockID, "add");
               }}
             >
               Block
@@ -142,6 +175,7 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friendRequestSend", "remove");
+                updateIDArray(setReqSendID, "remove");
               }}
             >
               Cancel Request
@@ -150,7 +184,9 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friendRequestSend", "remove");
+                updateIDArray(setReqSendID, "remove");
                 updateFriends("blockList", "add");
+                updateIDArray(setBlockID, "add");
               }}
             >
               Block
@@ -163,7 +199,9 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friendRequestReceived", "remove");
+                updateIDArray(setReqReceivedID, "remove");
                 updateFriends("friends", "add");
+                updateIDArray(setFriendsID, "add");
               }}
             >
               Accept
@@ -172,6 +210,7 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friendRequestReceived", "remove");
+                updateIDArray(setReqReceivedID, "remove");
               }}
             >
               Decline
@@ -180,7 +219,9 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friendRequestReceived", "remove");
+                updateIDArray(setReqReceivedID, "remove");
                 updateFriends("blockList", "add");
+                updateIDArray(setBlockID, "add");
               }}
             >
               Block
@@ -199,6 +240,8 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("blockList", "add");
+                updateIDArray(setBlockID, "add");
+                updateIDArray(setSuggessionsID, "remove");
               }}
             >
               Block
@@ -211,6 +254,7 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("blockList", "remove");
+                updateIDArray(setBlockID, "remove");
               }}
             >
               Unblock

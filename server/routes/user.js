@@ -13,6 +13,7 @@ import getFriendSuggession from "../controllers/getFriendSuggessions.js";
 import countMutualFriends from "../controllers/countMutualFriends.js";
 import updateFriends from "../controllers/updateFriends.js";
 import checkBlocked from "../controllers/checkBlocked.js";
+import friendSuggession from "../controllers/friendSuggessions.js";
 
 const router = express.Router();
 
@@ -32,7 +33,7 @@ router.put("/addPostID", handleUser);
 router.put("/removePostID", handleUser);
 router.get("/info/:email", getUserInfo);
 router.get("/getFriends", verifyJWT, getFriendList);
-router.get("/getFriendSuggessions", verifyJWT, getFriendSuggession);
+router.get("/getFriendSuggessions", verifyJWT, friendSuggession);
 router.get("/countMutualFriends", verifyJWT, countMutualFriends);
 router.put("/updateFriends", verifyJWT, updateFriends);
 router.get("/isBlocked", verifyJWT, checkBlocked);
