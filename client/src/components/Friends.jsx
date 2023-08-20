@@ -22,6 +22,10 @@ const Friends = () => {
     setFetchSuggessions,
     suggessionsID,
     setSuggessionsID,
+    followersID,
+    setFollowersID,
+    followingsID,
+    setFollowingsID,
   } = useFriendContext();
 
   const [flags, setFlags] = useState({
@@ -35,7 +39,7 @@ const Friends = () => {
   const [page, setPage] = useState(0);
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
-  const [cardPerPage] = useState(9);
+  const [cardPerPage] = useState(7);
 
   useEffect(() => {
     console.log("friend component loaded");
@@ -54,6 +58,8 @@ const Friends = () => {
       setBlockID(response.data.blockList);
       setReqSendID(response.data.friendRequestSend);
       setReqReceivedID(response.data.friendRequestReceived);
+      setFollowersID(response.data.followers);
+      setFollowingsID(response.data.followings);
     }
   };
 
@@ -121,55 +127,8 @@ const Friends = () => {
   }, []);
 
   useEffect(() => {
-    // if (selectedOption === 0) {
-    //   setIdToDisplay(friendsID);
-    // } else if (selectedOption === 1) {
-    //   setIdToDisplay(reqSendID);
-    // } else if (selectedOption === 2) {
-    //   setIdToDisplay(reqReceivedID);
-    // } else if (selectedOption === 3) {
-    //   setIdToDisplay(suggessionsID);
-    // } else if (selectedOption === 4) {
-    //   setIdToDisplay(blockID);
-    // }
-    setPage(0);
-    let idsToAdd = [];
-    let selecArray;
-    if (selectedOption === 0) {
-      selecArray = friendsID;
-    } else if (selectedOption === 1) {
-      selecArray = reqSendID;
-    } else if (selectedOption === 2) {
-      selecArray = reqReceivedID;
-    } else if (selectedOption === 3) {
-      selecArray = suggessionsID;
-    } else if (selectedOption === 4) {
-      selecArray = blockID;
-    }
-    for (
-      let index = 0;
-      index < selecArray.length && index < cardPerPage;
-      index++
-    ) {
-      const element = selecArray[index];
-      idsToAdd.push(element);
-    }
-    setIdToDisplay([...idsToAdd]);
-  }, [
-    selectedOption,
-    friendsID,
-    blockID,
-    reqSendID,
-    reqReceivedID,
-    suggessionsID,
-  ]);
-
-  // useEffect(() => {
-  //   setIdToDisplay([]);
-  // }, [selectedOption]);
-
-  useEffect(() => {
-    if (page !== 0) {
+    if (selectedOption !== 7) {
+      setPage(0);
       let idsToAdd = [];
       let selecArray;
       if (selectedOption === 0) {
@@ -181,6 +140,52 @@ const Friends = () => {
       } else if (selectedOption === 3) {
         selecArray = suggessionsID;
       } else if (selectedOption === 4) {
+        selecArray = followersID;
+      } else if (selectedOption === 5) {
+        selecArray = followingsID;
+      } else if (selectedOption === 6) {
+        selecArray = blockID;
+      }
+      for (
+        let index = 0;
+        index < selecArray.length && index < cardPerPage;
+        index++
+      ) {
+        const element = selecArray[index];
+        idsToAdd.push(element);
+      }
+      setIdToDisplay([...idsToAdd]);
+    } else {
+      setIdToDisplay([]);
+    }
+  }, [
+    selectedOption,
+    friendsID,
+    blockID,
+    reqSendID,
+    reqReceivedID,
+    suggessionsID,
+    followersID,
+    followingsID,
+  ]);
+
+  useEffect(() => {
+    if (page !== 0 && selectedOption !== 7) {
+      let idsToAdd = [];
+      let selecArray;
+      if (selectedOption === 0) {
+        selecArray = friendsID;
+      } else if (selectedOption === 1) {
+        selecArray = reqSendID;
+      } else if (selectedOption === 2) {
+        selecArray = reqReceivedID;
+      } else if (selectedOption === 3) {
+        selecArray = suggessionsID;
+      } else if (selectedOption === 4) {
+        selecArray = followersID;
+      } else if (selectedOption === 5) {
+        selecArray = followingsID;
+      } else if (selectedOption === 6) {
         selecArray = blockID;
       }
       for (
@@ -210,7 +215,6 @@ const Friends = () => {
       flags.reqReceivedFlag &&
       flags.blockFlag
     ) {
-      console.log("trying to fetch suggession");
       if (fetchSuggessions) {
         setFetchSuggessions(false);
         const shuffledFriends = shuffleArray(friendsID);

@@ -28,6 +28,10 @@ const PersonCard = ({ email }) => {
     setFetchSuggessions,
     suggessionsID,
     setSuggessionsID,
+    followersID,
+    setFollowersID,
+    followingsID,
+    setFollowingsID,
   } = useFriendContext();
 
   const { getUserInfo } = useUserInfoContext();
@@ -38,6 +42,7 @@ const PersonCard = ({ email }) => {
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const [mutualFriends, setMutualFriends] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
+  const [messageToShow, setMessageToShow] = useState("");
 
   useEffect(() => {
     const displayPerson = async () => {
@@ -98,7 +103,7 @@ const PersonCard = ({ email }) => {
     }
   };
 
-  const handleAddFriend = async () => {
+  const handleAddFriend = async (isFollow) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
@@ -109,13 +114,30 @@ const PersonCard = ({ email }) => {
           },
         }
       );
-      if (response.data.message === "blocked") {
-        setShowMessage(true);
-        return;
+      if (!isFollow) {
+        if (response.data.message === "blocked") {
+          setShowMessage(true);
+          setMessageToShow(
+            "Sorry, the user has blocked you. This request cannot be sent."
+          );
+          return;
+        } else {
+          updateFriends("friendRequestSend", "add");
+          updateIDArray(setReqSendID, "add");
+          updateIDArray(setSuggessionsID, "remove");
+        }
       } else {
-        updateFriends("friendRequestSend", "add");
-        updateIDArray(setReqSendID, "add");
-        updateIDArray(setSuggessionsID, "remove");
+        if (response.data.message === "blocked") {
+          setShowMessage(true);
+          setMessageToShow(
+            "Sorry, the user has blocked you. You cannot follow the user."
+          );
+          return;
+        } else {
+          console.log(response.data.message);
+          updateFriends("followings", "add");
+          updateIDArray(setFollowingsID, "add");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -128,9 +150,7 @@ const PersonCard = ({ email }) => {
         <ConfirmWindow
           setShowConfirm={setShowMessage}
           isConfirmWindow={false}
-          messageToShow={
-            "Sorry, the user has blocked you. This request cannot be sent."
-          }
+          messageToShow={messageToShow}
         />
       )}
       {showFriendProfile && <FriendProfile />}
@@ -163,6 +183,10 @@ const PersonCard = ({ email }) => {
                 updateIDArray(setFriendsID, "remove");
                 updateFriends("blockList", "add");
                 updateIDArray(setBlockID, "add");
+                updateFriends("followers", "remove");
+                updateIDArray(setFollowersID, "remove");
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
               }}
             >
               Block
@@ -187,6 +211,10 @@ const PersonCard = ({ email }) => {
                 updateIDArray(setReqSendID, "remove");
                 updateFriends("blockList", "add");
                 updateIDArray(setBlockID, "add");
+                updateFriends("followers", "remove");
+                updateIDArray(setFollowersID, "remove");
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
               }}
             >
               Block
@@ -222,6 +250,10 @@ const PersonCard = ({ email }) => {
                 updateIDArray(setReqReceivedID, "remove");
                 updateFriends("blockList", "add");
                 updateIDArray(setBlockID, "add");
+                updateFriends("followers", "remove");
+                updateIDArray(setFollowersID, "remove");
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
               }}
             >
               Block
@@ -232,9 +264,22 @@ const PersonCard = ({ email }) => {
           <>
             <button
               className="personCardButton personCardElement"
-              onClick={handleAddFriend}
+              onClick={() => handleAddFriend(false)}
             >
               Add friend
+            </button>
+            <button
+              className="personCardButton personCardElement"
+              onClick={() => {
+                if (followingsID.includes(email)) {
+                  updateFriends("followings", "remove");
+                  updateIDArray(setFollowingsID, "remove");
+                } else {
+                  handleAddFriend(true);
+                }
+              }}
+            >
+              {followingsID.includes(email) ? "Unfollow" : "Follow"}
             </button>
             <button
               className="personCardButton personCardElement"
@@ -242,6 +287,10 @@ const PersonCard = ({ email }) => {
                 updateFriends("blockList", "add");
                 updateIDArray(setBlockID, "add");
                 updateIDArray(setSuggessionsID, "remove");
+                updateFriends("followers", "remove");
+                updateIDArray(setFollowersID, "remove");
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
               }}
             >
               Block
@@ -249,6 +298,77 @@ const PersonCard = ({ email }) => {
           </>
         )}
         {selectedOption === 4 && (
+          <>
+            <button
+              className="personCardButton personCardElement"
+              onClick={() => {
+                if (followingsID.includes(email)) {
+                  updateFriends("followings", "remove");
+                  updateIDArray(setFollowingsID, "remove");
+                } else {
+                  updateFriends("followings", "add");
+                  updateIDArray(setFollowingsID, "add");
+                }
+              }}
+            >
+              {followingsID.includes(email) ? "Unfollow" : "Follow"}
+            </button>
+            <button
+              className="personCardButton personCardElement"
+              onClick={() => {
+                updateFriends("followers", "remove");
+                updateIDArray(setFollowersID, "remove");
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
+                updateFriends("friends", "remove");
+                updateIDArray(setFriendsID, "remove");
+                updateFriends("friendRequestSend", "remove");
+                updateIDArray(setReqSendID, "remove");
+                updateFriends("friendRequestReceived", "remove");
+                updateIDArray(setReqReceivedID, "remove");
+                updateIDArray(setSuggessionsID, "remove");
+                updateFriends("blockList", "add");
+                updateIDArray(setBlockID, "add");
+              }}
+            >
+              Block
+            </button>
+          </>
+        )}
+        {selectedOption === 5 && (
+          <>
+            <button
+              className="personCardButton personCardElement"
+              onClick={() => {
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
+              }}
+            >
+              Unfollow
+            </button>
+            <button
+              className="personCardButton personCardElement"
+              onClick={() => {
+                updateFriends("followers", "remove");
+                updateIDArray(setFollowersID, "remove");
+                updateFriends("followings", "remove");
+                updateIDArray(setFollowingsID, "remove");
+                updateFriends("friends", "remove");
+                updateIDArray(setFriendsID, "remove");
+                updateFriends("friendRequestSend", "remove");
+                updateIDArray(setReqSendID, "remove");
+                updateFriends("friendRequestReceived", "remove");
+                updateIDArray(setReqReceivedID, "remove");
+                updateIDArray(setSuggessionsID, "remove");
+                updateFriends("blockList", "add");
+                updateIDArray(setBlockID, "add");
+              }}
+            >
+              Block
+            </button>
+          </>
+        )}
+        {selectedOption === 6 && (
           <>
             <button
               className="personCardButton personCardElement"

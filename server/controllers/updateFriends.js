@@ -69,6 +69,38 @@ const updatedFriends = asyncHandler(async (req, res) => {
     }
   }
 
+  if (option === "followers") {
+    if (action === "add") {
+      await User.findOneAndUpdate(
+        { email: friendEmail },
+        { $push: { followings: userEmail } },
+        { new: true }
+      );
+    } else if (action === "remove") {
+      await User.findOneAndUpdate(
+        { email: friendEmail },
+        { $pull: { followings: userEmail } },
+        { new: true }
+      );
+    }
+  }
+
+  if (option === "followings") {
+    if (action === "add") {
+      await User.findOneAndUpdate(
+        { email: friendEmail },
+        { $push: { followers: userEmail } },
+        { new: true }
+      );
+    } else if (action === "remove") {
+      await User.findOneAndUpdate(
+        { email: friendEmail },
+        { $pull: { followers: userEmail } },
+        { new: true }
+      );
+    }
+  }
+
   res.json({ message: "friends updated" });
 });
 

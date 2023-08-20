@@ -29,56 +29,11 @@ const FriendOptions = () => {
     setFetchSuggessions,
     suggessionsID,
     setSuggessionsID,
+    followersID,
+    setFollowersID,
+    followingsID,
+    setFollowingsID,
   } = useFriendContext();
-  const [displayArray, setDisplayArray] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const decodedToken = jwtDecode(localStorage.getItem("token"));
-        const email = decodedToken.email;
-        let flag;
-        if (selectedOption === 0) {
-          flag = "friends";
-        }
-        if (selectedOption === 1) {
-          flag = "friendRequestSend";
-        }
-        if (selectedOption === 2) {
-          flag = "friendRequestReceived";
-        }
-        if (selectedOption === 4) {
-          flag = "followers";
-        }
-        if (selectedOption === 5) {
-          flag = "followings";
-        }
-        if (selectedOption === 6) {
-          flag = "friendsAndFollowers";
-        }
-        if (selectedOption === 7) {
-          flag = "friendsAndFollowings";
-        }
-        if (selectedOption === 8) {
-          flag = "blockList";
-        }
-        // const queryParams = new URLSearchParams({
-        //   flag: flag,
-        // });
-        // const response = await axios.get(
-        //   `http://localhost:5000/user/getFriends/${email}?${queryParams}`
-        // );
-        // if (response) {
-        //   setDisplayArray(response.data);
-        //   console.log(response);
-        // }
-        console.log(selectedOption);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [selectedOption]);
 
   return (
     <div className="friendOptionsContainer">
@@ -137,6 +92,34 @@ const FriendOptions = () => {
         onClick={() => setSelectedOption(4)}
       >
         <div className="friendIconContainer">
+          <BsFillPersonFill className="friendIcon" />
+        </div>
+        <p className="friendButtonText">Followers</p>
+        <p className="friendCount">
+          {followersID !== undefined ? followersID.length : 0}
+        </p>
+      </div>
+      <div
+        className={
+          selectedOption === 5 ? "selectedFriendOption" : "friendOptionsButton"
+        }
+        onClick={() => setSelectedOption(5)}
+      >
+        <div className="friendIconContainer">
+          <BsFillPersonFill className="friendIcon" />
+        </div>
+        <p className="friendButtonText">Followings</p>
+        <p className="friendCount">
+          {followingsID !== undefined ? followingsID.length : 0}
+        </p>
+      </div>
+      <div
+        className={
+          selectedOption === 6 ? "selectedFriendOption" : "friendOptionsButton"
+        }
+        onClick={() => setSelectedOption(6)}
+      >
+        <div className="friendIconContainer">
           <BsPersonFillSlash className="friendIcon" />
         </div>
         <p className="friendButtonText">Blocklist</p>
@@ -144,9 +127,9 @@ const FriendOptions = () => {
       </div>
       <div
         className={
-          selectedOption === 5 ? "selectedFriendOption" : "friendOptionsButton"
+          selectedOption === 7 ? "selectedFriendOption" : "friendOptionsButton"
         }
-        onClick={() => setSelectedOption(5)}
+        onClick={() => setSelectedOption(7)}
       >
         <div className="friendIconContainer">
           <FaBirthdayCake className="friendIcon" />

@@ -15,6 +15,8 @@ const FriendContextProvider = ({ children }) => {
   const [reqReceivedID, setReqReceivedID] = useState([]);
   const [fetchSuggessions, setFetchSuggessions] = useState(true);
   const [suggessionsID, setSuggessionsID] = useState([]);
+  const [followersID, setFollowersID] = useState([]);
+  const [followingsID, setFollowingsID] = useState([]);
   const [selectedOption, setSelectedOption] = useState(0);
 
   return (
@@ -37,6 +39,10 @@ const FriendContextProvider = ({ children }) => {
         setFetchSuggessions,
         suggessionsID,
         setSuggessionsID,
+        followersID,
+        setFollowersID,
+        followingsID,
+        setFollowingsID,
       }}
     >
       {children}

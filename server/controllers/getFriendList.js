@@ -5,7 +5,7 @@ const getFriendList = asyncHandler(async (req, res) => {
   const email = req.email;
   const user = await User.findOne(
     { email },
-    "friends friendRequestSend friendRequestReceived blockList"
+    "friends friendRequestSend friendRequestReceived blockList followers followings"
   );
 
   if (user) {
