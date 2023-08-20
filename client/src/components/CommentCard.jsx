@@ -270,7 +270,8 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
         <ConfirmWindow
           handleAction={handleDeleteComment}
           setShowConfirm={setShowConfirm}
-          message="comment"
+          flag="comment"
+          isConfirmWindow={true}
         />
       )}
       {showOptionList && (

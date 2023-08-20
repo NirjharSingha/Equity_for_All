@@ -53,12 +53,16 @@ const register = asyncHandler(async (req, res) => {
     createdAt,
   });
 
-  await user.save();
-  const expiresIn = "1d";
-  const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
-  res
-    .status(201)
-    .json({ message: "user registered successfully", token: token });
+  try {
+    await user.save();
+    const expiresIn = "1d";
+    const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
+    res
+      .status(201)
+      .json({ message: "user registered successfully", token: token });
+  } catch {
+    res.status(409).json({ error: "Gmail address is already taken." });
+  }
 });
 
 export default register;

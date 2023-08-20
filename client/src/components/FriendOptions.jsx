@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./FriendOptions.css";
 import {
   BsFillPersonPlusFill,
@@ -11,9 +11,25 @@ import {
 import { FaUserFriends, FaBirthdayCake } from "react-icons/fa";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import { useFriendContext } from "../contexts/FriendContext";
 
 const FriendOptions = () => {
-  const [selectedOption, setSelectedOption] = useState(0);
+  const {
+    friendsID,
+    setFriendsID,
+    selectedOption,
+    setSelectedOption,
+    reqReceivedID,
+    setReqReceivedID,
+    blockID,
+    setBlockID,
+    reqSendID,
+    setReqSendID,
+    fetchSuggessions,
+    setFetchSuggessions,
+    suggessionsID,
+    setSuggessionsID,
+  } = useFriendContext();
   const [displayArray, setDisplayArray] = useState([]);
 
   useEffect(() => {
@@ -22,7 +38,6 @@ const FriendOptions = () => {
         const decodedToken = jwtDecode(localStorage.getItem("token"));
         const email = decodedToken.email;
         let flag;
-
         if (selectedOption === 0) {
           flag = "friends";
         }
@@ -47,22 +62,21 @@ const FriendOptions = () => {
         if (selectedOption === 8) {
           flag = "blockList";
         }
-
-        const queryParams = new URLSearchParams({
-          flag: flag,
-        });
-        const response = await axios.get(
-          `http://localhost:5000/user/getFriends/${email}?${queryParams}`
-        );
-        if (response) {
-          setDisplayArray(response.data);
-          console.log(response);
-        }
+        // const queryParams = new URLSearchParams({
+        //   flag: flag,
+        // });
+        // const response = await axios.get(
+        //   `http://localhost:5000/user/getFriends/${email}?${queryParams}`
+        // );
+        // if (response) {
+        //   setDisplayArray(response.data);
+        //   console.log(response);
+        // }
+        console.log(selectedOption);
       } catch (error) {
         console.log(error);
       }
     };
-
     fetchData();
   }, [selectedOption]);
 
@@ -78,7 +92,7 @@ const FriendOptions = () => {
           <BsFillPersonLinesFill className="friendIcon" />
         </div>
         <p className="friendButtonText">All Friends</p>
-        <p className="friendCount">999K+</p>
+        <p className="friendCount">{friendsID.length}</p>
       </div>
       <div
         className={
@@ -90,7 +104,7 @@ const FriendOptions = () => {
           <BsPersonFillAdd className="friendIcon" />
         </div>
         <p className="friendButtonText">Request send</p>
-        <p className="friendCount">999K+</p>
+        <p className="friendCount">{reqSendID.length}</p>
       </div>
       <div
         className={
@@ -102,7 +116,7 @@ const FriendOptions = () => {
           <BsPersonFillDown className="friendIcon" />
         </div>
         <p className="friendButtonText">Request received</p>
-        <p className="friendCount">999K+</p>
+        <p className="friendCount">{reqReceivedID.length}</p>
       </div>
       <div
         className={
@@ -114,7 +128,7 @@ const FriendOptions = () => {
           <BsFillPersonPlusFill className="friendIcon" />
         </div>
         <p className="friendButtonText">Suggessions</p>
-        <p className="friendCount">999K+</p>
+        <p className="friendCount">{suggessionsID.length}</p>
       </div>
       <div
         className={
@@ -123,64 +137,16 @@ const FriendOptions = () => {
         onClick={() => setSelectedOption(4)}
       >
         <div className="friendIconContainer">
-          <BsFillPersonFill className="friendIcon" />
+          <BsPersonFillSlash className="friendIcon" />
         </div>
-        <p className="friendButtonText">Followers</p>
-        <p className="friendCount">999K+</p>
+        <p className="friendButtonText">Blocklist</p>
+        <p className="friendCount">{blockID.length}</p>
       </div>
       <div
         className={
           selectedOption === 5 ? "selectedFriendOption" : "friendOptionsButton"
         }
         onClick={() => setSelectedOption(5)}
-      >
-        <div className="friendIconContainer">
-          <BsFillPersonFill className="friendIcon" />
-        </div>
-        <p className="friendButtonText">Followings</p>
-        <p className="friendCount">999K+</p>
-      </div>
-      <div
-        className={
-          selectedOption === 6 ? "selectedFriendOption" : "friendOptionsButton"
-        }
-        onClick={() => setSelectedOption(6)}
-      >
-        <div className="friendIconContainer">
-          <FaUserFriends className="friendIcon" />
-        </div>
-        <p className="friendButtonText">Friends & Followers</p>
-        <p className="friendCount">999K+</p>
-      </div>
-      <div
-        className={
-          selectedOption === 7 ? "selectedFriendOption" : "friendOptionsButton"
-        }
-        onClick={() => setSelectedOption(7)}
-      >
-        <div className="friendIconContainer">
-          <FaUserFriends className="friendIcon" />
-        </div>
-        <p className="friendButtonText">Friends & Followings</p>
-        <p className="friendCount">999K+</p>
-      </div>
-      <div
-        className={
-          selectedOption === 8 ? "selectedFriendOption" : "friendOptionsButton"
-        }
-        onClick={() => setSelectedOption(8)}
-      >
-        <div className="friendIconContainer">
-          <BsPersonFillSlash className="friendIcon" />
-        </div>
-        <p className="friendButtonText">Blocklist</p>
-        <p className="friendCount">999K+</p>
-      </div>
-      <div
-        className={
-          selectedOption === 9 ? "selectedFriendOption" : "friendOptionsButton"
-        }
-        onClick={() => setSelectedOption(9)}
       >
         <div className="friendIconContainer">
           <FaBirthdayCake className="friendIcon" />

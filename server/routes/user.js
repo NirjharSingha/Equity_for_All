@@ -9,7 +9,10 @@ import upload from "../middlewares/multer.js";
 import handleUser from "../controllers/handleUser.js";
 import getUserInfo from "../controllers/getUserInfo.js";
 import getFriendList from "../controllers/getFriendList.js";
-import getFriendSuggession from "../controllers/friendSuggessions.js";
+import getFriendSuggession from "../controllers/getFriendSuggessions.js";
+import countMutualFriends from "../controllers/countMutualFriends.js";
+import updateFriends from "../controllers/updateFriends.js";
+import checkBlocked from "../controllers/checkBlocked.js";
 
 const router = express.Router();
 
@@ -28,7 +31,9 @@ router.put(
 router.put("/addPostID", handleUser);
 router.put("/removePostID", handleUser);
 router.get("/info/:email", getUserInfo);
-router.get("/getFriends/:email", getFriendList);
-router.get("/getFriendSuggessions/:email", getFriendSuggession);
-
+router.get("/getFriends", verifyJWT, getFriendList);
+router.get("/getFriendSuggessions", verifyJWT, getFriendSuggession);
+router.get("/countMutualFriends", verifyJWT, countMutualFriends);
+router.put("/updateFriends", verifyJWT, updateFriends);
+router.get("/isBlocked", verifyJWT, checkBlocked);
 export default router;

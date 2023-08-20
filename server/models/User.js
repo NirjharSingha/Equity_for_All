@@ -50,14 +50,6 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
-    followers: {
-      type: Array,
-      default: [],
-    },
-    followings: {
-      type: Array,
-      default: [],
-    },
     blockList: {
       type: Array,
       default: [],

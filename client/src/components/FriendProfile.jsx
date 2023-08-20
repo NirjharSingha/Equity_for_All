@@ -1,11 +1,10 @@
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
 import Profile from "./Profile";
 import { useFriendContext } from "../contexts/FriendContext";
 
 const FriendProfile = () => {
-  const { showFriendProfile, setShowFriendProfile, friendProfileRef } =
-    useFriendContext();
+  const { setShowFriendProfile, friendProfileRef } = useFriendContext();
 
   useEffect(() => {
     console.log("friend profile component loaded");

@@ -9,9 +9,10 @@
 }
 .personImg {
   width: 15vw;
-  height: 25vh;
+  height: 22vh;
   cursor: pointer;
   border-radius: 6px;
+  background-color: rgb(14, 134, 134);
 }
 .personCardButton {
   width: 15vw;
@@ -31,4 +32,25 @@
 }
 .personCardElement:last-child {
   margin-bottom: 4px;
+}
+.personName {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 14.6vw;
+  max-height: 1.1rem;
+  min-height: 1.1rem;
+  font-weight: bold;
+}
+.personText {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 14.6vw;
+  max-height: 1rem;
+  min-height: 1rem;
+}
+.personText::-webkit-scrollbar,
+.personName::-webkit-scrollbar {
+  display: none;
 }

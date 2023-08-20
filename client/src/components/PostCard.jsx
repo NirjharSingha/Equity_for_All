@@ -212,7 +212,8 @@ const PostCard = ({ post, shareFlag }) => {
         <ConfirmWindow
           handleAction={handleDeletePost}
           setShowConfirm={setShowConfirm}
-          message="post"
+          flag="post"
+          isConfirmWindow={true}
         />
       )}
       {showOptionList && (

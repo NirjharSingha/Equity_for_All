@@ -58,6 +58,10 @@
   grid-column: 3;
   margin-left: 2px;
   text-align: right;
+  overflow-x: auto;
+}
+.friendCount::-webkit-scrollbar {
+  display: none;
 }
 .friendOptionsContainer::-webkit-scrollbar {
   width: 2px;

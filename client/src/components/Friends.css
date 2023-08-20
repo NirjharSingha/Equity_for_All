@@ -20,6 +20,7 @@ body {
   grid-gap: 6px;
   align-items: start;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .personFlex {
   display: flex;

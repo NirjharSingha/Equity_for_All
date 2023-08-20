@@ -9,6 +9,13 @@ export function useFriendContext() {
 const FriendContextProvider = ({ children }) => {
   const [showFriendProfile, setShowFriendProfile] = useState(false);
   const friendProfileRef = useRef(null);
+  const [friendsID, setFriendsID] = useState([]);
+  const [blockID, setBlockID] = useState([]);
+  const [reqSendID, setReqSendID] = useState([]);
+  const [reqReceivedID, setReqReceivedID] = useState([]);
+  const [fetchSuggessions, setFetchSuggessions] = useState(true);
+  const [suggessionsID, setSuggessionsID] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(0);
 
   return (
     <FriendContext.Provider
@@ -16,6 +23,20 @@ const FriendContextProvider = ({ children }) => {
         showFriendProfile,
         setShowFriendProfile,
         friendProfileRef,
+        friendsID,
+        setFriendsID,
+        selectedOption,
+        setSelectedOption,
+        reqReceivedID,
+        setReqReceivedID,
+        blockID,
+        setBlockID,
+        reqSendID,
+        setReqSendID,
+        fetchSuggessions,
+        setFetchSuggessions,
+        suggessionsID,
+        setSuggessionsID,
       }}
     >
       {children}
