@@ -552,9 +552,9 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               value={user.profileStatus}
               onChange={handleInputChange}
             >
-              <option value="public">Public</option>
-              <option value="private">Private</option>
-              <option value="locked">Locked</option>
+              <option value="Public">Public</option>
+              <option value="Private">Private</option>
+              <option value="Locked">Locked</option>
             </select>
             <div className="submitContainer">
               <button type="submit" className="regSubmit">

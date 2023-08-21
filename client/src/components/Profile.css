@@ -153,7 +153,7 @@ body {
   position: fixed;
   top: 4.05rem;
   left: 25vw;
-  background-color: rgba(68, 57, 85, 0.8);
+  background-color: rgba(207, 205, 205, 0.6);
   z-index: 800;
   border-radius: 5px;
 }
@@ -171,4 +171,10 @@ body {
 .friendProfileCross:hover {
   cursor: pointer;
   background-color: rgb(246, 44, 44);
+}
+.profileWarningText {
+  width: 100%;
+  text-align: center;
+  margin-top: 20vh;
+  font-weight: bold;
 }

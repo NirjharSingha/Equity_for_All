@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import Profile from "./Profile";
 import { useFriendContext } from "../contexts/FriendContext";
 
-const FriendProfile = () => {
-  const { setShowFriendProfile, friendProfileRef } = useFriendContext();
+const FriendProfile = ({ setShowFriendProfile, profileCode, friendEmail }) => {
+  const { friendProfileRef } = useFriendContext();
 
   useEffect(() => {
     console.log("friend profile component loaded");
@@ -27,7 +27,11 @@ const FriendProfile = () => {
   return (
     <div className="friendProfileBlurContainer" ref={friendProfileRef}>
       <div className="friendProfileContainer">
-        <Profile own={false} />
+        <Profile
+          profileCode={profileCode}
+          setShowFriendProfile={setShowFriendProfile}
+          friendEmail={friendEmail}
+        />
       </div>
     </div>
   );

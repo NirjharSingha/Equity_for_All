@@ -11,8 +11,6 @@ import ConfirmWindow from "./ConfirmWindow";
 
 const PersonCard = ({ email }) => {
   const {
-    showFriendProfile,
-    setShowFriendProfile,
     friendProfileRef,
     friendsID,
     setFriendsID,
@@ -43,6 +41,7 @@ const PersonCard = ({ email }) => {
   const [mutualFriends, setMutualFriends] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
   const [messageToShow, setMessageToShow] = useState("");
+  const [showFriendProfile, setShowFriendProfile] = useState(false);
 
   useEffect(() => {
     const displayPerson = async () => {
@@ -144,6 +143,31 @@ const PersonCard = ({ email }) => {
     }
   };
 
+  const handleBlock = async (isFollowPage) => {
+    if (isFollowPage) {
+      updateFriends("followers", "remove");
+      updateIDArray(setFollowersID, "remove");
+      updateFriends("followings", "remove");
+      updateIDArray(setFollowingsID, "remove");
+      updateFriends("friends", "remove");
+      updateIDArray(setFriendsID, "remove");
+      updateFriends("friendRequestSend", "remove");
+      updateIDArray(setReqSendID, "remove");
+      updateFriends("friendRequestReceived", "remove");
+      updateIDArray(setReqReceivedID, "remove");
+      updateIDArray(setSuggessionsID, "remove");
+      updateFriends("blockList", "add");
+      updateIDArray(setBlockID, "add");
+    } else {
+      updateFriends("blockList", "add");
+      updateIDArray(setBlockID, "add");
+      updateFriends("followers", "remove");
+      updateIDArray(setFollowersID, "remove");
+      updateFriends("followings", "remove");
+      updateIDArray(setFollowingsID, "remove");
+    }
+  };
+
   return (
     <div>
       {showMessage && (
@@ -153,7 +177,13 @@ const PersonCard = ({ email }) => {
           messageToShow={messageToShow}
         />
       )}
-      {showFriendProfile && <FriendProfile />}
+      {showFriendProfile && (
+        <FriendProfile
+          setShowFriendProfile={setShowFriendProfile}
+          profileCode={friendsID.includes(email) ? 1 : 2}
+          friendEmail={email}
+        />
+      )}
       <div className="personCardContainer">
         <div
           className="personImg personCardElement"
@@ -181,12 +211,7 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("friends", "remove");
                 updateIDArray(setFriendsID, "remove");
-                updateFriends("blockList", "add");
-                updateIDArray(setBlockID, "add");
-                updateFriends("followers", "remove");
-                updateIDArray(setFollowersID, "remove");
-                updateFriends("followings", "remove");
-                updateIDArray(setFollowingsID, "remove");
+                handleBlock(false);
               }}
             >
               Block
@@ -209,12 +234,7 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("friendRequestSend", "remove");
                 updateIDArray(setReqSendID, "remove");
-                updateFriends("blockList", "add");
-                updateIDArray(setBlockID, "add");
-                updateFriends("followers", "remove");
-                updateIDArray(setFollowersID, "remove");
-                updateFriends("followings", "remove");
-                updateIDArray(setFollowingsID, "remove");
+                handleBlock(false);
               }}
             >
               Block
@@ -248,12 +268,7 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("friendRequestReceived", "remove");
                 updateIDArray(setReqReceivedID, "remove");
-                updateFriends("blockList", "add");
-                updateIDArray(setBlockID, "add");
-                updateFriends("followers", "remove");
-                updateIDArray(setFollowersID, "remove");
-                updateFriends("followings", "remove");
-                updateIDArray(setFollowingsID, "remove");
+                handleBlock(false);
               }}
             >
               Block
@@ -284,13 +299,8 @@ const PersonCard = ({ email }) => {
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("blockList", "add");
-                updateIDArray(setBlockID, "add");
                 updateIDArray(setSuggessionsID, "remove");
-                updateFriends("followers", "remove");
-                updateIDArray(setFollowersID, "remove");
-                updateFriends("followings", "remove");
-                updateIDArray(setFollowingsID, "remove");
+                handleBlock(false);
               }}
             >
               Block
@@ -316,19 +326,7 @@ const PersonCard = ({ email }) => {
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("followers", "remove");
-                updateIDArray(setFollowersID, "remove");
-                updateFriends("followings", "remove");
-                updateIDArray(setFollowingsID, "remove");
-                updateFriends("friends", "remove");
-                updateIDArray(setFriendsID, "remove");
-                updateFriends("friendRequestSend", "remove");
-                updateIDArray(setReqSendID, "remove");
-                updateFriends("friendRequestReceived", "remove");
-                updateIDArray(setReqReceivedID, "remove");
-                updateIDArray(setSuggessionsID, "remove");
-                updateFriends("blockList", "add");
-                updateIDArray(setBlockID, "add");
+                handleBlock(true);
               }}
             >
               Block
@@ -349,19 +347,7 @@ const PersonCard = ({ email }) => {
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("followers", "remove");
-                updateIDArray(setFollowersID, "remove");
-                updateFriends("followings", "remove");
-                updateIDArray(setFollowingsID, "remove");
-                updateFriends("friends", "remove");
-                updateIDArray(setFriendsID, "remove");
-                updateFriends("friendRequestSend", "remove");
-                updateIDArray(setReqSendID, "remove");
-                updateFriends("friendRequestReceived", "remove");
-                updateIDArray(setReqReceivedID, "remove");
-                updateIDArray(setSuggessionsID, "remove");
-                updateFriends("blockList", "add");
-                updateIDArray(setBlockID, "add");
+                handleBlock(true);
               }}
             >
               Block

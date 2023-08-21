@@ -7,7 +7,6 @@ export function useFriendContext() {
 }
 
 const FriendContextProvider = ({ children }) => {
-  const [showFriendProfile, setShowFriendProfile] = useState(false);
   const friendProfileRef = useRef(null);
   const [friendsID, setFriendsID] = useState([]);
   const [blockID, setBlockID] = useState([]);
@@ -22,8 +21,6 @@ const FriendContextProvider = ({ children }) => {
   return (
     <FriendContext.Provider
       value={{
-        showFriendProfile,
-        setShowFriendProfile,
         friendProfileRef,
         friendsID,
         setFriendsID,

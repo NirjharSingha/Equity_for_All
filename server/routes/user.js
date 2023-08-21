@@ -33,7 +33,7 @@ router.put("/addPostID", handleUser);
 router.put("/removePostID", handleUser);
 router.get("/info/:email", getUserInfo);
 router.get("/getFriends", verifyJWT, getFriendList);
-router.get("/getFriendSuggessions", verifyJWT, friendSuggession);
+router.get("/getFriendSuggessions", verifyJWT, getFriendSuggession);
 router.get("/countMutualFriends", verifyJWT, countMutualFriends);
 router.put("/updateFriends", verifyJWT, updateFriends);
 router.get("/isBlocked", verifyJWT, checkBlocked);
