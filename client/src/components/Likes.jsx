@@ -2,7 +2,7 @@ import React from "react";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaLaughSquint, FaSadCry, FaAngry } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
-import "./AllLikes.css";
+import "./Likes.css";
 
 const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
   return (

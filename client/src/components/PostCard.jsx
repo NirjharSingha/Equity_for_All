@@ -4,7 +4,7 @@ import { AiFillLike, AiOutlineLike, AiFillDislike } from "react-icons/ai";
 import { FaLaughSquint, FaSadCry, FaAngry, FaRegComment } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { PiShareFatBold } from "react-icons/pi";
-import AllLikes from "./AllLikes";
+import AllLikes from "./Likes";
 import Comment from "./Comment";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
@@ -12,10 +12,10 @@ import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { usePostContext } from "../contexts/PostContext";
-import { useOptionListContext } from "../contexts/OptionListContext";
+import { useLikesListContext } from "../contexts/LikesListContext";
 import jwtDecode from "jwt-decode";
 import Share from "./Share";
-import OptionList from "./OptionList";
+import LikesList from "./LikesList";
 import ConfirmWindow from "./ConfirmWindow";
 
 const PostCard = ({ post, shareFlag }) => {
@@ -40,7 +40,7 @@ const PostCard = ({ post, shareFlag }) => {
   const { setEditPost, setSelectedPost } = usePostContext();
   const editContainerRef = useRef(null);
   const { setYourPostArray } = usePostContext();
-  const [showOptionList, setShowOptionList] = useState(false);
+  const [showLikesList, setShowLikesList] = useState(false);
   const shareComponentRef = useRef(null);
   const [showPostShare, setShowPostShare] = useState(false);
   const [likesData, setLikesData] = useState({
@@ -52,7 +52,7 @@ const PostCard = ({ post, shareFlag }) => {
     love: post.love,
   });
   const [total, setTotal] = useState();
-  const { loadOptionListData } = useOptionListContext();
+  const { loadLikesListData } = useLikesListContext();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const toggleFullscreen = (index) => {
@@ -142,7 +142,7 @@ const PostCard = ({ post, shareFlag }) => {
 
   useEffect(() => {
     if (!shareFlag) {
-      loadOptionListData(likesData, selected, setLikesData, setTotal);
+      loadLikesListData(likesData, selected, setLikesData, setTotal);
     }
     if (!shareFlag) {
       checkInitialMount(isInitialMount, handleLikePut);
@@ -216,9 +216,9 @@ const PostCard = ({ post, shareFlag }) => {
           isConfirmWindow={true}
         />
       )}
-      {showOptionList && (
-        <OptionList
-          setShowOptionList={setShowOptionList}
+      {showLikesList && (
+        <LikesList
+          setShowLikesList={setShowLikesList}
           likesData={likesData}
           total={total}
         />
@@ -419,7 +419,7 @@ const PostCard = ({ post, shareFlag }) => {
                 className="postOptionCountText"
                 onClick={() => {
                   setSelectedPost(post);
-                  setShowOptionList((prev) => !prev);
+                  setShowLikesList((prev) => !prev);
                 }}
               >
                 {`${total} reactions`}

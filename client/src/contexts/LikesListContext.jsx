@@ -1,14 +1,14 @@
 import React, { createContext, useContext } from "react";
 import jwtDecode from "jwt-decode";
 
-const OptionListContext = createContext();
+const LikesListContext = createContext();
 
-export function useOptionListContext() {
-  return useContext(OptionListContext);
+export function useLikesListContext() {
+  return useContext(LikesListContext);
 }
 
-const OptionListContextProvider = ({ children }) => {
-  const loadOptionListData = (likesData, selected, setLikesData, setTotal) => {
+const LikesListContextProvider = ({ children }) => {
+  const loadLikesListData = (likesData, selected, setLikesData, setTotal) => {
     const userEmail = jwtDecode(localStorage.getItem("token")).email;
     const newLikesData = { ...likesData };
 
@@ -68,10 +68,10 @@ const OptionListContextProvider = ({ children }) => {
     );
   };
   return (
-    <OptionListContext.Provider value={{ loadOptionListData }}>
+    <LikesListContext.Provider value={{ loadLikesListData }}>
       {children}
-    </OptionListContext.Provider>
+    </LikesListContext.Provider>
   );
 };
 
-export default OptionListContextProvider;
+export default LikesListContextProvider;

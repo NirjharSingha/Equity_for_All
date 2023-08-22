@@ -1,8 +1,7 @@
 import React from "react";
 import "./Home.css";
 import { useEffect } from "react";
-import PersonCard from "./PersonCard";
-
+import BirthDays from "./BirthDays";
 const Home = () => {
   useEffect(() => {
     console.log("home component loaded");
@@ -10,7 +9,9 @@ const Home = () => {
 
   return (
     <div className="homeDiv">
-      <div className="homeContainer"></div>
+      <div className="homeContainer">
+        <BirthDays />
+      </div>
     </div>
   );
 };

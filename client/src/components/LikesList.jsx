@@ -1,12 +1,12 @@
 import React from "react";
-import "./OptionList.css";
+import "./LikesList.css";
 import { useState, useEffect, useRef } from "react";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaLaughSquint, FaSadCry, FaAngry } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 
-const OptionList = ({ setShowOptionList, likesData, total }) => {
+const LikesList = ({ setShowLikesList, likesData, total }) => {
   const [horizontalItems, setHorizontalItems] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const listRef = useRef(null);
@@ -54,7 +54,7 @@ const OptionList = ({ setShowOptionList, likesData, total }) => {
 
     const handleOutsideClick = (event) => {
       if (listRef.current && !listRef.current.contains(event.target)) {
-        setShowOptionList(false);
+        setShowLikesList(false);
       }
     };
 
@@ -200,4 +200,4 @@ const OptionList = ({ setShowOptionList, likesData, total }) => {
     </div>
   );
 };
-export default OptionList;
+export default LikesList;

@@ -5,6 +5,7 @@ import PersonCard from "./PersonCard";
 import { useFriendContext } from "../contexts/FriendContext";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import BirthDays from "./BirthDays";
 
 const Friends = () => {
   const {
@@ -263,13 +264,16 @@ const Friends = () => {
 
   return (
     <div className="friendDiv">
-      <div className="friendContainer" ref={divRef}>
-        {idToDisplay.map((id) => (
-          <div key={id} className="personFlex">
-            <PersonCard email={id} />
-          </div>
-        ))}
-      </div>
+      {selectedOption === 7 && <BirthDays />}
+      {selectedOption !== 7 && (
+        <div className="friendContainer" ref={divRef}>
+          {idToDisplay.map((id) => (
+            <div key={id} className="personFlex">
+              <PersonCard email={id} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

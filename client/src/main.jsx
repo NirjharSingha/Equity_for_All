@@ -7,7 +7,7 @@ import VerifyFile from "./contexts/VerifyFileContext.jsx";
 import LikesContextProvider from "./contexts/LikesContext.jsx";
 import DisplayUser from "./contexts/DisplayUserContext.jsx";
 import PostContext from "./contexts/PostContext.jsx";
-import OptionListContextProvider from "./contexts/OptionListContext.jsx";
+import LikesListContextProvider from "./contexts/LikesListContext.jsx";
 import FriendContextProvider from "./contexts/FriendContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -17,11 +17,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <DisplayUser>
           <LikesContextProvider>
             <PostContext>
-              <OptionListContextProvider>
+              <LikesListContextProvider>
                 <FriendContextProvider>
                   <App />
                 </FriendContextProvider>
-              </OptionListContextProvider>
+              </LikesListContextProvider>
             </PostContext>
           </LikesContextProvider>
         </DisplayUser>

@@ -8,15 +8,15 @@ import { MdDelete } from "react-icons/md";
 import { BiSolidSend } from "react-icons/bi";
 import { FcLike } from "react-icons/fc";
 import EmojiList from "./EmojiList";
-import AllLikes from "./AllLikes";
+import AllLikes from "./Likes";
 import "./CommentCard.css";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useVerifyFileContext } from "../contexts/VerifyFileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
-import { useOptionListContext } from "../contexts/OptionListContext";
-import OptionList from "./OptionList";
+import { useLikesListContext } from "../contexts/LikesListContext";
+import LikesList from "./LikesList";
 import jwtDecode from "jwt-decode";
 import ConfirmWindow from "./ConfirmWindow";
 
@@ -49,8 +49,8 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
     love: comment.love,
   });
   const [total, setTotal] = useState();
-  const { loadOptionListData } = useOptionListContext();
-  const [showOptionList, setShowOptionList] = useState(false);
+  const { loadLikesListData } = useLikesListContext();
+  const [showLikesList, setShowLikesList] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   };
 
   useEffect(() => {
-    loadOptionListData(likesData, selectedLike, setLikesData, setTotal);
+    loadLikesListData(likesData, selectedLike, setLikesData, setTotal);
     checkInitialMount(isInitialMount, handleLikePut);
   }, [selectedLike]);
 
@@ -274,9 +274,9 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           isConfirmWindow={true}
         />
       )}
-      {showOptionList && (
-        <OptionList
-          setShowOptionList={setShowOptionList}
+      {showLikesList && (
+        <LikesList
+          setShowLikesList={setShowLikesList}
           likesData={likesData}
           total={total}
         />
@@ -440,7 +440,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
             <button
               className="commentButton"
               onClick={() => {
-                setShowOptionList((prev) => !prev);
+                setShowLikesList((prev) => !prev);
               }}
             >{`${total} reactions`}</button>
             {level === 0 && allComments.length > 0 && (
