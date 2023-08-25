@@ -1,16 +1,10 @@
 import React from "react";
 import "./BirthDays.css";
-import { useState, useEffect, useRef } from "react";
-import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { useState, useEffect } from "react";
 import { useFriendContext } from "../contexts/FriendContext";
+import axios from "axios";
 
 const BirthDays = () => {
-  const listRef = useRef(null);
-  const [listToDisplay, setListToDisplay] = useState([]);
-  const { getUserInfo } = useUserInfoContext();
-  const [userName, setUserName] = useState([]);
-  const [userImg, setUserImg] = useState([]);
-  const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState([]);
   const [allMonths] = useState([
     "January",
     "February",
@@ -25,80 +19,49 @@ const BirthDays = () => {
     "November",
     "December",
   ]);
+  const [birthDayInfo, setBirthdayInfo] = useState([]);
 
-  const {
-    friendsID,
-    setFriendsID,
-    selectedOption,
-    setSelectedOption,
-    reqReceivedID,
-    setReqReceivedID,
-    blockID,
-    setBlockID,
-    reqSendID,
-    setReqSendID,
-    fetchSuggessions,
-    setFetchSuggessions,
-    suggessionsID,
-    setSuggessionsID,
-    followersID,
-    setFollowersID,
-    followingsID,
-    setFollowingsID,
-  } = useFriendContext();
+  const { friendsID } = useFriendContext();
 
   useEffect(() => {
-    const fetchUserInformation = async () => {
-      const newUserName = [];
-      const newUserImg = [];
-      const newShouldDisplayUserImg = [];
-
-      for (const userEmail of listToDisplay) {
-        const { name, profilePic } = await getUserInfo(userEmail);
-        newUserName.push(name);
-        newUserImg.push(profilePic);
-        let flag = false;
-        if (profilePic !== "") {
-          flag = true;
+    const fetchBirthdays = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:5000/user/friendBirthdays?emails=${friendsID}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setBirthdayInfo(response.data);
         }
-        newShouldDisplayUserImg.push(flag);
-      }
-
-      setUserName(newUserName);
-      setUserImg(newUserImg);
-      setShouldDisplayUserImg(newShouldDisplayUserImg);
-    };
-
-    fetchUserInformation();
-  }, [listToDisplay]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (listRef.current && !listRef.current.contains(event.target)) {
-        setShowLikesList(false);
+      } catch (error) {
+        console.error("Error fetching comment count:", error);
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
-    setListToDisplay(reqSendID);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    fetchBirthdays();
   }, []);
 
   return (
     <div className="birthDayContainer">
-      {allMonths.map((month) => (
-        <div className="monthContainer">
-          <p className="monthName">{month}</p>
+      {birthDayInfo.map((birthdayObj, index) => (
+        <div className="monthContainer" key={birthdayObj._id}>
+          <p className="monthName">{allMonths[index]}</p>
           <div className="listDisplay">
-            {listToDisplay.map((userEmail, index) => (
+            {birthdayObj.email.map((userEmail, index) => (
               <div className="monthContainerLine" key={userEmail}>
-                {shouldDisplayUserImg[index] && (
-                  <img src={userImg[index]} alt="" className="birthdayImg" />
+                {birthdayObj.profilePic[index] !== "" && (
+                  <img
+                    src={birthdayObj.profilePic[index]}
+                    alt=""
+                    className="birthdayImg"
+                  />
                 )}
-                {!shouldDisplayUserImg[index] && (
+                {birthdayObj.profilePic[index] === "" && (
                   <svg
                     id="logo-15"
                     width="2.5rem"
@@ -131,8 +94,8 @@ const BirthDays = () => {
                     ></path>{" "}
                   </svg>
                 )}
-                <p className="birthDayListName">{userName[index]}</p>
-                <p className="birthDate">13</p>
+                <p className="birthDayListName">{birthdayObj.name[index]}</p>
+                <p className="birthDate">{birthdayObj.dayOfMonth[index]}</p>
               </div>
             ))}
           </div>
