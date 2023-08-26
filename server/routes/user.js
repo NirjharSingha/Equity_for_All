@@ -14,7 +14,6 @@ import countMutualFriends from "../controllers/countMutualFriends.js";
 import updateFriends from "../controllers/updateFriends.js";
 import checkBlocked from "../controllers/checkBlocked.js";
 import birthdays from "../controllers/birthdays.js";
-import friendSuggession from "../controllers/friendSuggessions.js";
 
 const router = express.Router();
 
