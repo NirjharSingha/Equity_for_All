@@ -24,7 +24,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(230, 227, 227);
+  background-color: rgb(242, 239, 239);
   padding-top: 5px;
   padding-bottom: 5px;
   overflow: hidden;
@@ -40,7 +40,6 @@ body {
   object-fit: cover;
 }
 .profileInfoContainer {
-  margin-top: 4px;
   width: 100%;
   height: 100%;
   flex: 1;
@@ -49,7 +48,6 @@ body {
   overflow-y: auto;
 }
 .friendProfileInfoContainer {
-  margin-top: 4px;
   width: 100%;
   height: calc(100% - 4px);
   max-height: calc(100% - 4px);
@@ -76,7 +74,7 @@ body {
   padding: 2px 0px 2px 4px;
   font-size: 1.1rem;
   font-weight: 550;
-  background-color: rgb(208, 204, 204);
+  background-color: rgb(226, 223, 223);
 }
 .profileAns {
   font-size: 1.1rem;
@@ -104,10 +102,10 @@ body {
   background-color: #3f3d3d;
 }
 .profileLine:nth-child(odd) {
-  background-color: rgb(208, 204, 204);
+  background-color: rgb(226, 223, 223);
 }
 .profileLine:nth-child(even) {
-  background-color: rgb(230, 227, 227);
+  background-color: rgb(242, 239, 239);
 }
 .updateProfileButtonContainer {
   width: calc(100%);
@@ -120,7 +118,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(230, 227, 227);
+  background-color: rgb(242, 239, 239);
 }
 .profileUpdateButton {
   height: 2.5rem;
