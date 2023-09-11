@@ -470,7 +470,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           <div>
             {showEmojis && (
               <div className="emojiClass">
-                <EmojiList setInputValue={setInputValue} />
+                <EmojiList setInputValue={setInputValue} inputRef={inputRef} />
               </div>
             )}
             <div className="commentFifthRow">

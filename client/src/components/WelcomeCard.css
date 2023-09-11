@@ -1,0 +1,20 @@
+.welcomeCard {
+  width: 100%;
+  background-color: rgb(236, 251, 251);
+}
+.logo {
+  width: 100%;
+  background-size: cover;
+  animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

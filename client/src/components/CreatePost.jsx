@@ -15,6 +15,7 @@ const CreatePost = () => {
   const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
   const { setYourPostArray, selectedPost } = usePostContext();
+  const inputRef = useRef(null);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -162,9 +163,10 @@ const CreatePost = () => {
             placeholder="What's on your mind"
             className="postDescription"
             style={editPost ? { width: "34vw" } : { width: "24vw" }}
+            ref={inputRef}
           />
         </div>
-        <EmojiList setInputValue={setInputValue} />
+        <EmojiList setInputValue={setInputValue} inputRef={inputRef} />
         <div className="postAttachment">
           {selectedFiles.map((file, index) => (
             <PreviewItem

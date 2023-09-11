@@ -60,9 +60,28 @@ const emojis = [
   "\u{1F637}", // Face with Medical Mask
 ];
 
-const EmojiList = ({ setInputValue }) => {
+const EmojiList = ({ setInputValue, inputRef }) => {
   const handleEmojiClick = (emoji) => {
-    setInputValue((prevValue) => prevValue + emoji);
+    const input = inputRef.current;
+    const startPos = input.selectionStart;
+    const endPos = input.selectionEnd;
+    const inputValue = input.value;
+
+    // Insert the emoji at the cursor position
+    const newValue =
+      inputValue.substring(0, startPos) +
+      emoji +
+      inputValue.substring(endPos, inputValue.length);
+    setInputValue(newValue);
+
+    // Update the input value and set the cursor position after the inserted emoji
+    input.value = newValue;
+    input.selectionStart = startPos + emoji.length;
+    input.selectionEnd = startPos + emoji.length;
+
+    // Trigger the input change event if needed
+    const event = new Event("input", { bubbles: true });
+    input.dispatchEvent(event);
   };
 
   return (

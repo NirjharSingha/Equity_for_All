@@ -16,7 +16,7 @@ body {
   align-items: center;
   margin-left: 10px;
   color: rgb(59, 67, 227);
-  font-size: 3.2rem;
+  font-size: 3rem;
 }
 .loginInput {
   text-indent: 10px;
@@ -54,7 +54,7 @@ body {
 }
 .loginNameContainer {
   display: flex;
-  margin-bottom: 2rem;
+  margin-bottom: 3.5vh;
   align-items: center;
 }
 .loginRight {

@@ -21,6 +21,7 @@ const Comment = ({ setShowComments, post }) => {
   const [commentPage, setCommentPage] = useState(0);
   const [commentLimit] = useState(3);
   const [commentIds, setCommentIds] = useState([]);
+  const inputRef = useRef(null);
 
   const handleRotateClick = async () => {
     setIsRotating(true);
@@ -336,7 +337,10 @@ const Comment = ({ setShowComments, post }) => {
         {showEmojis && (
           <div className="commentMainEmoji" ref={emojiRef}>
             {" "}
-            <EmojiList setCommentInput={setCommentInput} />{" "}
+            <EmojiList
+              setInputValue={setCommentInput}
+              inputRef={inputRef}
+            />{" "}
           </div>
         )}
         <BsEmojiSmile
@@ -349,6 +353,7 @@ const Comment = ({ setShowComments, post }) => {
           className="commentReply"
           value={commentInput}
           onChange={(event) => setCommentInput(event.target.value)}
+          ref={inputRef}
         />
         <BiSolidSend
           className={

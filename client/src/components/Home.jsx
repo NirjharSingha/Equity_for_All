@@ -1,8 +1,7 @@
 import React from "react";
 import "./Home.css";
 import { useEffect } from "react";
-import Lottie from "lottie-react";
-import HomeWelcome from "../lib/HomeWelcome.json";
+import WelcomeCard from "./WelcomeCard";
 
 const Home = () => {
   useEffect(() => {
@@ -12,7 +11,9 @@ const Home = () => {
   return (
     <div className="homeDiv">
       <div className="homeContainer">
-        <Lottie animationData={HomeWelcome} loop autoplay className="logo" />
+        <WelcomeCard />
+        <h1 className="storyHeading">Top stories for you</h1>
+        <div className="homeStories"></div>
       </div>
     </div>
   );

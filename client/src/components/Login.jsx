@@ -86,8 +86,8 @@ const Login = () => {
               <a href="#" className="loginLogo">
                 <svg
                   id="logo-88"
-                  width="70"
-                  height="72"
+                  width="60"
+                  height="62"
                   viewBox="0 0 40 41"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
