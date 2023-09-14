@@ -24,57 +24,47 @@ const updateProfile = asyncHandler(async (req, res) => {
     aboutYourself,
   } = req.body;
 
-  const salt = await bcrypt.genSalt(10);
-  password = await bcrypt.hash(password, salt);
   let updatedUser;
 
-  if (req.file === undefined) {
-    updatedUser = await User.findOneAndUpdate(
-      { email: req.email },
-      {
-        name,
-        email,
-        password,
-        gender,
-        country,
-        countryCode,
-        city,
-        dob,
-        school,
-        college,
-        university,
-        workplace,
-        contactNumber,
-        relationshipStatus,
-        profileStatus,
-        reasonOfBeingHere,
-        aboutYourself,
-      },
-      { new: true }
-    );
-  } else {
+  updatedUser = await User.findOneAndUpdate(
+    { email: req.email },
+    {
+      name,
+      email,
+      gender,
+      country,
+      countryCode,
+      city,
+      dob,
+      school,
+      college,
+      university,
+      workplace,
+      contactNumber,
+      relationshipStatus,
+      profileStatus,
+      reasonOfBeingHere,
+      aboutYourself,
+    },
+    { new: true }
+  );
+  if (req.file !== undefined) {
     let profilePic = process.env.server_url + req.file.path;
     updatedUser = await User.findOneAndUpdate(
       { email: req.email },
       {
-        name,
-        email,
-        password,
-        gender,
-        country,
-        countryCode,
-        city,
-        dob,
-        school,
-        college,
-        university,
-        workplace,
-        contactNumber,
-        relationshipStatus,
-        profileStatus,
-        reasonOfBeingHere,
-        aboutYourself,
         profilePic,
+      },
+      { new: true }
+    );
+  }
+  if (password !== "") {
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
+    updatedUser = await User.findOneAndUpdate(
+      { email: req.email },
+      {
+        password,
       },
       { new: true }
     );

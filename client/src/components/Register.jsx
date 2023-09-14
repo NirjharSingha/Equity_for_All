@@ -135,7 +135,11 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     e.preventDefault();
     if (user.name === "" || user.email === "") {
       setWarning("fill the * fields");
-    } else if (!isValidPassword) {
+    } else if (isReg && password === "") {
+      setWarning("you must give a password");
+    } else if (isReg && !isValidPassword) {
+      setWarning("invalid password");
+    } else if (!isReg && password !== "" && !isValidPassword) {
       setWarning("invalid password");
     } else {
       const formData = new FormData(); // Create a new FormData object
@@ -409,10 +413,11 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
                 id="password"
                 className="regPassInput"
                 value={password}
-                required
                 onChange={handlePassword}
                 onMouseLeave={handleMouseLeave}
-                placeholder="Enter a strong password"
+                placeholder={
+                  isReg ? "Enter a strong password" : "Enter updated password"
+                }
               />
               {showTooltip && (
                 <div className="tooltip">
