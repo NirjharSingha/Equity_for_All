@@ -3,6 +3,9 @@ import "./Login.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 const Login = () => {
   useEffect(() => {
@@ -48,6 +51,26 @@ const Login = () => {
       } else {
         console.error("Error:", error.message);
       }
+    }
+  };
+
+  const handleGoogleAuth = async (details) => {
+    const postData = {
+      email: details.email,
+      name: details.given_name,
+      profilePic: details.picture,
+    };
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/user/googleAuth`,
+        postData
+      );
+      if (response.status == 200) {
+        localStorage.setItem("token", response.data.token);
+        navigate("/main");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -125,22 +148,30 @@ const Login = () => {
                 </div>
               </div>
             </div>
-            <button className="googlelogin">
-              <img
-                src="google.png"
-                alt="google icon"
-                className="loginGoogleIcon"
+            <div className="marginDiv"></div>
+            <GoogleOAuthProvider
+              className="googlelogin"
+              clientId="627302448889-r826sjvkdrbgr8ho9es3s5s036i08shc.apps.googleusercontent.com"
+            >
+              <GoogleLogin
+                className="googlelogin"
+                onSuccess={(credentialResponse) => {
+                  const details = jwtDecode(credentialResponse.credential);
+                  handleGoogleAuth(details);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
               />
-              <span className="googleLoginText">Log in with Google</span>
-            </button>
-            <button className="googlelogin">
+            </GoogleOAuthProvider>
+            {/* <button className="googlelogin" onClick={googleSignup}>
               <img
                 src="google.png"
                 alt="google icon"
                 className="loginGoogleIcon"
               />
               <span className="googleLoginText">Sign up with Google</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

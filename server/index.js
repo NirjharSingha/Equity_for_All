@@ -9,8 +9,9 @@ import bodyParser from "body-parser";
 import http from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import passport from "passport";
+// import passport from "passport";
 import cookieSession from "cookie-session";
+import passport from "./utils/passport.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

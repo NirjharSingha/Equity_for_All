@@ -7,6 +7,8 @@ const createPost = asyncHandler(async (req, res) => {
 
   let postAttachments = [];
 
+  console.log("in post " + process.env.server_url);
+
   if (req.files === undefined || req.files.length === 0) {
     postAttachments = [];
   } else {

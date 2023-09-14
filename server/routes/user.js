@@ -14,6 +14,7 @@ import countMutualFriends from "../controllers/countMutualFriends.js";
 import updateFriends from "../controllers/updateFriends.js";
 import checkBlocked from "../controllers/checkBlocked.js";
 import birthdays from "../controllers/birthdays.js";
+import googleAuth from "../controllers/googleAuth.js";
 
 const router = express.Router();
 
@@ -38,5 +39,11 @@ router.get("/countMutualFriends", verifyJWT, countMutualFriends);
 router.put("/updateFriends", verifyJWT, updateFriends);
 router.get("/isBlocked", verifyJWT, checkBlocked);
 router.get("/friendBirthdays", verifyJWT, birthdays);
+router.get("/google/callback/login", (req, res) => {
+  // Set the custom parameter to 'login' for login callback
+  console.log("google auth");
+  res.json({});
+});
+router.post("/googleAuth", googleAuth);
 
 export default router;

@@ -14,30 +14,63 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
-      min: 6,
-      max: 24,
     },
     gender: {
       type: String,
+      default: "",
     },
     country: {
       type: String,
+      default: "",
     },
     countryCode: {
       type: String,
+      default: "",
     },
-    city: String,
-    dob: Date,
-    school: String,
-    college: String,
-    university: String,
-    workplace: String,
-    contactNumber: String,
-    relationshipStatus: String,
-    profileStatus: String,
-    reasonOfBeingHere: String,
-    aboutYourself: String,
+    city: {
+      type: String,
+      default: "",
+    },
+    dob: {
+      type: Date,
+      default: null,
+    },
+    school: {
+      type: String,
+      default: "",
+    },
+    college: {
+      type: String,
+      default: "",
+    },
+    university: {
+      type: String,
+      default: "",
+    },
+    workplace: {
+      type: String,
+      default: "",
+    },
+    contactNumber: {
+      type: String,
+      default: "",
+    },
+    relationshipStatus: {
+      type: String,
+      default: "",
+    },
+    profileStatus: {
+      type: String,
+      default: "Public",
+    },
+    reasonOfBeingHere: {
+      type: String,
+      default: "",
+    },
+    aboutYourself: {
+      type: String,
+      default: "",
+    },
     friends: {
       type: Array,
       default: [],
