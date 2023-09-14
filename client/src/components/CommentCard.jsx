@@ -78,7 +78,9 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:5000/post/postOptions/editOrDeleteComment",
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/post/postOptions/editOrDeleteComment`,
         sendData,
         {
           headers: {
@@ -94,7 +96,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.put(
-      "http://localhost:5000/post/postOptions/commentLike",
+      `${import.meta.env.VITE_SERVER_URL}/post/postOptions/commentLike`,
       {
         selectedLike: selectedLike,
         prevLike: prevSecLike,
@@ -215,7 +217,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.put(
-          "http://localhost:5000/post/postOptions/createComment",
+          `${import.meta.env.VITE_SERVER_URL}/post/postOptions/createComment`,
           sendData,
           {
             headers: {
@@ -244,7 +246,9 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.put(
-          "http://localhost:5000/post/postOptions/editOrDeleteComment",
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/post/postOptions/editOrDeleteComment`,
           sendData,
           {
             headers: {

@@ -69,7 +69,7 @@ const OtherPosts = () => {
   useEffect(() => {
     if (shouldFetchOtherPostIds) {
       fetchPostIds(
-        `http://localhost:5000/post/getOtherPostIDs`,
+        `${import.meta.env.VITE_SERVER_URL}/post/getOtherPostIDs`,
         setOtherPostIds
       );
       setShouldFetchOtherPostIds(false);

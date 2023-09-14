@@ -28,7 +28,9 @@ const BirthDays = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/user/friendBirthdays?emails=${friendsID}`,
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/user/friendBirthdays?emails=${friendsID}`,
           {
             headers: {
               token: token,

@@ -59,7 +59,10 @@ const YourPosts = () => {
   }, [yourPostPage, yourPostIds]);
 
   useEffect(() => {
-    fetchPostIds(`http://localhost:5000/post/getYourPostIDs`, setYourPostIds);
+    fetchPostIds(
+      `${import.meta.env.VITE_SERVER_URL}/post/getYourPostIDs`,
+      setYourPostIds
+    );
   }, []);
 
   return (

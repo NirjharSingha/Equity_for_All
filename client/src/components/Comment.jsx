@@ -153,7 +153,9 @@ const Comment = ({ setShowComments, post }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/post/postOptions/getCommentIds/${post._id}`,
+          `${import.meta.env.VITE_SERVER_URL}/post/postOptions/getCommentIds/${
+            post._id
+          }`,
           {
             headers: {
               token: token,
@@ -168,7 +170,9 @@ const Comment = ({ setShowComments, post }) => {
 
     fetchCommentIds();
 
-    const eventSource = new EventSource("http://localhost:5000/api/commentSSE");
+    const eventSource = new EventSource(
+      `${import.meta.env.VITE_SERVER_URL}/api/commentSSE`
+    );
 
     eventSource.addEventListener("message", handleSSEData);
 
@@ -199,7 +203,9 @@ const Comment = ({ setShowComments, post }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/post/postOptions/getComments/${post._id}?ids=${arrayToSend}`,
+          `${import.meta.env.VITE_SERVER_URL}/post/postOptions/getComments/${
+            post._id
+          }?ids=${arrayToSend}`,
           {
             headers: {
               token: token,
@@ -250,7 +256,7 @@ const Comment = ({ setShowComments, post }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:5000/post/postOptions/createComment",
+        `${import.meta.env.VITE_SERVER_URL}/post/postOptions/createComment`,
         sendData,
         {
           headers: {

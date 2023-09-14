@@ -49,11 +49,14 @@ const Friends = () => {
 
   const fetchData = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`http://localhost:5000/user/getFriends`, {
-      headers: {
-        token: token,
-      },
-    });
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER_URL}/user/getFriends`,
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
     if (response) {
       setFriendsID(response.data.friends);
       setBlockID(response.data.blockList);
@@ -68,7 +71,9 @@ const Friends = () => {
     console.log("fetching suggessions");
     const token = localStorage.getItem("token");
     const response = await axios.get(
-      `http://localhost:5000/user/getFriendSuggessions?ids=${dataToSend}`,
+      `${
+        import.meta.env.VITE_SERVER_URL
+      }/user/getFriendSuggessions?ids=${dataToSend}`,
       {
         headers: {
           token: token,

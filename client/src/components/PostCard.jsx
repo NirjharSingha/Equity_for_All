@@ -78,7 +78,7 @@ const PostCard = ({ post, shareFlag }) => {
   const handleDeletePost = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.delete(
-      `http://localhost:5000/post/deletePost/${post._id}`,
+      `${import.meta.env.VITE_SERVER_URL}/post/deletePost/${post._id}`,
       {
         headers: {
           token: token,
@@ -98,7 +98,7 @@ const PostCard = ({ post, shareFlag }) => {
       };
       try {
         const res = await axios.put(
-          "http://localhost:5000/user/removePostID",
+          `${import.meta.env.VITE_SERVER_URL}/user/removePostID`,
           data
         );
         if (res.status === 200) {
@@ -127,7 +127,7 @@ const PostCard = ({ post, shareFlag }) => {
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.put(
-      "http://localhost:5000/post/postOptions/postLike",
+      `${import.meta.env.VITE_SERVER_URL}/post/postOptions/postLike`,
       { selectedLike: selected, postID: post._id, prevLike: prevLike },
       {
         headers: {

@@ -13,7 +13,9 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/user/profile?friendEmail=${friendEmail}`,
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/user/profile?friendEmail=${friendEmail}`,
         {
           headers: {
             token: token,

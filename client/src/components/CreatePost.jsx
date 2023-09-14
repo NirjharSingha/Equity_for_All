@@ -90,7 +90,7 @@ const CreatePost = () => {
       let response;
       if (!editPost) {
         response = await axios.post(
-          "http://localhost:5000/post/createPost",
+          `${import.meta.env.VITE_SERVER_URL}/post/createPost`,
           postData,
           {
             headers: {
@@ -101,7 +101,7 @@ const CreatePost = () => {
         );
       } else {
         response = await axios.put(
-          "http://localhost:5000/post/editPost",
+          `${import.meta.env.VITE_SERVER_URL}/post/editPost`,
           postData,
           {
             headers: {
@@ -122,7 +122,7 @@ const CreatePost = () => {
         setPostCategory("public");
         try {
           const res = await axios.put(
-            "http://localhost:5000/user/addPostID",
+            `${import.meta.env.VITE_SERVER_URL}/user/addPostID`,
             data
           );
           if (res.status === 200) {

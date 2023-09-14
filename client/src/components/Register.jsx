@@ -170,7 +170,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       if (isReg) {
         try {
           const response = await axios.post(
-            "http://localhost:5000/user/reg",
+            `${import.meta.env.VITE_SERVER_URL}/user/reg`,
             formData,
             {
               headers: {
@@ -202,7 +202,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
         try {
           const token = localStorage.getItem("token");
           const response = await axios.put(
-            "http://localhost:5000/user/updateProfile",
+            `${import.meta.env.VITE_SERVER_URL}/user/updateProfile`,
             formData,
             {
               headers: {
@@ -400,6 +400,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               placeholder="Enter your gmail"
               value={user.email}
               onChange={handleInputChange}
+              disabled={!isReg}
             />
             <div className="passContainer">
               <input

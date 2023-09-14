@@ -3,26 +3,11 @@ import "./Login.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Lottie from "lottie-react";
-import LoginHello from "../lib/LoginHello.json";
 
 const Login = () => {
-  const [rotationCount, setRotationCount] = useState(0);
-  const rotationDuration = 1500; // Duration of the rotation animation in milliseconds
-  const breakDuration = 3000; // Break duration in milliseconds
   useEffect(() => {
     console.log("login component loaded");
   }, []);
-
-  useEffect(() => {
-    const rotationInterval = setInterval(() => {
-      setRotationCount(rotationCount + 1);
-    }, rotationDuration + breakDuration);
-
-    return () => {
-      clearInterval(rotationInterval);
-    };
-  }, [rotationCount]);
 
   const navigate = useNavigate();
   const handleSignUp = () => {
@@ -40,7 +25,7 @@ const Login = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:5000/user/login",
+        `${import.meta.env.VITE_SERVER_URL}/user/login`,
         postData
       );
       if (response.status == 200) {
@@ -71,17 +56,6 @@ const Login = () => {
       <div className="container">
         <div className="loginPage">
           <div className="loginLeft">
-            <Lottie
-              animationData={LoginHello} // Relative path from the public folder
-              loop
-              autoplay
-              style={{
-                transform: `rotateY(${rotationCount * 360}deg)`, // Rotate based on rotation count
-                transition: `transform ${rotationDuration}ms linear`, // Apply transition for smooth rotation
-              }}
-            />
-          </div>
-          <div className="loginRight">
             <div className="loginNameContainer">
               <a href="#" className="loginLogo">
                 <svg
@@ -103,6 +77,8 @@ const Login = () => {
               </a>
               <h1 className="loginHeading">Nexus Sphere</h1>
             </div>
+          </div>
+          <div className="loginRight">
             <div className="flexContainer">
               <div className="rightContainer">
                 <input
@@ -149,6 +125,22 @@ const Login = () => {
                 </div>
               </div>
             </div>
+            <button className="googlelogin">
+              <img
+                src="google.png"
+                alt="google icon"
+                className="loginGoogleIcon"
+              />
+              <span className="googleLoginText">Log in with Google</span>
+            </button>
+            <button className="googlelogin">
+              <img
+                src="google.png"
+                alt="google icon"
+                className="loginGoogleIcon"
+              />
+              <span className="googleLoginText">Sign up with Google</span>
+            </button>
           </div>
         </div>
       </div>

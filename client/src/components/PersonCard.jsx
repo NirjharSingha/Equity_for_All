@@ -54,7 +54,9 @@ const PersonCard = ({ email }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/user/countMutualFriends?friendEmail=${email}`,
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/user/countMutualFriends?friendEmail=${email}`,
           {
             headers: {
               token: token,
@@ -76,7 +78,7 @@ const PersonCard = ({ email }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:5000/user/updateFriends`,
+        `${import.meta.env.VITE_SERVER_URL}/user/updateFriends`,
         { friendEmail: email, option: option, action: action },
         {
           headers: {
@@ -106,7 +108,9 @@ const PersonCard = ({ email }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/user/isBlocked?friendEmail=${email}`,
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/user/isBlocked?friendEmail=${email}`,
         {
           headers: {
             token: token,
