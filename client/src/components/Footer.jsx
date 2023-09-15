@@ -81,7 +81,7 @@ const Footer = () => {
               <br />
               <br />
               <a href="#">About us</a>
-              <a href="#">Help can take</a>
+              <a href="#">Help</a>
               <a href="#">Company</a>
               <a href="#">Company</a>
             </p>
@@ -93,9 +93,9 @@ const Footer = () => {
             <p className="footerScrollContent">
               <br />
               <br />
-              <a href="#">Lorem ipsum dolor sit</a>
-              <a href="#">Lorem ipsum dolor</a>
-              <a href="#">Lorem ipsum dolor</a>
+              <a href="#">Lorem ipsum</a>
+              <a href="#">Lorem ipsum</a>
+              <a href="#">Lorem ipsum</a>
               <a href="#">Lorem ipsum</a>
             </p>
           </div>

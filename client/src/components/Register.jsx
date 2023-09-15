@@ -220,7 +220,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
             response.status == 200 &&
             response.data.message === "User updated successfully"
           ) {
-            localStorage.setItem("token", response.data.token);
             handleMount();
             fetchProfileData(true);
           }

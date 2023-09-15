@@ -9,8 +9,9 @@ const login = asyncHandler(async (req, res) => {
 
   if (user == null) {
     return res.status(400).json({ error: "Invalid gmail" });
-  }
-  if (!(await bcrypt.compare(password, user.password))) {
+  } else if (user.password === undefined) {
+    return res.status(400).json({ error: "Invalid password" });
+  } else if (!(await bcrypt.compare(password, user.password))) {
     return res.status(400).json({ error: "Invalid password" });
   }
   const expiresIn = "1d";

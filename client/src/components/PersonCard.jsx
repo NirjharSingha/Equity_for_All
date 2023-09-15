@@ -11,22 +11,13 @@ import ConfirmWindow from "./ConfirmWindow";
 
 const PersonCard = ({ email }) => {
   const {
-    friendProfileRef,
     friendsID,
     setFriendsID,
     selectedOption,
-    setSelectedOption,
-    reqReceivedID,
     setReqReceivedID,
-    blockID,
     setBlockID,
-    reqSendID,
     setReqSendID,
-    fetchSuggessions,
-    setFetchSuggessions,
-    suggessionsID,
     setSuggessionsID,
-    followersID,
     setFollowersID,
     followingsID,
     setFollowingsID,

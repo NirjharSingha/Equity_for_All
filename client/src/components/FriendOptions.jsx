@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import "./FriendOptions.css";
 import {
   BsFillPersonPlusFill,
@@ -8,31 +8,20 @@ import {
   BsPersonFillAdd,
   BsPersonFillDown,
 } from "react-icons/bs";
-import { FaUserFriends, FaBirthdayCake } from "react-icons/fa";
-import jwtDecode from "jwt-decode";
-import axios from "axios";
+import { FaBirthdayCake } from "react-icons/fa";
 import { useFriendContext } from "../contexts/FriendContext";
 
 const FriendOptions = () => {
   const {
     friendsID,
-    setFriendsID,
     selectedOption,
     setSelectedOption,
     reqReceivedID,
-    setReqReceivedID,
     blockID,
-    setBlockID,
     reqSendID,
-    setReqSendID,
-    fetchSuggessions,
-    setFetchSuggessions,
     suggessionsID,
-    setSuggessionsID,
     followersID,
-    setFollowersID,
     followingsID,
-    setFollowingsID,
   } = useFriendContext();
 
   return (

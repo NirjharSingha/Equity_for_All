@@ -71,11 +71,7 @@ const updateProfile = asyncHandler(async (req, res) => {
   }
 
   if (updatedUser) {
-    const expiresIn = "1h";
-    const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
-    return res
-      .status(200)
-      .json({ message: "User updated successfully", token: token });
+    return res.status(200).json({ message: "User updated successfully" });
   } else {
     return res.status(404).json({ error: "User not found" });
   }

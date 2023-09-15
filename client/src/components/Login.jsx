@@ -42,12 +42,13 @@ const Login = () => {
         if (statusCode == 400) {
           if (errorMessage === "Invalid gmail") {
             setWarning("Invalid gmail. Register first");
-          } else if (errorMessage === "Invalid password") {
+          } else {
             setWarning("Invalid password. Try again");
           }
         }
       } else if (error.request) {
         console.error("Error:", error.request);
+        setWarning("Invalid password. Try again");
       } else {
         console.error("Error:", error.message);
       }
@@ -151,7 +152,7 @@ const Login = () => {
             <div className="marginDiv"></div>
             <GoogleOAuthProvider
               className="googlelogin"
-              clientId="627302448889-r826sjvkdrbgr8ho9es3s5s036i08shc.apps.googleusercontent.com"
+              clientId={import.meta.env.VITE_CLIENT_ID}
             >
               <GoogleLogin
                 className="googlelogin"
