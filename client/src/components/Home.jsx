@@ -1,7 +1,8 @@
 import React from "react";
 import "./Home.css";
-import { useEffect } from "react";
-import WelcomeCard from "./WelcomeCard";
+import { useEffect, lazy, Suspense } from "react";
+
+const WelcomeCard = lazy(() => import("./WelcomeCard"));
 
 const Home = () => {
   useEffect(() => {
@@ -11,7 +12,9 @@ const Home = () => {
   return (
     <div className="homeDiv">
       <div className="homeContainer">
-        <WelcomeCard />
+        <Suspense fallback={<div>Loading...</div>}>
+          <WelcomeCard />
+        </Suspense>
         <h1 className="storyHeading">Top stories for you</h1>
         <div className="homeStories"></div>
       </div>
