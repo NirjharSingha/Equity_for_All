@@ -14,7 +14,7 @@ const DisplayUser = ({ children }) => {
   ) => {
     try {
       if (profilePic !== "") {
-        const baseUrl = "http://localhost:5000/";
+        const baseUrl = `${import.meta.env.VITE_SERVER_URL}/`;
         const imgVerify = await isFileExists(
           profilePic.substring(baseUrl.length)
         );

@@ -1,1 +1,62 @@
+/* Using Google Fonts (Roboto) */
+body {
+  font-family: "Roboto", sans-serif;
+}
 
+/* Using Helvetica Neue */
+/* Note: You may need to specify an appropriate fallback font for users who don't have Helvetica Neue installed. */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Using Arial */
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Using Georgia */
+/* You can apply Georgia to specific elements like headings. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Georgia, serif;
+}
+
+/* Using Times New Roman */
+/* You can apply Times New Roman to specific elements like paragraphs. */
+p {
+  font-family: "Times New Roman", serif;
+}
+
+/* Using Nunito */
+/* Note: You need to import the Nunito font using a <link> tag in your HTML file. */
+body {
+  font-family: "Nunito", sans-serif;
+}
+/* Webkit-specific styles for the input scrollbar */
+input::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+  width: 4px; /* Width of the scrollbar */
+}
+
+/* Style the scrollbar track (background) */
+input::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background color of the track */
+}
+
+/* Style the scrollbar thumb (draggable part) */
+input::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the thumb */
+  border-radius: 6px; /* Rounded corners for the thumb */
+}
+
+/* When the user hovers over the scrollbar */
+input::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color on hover */
+}

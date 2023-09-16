@@ -14,7 +14,14 @@ const CreatePost = () => {
   const [postCategory, setPostCategory] = useState("public");
   const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
-  const { setYourPostArray, selectedPost } = usePostContext();
+  const {
+    setYourPostArray,
+    selectedPost,
+    setShowYourPost,
+    setShowAlert,
+    setAlertMessage,
+    showYourPost,
+  } = usePostContext();
   const inputRef = useRef(null);
 
   const handleButtonClick = () => {
@@ -120,6 +127,8 @@ const CreatePost = () => {
         setInputValue("");
         setSelectedFiles([]);
         setPostCategory("public");
+        setAlertMessage("Post created successfully");
+        setShowAlert(true);
         try {
           const res = await axios.put(
             `${import.meta.env.VITE_SERVER_URL}/user/addPostID`,
@@ -131,7 +140,11 @@ const CreatePost = () => {
         } catch (e) {
           console.log(e);
         }
-        setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
+        if (showYourPost) {
+          setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
+        } else {
+          setShowYourPost(true);
+        }
       }
       if (response.status === 200) {
         console.log("post updated successfully");
@@ -143,6 +156,9 @@ const CreatePost = () => {
           });
         });
         setEditPost(false);
+
+        setAlertMessage("Post updated successfully");
+        setShowAlert(true);
       }
     } catch (error) {
       console.log(error);

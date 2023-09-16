@@ -3,6 +3,7 @@ import "./Posts.css";
 import { useEffect, useState, useRef } from "react";
 import PostCard from "./PostCard";
 import { usePostContext } from "../contexts/PostContext";
+import AlertMessage from "./AlertMessage";
 
 const YourPosts = () => {
   const {
@@ -16,6 +17,9 @@ const YourPosts = () => {
     handleScroll,
     fetchPostIds,
     postPerPage,
+    showAlert,
+    setShowAlert,
+    alertMessage,
   } = usePostContext();
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
@@ -67,6 +71,9 @@ const YourPosts = () => {
 
   return (
     <div className="postContainer" ref={divRef}>
+      {showAlert && (
+        <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
+      )}
       {yourPostArray.map(
         (post) =>
           post && <PostCard key={post._id} post={post} shareFlag={false} />

@@ -6,6 +6,7 @@ import { useFriendContext } from "../contexts/FriendContext";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BirthDays from "./BirthDays";
+import AlertMessage from "./AlertMessage";
 
 const Friends = () => {
   const {
@@ -27,6 +28,9 @@ const Friends = () => {
     setFollowersID,
     followingsID,
     setFollowingsID,
+    showAlert,
+    setShowAlert,
+    alertMessage,
   } = useFriendContext();
 
   const [flags, setFlags] = useState({
@@ -269,6 +273,9 @@ const Friends = () => {
 
   return (
     <div className="friendDiv">
+      {showAlert && (
+        <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
+      )}
       {selectedOption === 7 && <BirthDays />}
       {selectedOption !== 7 && (
         <div className="friendContainer" ref={divRef}>

@@ -37,7 +37,8 @@ const PostCard = ({ post, shareFlag }) => {
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const [showEditButton, setShowEditButton] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const { setEditPost, setSelectedPost } = usePostContext();
+  const { setEditPost, setSelectedPost, setShowAlert, setAlertMessage } =
+    usePostContext();
   const editContainerRef = useRef(null);
   const { setYourPostArray } = usePostContext();
   const [showLikesList, setShowLikesList] = useState(false);
@@ -91,6 +92,9 @@ const PostCard = ({ post, shareFlag }) => {
       setYourPostArray((prevPosts) => {
         return prevPosts.filter((post) => post._id !== response.data.id);
       });
+
+      setAlertMessage("Post deleted successfully");
+      setShowAlert(true);
 
       const data = {
         email: response.data.email,

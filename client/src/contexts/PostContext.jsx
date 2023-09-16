@@ -19,6 +19,8 @@ const PostContextProvider = ({ children }) => {
   const [yourPostIds, setYourPostIds] = useState([]);
   const [postPerPage] = useState(8);
   const [shouldFetchOtherPostIds, setShouldFetchOtherPostIds] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const fetchPostDetails = async (
     postIds,
@@ -40,7 +42,7 @@ const PostContextProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/post/all?ids=${arrayToSend}`,
+          `${import.meta.env.VITE_SERVER_URL}/post/all?ids=${arrayToSend}`,
           {
             headers: {
               token: token,
@@ -119,6 +121,10 @@ const PostContextProvider = ({ children }) => {
         handleScroll,
         shouldFetchOtherPostIds,
         setShouldFetchOtherPostIds,
+        showAlert,
+        setShowAlert,
+        alertMessage,
+        setAlertMessage,
       }}
     >
       {children}

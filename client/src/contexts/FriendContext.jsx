@@ -17,6 +17,8 @@ const FriendContextProvider = ({ children }) => {
   const [followersID, setFollowersID] = useState([]);
   const [followingsID, setFollowingsID] = useState([]);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   return (
     <FriendContext.Provider
@@ -40,6 +42,10 @@ const FriendContextProvider = ({ children }) => {
         setFollowersID,
         followingsID,
         setFollowingsID,
+        showAlert,
+        setShowAlert,
+        alertMessage,
+        setAlertMessage,
       }}
     >
       {children}

@@ -10,9 +10,9 @@ export function useVerifyFileContext() {
 const VerifyFile = ({ children }) => {
   const isFileExists = async (fileUrl) => {
     const response = await axios.get(
-      `http://localhost:5000/api/files/check?fileUrl=${encodeURIComponent(
-        fileUrl
-      )}`
+      `${
+        import.meta.env.VITE_SERVER_URL
+      }/api/files/check?fileUrl=${encodeURIComponent(fileUrl)}`
     );
     return response;
   };

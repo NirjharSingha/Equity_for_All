@@ -21,6 +21,8 @@ const PersonCard = ({ email }) => {
     setFollowersID,
     followingsID,
     setFollowingsID,
+    setShowAlert,
+    setAlertMessage,
   } = useFriendContext();
 
   const { getUserInfo } = useUserInfoContext();
@@ -119,6 +121,8 @@ const PersonCard = ({ email }) => {
           updateFriends("friendRequestSend", "add");
           updateIDArray(setReqSendID, "add");
           updateIDArray(setSuggessionsID, "remove");
+          setAlertMessage("friend request sent successfully");
+          setShowAlert(true);
         }
       } else {
         if (response.data.message === "blocked") {
@@ -131,6 +135,8 @@ const PersonCard = ({ email }) => {
           console.log(response.data.message);
           updateFriends("followings", "add");
           updateIDArray(setFollowingsID, "add");
+          setAlertMessage(`you have followed ${userName}`);
+          setShowAlert(true);
         }
       }
     } catch (error) {
@@ -139,6 +145,8 @@ const PersonCard = ({ email }) => {
   };
 
   const handleBlock = async (isFollowPage) => {
+    setAlertMessage(`${userName} is blocked`);
+    setShowAlert(true);
     if (isFollowPage) {
       updateFriends("followers", "remove");
       updateIDArray(setFollowersID, "remove");
@@ -197,6 +205,8 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("friends", "remove");
                 updateIDArray(setFriendsID, "remove");
+                setAlertMessage(`you and ${userName} are not friends anymore`);
+                setShowAlert(true);
               }}
             >
               Unfriend
@@ -220,6 +230,8 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("friendRequestSend", "remove");
                 updateIDArray(setReqSendID, "remove");
+                setAlertMessage(`friend request deleted successfully`);
+                setShowAlert(true);
               }}
             >
               Cancel Request
@@ -245,6 +257,8 @@ const PersonCard = ({ email }) => {
                 updateIDArray(setReqReceivedID, "remove");
                 updateFriends("friends", "add");
                 updateIDArray(setFriendsID, "add");
+                setAlertMessage(`you and ${userName} are friends now`);
+                setShowAlert(true);
               }}
             >
               Accept
@@ -254,6 +268,8 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("friendRequestReceived", "remove");
                 updateIDArray(setReqReceivedID, "remove");
+                setAlertMessage("friend request declined");
+                setShowAlert(true);
               }}
             >
               Decline
@@ -274,7 +290,9 @@ const PersonCard = ({ email }) => {
           <>
             <button
               className="personCardButton personCardElement"
-              onClick={() => handleAddFriend(false)}
+              onClick={() => {
+                handleAddFriend(false);
+              }}
             >
               Add friend
             </button>
@@ -284,6 +302,8 @@ const PersonCard = ({ email }) => {
                 if (followingsID.includes(email)) {
                   updateFriends("followings", "remove");
                   updateIDArray(setFollowingsID, "remove");
+                  setAlertMessage(`you have unfollowed ${userName}`);
+                  setShowAlert(true);
                 } else {
                   handleAddFriend(true);
                 }
@@ -310,9 +330,13 @@ const PersonCard = ({ email }) => {
                 if (followingsID.includes(email)) {
                   updateFriends("followings", "remove");
                   updateIDArray(setFollowingsID, "remove");
+                  setAlertMessage(`you have unfollowed ${userName}`);
+                  setShowAlert(true);
                 } else {
                   updateFriends("followings", "add");
                   updateIDArray(setFollowingsID, "add");
+                  setAlertMessage(`you have followed ${userName}`);
+                  setShowAlert(true);
                 }
               }}
             >
@@ -335,6 +359,8 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("followings", "remove");
                 updateIDArray(setFollowingsID, "remove");
+                setAlertMessage(`you have unfollowed ${userName}`);
+                setShowAlert(true);
               }}
             >
               Unfollow
@@ -356,6 +382,8 @@ const PersonCard = ({ email }) => {
               onClick={() => {
                 updateFriends("blockList", "remove");
                 updateIDArray(setBlockID, "remove");
+                setAlertMessage(`${userName} is unblocked`);
+                setShowAlert(true);
               }}
             >
               Unblock
