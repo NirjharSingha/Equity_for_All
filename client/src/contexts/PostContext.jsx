@@ -26,7 +26,8 @@ const PostContextProvider = ({ children }) => {
     postIds,
     postPage,
     setPostArray,
-    postPerPage
+    postPerPage,
+    setShowLoading
   ) => {
     let arrayToSend = [];
     if (postIds.length > 0 && postPage * postPerPage <= postIds.length) {
@@ -40,6 +41,7 @@ const PostContextProvider = ({ children }) => {
         arrayToSend.push(element);
       }
       try {
+        setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_URL}/post/all?ids=${arrayToSend}`,
@@ -49,16 +51,20 @@ const PostContextProvider = ({ children }) => {
             },
           }
         );
-        const posts = response.data;
-        setPostArray((prev) => [...prev, ...posts]);
+        if (response) {
+          const posts = response.data;
+          setPostArray((prev) => [...prev, ...posts]);
+          setShowLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
     }
   };
 
-  const fetchPostIds = async (path, setPostIds) => {
+  const fetchPostIds = async (path, setPostIds, setShowLoading) => {
     try {
+      setShowLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(path, {
         headers: {
@@ -68,6 +74,7 @@ const PostContextProvider = ({ children }) => {
       if (response) {
         const data = response.data;
         setPostIds([...data]);
+        setShowLoading(false);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);

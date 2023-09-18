@@ -9,6 +9,7 @@ import EmojiList from "./EmojiList";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import Loading from "./Loading";
 
 const Comment = ({ setShowComments, post }) => {
   const commentContainerRef = useRef(null);
@@ -22,6 +23,7 @@ const Comment = ({ setShowComments, post }) => {
   const [commentLimit] = useState(3);
   const [commentIds, setCommentIds] = useState([]);
   const inputRef = useRef(null);
+  const [showLoading, setShowLoading] = useState(true);
 
   const handleRotateClick = async () => {
     setIsRotating(true);
@@ -151,6 +153,7 @@ const Comment = ({ setShowComments, post }) => {
   useEffect(() => {
     const fetchCommentIds = async () => {
       try {
+        setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_URL}/post/postOptions/getCommentIds/${
@@ -162,7 +165,10 @@ const Comment = ({ setShowComments, post }) => {
             },
           }
         );
-        setCommentIds(response.data.commentID.reverse());
+        if (response) {
+          setCommentIds(response.data.commentID.reverse());
+          setShowLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching comment count:", error);
       }
@@ -201,6 +207,7 @@ const Comment = ({ setShowComments, post }) => {
         }
       }
       try {
+        setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_URL}/post/postOptions/getComments/${
@@ -212,8 +219,11 @@ const Comment = ({ setShowComments, post }) => {
             },
           }
         );
-        const getComments = response.data;
-        setComments((prev) => [...prev, ...getComments]);
+        if (response) {
+          const getComments = response.data;
+          setComments((prev) => [...prev, ...getComments]);
+          setShowLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -333,11 +343,13 @@ const Comment = ({ setShowComments, post }) => {
             />
           </div>
         ))}
-        {(commentPage + 1) * commentLimit < commentIds.length && (
-          <button className="viewMoreComments" onClick={handleViewComment}>
-            View more comments
-          </button>
-        )}
+        {showLoading && <Loading />}
+        {!showLoading &&
+          (commentPage + 1) * commentLimit < commentIds.length && (
+            <button className="viewMoreComments" onClick={handleViewComment}>
+              View more comments
+            </button>
+          )}
       </div>
       <div className="writeAComment">
         {showEmojis && (

@@ -7,6 +7,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BirthDays from "./BirthDays";
 import AlertMessage from "./AlertMessage";
+import Loading from "./Loading";
 
 const Friends = () => {
   const {
@@ -45,6 +46,7 @@ const Friends = () => {
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [cardPerPage] = useState(7);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     console.log("friend component loaded");
@@ -52,6 +54,7 @@ const Friends = () => {
   }, []);
 
   const fetchData = async () => {
+    setShowLoading(true);
     const token = localStorage.getItem("token");
     const response = await axios.get(
       `${import.meta.env.VITE_SERVER_URL}/user/getFriends`,
@@ -68,11 +71,13 @@ const Friends = () => {
       setReqReceivedID(response.data.friendRequestReceived);
       setFollowersID(response.data.followers);
       setFollowingsID(response.data.followings);
+      setShowLoading(false);
     }
   };
 
   const fetchSuggessionData = async (dataToSend) => {
     console.log("fetching suggessions");
+    setShowLoading(true);
     const token = localStorage.getItem("token");
     const response = await axios.get(
       `${
@@ -101,6 +106,7 @@ const Friends = () => {
       );
 
       setSuggessionsID(suggessions);
+      setShowLoading(false);
     }
   };
 
@@ -284,6 +290,11 @@ const Friends = () => {
               <PersonCard email={id} />
             </div>
           ))}
+          {showLoading && (
+            <div className="friendLoading">
+              <Loading />
+            </div>
+          )}
         </div>
       )}
     </div>

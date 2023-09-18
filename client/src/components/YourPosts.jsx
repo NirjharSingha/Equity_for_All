@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import PostCard from "./PostCard";
 import { usePostContext } from "../contexts/PostContext";
 import AlertMessage from "./AlertMessage";
+import Loading from "./Loading";
 
 const YourPosts = () => {
   const {
@@ -24,6 +25,7 @@ const YourPosts = () => {
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [componentDidMount, setComponentDidMount] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     const currentDivRef = divRef.current;
@@ -55,7 +57,8 @@ const YourPosts = () => {
         yourPostIds,
         yourPostPage,
         setYourPostArray,
-        postPerPage
+        postPerPage,
+        setShowLoading
       );
     } else {
       setComponentDidMount(false);
@@ -65,7 +68,8 @@ const YourPosts = () => {
   useEffect(() => {
     fetchPostIds(
       `${import.meta.env.VITE_SERVER_URL}/post/getYourPostIDs`,
-      setYourPostIds
+      setYourPostIds,
+      setShowLoading
     );
   }, []);
 
@@ -78,6 +82,7 @@ const YourPosts = () => {
         (post) =>
           post && <PostCard key={post._id} post={post} shareFlag={false} />
       )}
+      {showLoading && <Loading />}
     </div>
   );
 };

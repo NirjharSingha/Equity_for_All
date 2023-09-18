@@ -3,6 +3,7 @@ import "./Posts.css";
 import { useEffect, useState, useRef } from "react";
 import PostCard from "./PostCard";
 import { usePostContext } from "../contexts/PostContext";
+import Loading from "./Loading";
 
 const OtherPosts = () => {
   const {
@@ -22,6 +23,7 @@ const OtherPosts = () => {
   const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [componentDidMount, setComponentDidMount] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     const currentDivRef = divRef.current;
@@ -44,7 +46,8 @@ const OtherPosts = () => {
       otherPostIds,
       otherPostPage,
       setOtherPostArray,
-      postPerPage
+      postPerPage,
+      setShowLoading
     );
 
     return () => {
@@ -59,7 +62,8 @@ const OtherPosts = () => {
         otherPostIds,
         otherPostPage,
         setOtherPostArray,
-        postPerPage
+        postPerPage,
+        setShowLoading
       );
     } else {
       setComponentDidMount(false);
@@ -70,7 +74,8 @@ const OtherPosts = () => {
     if (shouldFetchOtherPostIds) {
       fetchPostIds(
         `${import.meta.env.VITE_SERVER_URL}/post/getOtherPostIDs`,
-        setOtherPostIds
+        setOtherPostIds,
+        setShowLoading
       );
       setShouldFetchOtherPostIds(false);
     }
@@ -81,6 +86,7 @@ const OtherPosts = () => {
       {otherPostArray.map((post) => (
         <PostCard key={post._id} post={post} shareFlag={false} />
       ))}
+      {showLoading && <Loading />}
     </div>
   );
 };

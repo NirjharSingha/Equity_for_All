@@ -1,6 +1,7 @@
 import React from "react";
 import "./Groups.css";
 import { useEffect } from "react";
+import Loading from "./Loading";
 
 const Home = () => {
   useEffect(() => {
@@ -11,6 +12,7 @@ const Home = () => {
     <div className="homeDiv">
       <div className="homeContainer">
         <h1>Group page</h1>
+        <Loading />
       </div>
     </div>
   );

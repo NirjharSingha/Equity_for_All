@@ -39,3 +39,6 @@ body {
 .friendContainer::-webkit-scrollbar-thumb:hover {
   background-color: #3f3d3d;
 }
+.friendLoading {
+  grid-column: 1 / span 3;
+}

@@ -5,10 +5,6 @@ const birthdays = asyncHandler(async (req, res) => {
   console.log("inside birthdays");
   try {
     const idsString = req.query.emails;
-    if (idsString.length <= 1) {
-      res.send([]);
-      return;
-    }
     const idArray = idsString.split(",").filter((id) => id);
 
     let groupedBirthdays = await User.aggregate([
