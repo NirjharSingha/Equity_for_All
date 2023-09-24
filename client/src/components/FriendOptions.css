@@ -5,6 +5,8 @@
   flex-direction: column;
   max-height: calc(100vh - 8.2rem);
   overflow-y: auto;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 }
 .friendOptionsButton {
   min-height: 2.7rem;

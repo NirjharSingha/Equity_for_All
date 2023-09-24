@@ -6,7 +6,7 @@ const Loading = () => {
   return (
     <div className="loading">
       <AiOutlineLoading3Quarters className="loadingIcon" />
-      <p>loading</p>
+      <p>loading...</p>
     </div>
   );
 };

@@ -7,6 +7,7 @@
   grid-template-rows: 3rem auto 2rem 2rem 1.5rem;
   margin-left: 10px;
   position: relative;
+  margin-bottom: 0.5rem;
 }
 .postContent {
   grid-row: 2 / span 1;

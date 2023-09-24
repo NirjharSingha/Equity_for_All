@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import UpdateProfile from "./UpdateProfile";
 import axios from "axios";
 import Loading from "./Loading";
+import { MdEdit } from "react-icons/md";
 
 const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
   const [profileData, setProfileData] = useState({});
@@ -170,12 +171,13 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
               </div>
               {profileCode === 0 && (
                 <div className="updateProfileButtonContainer">
-                  <button
+                  <div
                     className="profileUpdateButton"
                     onClick={handleUpdateProfile}
                   >
+                    <MdEdit />
                     Edit
-                  </button>
+                  </div>
                 </div>
               )}
             </div>

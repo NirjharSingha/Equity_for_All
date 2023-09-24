@@ -12,7 +12,7 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       "school college university workplace"
     );
 
-    const matchingUsers = new Set();
+    let matchingUsers = new Set();
 
     if (user.school !== "") {
       const usersFromSchool = await User.find({ school: user.school }, "email");
@@ -43,7 +43,21 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       usersFromWorkplace.forEach((u) => matchingUsers.add(u.email));
     }
 
+    if (matchingUsers.size === 0) {
+      const lastN = 30;
+      const randomUsers = await User.aggregate([
+        { $sort: { createdAt: -1 } },
+        { $limit: lastN },
+        { $project: { email: 1 } },
+      ]);
+      randomUsers.forEach((e) => {
+        matchingUsers.add(e.email);
+      });
+      console.log(matchingUsers);
+    }
+
     const uniqueMatchingUsers = Array.from(matchingUsers);
+    console.log(uniqueMatchingUsers);
     res.json(uniqueMatchingUsers);
   } else {
     try {
@@ -60,6 +74,8 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       const allFriendSuggessions = Array.from(
         new Set(dataToSend.flatMap((obj) => obj.friends))
       );
+
+      console.log(allFriendSuggessions);
 
       res.json(allFriendSuggessions);
     } catch (error) {

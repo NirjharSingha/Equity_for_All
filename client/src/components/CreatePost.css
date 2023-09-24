@@ -16,6 +16,8 @@ body {
   height: calc(100vh - 8.1rem);
   display: grid;
   grid-template-rows: auto 42px;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 }
 .createPostFirstRow {
   grid-row: 1;
@@ -33,6 +35,8 @@ body {
   height: 8rem;
   margin: 5px;
   text-align: center;
+  border: 2px solid rgb(178, 179, 181);
+  border-radius: 0.4rem;
 }
 .postAttachment {
   width: calc(100% - 10px);

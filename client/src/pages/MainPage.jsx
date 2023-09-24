@@ -10,6 +10,7 @@ import Profile from "../components/Profile";
 import Chat from "../components/Chat";
 import PostComponent from "../components/PostComponent";
 import FriendOptions from "../components/FriendOptions";
+import CreateStory from "../components/CreateStory";
 
 const MainPage = () => {
   return (
@@ -30,8 +31,7 @@ const MainPage = () => {
             element={
               <>
                 <div className="mainComponent">
-                  {" "}
-                  <Home />{" "}
+                  <Home />
                 </div>
                 <div className="leftComponent">
                   <Profile profileCode={0} />
@@ -43,8 +43,7 @@ const MainPage = () => {
             path="/posts/*"
             element={
               <div className="doubleColumn">
-                {" "}
-                <PostComponent />{" "}
+                <PostComponent />
               </div>
             }
           />
@@ -53,8 +52,7 @@ const MainPage = () => {
             element={
               <>
                 <div className="mainComponent">
-                  {" "}
-                  <Friends />{" "}
+                  <Friends />
                 </div>
                 <div className="leftComponent">
                   <FriendOptions />
@@ -66,9 +64,21 @@ const MainPage = () => {
             path="/groups"
             element={
               <div className="mainComponent">
-                {" "}
-                <Groups />{" "}
+                <Groups />
               </div>
+            }
+          />
+          <Route
+            path="/stories"
+            element={
+              <>
+                <div className="mainComponent">
+                  <Groups />
+                </div>
+                <div className="leftComponent">
+                  <CreateStory />
+                </div>
+              </>
             }
           />
         </Routes>

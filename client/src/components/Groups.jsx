@@ -2,6 +2,8 @@ import React from "react";
 import "./Groups.css";
 import { useEffect } from "react";
 import Loading from "./Loading";
+import Story from "./Story";
+import PreviewStory from "./PreviewStory";
 
 const Home = () => {
   useEffect(() => {
@@ -11,8 +13,7 @@ const Home = () => {
   return (
     <div className="homeDiv">
       <div className="homeContainer">
-        <h1>Group page</h1>
-        <Loading />
+        <PreviewStory />
       </div>
     </div>
   );

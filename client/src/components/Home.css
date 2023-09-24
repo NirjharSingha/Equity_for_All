@@ -13,13 +13,26 @@ body {
 .homeContainer {
   width: 99%;
   height: 100%;
-  display: flex;
-  align-items: center;
   margin-left: 1%;
   flex-direction: column;
+  overflow-y: auto;
 }
 .storyHeading {
   margin-top: 0.5rem;
   color: rgb(22, 93, 184);
   font-size: 2.2rem;
+  text-align: center;
+}
+.homeContainer::-webkit-scrollbar {
+  width: 2px;
+}
+.homeContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.homeContainer::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.homeContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
 }

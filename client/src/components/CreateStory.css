@@ -1,0 +1,214 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.createPost {
+  width: 100%;
+  height: calc(100vh - 8.1rem);
+  display: grid;
+  grid-template-rows: auto 42px;
+}
+.createStoryFirstRow {
+  grid-row: 1;
+  width: 100%;
+  height: calc(100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: calc(100vh - 8.5rem - 50px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.storyDescription {
+  width: calc(100% - 10px);
+  height: 8rem;
+  margin: 5px;
+  text-align: center;
+  border: 2px solid rgb(178, 179, 181);
+  border-radius: 0.4rem;
+}
+.storyBackground {
+  width: 96%;
+  height: 5.2rem;
+  margin: 5px;
+  border: 2px solid rgb(178, 179, 181);
+  padding-right: 7px;
+  padding-left: 7px;
+  border-radius: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+.storyHeadings {
+  font-size: medium;
+  padding: 5px;
+  color: rgb(178, 179, 181);
+  padding-left: 1px;
+}
+.bgColorChoice {
+  display: flex;
+  overflow-x: auto;
+  min-height: 3rem;
+}
+.bgColorChoice::-webkit-scrollbar {
+  display: none;
+}
+.color {
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  border-radius: 50%;
+  margin: 5px;
+  margin-left: 7px;
+  margin-right: 7px;
+  cursor: pointer;
+}
+.color:hover {
+  border: 2px solid rgb(134, 135, 137);
+}
+.color:first-child {
+  margin-left: 0px;
+}
+.color:last-child {
+  margin-right: 0px;
+}
+.color_1 {
+  background-color: rgb(9, 181, 181);
+}
+.color_2 {
+  background-color: rgb(35, 67, 156);
+}
+.color_3 {
+  background-color: rgb(64, 246, 36);
+}
+.color_4 {
+  background-color: rgb(4, 112, 33);
+}
+.color_5 {
+  background-color: rgb(238, 90, 36);
+}
+.color_6 {
+  background-color: rgb(240, 229, 13);
+}
+.color_7 {
+  background-color: rgb(83, 26, 130);
+}
+.color_8 {
+  background-color: rgb(228, 61, 243);
+}
+.color_9 {
+  background-color: rgb(221, 89, 135);
+}
+.storyFont {
+  margin-right: 5px;
+  margin-left: 5px;
+  width: calc(100% - 10px);
+  height: 35px;
+  min-height: 35px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 552;
+  border: 2px solid rgb(134, 135, 137);
+  font-weight: bold;
+  margin-top: 0.3rem;
+  margin-bottom: 0.45rem;
+}
+.postAttachment {
+  width: calc(100% - 10px);
+  min-height: 160px;
+  margin: 5px;
+  margin-top: 0px;
+  text-align: center;
+  background-color: rgb(190, 193, 194);
+  overflow-y: auto;
+  max-height: 200px;
+}
+.postAttachmentInput {
+  display: none;
+}
+.uploadStoryAttachment {
+  height: 35px;
+  min-height: 35px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: 552;
+  border: 2px solid rgb(134, 135, 137);
+  border-radius: 10px;
+  width: calc(100% - 10px);
+  margin-top: 0.4rem;
+}
+.uploadStoryAttachment:hover {
+  background-color: rgb(188, 188, 192);
+  cursor: pointer;
+}
+.uploadPostAttachment:hover {
+  background-color: rgb(6, 124, 4);
+  cursor: pointer;
+}
+.createPostSecondRow {
+  grid-row: 2;
+}
+.createPostButton {
+  height: 35px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(30, 150, 194);
+  border-radius: 10px;
+  width: calc(100% - 10px);
+  border: none;
+}
+.disabledCreatePost {
+  cursor: not-allowed;
+}
+.buttonHover:hover {
+  background-color: rgb(4, 102, 138);
+  cursor: pointer;
+}
+.storyVisibility {
+  font: 1.1em sans-serif;
+  font-weight: 552;
+  margin-bottom: 5px;
+  color: rgb(118, 119, 122);
+}
+.postCategoryContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 5px;
+  align-items: center;
+}
+.storyVisibilityButton {
+  margin-right: 5px;
+  width: calc(100% - 6px);
+  height: 35px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 552;
+  border: 2px solid rgb(134, 135, 137);
+  font-weight: bold;
+}
+.storyVisibilityBytton:hover {
+  background-color: rgb(188, 188, 192);
+}
+.storyVisibilityOption {
+  background-color: rgb(243, 240, 240);
+}
+.postAttachment::-webkit-scrollbar {
+  display: none;
+}
+.createPostFirstRow::-webkit-scrollbar {
+  display: none;
+}

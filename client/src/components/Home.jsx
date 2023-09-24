@@ -1,6 +1,7 @@
 import React from "react";
 import "./Home.css";
 import { useEffect, lazy, Suspense } from "react";
+import Story from "./Story";
 
 const WelcomeCard = lazy(() => import("./WelcomeCard"));
 
@@ -16,7 +17,8 @@ const Home = () => {
           <WelcomeCard />
         </Suspense>
         <h1 className="storyHeading">Top stories for you</h1>
-        <div className="homeStories"></div>
+        {/* <div className="homeStories"></div> */}
+        <Story />
       </div>
     </div>
   );
