@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import "./CreatePost.css";
 import { useState, useRef } from "react";
 import axios from "axios";
-import { usePostContext } from "../contexts/PostContext";
+import { useStoryContext } from "../contexts/StoryContext";
 
 const CreateStory = () => {
   useEffect(() => {
@@ -12,157 +12,70 @@ const CreateStory = () => {
   }, []);
 
   const fileInputRef = useRef(null);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [inputValue, setInputValue] = useState("");
   const [isDisable, setIsDisable] = useState(true);
-  const [postCategory, setPostCategory] = useState("public");
-  const { editPost, setEditPost } = usePostContext();
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [visibility, setVisibility] = useState("Anyone");
   const {
-    setYourPostArray,
-    selectedPost,
-    setShowYourPost,
-    setShowAlert,
-    setAlertMessage,
-    showYourPost,
-  } = usePostContext();
-  const inputRef = useRef(null);
+    selectedBg,
+    setSelectedBg,
+    fontStyleVar,
+    setFontStyle,
+    fontColor,
+    setFontColor,
+    selectedFile,
+    setSelectedFile,
+    inputValue,
+    setInputValue,
+    crossFlag,
+    setCrossFlag,
+    bgColors,
+  } = useStoryContext();
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
+  const handleFileUpload = () => {
+    if (!crossFlag) {
+      fileInputRef.current.click();
+    }
   };
-
-  useEffect(() => {
-    if (editPost) {
-      setInputValue(selectedPost.postDescription);
-      setPostCategory(selectedPost.postCategory);
-    }
-    if (
-      editPost &&
-      selectedPost &&
-      selectedPost.postAttachments &&
-      selectedPost.postAttachments.length === 0
-    ) {
-      setIsDeleted(true);
-    }
-  }, []);
 
   const handleFileChange = (event) => {
-    const files = event.target.files;
-    const filesArray = Array.from(files);
-    setSelectedFiles((prevFiles) => [...prevFiles, ...filesArray]);
-  };
-
-  const handleRemoveFile = (index) => {
-    setSelectedFiles((prevFiles) => {
-      const updatedFiles = [...prevFiles];
-      updatedFiles.splice(index, 1);
-      return updatedFiles;
-    });
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    setCrossFlag(true);
   };
 
   useEffect(() => {
-    if (inputValue === "" && selectedFiles.length === 0) {
+    if (inputValue === "" && crossFlag === false) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [inputValue, selectedFiles]);
+  }, [inputValue, crossFlag]);
 
-  const handleCreatePost = async (e) => {
+  const handleCreateStory = async (e) => {
     e.preventDefault();
-    const postData = new FormData();
-
-    postData.append("postDescription", inputValue);
-    postData.append("postCategory", postCategory);
-
-    if (!editPost) {
-      postData.append("createdAt", new Date(Date.now()).toLocaleString());
-    }
-
-    if (editPost) {
-      postData.append("updatedAt", new Date(Date.now()).toLocaleString());
-      postData.append("id", selectedPost._id);
-      postData.append("isDeleted", isDeleted);
-
-      if (selectedPost && selectedPost.postAttachments) {
-        for (let i = 0; i < selectedPost.postAttachments.length; i++) {
-          postData.append("prevAttachments", selectedPost.postAttachments[i]);
-        }
-      }
-    }
-
-    for (let i = 0; i < selectedFiles.length; i++) {
-      postData.append("postAttachments", selectedFiles[i]);
-    }
+    const storyData = new FormData();
+    storyData.append("storyDescription", inputValue);
+    storyData.append("storyVisibility", visibility);
+    storyData.append("createdAt", new Date(Date.now()).toLocaleString());
+    storyData.append("backgroundImage", selectedFile);
+    storyData.append("flag", crossFlag);
+    storyData.append("backgroundColor", bgColors[selectedBg]);
+    storyData.append("fontStyle", fontStyleVar);
+    storyData.append("fontColor", fontColor);
 
     try {
       const token = localStorage.getItem("token");
       let response;
-      if (!editPost) {
-        response = await axios.post(
-          `${import.meta.env.VITE_SERVER_URL}/post/createPost`,
-          postData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              token: token,
-            },
-          }
-        );
-      } else {
-        response = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/post/editPost`,
-          postData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              token: token,
-            },
-          }
-        );
-      }
+      response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/story/createStory`,
+        postData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: token,
+          },
+        }
+      );
       if (response.status === 201) {
-        const data = {
-          email: response.data.email,
-          postID: response.data.postId,
-        };
-        console.log("post created");
-        setInputValue("");
-        setSelectedFiles([]);
-        setPostCategory("public");
-        setAlertMessage("Post created successfully");
-        setShowAlert(true);
-        try {
-          const res = await axios.put(
-            `${import.meta.env.VITE_SERVER_URL}/user/addPostID`,
-            data
-          );
-          if (res.status === 200) {
-            console.log("user updated");
-          }
-        } catch (e) {
-          console.log(e);
-        }
-        if (showYourPost) {
-          setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
-        } else {
-          setShowYourPost(true);
-        }
-      }
-      if (response.status === 200) {
-        console.log("post updated successfully");
-        const updatedPost = response.data.updatedPost;
-
-        setYourPostArray((prevPosts) => {
-          return prevPosts.map((post) => {
-            return post._id === updatedPost._id ? { ...updatedPost } : post;
-          });
-        });
-        setEditPost(false);
-
-        setAlertMessage("Post updated successfully");
-        setShowAlert(true);
       }
     } catch (error) {
       console.log(error);
@@ -172,98 +85,204 @@ const CreateStory = () => {
   return (
     <form
       className="createPost"
-      onSubmit={handleCreatePost}
+      onSubmit={handleCreateStory}
       encType="multipart/form-data"
     >
       <div className="createPostFirstRow">
         <div>
           <textarea
             value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
+            onChange={(event) => {
+              setInputValue(event.target.value);
+            }}
             placeholder="Start writing"
             className="storyDescription"
-            style={editPost ? { width: "34vw" } : { width: "24vw" }}
-            ref={inputRef}
           />
         </div>
         <select
-          id="postCategory"
-          name="postCategory"
+          id="fontStyle"
+          name="fontStyle"
           className="storyFont"
-          value={postCategory}
-          onChange={(e) => setPostCategory(e.target.value)}
+          value={fontStyleVar}
+          onChange={(e) => setFontStyle(e.target.value)}
         >
-          <option value="public" className="storyVisibilityOption">
+          <option value="simple" className="storyVisibilityOption">
             Simple text
           </option>
-          <option value="protected" className="storyVisibilityOption">
-            fancy
+          <option value="fancy" className="storyVisibilityOption">
+            Fancy
           </option>
-          <option value="protected" className="storyVisibilityOption">
-            bold
+        </select>
+        <select
+          id="fontColor"
+          name="fontColor"
+          className="storyFont"
+          value={fontColor}
+          onChange={(e) => setFontColor(e.target.value)}
+        >
+          <option value="white" className="storyVisibilityOption">
+            Text color white
           </option>
-          <option value="onlyMe" className="storyVisibilityOption">
-            bold fancy
+          <option value="black" className="storyVisibilityOption">
+            Text color black
+          </option>
+          <option value="blue" className="storyVisibilityOption">
+            Text color blue
+          </option>
+          <option value="red" className="storyVisibilityOption">
+            Text color red
+          </option>
+          <option value="green" className="storyVisibilityOption">
+            Text color green
           </option>
         </select>
         <div className="storyBackground">
-          <p className="storyHeadings">Font-color</p>
-          <div className="bgColorChoice">
-            <div className="color color_1"></div>
-            <div className="color color_2"></div>
-            <div className="color color_3"></div>
-            <div className="color color_4"></div>
-            <div className="color color_5"></div>
-            <div className="color color_6"></div>
-            <div className="color color_7"></div>
-            <div className="color color_8"></div>
-            <div className="color color_9"></div>
-          </div>
-        </div>
-        <div className="storyBackground">
           <p className="storyHeadings">Background</p>
           <div className="bgColorChoice">
-            <div className="color color_1"></div>
-            <div className="color color_2"></div>
-            <div className="color color_3"></div>
-            <div className="color color_4"></div>
-            <div className="color color_5"></div>
-            <div className="color color_6"></div>
-            <div className="color color_7"></div>
-            <div className="color color_8"></div>
-            <div className="color color_9"></div>
+            <div
+              className="color color_1"
+              style={
+                selectedBg === 0
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(0)}
+            ></div>
+            <div
+              className="color color_2"
+              style={
+                selectedBg === 1
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(1)}
+            ></div>
+            <div
+              className="color color_3"
+              style={
+                selectedBg === 2
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(2)}
+            ></div>
+            <div
+              className="color color_4"
+              style={
+                selectedBg === 3
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(3)}
+            ></div>
+            <div
+              className="color color_5"
+              style={
+                selectedBg === 4
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(4)}
+            ></div>
+            <div
+              className="color color_6"
+              style={
+                selectedBg === 5
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(5)}
+            ></div>
+            <div
+              className="color color_7"
+              style={
+                selectedBg === 6
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(6)}
+            ></div>
+            <div
+              className="color color_8"
+              style={
+                selectedBg === 7
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(7)}
+            ></div>
+            <div
+              className="color color_9"
+              style={
+                selectedBg === 8
+                  ? {
+                      minWidth: "2.2rem",
+                      minHeight: "2.2rem",
+                      border: "3px solid rgb(111, 108, 108)",
+                    }
+                  : {}
+              }
+              onClick={() => setSelectedBg(8)}
+            ></div>
           </div>
         </div>
         <input
           type="file"
-          name="postAttachments"
-          multiple
+          name="storyBgImage"
           className="postAttachmentInput"
           ref={fileInputRef}
           onChange={handleFileChange}
-          accept="image/*, video/*"
+          accept="image/*"
         />
-        {editPost &&
-          selectedPost &&
-          selectedPost.postAttachments &&
-          !isDeleted &&
-          selectedPost.postAttachments.length > 0 && (
-            <button
-              type="buton"
-              style={{ cursor: "pointer" }}
-              onClick={() => setIsDeleted(true)}
-            >{`click to delete previous ${
-              selectedPost.postAttachments.length
-            } ${
-              selectedPost.postAttachments.length === 1 ? "file" : "files"
-            }`}</button>
-          )}
         <button
           type="button"
-          className="uploadStoryAttachment"
-          onClick={handleButtonClick}
+          className="uploadStoryBackground"
+          onClick={handleFileUpload}
         >
-          Attach image as background
+          {crossFlag ? "Image uploaded" : "Attach image as background"}
+          {crossFlag && (
+            <div
+              className="fileUploadCross"
+              onClick={() => {
+                setSelectedFile({});
+                setCrossFlag(false);
+              }}
+            >
+              x
+            </div>
+          )}
         </button>
         <div className="postCategoryContainer">
           <p className="storyVisibility">Who can see</p>
@@ -271,8 +290,8 @@ const CreateStory = () => {
             id="postCategory"
             name="postCategory"
             className="storyVisibilityButton"
-            value={postCategory}
-            onChange={(e) => setPostCategory(e.target.value)}
+            value={visibility}
+            onChange={(e) => setVisibility(e.target.value)}
           >
             <option value="public" className="storyVisibilityOption">
               Anyone
@@ -286,22 +305,17 @@ const CreateStory = () => {
           </select>
         </div>
       </div>
-      <div
-        className="createPostSecondRow"
-        style={editPost ? { display: "flex", alignItems: "center" } : {}}
-      >
+      <div className="createPostSecondRow">
         <button
           type="submit"
           className={
-            (isDisable && !editPost) || (editPost && isDisable && isDeleted)
-              ? "createPostButton disabledCreatePost"
-              : "createPostButton buttonHover"
+            isDisable
+              ? "createStoryButton disabledCreatePost"
+              : "createStoryButton createStoryHover"
           }
-          disabled={
-            (!editPost && isDisable) || (editPost && isDisable && isDeleted)
-          }
+          disabled={isDisable}
         >
-          {editPost ? "Apply Changes" : "Create Post"}
+          Upload
         </button>
       </div>
     </form>

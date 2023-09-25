@@ -9,6 +9,7 @@ import DisplayUser from "./contexts/DisplayUserContext.jsx";
 import PostContext from "./contexts/PostContext.jsx";
 import LikesListContextProvider from "./contexts/LikesListContext.jsx";
 import FriendContextProvider from "./contexts/FriendContext.jsx";
+import StoryContextProvider from "./contexts/StoryContext.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -27,7 +28,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <PostContext>
                 <LikesListContextProvider>
                   <FriendContextProvider>
-                    <App />
+                    <StoryContextProvider>
+                      <App />
+                    </StoryContextProvider>
                   </FriendContextProvider>
                 </LikesListContextProvider>
               </PostContext>

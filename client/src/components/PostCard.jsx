@@ -210,6 +210,14 @@ const PostCard = ({ post, shareFlag }) => {
     };
   }, []);
 
+  const paragraphs = post.postDescription
+    .split("\n")
+    .map((paragraph, index) => (
+      <React.Fragment key={index}>
+        <p>{paragraph}</p>
+      </React.Fragment>
+    ));
+
   return (
     <>
       {showConfirm && (
@@ -312,7 +320,7 @@ const PostCard = ({ post, shareFlag }) => {
           </div>
         </div>
         <div className={expanded ? "expandedPostContent" : "postContent"}>
-          <p>{post.postDescription}</p>
+          {paragraphs}
           {expanded ? (
             <div className="postAttachmentAll">
               {post.postAttachments.map((attachment, index) => (
