@@ -28,7 +28,7 @@ const Login = () => {
     };
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/user/login`,
+        `${import.meta.env.VITE_SERVER_URL}/auth/login`,
         postData
       );
       if (response.status == 200) {
@@ -63,7 +63,7 @@ const Login = () => {
     };
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/user/googleAuth`,
+        `${import.meta.env.VITE_SERVER_URL}/auth/googleAuth`,
         postData
       );
       if (response.status == 200) {

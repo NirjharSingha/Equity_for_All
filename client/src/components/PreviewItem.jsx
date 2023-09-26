@@ -29,8 +29,7 @@ const PreviewItem = ({ file, onRemove }) => {
         </button>
         <button type="button" onClick={onRemove}>
           ×
-        </button>{" "}
-        {/* Remove button */}
+        </button>
       </div>
       {showPreview && (
         <div className="file-preview">

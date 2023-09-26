@@ -19,7 +19,7 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
       const response = await axios.get(
         `${
           import.meta.env.VITE_SERVER_URL
-        }/user/profile?friendEmail=${friendEmail}`,
+        }/profile/profile?friendEmail=${friendEmail}`,
         {
           headers: {
             token: token,

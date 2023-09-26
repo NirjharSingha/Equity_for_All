@@ -174,7 +174,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       if (isReg) {
         try {
           const response = await axios.post(
-            `${import.meta.env.VITE_SERVER_URL}/user/reg`,
+            `${import.meta.env.VITE_SERVER_URL}/auth/reg`,
             formData,
             {
               headers: {
@@ -206,7 +206,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
         try {
           const token = localStorage.getItem("token");
           const response = await axios.put(
-            `${import.meta.env.VITE_SERVER_URL}/user/updateProfile`,
+            `${import.meta.env.VITE_SERVER_URL}/profile/updateProfile`,
             formData,
             {
               headers: {

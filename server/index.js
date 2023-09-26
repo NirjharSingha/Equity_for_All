@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
-import userRouter from "./routes/user.js";
 import postRouter from "./routes/post.js";
 import apiRouter from "./routes/api.js";
+import authRouter from "./routes/auth.js";
+import profileRouter from "./routes/profile.js";
+import friendRouter from "./routes/friend.js";
 import cors from "cors";
 import dbConfig from "./configs/dbConfig.js";
 import bodyParser from "body-parser";
@@ -27,7 +29,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use("/uploads", express.static(join(__dirname, "uploads")));
 
 //routes
-app.use("/user", userRouter);
+app.use("/auth", authRouter);
+app.use("/profile", profileRouter);
+app.use("/friend", friendRouter);
 app.use("/post", postRouter);
 app.use("/api", apiRouter);
 

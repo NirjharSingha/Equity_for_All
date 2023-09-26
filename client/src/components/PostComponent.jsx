@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import Posts from "./Posts";
-import Groups from "./Groups";
 import "../pages/MainPage.css";
 import CreatePost from "./CreatePost";
 import { usePostContext } from "../contexts/PostContext";
@@ -13,19 +12,11 @@ const PostComponent = () => {
     <>
       {editPost && <div className="blurComponent"></div>}
       <div className="leftComponent">
-        {" "}
-        <CreatePost />{" "}
+        <CreatePost />
       </div>
       {pathname === "/main/posts" && (
         <div className="mainComponent">
-          {" "}
-          <Posts />{" "}
-        </div>
-      )}
-      {pathname !== "/main/posts" && (
-        <div className="mainComponent">
-          {" "}
-          <Groups />{" "}
+          <Posts />
         </div>
       )}
     </>

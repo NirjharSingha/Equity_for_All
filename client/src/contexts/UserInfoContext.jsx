@@ -11,7 +11,7 @@ const UserInfoProvider = ({ children }) => {
   const getUserInfo = async (email) => {
     if (email !== undefined) {
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/user/info/${email}`
+        `${import.meta.env.VITE_SERVER_URL}/profile/info/${email}`
       );
       const userInfo = {
         name: response.data.name,

@@ -131,7 +131,7 @@ const CreatePost = () => {
         setShowAlert(true);
         try {
           const res = await axios.put(
-            `${import.meta.env.VITE_SERVER_URL}/user/addPostID`,
+            `${import.meta.env.VITE_SERVER_URL}/post/addPostID`,
             data
           );
           if (res.status === 200) {

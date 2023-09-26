@@ -102,7 +102,7 @@ const PostCard = ({ post, shareFlag }) => {
       };
       try {
         const res = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/user/removePostID`,
+          `${import.meta.env.VITE_SERVER_URL}/post/removePostID`,
           data
         );
         if (res.status === 200) {

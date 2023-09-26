@@ -57,7 +57,7 @@ const Friends = () => {
     setShowLoading(true);
     const token = localStorage.getItem("token");
     const response = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/user/getFriends`,
+      `${import.meta.env.VITE_SERVER_URL}/friend/getFriends`,
       {
         headers: {
           token: token,
@@ -82,7 +82,7 @@ const Friends = () => {
     const response = await axios.get(
       `${
         import.meta.env.VITE_SERVER_URL
-      }/user/getFriendSuggessions?ids=${dataToSend}`,
+      }/friend/getFriendSuggessions?ids=${dataToSend}`,
       {
         headers: {
           token: token,

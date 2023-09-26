@@ -107,6 +107,10 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    story: {
+      type: Array,
+      default: [],
+    },
     createdAt: {
       type: Date,
       default: Date.now,

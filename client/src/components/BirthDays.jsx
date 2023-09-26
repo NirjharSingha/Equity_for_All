@@ -35,7 +35,7 @@ const BirthDays = () => {
         const response = await axios.get(
           `${
             import.meta.env.VITE_SERVER_URL
-          }/user/friendBirthdays?emails=${friendsID}`,
+          }/friend/friendBirthdays?emails=${friendsID}`,
           {
             headers: {
               token: token,
