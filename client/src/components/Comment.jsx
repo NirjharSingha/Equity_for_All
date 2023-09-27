@@ -318,6 +318,12 @@ const Comment = ({ setShowComments, post }) => {
     setCommentPage((prev) => prev + 1);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleCommentSubmit();
+    }
+  };
+
   return (
     <div className="commentContainer" ref={commentContainerRef}>
       <div className="commentCrossContainer">
@@ -354,11 +360,7 @@ const Comment = ({ setShowComments, post }) => {
       <div className="writeAComment">
         {showEmojis && (
           <div className="commentMainEmoji" ref={emojiRef}>
-            {" "}
-            <EmojiList
-              setInputValue={setCommentInput}
-              inputRef={inputRef}
-            />{" "}
+            <EmojiList setInputValue={setCommentInput} inputRef={inputRef} />
           </div>
         )}
         <BsEmojiSmile
@@ -371,6 +373,7 @@ const Comment = ({ setShowComments, post }) => {
           className="commentReply"
           value={commentInput}
           onChange={(event) => setCommentInput(event.target.value)}
+          onKeyDown={handleKeyPress}
           ref={inputRef}
         />
         <BiSolidSend

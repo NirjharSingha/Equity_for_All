@@ -8,7 +8,7 @@ import AllLikes from "./Likes";
 import Comment from "./Comment";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { useVerifyFileContext } from "../contexts/VerifyFileContext";
+import { useFileContext } from "../contexts/FileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { usePostContext } from "../contexts/PostContext";
@@ -29,7 +29,7 @@ const PostCard = ({ post, shareFlag }) => {
   const [showComments, setShowComments] = useState(false);
   const isInitialMount = useRef(true);
   const { getUserInfo } = useUserInfoContext();
-  const { isFileExists } = useVerifyFileContext();
+  const { isFileExists } = useFileContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
   const { displayUser } = useDisplayUserContext();
   const [userName, setUserName] = useState("User Name");

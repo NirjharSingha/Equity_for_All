@@ -19,7 +19,6 @@ const getAllPosts = asyncHandler(async (req, res) => {
         return post;
       })
     );
-    console.log(dataToSend);
     res.json(dataToSend);
   } catch (error) {
     console.error("Error fetching posts:", error);

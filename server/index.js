@@ -5,6 +5,7 @@ import apiRouter from "./routes/api.js";
 import authRouter from "./routes/auth.js";
 import profileRouter from "./routes/profile.js";
 import friendRouter from "./routes/friend.js";
+import storyRouter from "./routes/story.js";
 import cors from "cors";
 import dbConfig from "./configs/dbConfig.js";
 import bodyParser from "body-parser";
@@ -34,6 +35,7 @@ app.use("/profile", profileRouter);
 app.use("/friend", friendRouter);
 app.use("/post", postRouter);
 app.use("/api", apiRouter);
+app.use("/story", storyRouter);
 
 const server = http.createServer(app);
 

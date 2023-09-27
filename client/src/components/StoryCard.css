@@ -1,0 +1,22 @@
+.storyCard {
+  height: 100%;
+  width: 13vw;
+  min-width: 12rem;
+  background-color: rgb(196, 192, 192);
+  border-radius: 0.5rem;
+  margin-right: 0.4rem;
+}
+.storyCardPreview {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

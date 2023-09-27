@@ -53,11 +53,9 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       randomUsers.forEach((e) => {
         matchingUsers.add(e.email);
       });
-      console.log(matchingUsers);
     }
 
     const uniqueMatchingUsers = Array.from(matchingUsers);
-    console.log(uniqueMatchingUsers);
     res.json(uniqueMatchingUsers);
   } else {
     try {
@@ -74,8 +72,6 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       const allFriendSuggessions = Array.from(
         new Set(dataToSend.flatMap((obj) => obj.friends))
       );
-
-      console.log(allFriendSuggessions);
 
       res.json(allFriendSuggessions);
     } catch (error) {

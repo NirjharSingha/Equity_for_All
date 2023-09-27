@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
 import UserInfoProvider from "./contexts/UserInfoContext.jsx";
-import VerifyFile from "./contexts/VerifyFileContext.jsx";
+import FileContextProvider from "./contexts/FileContext.jsx";
 import LikesContextProvider from "./contexts/LikesContext.jsx";
 import DisplayUser from "./contexts/DisplayUserContext.jsx";
 import PostContext from "./contexts/PostContext.jsx";
@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       }}
     >
       <UserInfoProvider>
-        <VerifyFile>
+        <FileContextProvider>
           <DisplayUser>
             <LikesContextProvider>
               <PostContext>
@@ -36,7 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               </PostContext>
             </LikesContextProvider>
           </DisplayUser>
-        </VerifyFile>
+        </FileContextProvider>
       </UserInfoProvider>
     </Auth0Provider>
   </Router>

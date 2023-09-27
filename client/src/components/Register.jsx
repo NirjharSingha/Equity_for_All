@@ -57,6 +57,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     reasonOfBeingHere: isReg ? "" : profileData.reasonOfBeingHere,
     aboutYourself: isReg ? "" : profileData.aboutYourself,
   });
+  const [fileFlag, setFileFlag] = useState(0);
 
   const handleMouseLeave = () => {
     setShowTooltip(false);
@@ -88,7 +89,8 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     const file = e.target.files[0];
     console.log(file);
     setProfilePic(file);
-    console.log(file);
+    setFileFlag(1);
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -168,6 +170,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       formData.append("profilePic", profilePic);
       formData.append("createdAt", new Date(Date.now()).toISOString());
       formData.append("isReg", isReg);
+      formData.append("fileFlag", fileFlag);
 
       console.log(profilePic);
 

@@ -57,7 +57,6 @@ const CreateStory = () => {
     storyData.append("storyVisibility", visibility);
     storyData.append("createdAt", new Date(Date.now()).toLocaleString());
     storyData.append("backgroundImage", selectedFile);
-    storyData.append("flag", crossFlag);
     storyData.append("backgroundColor", bgColors[selectedBg]);
     storyData.append("fontStyle", fontStyleVar);
     storyData.append("fontColor", fontColor);
@@ -67,7 +66,7 @@ const CreateStory = () => {
       let response;
       response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/story/createStory`,
-        postData,
+        storyData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -76,6 +75,7 @@ const CreateStory = () => {
         }
       );
       if (response.status === 201) {
+        console.log("story created successfully");
       }
     } catch (error) {
       console.log(error);

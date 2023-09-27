@@ -4,7 +4,7 @@ import FriendProfile from "./FriendProfile";
 import "./PersonCard.css";
 import { useFriendContext } from "../contexts/FriendContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { useVerifyFileContext } from "../contexts/VerifyFileContext";
+import { useFileContext } from "../contexts/FileContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import axios from "axios";
 import ConfirmWindow from "./ConfirmWindow";
@@ -26,7 +26,7 @@ const PersonCard = ({ email }) => {
   } = useFriendContext();
 
   const { getUserInfo } = useUserInfoContext();
-  const { isFileExists } = useVerifyFileContext();
+  const { isFileExists } = useFileContext();
   const { displayUser } = useDisplayUserContext();
   const [userName, setUserName] = useState("");
   const [userImg, setUserImg] = useState("");

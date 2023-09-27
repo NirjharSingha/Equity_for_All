@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import Post from "../models/Post.js";
 
 const editPost = asyncHandler(async (req, res) => {
-  console.log("inside edit post");
   const {
     postDescription,
     postCategory,
@@ -23,7 +22,6 @@ const editPost = asyncHandler(async (req, res) => {
   }
 
   if (isDeleted === "false") {
-    console.log(isDeleted);
     postAttachments = postAttachments.concat(prevAttachments);
   }
 

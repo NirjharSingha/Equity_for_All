@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Loading from "./Loading";
 import Story from "./Story";
 import PreviewStory from "./PreviewStory";
+import StoryCard from "./StoryCard";
 
 const Home = () => {
   useEffect(() => {

@@ -5,8 +5,6 @@ const getCommentIds = asyncHandler(async (req, res) => {
   const postId = req.params.postId;
   const commentIds = await Post.findOne({ _id: postId }, "commentID");
 
-  console.log(commentIds);
-
   if (commentIds) {
     res.status(200).json(commentIds);
   } else {

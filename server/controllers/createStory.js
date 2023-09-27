@@ -1,39 +1,42 @@
 import asyncHandler from "express-async-handler";
-import Post from "../models/Post.js";
+import Story from "../models/Story.js";
+import User from "../models/User.js";
 
-const createPost = asyncHandler(async (req, res) => {
+const createStory = asyncHandler(async (req, res) => {
   const userEmail = req.email;
-  const { postDescription, postCategory, createdAt } = req.body;
+  let backgroundImage;
 
-  let postAttachments = [];
-
-  console.log("in post " + process.env.server_url);
-
-  if (req.files === undefined || req.files.length === 0) {
-    postAttachments = [];
+  if (req.file === undefined) {
+    backgroundImage = "";
   } else {
-    postAttachments = req.files.map(
-      (file) => process.env.server_url + file.path
-    );
+    backgroundImage = process.env.server_url + req.file.path;
   }
 
-  const post = new Post({
+  const {
+    storyDescription,
+    storyVisibility,
+    backgroundColor,
+    fontStyle,
+    fontColor,
+    createdAt,
+  } = req.body;
+
+  const story = new Story({
     userEmail,
-    postDescription,
-    postAttachments,
-    postCategory,
+    storyDescription,
+    storyVisibility,
+    backgroundColor,
+    backgroundImage,
+    fontStyle,
+    fontColor,
     createdAt,
   });
 
-  await post.save();
-  const postId = post._id;
+  await story.save();
 
   res.status(201).json({
-    message: "post created successfully",
-    postId: postId,
-    email: userEmail,
-    post: post,
+    message: "story created successfully",
   });
 });
 
-export default createPost;
+export default createStory;

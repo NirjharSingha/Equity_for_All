@@ -1,13 +1,13 @@
 import React, { createContext, useContext } from "react";
 import axios from "axios";
 
-const VerifyFileContext = createContext();
+const FileContext = createContext();
 
-export function useVerifyFileContext() {
-  return useContext(VerifyFileContext);
+export function useFileContext() {
+  return useContext(FileContext);
 }
 
-const VerifyFile = ({ children }) => {
+const FileContextProvider = ({ children }) => {
   const isFileExists = async (fileUrl) => {
     const response = await axios.get(
       `${
@@ -18,10 +18,10 @@ const VerifyFile = ({ children }) => {
   };
 
   return (
-    <VerifyFileContext.Provider value={{ isFileExists }}>
+    <FileContext.Provider value={{ isFileExists }}>
       {children}
-    </VerifyFileContext.Provider>
+    </FileContext.Provider>
   );
 };
 
-export default VerifyFile;
+export default FileContextProvider;

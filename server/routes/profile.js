@@ -8,7 +8,7 @@ import getUserInfo from "../controllers/getUserInfo.js";
 
 const router = express.Router();
 
-router.get("/profile", verifyJWT, profile);
+router.get("/", verifyJWT, profile);
 router.put(
   "/updateProfile",
   [verifyJWT, validateGmailUniqueness, upload.single("profilePic")],

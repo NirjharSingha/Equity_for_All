@@ -6,18 +6,12 @@ import { useState, useEffect } from "react";
 const PreviewStory = () => {
   const {
     selectedBg,
-    setSelectedBg,
     fontStyleVar,
-    setFontStyle,
     fontColor,
-    setFontColor,
     bgColors,
     selectedFile,
-    setSelectedFile,
     inputValue,
-    setInputValue,
     crossFlag,
-    setCrossFlag,
   } = useStoryContext();
   const [paragraphs, setParagraphs] = useState();
   const [selectedImage, setSelectedImage] = useState();

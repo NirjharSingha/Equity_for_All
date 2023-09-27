@@ -12,7 +12,7 @@ import AllLikes from "./Likes";
 import "./CommentCard.css";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { useVerifyFileContext } from "../contexts/VerifyFileContext";
+import { useFileContext } from "../contexts/FileContext";
 import { useLikesContext } from "../contexts/LikesContext";
 import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { useLikesListContext } from "../contexts/LikesListContext";
@@ -32,7 +32,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const commentCardRef = useRef(null);
   const inputRef = useRef(null);
   const { getUserInfo } = useUserInfoContext();
-  const { isFileExists } = useVerifyFileContext();
+  const { isFileExists } = useFileContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
   const { displayUser } = useDisplayUserContext();
   const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
@@ -268,6 +268,12 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleCommentReply();
+    }
+  };
+
   return (
     <>
       {showConfirm && (
@@ -416,7 +422,6 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
               jwtDecode(localStorage.getItem("token")).email && (
               <MdDelete
                 className="commentIcons blue"
-                // onClick={handleDeleteComment}
                 onClick={() => setShowConfirm(true)}
               />
             )}
@@ -488,6 +493,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
                 ref={inputRef}
                 value={inputValue}
                 onChange={(event) => setInputValue(event.target.value)}
+                onKeyDown={handleKeyPress}
               />
               <BiSolidSend
                 className={

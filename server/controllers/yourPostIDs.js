@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 
 const yourPostIDs = asyncHandler(async (req, res) => {
-  console.log("inside controller");
   const email = req.email;
   try {
     const data = await User.findOne({ email }, "posts");

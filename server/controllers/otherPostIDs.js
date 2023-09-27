@@ -5,8 +5,6 @@ import Post from "../models/Post.js";
 const getOtherPostIDs = asyncHandler(async (req, res) => {
   const userEmail = req.email;
 
-  console.log("id fetch");
-
   const time = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
   const user = await User.findOne({ email: userEmail }, "friends");
@@ -82,11 +80,9 @@ const getOtherPostIDs = asyncHandler(async (req, res) => {
         uniqueSet.add(element);
       }
       const mergedArray = Array.from(uniqueSet);
-      console.log(mergedArray);
 
       res.json(mergedArray);
     } else {
-      console.log(postIDs.length);
       res.json(postIDs);
     }
   } else {

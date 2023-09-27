@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 
 const birthdays = asyncHandler(async (req, res) => {
-  console.log("inside birthdays");
   try {
     const idsString = req.query.emails;
     const idArray = idsString.split(",").filter((id) => id);
@@ -82,7 +81,6 @@ const birthdays = asyncHandler(async (req, res) => {
         }
       }
     }
-    console.log(groupedBirthdays);
     res.json(groupedBirthdays);
   } catch (error) {
     res.status(500).json({ message: "Error fetching grouped birthdays" });

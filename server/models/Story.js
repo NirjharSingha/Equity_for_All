@@ -15,13 +15,13 @@ const storySchema = mongoose.Schema(
     fontStyle: {
       type: String,
     },
-    backgroundImg: {
+    backgroundImage: {
       type: String,
     },
     backgroundColor: {
       type: String,
     },
-    visibility: {
+    storyVisibility: {
       type: String,
     },
     createdAt: {

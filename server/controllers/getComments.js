@@ -27,6 +27,7 @@ const getComments = asyncHandler(async (req, res) => {
         return comment;
       })
     );
+
     const flatComments = [];
 
     for (const nestedCommentArray of nestedComments) {
@@ -34,23 +35,11 @@ const getComments = asyncHandler(async (req, res) => {
         flatComments.push(commentObject.comment[0]);
       }
     }
-
-    console.log(flatComments);
     res.json(flatComments);
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ error: "An error occurred while fetching posts" });
   }
-
-  // console.log(postAggregate);
-
-  // if (comments) {
-  //   res.status(200).json(comments);
-  // } else {
-  //   res
-  //     .status(404)
-  //     .json({ message: "Comments not found for the given postId" });
-  // }
 });
 
 export default getComments;
