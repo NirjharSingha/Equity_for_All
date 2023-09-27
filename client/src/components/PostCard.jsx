@@ -8,17 +8,17 @@ import AllLikes from "./Likes";
 import Comment from "./Comment";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { useFileContext } from "../contexts/FileContext";
 import { useLikesContext } from "../contexts/LikesContext";
-import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { usePostContext } from "../contexts/PostContext";
 import { useLikesListContext } from "../contexts/LikesListContext";
 import jwtDecode from "jwt-decode";
 import Share from "./Share";
 import LikesList from "./LikesList";
 import ConfirmWindow from "./ConfirmWindow";
+import { useFileContext } from "../contexts/FileContext";
 
 const PostCard = ({ post, shareFlag }) => {
+  const { deleteFile } = useFileContext();
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
   const [mouseOnAllLikes, setMouseOnAllLikes] = useState(false);
@@ -29,12 +29,9 @@ const PostCard = ({ post, shareFlag }) => {
   const [showComments, setShowComments] = useState(false);
   const isInitialMount = useRef(true);
   const { getUserInfo } = useUserInfoContext();
-  const { isFileExists } = useFileContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
-  const { displayUser } = useDisplayUserContext();
   const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
-  const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const [showEditButton, setShowEditButton] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const { setEditPost, setSelectedPost, setShowAlert, setAlertMessage } =
@@ -77,6 +74,11 @@ const PostCard = ({ post, shareFlag }) => {
   };
 
   const handleDeletePost = async () => {
+    if (post.postAttachments.length > 0) {
+      deleteFile(post.postAttachments);
+    } else {
+      console.log("no attachments");
+    }
     const token = localStorage.getItem("token");
     const response = await axios.delete(
       `${import.meta.env.VITE_SERVER_URL}/post/deletePost/${post._id}`,
@@ -157,7 +159,6 @@ const PostCard = ({ post, shareFlag }) => {
     const displayPostUser = async () => {
       const { name, profilePic } = await getUserInfo(post.userEmail);
       setUserName(name), setUserImg(profilePic);
-      displayUser(isFileExists, setShouldDisplayUserImg, profilePic);
     };
 
     if (!shareFlag) {
@@ -268,10 +269,10 @@ const PostCard = ({ post, shareFlag }) => {
           </div>
         )}
         <div className="postHeading">
-          {shouldDisplayUserImg && (
+          {userImg !== "" && (
             <img src={userImg} alt="" className="postUserProfilePic" />
           )}
-          {!shouldDisplayUserImg && (
+          {userImg === "" && (
             <svg
               id="logo-15"
               width="3rem"

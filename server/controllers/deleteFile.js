@@ -3,15 +3,23 @@ import fs from "fs";
 
 const deleteFile = asyncHandler(async (req, res) => {
   const fileUrl = req.query.fileUrl;
-  console.log(fileUrl);
-  const exists = fs.existsSync(fileUrl);
-  if (exists) {
-    fs.unlinkSync(fileUrl);
-    console.log(`File deleted successfully.`);
-  } else {
-    console.log("file not found");
+  if (fileUrl.length === 0) {
+    res.json({ message: "no attachments" });
+    return;
   }
-  res.json({ exists });
+  console.log(fileUrl);
+  const fileArray = fileUrl.split(",").filter((id) => id);
+  for (let index = 0; index < fileArray.length; index++) {
+    const element = fileArray[index];
+    const exists = fs.existsSync(element);
+    if (exists) {
+      fs.unlinkSync(element);
+      console.log(`File deleted successfully.`);
+    } else {
+      console.log("file not found");
+    }
+  }
+  res.json({ message: "files deleted successfully" });
 });
 
 export default deleteFile;

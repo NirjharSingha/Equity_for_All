@@ -5,9 +5,12 @@ import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { Country, City } from "country-state-city";
+import { useFileContext } from "../contexts/FileContext";
+
 import axios from "axios";
 
 const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
+  const { deleteFile } = useFileContext();
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
 
@@ -57,7 +60,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     reasonOfBeingHere: isReg ? "" : profileData.reasonOfBeingHere,
     aboutYourself: isReg ? "" : profileData.aboutYourself,
   });
-  const [fileFlag, setFileFlag] = useState(0);
+  const [fileFlag, setFileFlag] = useState(false);
 
   const handleMouseLeave = () => {
     setShowTooltip(false);
@@ -89,7 +92,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     const file = e.target.files[0];
     console.log(file);
     setProfilePic(file);
-    setFileFlag(1);
+    setFileFlag(true);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -170,7 +173,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       formData.append("profilePic", profilePic);
       formData.append("createdAt", new Date(Date.now()).toISOString());
       formData.append("isReg", isReg);
-      formData.append("fileFlag", fileFlag);
 
       console.log(profilePic);
 
@@ -207,6 +209,9 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
         }
       } else {
         try {
+          if (fileFlag && profileData.profilePic !== "") {
+            deleteFile([profileData.profilePic]);
+          }
           const token = localStorage.getItem("token");
           const response = await axios.put(
             `${import.meta.env.VITE_SERVER_URL}/profile/updateProfile`,

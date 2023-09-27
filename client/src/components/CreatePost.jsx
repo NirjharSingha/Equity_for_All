@@ -5,8 +5,10 @@ import EmojiList from "./EmojiList";
 import PreviewItem from "./PreviewItem";
 import axios from "axios";
 import { usePostContext } from "../contexts/PostContext";
+import { useFileContext } from "../contexts/FileContext";
 
 const CreatePost = () => {
+  const { deleteFile } = useFileContext();
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -107,6 +109,11 @@ const CreatePost = () => {
           }
         );
       } else {
+        if (isDeleted && selectedPost.postAttachments.length !== 0) {
+          deleteFile(selectedPost.postAttachments);
+        } else {
+          console.log("no attachment to delete");
+        }
         response = await axios.put(
           `${import.meta.env.VITE_SERVER_URL}/post/editPost`,
           postData,

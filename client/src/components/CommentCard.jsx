@@ -12,9 +12,7 @@ import AllLikes from "./Likes";
 import "./CommentCard.css";
 import axios from "axios";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { useFileContext } from "../contexts/FileContext";
 import { useLikesContext } from "../contexts/LikesContext";
-import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import { useLikesListContext } from "../contexts/LikesListContext";
 import LikesList from "./LikesList";
 import jwtDecode from "jwt-decode";
@@ -32,10 +30,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   const commentCardRef = useRef(null);
   const inputRef = useRef(null);
   const { getUserInfo } = useUserInfoContext();
-  const { isFileExists } = useFileContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
-  const { displayUser } = useDisplayUserContext();
-  const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const isInitialMount = useRef(true);
   const [showReplyComments, setShowReplyComments] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -123,7 +118,6 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
   }, [selectedLike]);
 
   useEffect(() => {
-    displayUser(isFileExists, setShouldDisplayUserImg, comment.profilePic);
     setUserLikes(comment, setSelectedLike, setPrevSecLike);
     if (level === 0) {
       allComments = allComments.reverse();
@@ -295,14 +289,14 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
         <div className="comment">
           <div className="commentFirstRow">
             <div className="commentPicContainer">
-              {comment.deletedAt === "" && shouldDisplayUserImg && (
+              {comment.deletedAt === "" && comment.profilePic !== "" && (
                 <img
                   src={comment.profilePic}
                   alt=""
                   className="commentUserProfilePic"
                 />
               )}
-              {comment.deletedAt === "" && !shouldDisplayUserImg && (
+              {comment.deletedAt === "" && comment.profilePic === "" && (
                 <svg
                   id="logo-15"
                   width="2.2rem"

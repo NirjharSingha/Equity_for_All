@@ -4,8 +4,6 @@ import FriendProfile from "./FriendProfile";
 import "./PersonCard.css";
 import { useFriendContext } from "../contexts/FriendContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
-import { useFileContext } from "../contexts/FileContext";
-import { useDisplayUserContext } from "../contexts/DisplayUserContext";
 import axios from "axios";
 import ConfirmWindow from "./ConfirmWindow";
 
@@ -26,11 +24,8 @@ const PersonCard = ({ email }) => {
   } = useFriendContext();
 
   const { getUserInfo } = useUserInfoContext();
-  const { isFileExists } = useFileContext();
-  const { displayUser } = useDisplayUserContext();
   const [userName, setUserName] = useState("");
   const [userImg, setUserImg] = useState("");
-  const [shouldDisplayUserImg, setShouldDisplayUserImg] = useState(false);
   const [mutualFriends, setMutualFriends] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
   const [messageToShow, setMessageToShow] = useState("");
@@ -40,7 +35,6 @@ const PersonCard = ({ email }) => {
     const displayPerson = async () => {
       const { name, profilePic } = await getUserInfo(email);
       setUserName(name), setUserImg(profilePic);
-      displayUser(isFileExists, setShouldDisplayUserImg, profilePic);
     };
 
     const countMutualFriends = async () => {
@@ -192,9 +186,7 @@ const PersonCard = ({ email }) => {
           className="personImg personCardElement"
           onClick={() => setShowFriendProfile(true)}
         >
-          {shouldDisplayUserImg && (
-            <img src={userImg} alt="" className="personImg" />
-          )}
+          {userImg !== "" && <img src={userImg} alt="" className="personImg" />}
         </div>
         <p className="personName">{userName}</p>
         <p className="personText">{mutualFriends} mutual friends</p>
