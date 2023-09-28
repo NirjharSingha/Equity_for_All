@@ -7,7 +7,7 @@ const deleteFile = asyncHandler(async (req, res) => {
     res.json({ message: "no attachments" });
     return;
   }
-  console.log(fileUrl);
+
   const fileArray = fileUrl.split(",").filter((id) => id);
   for (let index = 0; index < fileArray.length; index++) {
     const element = fileArray[index];

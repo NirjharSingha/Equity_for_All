@@ -47,8 +47,14 @@ const PreviewStory = () => {
           className="displayStoryPreview"
           style={
             !crossFlag
-              ? { backgroundColor: bgColors[selectedBg] }
-              : { backgroundImage: `url(${selectedImage})` }
+              ? {
+                  backgroundColor: bgColors[selectedBg],
+                }
+              : {
+                  backgroundImage: `url(${selectedImage})`,
+                  backgroundColor: "black",
+                  border: `2px solid black`,
+                }
           }
         >
           <span

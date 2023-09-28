@@ -1,6 +1,6 @@
 .storyDiv {
   width: calc(100% - 0.6rem);
-  height: 35vh;
+  height: 36vh;
   max-width: calc(50vw - 0.5rem);
   overflow-x: auto;
   overflow-y: hidden;
@@ -14,10 +14,13 @@
   height: 100%;
   width: 13vw;
   min-width: 12rem;
-  background-color: rgb(196, 192, 192);
-  border-radius: 0.5rem;
+  background-color: rgb(41, 40, 40);
+  border-radius: 0.3rem;
   margin-right: 0.4rem;
 }
 .storyDiv::-webkit-scrollbar {
   display: none;
+}
+.storyDiv > div:last-child {
+  margin-right: 0;
 }

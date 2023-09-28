@@ -11,8 +11,6 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
   const [showLoading, setShowLoading] = useState(true);
 
   const fetchProfileData = async () => {
-    console.log("fetching profile data");
-    console.log(friendEmail);
     try {
       setShowLoading(true);
       const token = localStorage.getItem("token");
@@ -26,7 +24,6 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
       );
       if (response) {
         setProfileData(response.data);
-        console.log(response.data);
         setShowLoading(false);
       }
     } catch (error) {
@@ -35,8 +32,6 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
   };
 
   useEffect(() => {
-    console.log("profile component loaded");
-    console.log(profileCode);
     fetchProfileData();
   }, []);
 
@@ -44,7 +39,6 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
   const [shouldFetch, setShouldFetch] = useState(false);
 
   const handleUpdateProfile = () => {
-    console.log("handle mount is called");
     setShowUpdateProfile((prevState) => !prevState);
   };
 

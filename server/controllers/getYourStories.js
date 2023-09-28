@@ -15,7 +15,6 @@ const getYourStories = asyncHandler(async (req, res) => {
     return timeDifferenceInHours > 24;
   });
 
-  console.log(filteredData);
   for (let index = 0; index < filteredData.length; index++) {
     const _id = filteredData[index]._id;
     await Story.findByIdAndDelete(_id);
