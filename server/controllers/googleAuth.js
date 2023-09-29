@@ -22,7 +22,7 @@ const googleAuth = asyncHandler(async (req, res) => {
     }
   }
 
-  const expiresIn = "5s";
+  const expiresIn = "1d";
   const token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn });
   return res.status(200).json({ message: "Successful login", token: token });
 });

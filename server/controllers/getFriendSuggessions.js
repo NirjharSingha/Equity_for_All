@@ -43,7 +43,7 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       usersFromWorkplace.forEach((u) => matchingUsers.add(u.email));
     }
 
-    if (matchingUsers.size === 0) {
+    if (matchingUsers.size < 5) {
       const lastN = 30;
       const randomUsers = await User.aggregate([
         { $sort: { createdAt: -1 } },
@@ -72,6 +72,17 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       const allFriendSuggessions = Array.from(
         new Set(dataToSend.flatMap((obj) => obj.friends))
       );
+      if (allFriendSuggessions.length < 5) {
+        const lastN = 30;
+        const randomUsers = await User.aggregate([
+          { $sort: { createdAt: -1 } },
+          { $limit: lastN },
+          { $project: { email: 1 } },
+        ]);
+        randomUsers.forEach((e) => {
+          allFriendSuggessions.push(e.email);
+        });
+      }
 
       res.json(allFriendSuggessions);
     } catch (error) {
