@@ -9,6 +9,7 @@ import PostContext from "./contexts/PostContext.jsx";
 import LikesListContextProvider from "./contexts/LikesListContext.jsx";
 import FriendContextProvider from "./contexts/FriendContext.jsx";
 import StoryContextProvider from "./contexts/StoryContext.jsx";
+import GlobalsProvider from "./contexts/Globals.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -20,21 +21,23 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         redirect_uri: window.location.origin,
       }}
     >
-      <UserInfoProvider>
-        <FileContextProvider>
-          <LikesContextProvider>
-            <PostContext>
-              <LikesListContextProvider>
-                <FriendContextProvider>
-                  <StoryContextProvider>
-                    <App />
-                  </StoryContextProvider>
-                </FriendContextProvider>
-              </LikesListContextProvider>
-            </PostContext>
-          </LikesContextProvider>
-        </FileContextProvider>
-      </UserInfoProvider>
+      <GlobalsProvider>
+        <UserInfoProvider>
+          <FileContextProvider>
+            <LikesContextProvider>
+              <PostContext>
+                <LikesListContextProvider>
+                  <FriendContextProvider>
+                    <StoryContextProvider>
+                      <App />
+                    </StoryContextProvider>
+                  </FriendContextProvider>
+                </LikesListContextProvider>
+              </PostContext>
+            </LikesContextProvider>
+          </FileContextProvider>
+        </UserInfoProvider>
+      </GlobalsProvider>
     </Auth0Provider>
   </Router>
 );

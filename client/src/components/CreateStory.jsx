@@ -5,8 +5,10 @@ import "./CreatePost.css";
 import { useState, useRef } from "react";
 import axios from "axios";
 import { useStoryContext } from "../contexts/StoryContext";
+import { useGlobals } from "../contexts/Globals";
 
 const CreateStory = () => {
+  const { setIsValidJWT } = useGlobals();
   useEffect(() => {
     console.log("create story component loaded");
   }, []);
@@ -78,6 +80,13 @@ const CreateStory = () => {
         console.log("story created successfully");
       }
     } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
       console.log(error);
     }
   };

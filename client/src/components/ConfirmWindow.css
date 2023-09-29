@@ -3,7 +3,7 @@
   width: 100vw;
   top: 0;
   left: 0;
-  z-index: 800;
+  z-index: 980;
   position: fixed;
   background-color: rgba(207, 205, 205, 0.6);
   display: flex;
@@ -62,7 +62,8 @@
   border: none;
   font-weight: bold;
 }
-.confirmButton:hover {
+.confirmButton:hover,
+.goToLogin:hover {
   background-color: rgb(255, 0, 0);
   cursor: pointer;
   color: azure;
@@ -73,4 +74,23 @@
   flex-direction: column;
   justify-content: center;
   height: 63%;
+}
+.userSessionText {
+  font-weight: bold;
+  font-size: large;
+  width: 100%;
+  text-align: center;
+}
+.goToLogin {
+  height: 2rem;
+  background-color: rgb(68, 169, 241);
+  display: block;
+  margin: auto;
+  border-radius: 0.3rem;
+  border: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: azure;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
 }

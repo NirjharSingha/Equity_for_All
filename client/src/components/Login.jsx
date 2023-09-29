@@ -8,14 +8,37 @@ import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
 
 const Login = () => {
-  useEffect(() => {
-    console.log("login component loaded");
-  }, []);
-
   const navigate = useNavigate();
   const handleSignUp = () => {
     navigate("/register");
   };
+
+  useEffect(() => {
+    console.log("login component loaded");
+    const token = localStorage.getItem("token");
+    const verifyJWT = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/auth/verifyJWT?flag=initialAuth`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (
+          response.status === 200 &&
+          response.data.message === "user verified"
+        ) {
+          navigate("/main");
+        }
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    };
+    verifyJWT();
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -3,8 +3,10 @@ import "./StoryCard.css";
 import { useStoryContext } from "../contexts/StoryContext";
 import { useState, useEffect } from "react";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { useNavigate } from "react-router-dom";
 
 const StoryCard = ({ story, isYourStory }) => {
+  const navigate = useNavigate();
   const { getUserInfo } = useUserInfoContext();
   const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
@@ -26,7 +28,7 @@ const StoryCard = ({ story, isYourStory }) => {
   }, []);
 
   return (
-    <div className="storyCard">
+    <div className="storyCard" onClick={() => navigate("/main/stories")}>
       <div className="storyCardHeading">
         {userImg !== "" && (
           <img src={userImg} alt="" className="storyProfilePic" />

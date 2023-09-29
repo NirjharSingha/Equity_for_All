@@ -6,8 +6,10 @@ import PreviewItem from "./PreviewItem";
 import axios from "axios";
 import { usePostContext } from "../contexts/PostContext";
 import { useFileContext } from "../contexts/FileContext";
+import { useGlobals } from "../contexts/Globals";
 
 const CreatePost = () => {
+  const { setIsValidJWT } = useGlobals();
   const { deleteFile } = useFileContext();
   const fileInputRef = useRef(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -109,11 +111,6 @@ const CreatePost = () => {
           }
         );
       } else {
-        if (isDeleted && selectedPost.postAttachments.length !== 0) {
-          deleteFile(selectedPost.postAttachments);
-        } else {
-          console.log("no attachment to delete");
-        }
         response = await axios.put(
           `${import.meta.env.VITE_SERVER_URL}/post/editPost`,
           postData,
@@ -154,6 +151,11 @@ const CreatePost = () => {
         }
       }
       if (response.status === 200) {
+        if (isDeleted && selectedPost.postAttachments.length !== 0) {
+          deleteFile(selectedPost.postAttachments);
+        } else {
+          console.log("no attachment to delete");
+        }
         console.log("post updated successfully");
         const updatedPost = response.data.updatedPost;
 
@@ -168,6 +170,13 @@ const CreatePost = () => {
         setShowAlert(true);
       }
     } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
       console.log(error);
     }
   };

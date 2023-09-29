@@ -8,8 +8,10 @@ import jwtDecode from "jwt-decode";
 import BirthDays from "./BirthDays";
 import AlertMessage from "./AlertMessage";
 import Loading from "./Loading";
+import { useGlobals } from "../contexts/Globals";
 
 const Friends = () => {
+  const { setIsValidJWT } = useGlobals();
   const {
     friendsID,
     setFriendsID,
@@ -54,59 +56,81 @@ const Friends = () => {
   }, []);
 
   const fetchData = async () => {
-    setShowLoading(true);
-    const token = localStorage.getItem("token");
-    const response = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/friend/getFriends`,
-      {
-        headers: {
-          token: token,
-        },
+    try {
+      setShowLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/friend/getFriends`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response) {
+        setFriendsID(response.data.friends);
+        setBlockID(response.data.blockList);
+        setReqSendID(response.data.friendRequestSend);
+        setReqReceivedID(response.data.friendRequestReceived);
+        setFollowersID(response.data.followers);
+        setFollowingsID(response.data.followings);
+        setShowLoading(false);
       }
-    );
-    if (response) {
-      setFriendsID(response.data.friends);
-      setBlockID(response.data.blockList);
-      setReqSendID(response.data.friendRequestSend);
-      setReqReceivedID(response.data.friendRequestReceived);
-      setFollowersID(response.data.followers);
-      setFollowingsID(response.data.followings);
-      setShowLoading(false);
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
     }
   };
 
   const fetchSuggessionData = async (dataToSend) => {
     console.log("fetching suggessions");
-    setShowLoading(true);
-    const token = localStorage.getItem("token");
-    const response = await axios.get(
-      `${
-        import.meta.env.VITE_SERVER_URL
-      }/friend/getFriendSuggessions?ids=${dataToSend}`,
-      {
-        headers: {
-          token: token,
-        },
+    try {
+      setShowLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/friend/getFriendSuggessions?ids=${dataToSend}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response) {
+        let suggessions = response.data;
+        const userEmail = jwtDecode(token).email;
+
+        suggessions = suggessions.filter((element) => element != userEmail);
+        suggessions = suggessions.filter(
+          (element) => !blockID.includes(element)
+        );
+        suggessions = suggessions.filter(
+          (element) => !reqSendID.includes(element)
+        );
+        suggessions = suggessions.filter(
+          (element) => !reqReceivedID.includes(element)
+        );
+        suggessions = suggessions.filter(
+          (element) => !friendsID.includes(element)
+        );
+
+        setSuggessionsID(suggessions);
+        setShowLoading(false);
       }
-    );
-    if (response) {
-      let suggessions = response.data;
-      const userEmail = jwtDecode(token).email;
-
-      suggessions = suggessions.filter((element) => element != userEmail);
-      suggessions = suggessions.filter((element) => !blockID.includes(element));
-      suggessions = suggessions.filter(
-        (element) => !reqSendID.includes(element)
-      );
-      suggessions = suggessions.filter(
-        (element) => !reqReceivedID.includes(element)
-      );
-      suggessions = suggessions.filter(
-        (element) => !friendsID.includes(element)
-      );
-
-      setSuggessionsID(suggessions);
-      setShowLoading(false);
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
     }
   };
 

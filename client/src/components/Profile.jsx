@@ -5,8 +5,10 @@ import UpdateProfile from "./UpdateProfile";
 import axios from "axios";
 import Loading from "./Loading";
 import { MdEdit } from "react-icons/md";
+import { useGlobals } from "../contexts/Globals";
 
 const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
+  const { setIsValidJWT } = useGlobals();
   const [profileData, setProfileData] = useState({});
   const [showLoading, setShowLoading] = useState(true);
 
@@ -27,6 +29,13 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
         setShowLoading(false);
       }
     } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
       console.log(error);
     }
   };

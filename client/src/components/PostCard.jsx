@@ -16,8 +16,10 @@ import Share from "./Share";
 import LikesList from "./LikesList";
 import ConfirmWindow from "./ConfirmWindow";
 import { useFileContext } from "../contexts/FileContext";
+import { useGlobals } from "../contexts/Globals";
 
 const PostCard = ({ post, shareFlag }) => {
+  const { setIsValidJWT } = useGlobals();
   const { deleteFile } = useFileContext();
   const [expanded, setExpanded] = useState(false);
   const [mouseOnLike, setMouseOnLike] = useState(false);
@@ -74,47 +76,57 @@ const PostCard = ({ post, shareFlag }) => {
   };
 
   const handleDeletePost = async () => {
-    if (post.postAttachments.length > 0) {
-      deleteFile(post.postAttachments);
-    } else {
-      console.log("no attachments");
-    }
     const token = localStorage.getItem("token");
-    const response = await axios.delete(
-      `${import.meta.env.VITE_SERVER_URL}/post/deletePost/${post._id}`,
-      {
-        headers: {
-          token: token,
-        },
-      }
-    );
-    if (response.status == 200) {
-      console.log("post deleted successfully");
-      setShowEdit(false);
-      setYourPostArray((prevPosts) => {
-        return prevPosts.filter((post) => post._id !== response.data.id);
-      });
-
-      setAlertMessage("Post deleted successfully");
-      setShowAlert(true);
-
-      const data = {
-        email: response.data.email,
-        postID: response.data.id,
-      };
-      try {
-        const res = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/post/removePostID`,
-          data
-        );
-        if (res.status === 200) {
-          console.log("user updated");
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/post/deletePost/${post._id}`,
+        {
+          headers: {
+            token: token,
+          },
         }
-      } catch (e) {
-        console.log(e);
+      );
+      if (response.status == 200) {
+        if (post.postAttachments.length > 0) {
+          deleteFile(post.postAttachments);
+        } else {
+          console.log("no attachments");
+        }
+        console.log("post deleted successfully");
+        setShowEdit(false);
+        setYourPostArray((prevPosts) => {
+          return prevPosts.filter((post) => post._id !== response.data.id);
+        });
+
+        setAlertMessage("Post deleted successfully");
+        setShowAlert(true);
+
+        const data = {
+          email: response.data.email,
+          postID: response.data.id,
+        };
+        try {
+          const res = await axios.put(
+            `${import.meta.env.VITE_SERVER_URL}/post/removePostID`,
+            data
+          );
+          if (res.status === 200) {
+            console.log("user updated");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        console.log(response);
       }
-    } else {
-      console.log(response);
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
     }
   };
 
@@ -132,17 +144,27 @@ const PostCard = ({ post, shareFlag }) => {
 
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.put(
-      `${import.meta.env.VITE_SERVER_URL}/post/postOptions/postLike`,
-      { selectedLike: selected, postID: post._id, prevLike: prevLike },
-      {
-        headers: {
-          token: token,
-        },
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/post/postOptions/postLike`,
+        { selectedLike: selected, postID: post._id, prevLike: prevLike },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        setPrevLike(selected);
       }
-    );
-    if (response.status == 200) {
-      setPrevLike(selected);
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
     }
   };
 

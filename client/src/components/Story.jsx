@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import StoryCard from "./StoryCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useGlobals } from "../contexts/Globals";
 
 const Story = () => {
+  const { setIsValidJWT } = useGlobals();
   const navigate = useNavigate();
   const [yourStories, setYourStories] = useState([]);
   const [otherStories, setOtherStories] = useState([]);
@@ -27,6 +29,13 @@ const Story = () => {
           console.log(response.data);
         }
       } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
         console.log(error);
       }
     };
@@ -46,6 +55,13 @@ const Story = () => {
           console.log(response.data);
         }
       } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
         console.log(error);
       }
     };
@@ -57,13 +73,18 @@ const Story = () => {
   return (
     <div className="storyDiv">
       {yourStories.length > 0 && (
-        <StoryCard story={yourStories[0]} isYourStory={true} />
+        <StoryCard
+          story={yourStories[0]}
+          isYourStory={true}
+          onClick={() => navigate("/main/stories")}
+        />
       )}
       {Object.keys(otherStories).map((userEmail) => (
         <StoryCard
           key={userEmail}
           story={otherStories[userEmail][0]}
           isYourStory={false}
+          onClick={() => navigate("/main/stories")}
         />
       ))}
     </div>

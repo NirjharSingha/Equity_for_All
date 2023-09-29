@@ -11,79 +11,85 @@ import Chat from "../components/Chat";
 import PostComponent from "../components/PostComponent";
 import FriendOptions from "../components/FriendOptions";
 import CreateStory from "../components/CreateStory";
+import { useGlobals } from "../contexts/Globals";
+import UserSession from "../components/UserSession";
 
 const MainPage = () => {
+  const { isValidJWT } = useGlobals();
   return (
-    <div className="mainPage">
-      <div className="navComponent">
-        <Navbar />
-      </div>
-      <div className="footerComponent">
-        <Footer />
-      </div>
-      <div className="mainContainer">
-        <div className="chatComponent">
-          <Chat />
+    <>
+      {!isValidJWT && <UserSession />}
+      <div className="mainPage">
+        <div className="navComponent">
+          <Navbar />
         </div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div className="mainComponent">
-                  <Home />
+        <div className="footerComponent">
+          <Footer />
+        </div>
+        <div className="mainContainer">
+          <div className="chatComponent">
+            <Chat />
+          </div>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div className="mainComponent">
+                    <Home />
+                  </div>
+                  <div className="leftComponent">
+                    <Profile profileCode={0} />
+                  </div>
+                </>
+              }
+            />
+            <Route
+              path="/posts/*"
+              element={
+                <div className="doubleColumn">
+                  <PostComponent />
                 </div>
-                <div className="leftComponent">
-                  <Profile profileCode={0} />
-                </div>
-              </>
-            }
-          />
-          <Route
-            path="/posts/*"
-            element={
-              <div className="doubleColumn">
-                <PostComponent />
-              </div>
-            }
-          />
-          <Route
-            path="/friends"
-            element={
-              <>
-                <div className="mainComponent">
-                  <Friends />
-                </div>
-                <div className="leftComponent">
-                  <FriendOptions />
-                </div>
-              </>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <div className="mainComponent">
-                <Groups />
-              </div>
-            }
-          />
-          <Route
-            path="/stories"
-            element={
-              <>
+              }
+            />
+            <Route
+              path="/friends"
+              element={
+                <>
+                  <div className="mainComponent">
+                    <Friends />
+                  </div>
+                  <div className="leftComponent">
+                    <FriendOptions />
+                  </div>
+                </>
+              }
+            />
+            <Route
+              path="/groups"
+              element={
                 <div className="mainComponent">
                   <Groups />
                 </div>
-                <div className="leftComponent">
-                  <CreateStory />
-                </div>
-              </>
-            }
-          />
-        </Routes>
+              }
+            />
+            <Route
+              path="/stories"
+              element={
+                <>
+                  <div className="mainComponent">
+                    <Groups />
+                  </div>
+                  <div className="leftComponent">
+                    <CreateStory />
+                  </div>
+                </>
+              }
+            />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

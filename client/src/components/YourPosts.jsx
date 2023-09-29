@@ -5,8 +5,10 @@ import PostCard from "./PostCard";
 import { usePostContext } from "../contexts/PostContext";
 import AlertMessage from "./AlertMessage";
 import Loading from "./Loading";
+import { useGlobals } from "../contexts/Globals";
 
 const YourPosts = () => {
+  const { setIsValidJWT } = useGlobals();
   const {
     yourPostArray,
     setYourPostArray,
@@ -58,7 +60,8 @@ const YourPosts = () => {
         yourPostPage,
         setYourPostArray,
         postPerPage,
-        setShowLoading
+        setShowLoading,
+        setIsValidJWT
       );
     } else {
       setComponentDidMount(false);
@@ -69,7 +72,8 @@ const YourPosts = () => {
     fetchPostIds(
       `${import.meta.env.VITE_SERVER_URL}/post/getYourPostIDs`,
       setYourPostIds,
-      setShowLoading
+      setShowLoading,
+      setIsValidJWT
     );
   }, []);
 

@@ -27,7 +27,8 @@ const PostContextProvider = ({ children }) => {
     postPage,
     setPostArray,
     postPerPage,
-    setShowLoading
+    setShowLoading,
+    setIsValidJWT
   ) => {
     let arrayToSend = [];
     if (postIds.length > 0 && postPage * postPerPage <= postIds.length) {
@@ -57,12 +58,24 @@ const PostContextProvider = ({ children }) => {
           setShowLoading(false);
         }
       } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
         console.error("Error fetching posts:", error);
       }
     }
   };
 
-  const fetchPostIds = async (path, setPostIds, setShowLoading) => {
+  const fetchPostIds = async (
+    path,
+    setPostIds,
+    setShowLoading,
+    setIsValidJWT
+  ) => {
     try {
       setShowLoading(true);
       const token = localStorage.getItem("token");
@@ -77,6 +90,13 @@ const PostContextProvider = ({ children }) => {
         setShowLoading(false);
       }
     } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
       console.error("Error fetching posts:", error);
     }
   };

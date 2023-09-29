@@ -6,8 +6,10 @@ import { useFriendContext } from "../contexts/FriendContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import axios from "axios";
 import ConfirmWindow from "./ConfirmWindow";
+import { useGlobals } from "../contexts/Globals";
 
 const PersonCard = ({ email }) => {
+  const { isValidJWT, setIsValidJWT } = useGlobals();
   const {
     friendsID,
     setFriendsID,
@@ -52,6 +54,13 @@ const PersonCard = ({ email }) => {
         );
         setMutualFriends(response.data.commonFriendsCount);
       } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
         console.log(error);
       }
     };
@@ -77,6 +86,13 @@ const PersonCard = ({ email }) => {
         console.log("update successful");
       }
     } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
       console.log(error);
     }
   };
@@ -134,6 +150,13 @@ const PersonCard = ({ email }) => {
         }
       }
     } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
       console.log(error);
     }
   };
@@ -196,9 +219,13 @@ const PersonCard = ({ email }) => {
               className="personCardButton personCardElement"
               onClick={() => {
                 updateFriends("friends", "remove");
-                updateIDArray(setFriendsID, "remove");
-                setAlertMessage(`you and ${userName} are not friends anymore`);
-                setShowAlert(true);
+                if (isValidJWT) {
+                  updateIDArray(setFriendsID, "remove");
+                  setAlertMessage(
+                    `you and ${userName} are not friends anymore`
+                  );
+                  setShowAlert(true);
+                }
               }}
             >
               Unfriend

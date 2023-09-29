@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { useFriendContext } from "../contexts/FriendContext";
 import axios from "axios";
 import Loading from "./Loading";
+import { useGlobals } from "../contexts/Globals";
 
 const BirthDays = () => {
+  const { setIsValidJWT } = useGlobals();
   const [allMonths] = useState([
     "January",
     "February",
@@ -47,6 +49,13 @@ const BirthDays = () => {
           setShowLoading(false);
         }
       } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
         console.error("Error fetching comment count:", error);
       }
     };

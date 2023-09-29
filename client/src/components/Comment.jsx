@@ -10,8 +10,10 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import Loading from "./Loading";
+import { useGlobals } from "../contexts/Globals";
 
 const Comment = ({ setShowComments, post }) => {
+  const { setIsValidJWT } = useGlobals();
   const commentContainerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
   const [commentInput, setCommentInput] = useState("");
@@ -170,6 +172,13 @@ const Comment = ({ setShowComments, post }) => {
           setShowLoading(false);
         }
       } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
         console.error("Error fetching comment count:", error);
       }
     };
@@ -225,7 +234,14 @@ const Comment = ({ setShowComments, post }) => {
           setShowLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
+        console.error("Error fetching comments:", error);
       }
     };
     if (commentIds.length > 0) {
@@ -275,8 +291,15 @@ const Comment = ({ setShowComments, post }) => {
         }
       );
       setCommentInput("");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
+      console.log(error);
     }
   };
 

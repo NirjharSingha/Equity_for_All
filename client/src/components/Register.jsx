@@ -6,10 +6,11 @@ import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { Country, City } from "country-state-city";
 import { useFileContext } from "../contexts/FileContext";
-
 import axios from "axios";
+import { useGlobals } from "../contexts/Globals";
 
 const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
+  const { setIsValidJWT } = useGlobals();
   const { deleteFile } = useFileContext();
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
@@ -209,9 +210,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
         }
       } else {
         try {
-          if (fileFlag && profileData.profilePic !== "") {
-            deleteFile([profileData.profilePic]);
-          }
           const token = localStorage.getItem("token");
           const response = await axios.put(
             `${import.meta.env.VITE_SERVER_URL}/profile/updateProfile`,
@@ -228,10 +226,20 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
             response.status == 200 &&
             response.data.message === "User updated successfully"
           ) {
+            if (fileFlag && profileData.profilePic !== "") {
+              deleteFile([profileData.profilePic]);
+            }
             handleMount();
             fetchProfileData(true);
           }
         } catch (error) {
+          if (
+            error.response.status === 401 &&
+            error.response.statusText === "Unauthorized"
+          ) {
+            console.log("inside status code");
+            setIsValidJWT(false);
+          }
           if (error.response) {
             const statusCode = error.response.status;
             const errorMessage = error.response.data.error;

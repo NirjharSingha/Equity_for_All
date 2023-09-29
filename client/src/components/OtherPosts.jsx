@@ -4,8 +4,10 @@ import { useEffect, useState, useRef } from "react";
 import PostCard from "./PostCard";
 import { usePostContext } from "../contexts/PostContext";
 import Loading from "./Loading";
+import { useGlobals } from "../contexts/Globals";
 
 const OtherPosts = () => {
+  const { setIsValidJWT } = useGlobals();
   const {
     otherPostArray,
     setOtherPostArray,
@@ -47,7 +49,8 @@ const OtherPosts = () => {
       otherPostPage,
       setOtherPostArray,
       postPerPage,
-      setShowLoading
+      setShowLoading,
+      setIsValidJWT
     );
 
     return () => {
@@ -63,7 +66,8 @@ const OtherPosts = () => {
         otherPostPage,
         setOtherPostArray,
         postPerPage,
-        setShowLoading
+        setShowLoading,
+        setIsValidJWT
       );
     } else {
       setComponentDidMount(false);
@@ -75,7 +79,8 @@ const OtherPosts = () => {
       fetchPostIds(
         `${import.meta.env.VITE_SERVER_URL}/post/getOtherPostIDs`,
         setOtherPostIds,
-        setShowLoading
+        setShowLoading,
+        setIsValidJWT
       );
       setShouldFetchOtherPostIds(false);
     }

@@ -17,8 +17,10 @@ import { useLikesListContext } from "../contexts/LikesListContext";
 import LikesList from "./LikesList";
 import jwtDecode from "jwt-decode";
 import ConfirmWindow from "./ConfirmWindow";
+import { useGlobals } from "../contexts/Globals";
 
 const CommentCard = ({ comment, postID, level, allComments }) => {
+  const { setIsValidJWT } = useGlobals();
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -83,32 +85,49 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           },
         }
       );
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
     }
   };
 
   const handleLikePut = async () => {
-    const token = localStorage.getItem("token");
-    const response = await axios.put(
-      `${import.meta.env.VITE_SERVER_URL}/post/postOptions/commentLike`,
-      {
-        selectedLike: selectedLike,
-        prevLike: prevSecLike,
-        postID: postID,
-        commentID: comment.commentID,
-        level: comment.level,
-        levelParent: comment.levelParent,
-        higherParent: comment.higherParent,
-      },
-      {
-        headers: {
-          token: token,
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/post/postOptions/commentLike`,
+        {
+          selectedLike: selectedLike,
+          prevLike: prevSecLike,
+          postID: postID,
+          commentID: comment.commentID,
+          level: comment.level,
+          levelParent: comment.levelParent,
+          higherParent: comment.higherParent,
         },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        setPrevSecLike(selectedLike);
       }
-    );
-    if (response.status == 200) {
-      setPrevSecLike(selectedLike);
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
     }
   };
 
@@ -226,8 +245,15 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           setShowReplyComments(true);
           setIsReply(false);
         }
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
+        console.log(error);
       }
     } else {
       const sendData = {
@@ -256,8 +282,15 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           setShowEmojis(false);
           setIsEdit(false);
         }
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
+        console.log(error);
       }
     }
   };
