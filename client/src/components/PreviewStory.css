@@ -7,6 +7,7 @@
   padding-top: 0.2rem;
   background-color: #ffffff;
   box-shadow: 0px 0px 4px 4px rgba(134, 135, 137, 0.5);
+  margin-left: 0.89rem;
 }
 .previewStoryHeading {
   width: 100%;
@@ -29,7 +30,7 @@
   justify-content: center;
 }
 .displayStoryPreview {
-  width: 23vw;
+  width: 35vw;
   height: 100%;
   border-radius: 0.5rem;
   text-align: center;
@@ -42,19 +43,21 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
-.bgImage {
+/* .bgImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-.displayStoryPreview p {
+} */
+/* .displayStoryPreview p {
   width: 100%;
   overflow-wrap: break-word;
   align-items: center;
   font-size: large;
   font-weight: bold;
-}
+} */
 .storySpan {
   width: 100%;
   overflow-wrap: break-word;
+  font-size: large;
+  font-weight: bold;
 }

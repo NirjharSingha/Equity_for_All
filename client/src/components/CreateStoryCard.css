@@ -1,0 +1,38 @@
+.createStoryCard {
+  height: 100%;
+  width: 13vw;
+  min-width: 12rem;
+  margin-right: 0.4rem;
+  border-radius: 0.3rem;
+  background-color: rgb(41, 40, 40);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgb(41, 40, 40);
+}
+.createStoryUserPic {
+  width: 100%;
+  height: calc(100% - 3.8rem);
+  background-color: rgb(14, 134, 134);
+  border-radius: 0.3rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.createStoryPlus {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: rgb(50, 103, 234);
+  background-color: azure;
+  border-radius: 50%;
+  bottom: 2.55rem;
+  padding: 0.2rem;
+}
+.createStoryText {
+  position: absolute;
+  bottom: 0.85rem;
+  color: white;
+  font-weight: bold;
+}

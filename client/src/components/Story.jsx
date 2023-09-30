@@ -5,6 +5,7 @@ import StoryCard from "./StoryCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useGlobals } from "../contexts/Globals";
+import CreateStoryCard from "./CreateStoryCard";
 
 const Story = () => {
   const { setIsValidJWT } = useGlobals();
@@ -72,6 +73,7 @@ const Story = () => {
 
   return (
     <div className="storyDiv">
+      <CreateStoryCard />
       {yourStories.length > 0 && (
         <StoryCard
           story={yourStories[0]}

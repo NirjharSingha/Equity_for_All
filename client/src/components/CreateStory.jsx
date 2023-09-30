@@ -6,8 +6,10 @@ import { useState, useRef } from "react";
 import axios from "axios";
 import { useStoryContext } from "../contexts/StoryContext";
 import { useGlobals } from "../contexts/Globals";
+import { useNavigate } from "react-router-dom";
 
 const CreateStory = () => {
+  const navigate = useNavigate();
   const { setIsValidJWT } = useGlobals();
   useEffect(() => {
     console.log("create story component loaded");
@@ -31,6 +33,19 @@ const CreateStory = () => {
     setCrossFlag,
     bgColors,
   } = useStoryContext();
+
+  const resetValues = () => {
+    setSelectedBg(0);
+    setFontStyle("simple");
+    setFontColor("white");
+    setSelectedFile({});
+    setInputValue("");
+    setCrossFlag(false);
+  };
+
+  useEffect(() => {
+    resetValues();
+  }, []);
 
   const handleFileUpload = () => {
     if (!crossFlag) {
@@ -78,6 +93,8 @@ const CreateStory = () => {
       );
       if (response.status === 201) {
         console.log("story created successfully");
+        resetValues();
+        navigate("/main");
       }
     } catch (error) {
       if (

@@ -8,6 +8,7 @@
   grid-template-rows: 2.5rem auto 0.2rem;
   border-radius: 0.3rem;
   background-color: rgb(41, 40, 40);
+  cursor: pointer;
 }
 .storyCardPreview {
   width: 100%;

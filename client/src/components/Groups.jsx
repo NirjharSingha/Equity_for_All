@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import PreviewStory from "./PreviewStory";
 import UserSession from "./UserSession";
 import CreateStory from "./CreateStory";
+import DisplayStory from "./DisplayStory";
 
 const Home = () => {
   useEffect(() => {
@@ -13,9 +14,10 @@ const Home = () => {
   return (
     <div className="homeDiv">
       <div className="homeContainer">
-        <PreviewStory />
+        {/* <PreviewStory /> */}
         {/* <CreateStory /> */}
         {/* <UserSession /> */}
+        <DisplayStory />
       </div>
     </div>
   );

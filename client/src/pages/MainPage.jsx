@@ -13,6 +13,8 @@ import FriendOptions from "../components/FriendOptions";
 import CreateStory from "../components/CreateStory";
 import { useGlobals } from "../contexts/Globals";
 import UserSession from "../components/UserSession";
+import PreviewStory from "../components/PreviewStory";
+import DisplayStory from "../components/DisplayStory";
 
 const MainPage = () => {
   const { isValidJWT } = useGlobals();
@@ -76,9 +78,17 @@ const MainPage = () => {
             <Route
               path="/stories"
               element={
+                <div className="doubleColumn">
+                  <DisplayStory />
+                </div>
+              }
+            />
+            <Route
+              path="/createStory"
+              element={
                 <>
                   <div className="mainComponent">
-                    <Groups />
+                    <PreviewStory />
                   </div>
                   <div className="leftComponent">
                     <CreateStory />

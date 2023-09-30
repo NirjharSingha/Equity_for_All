@@ -50,7 +50,7 @@ const getOtherStories = asyncHandler(async (req, res) => {
           $and: [
             { userEmail: { $nin: [...friends, email] } }, // Include user and friends
             { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
-            { storyVisibility: { $in: ["Anyone", "Friends"] } }, // Visibility is "anyone" or "friends"
+            { storyVisibility: { $in: ["Anyone"] } }, // Visibility is "anyone"
           ],
         },
       },
