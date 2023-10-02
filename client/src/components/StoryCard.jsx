@@ -8,6 +8,7 @@ import jwtDecode from "jwt-decode";
 
 const StoryCard = ({ story }) => {
   const navigate = useNavigate();
+  const { setKeyIndex, storyKeys, setValueIndex } = useStoryContext();
   const { getUserInfo } = useUserInfoContext();
   const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
@@ -36,6 +37,8 @@ const StoryCard = ({ story }) => {
       className="storyCard"
       onClick={() => {
         setStoryToDisplay(story);
+        setKeyIndex(storyKeys.indexOf(story.userEmail));
+        setValueIndex(0);
         navigate("/main/stories");
       }}
     >

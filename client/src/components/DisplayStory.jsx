@@ -7,21 +7,39 @@ import { FaLessThan } from "react-icons/fa";
 import { FaGreaterThan } from "react-icons/fa";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const DisplayStory = () => {
-  const { storyToDisplay, otherStories, storyKeys, setStoryToDisplay } =
-    useStoryContext();
+  const {
+    storyToDisplay,
+    otherStories,
+    storyKeys,
+    setStoryToDisplay,
+    keyIndex,
+    setKeyIndex,
+    valueIndex,
+    setValueIndex,
+  } = useStoryContext();
   const navigate = useNavigate();
-  const story = {
-    userEmail: "webprojecttest63@gmail.com",
-    storyDescription: "abcd\nefgh",
-    fontColor: "white",
-    fontStyle: "fancy",
-    backgroundImage:
-      "http://localhost:5000/uploads/1696003690652-mdn-info2.png",
-    backgroundColor: "rgb(9, 181, 181)",
-    storyVisibility: "Anyone",
-  };
+
+  const [filled, setFilled] = useState(0);
+  const [isRunning, setIsRunning] = useState(true);
+  useEffect(() => {
+    let timeoutId;
+    if (filled < 100 && isRunning) {
+      timeoutId = setTimeout(() => setFilled((prev) => (prev += 2)), 100);
+    }
+    if (filled >= 100) {
+      handleStoryChange(1);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [filled, isRunning]);
+  useEffect(() => {
+    setFilled(0);
+  }, [storyToDisplay]);
+
   let paragraphs;
   if (storyToDisplay.storyDescription !== undefined) {
     paragraphs = storyToDisplay.storyDescription
@@ -35,8 +53,10 @@ const DisplayStory = () => {
   useEffect(() => {
     if (Object.keys(storyToDisplay).length === 0) {
       navigate("/main");
+    } else if (keyIndex !== -1) {
+      console.log(keyIndex);
     }
-  }, [storyToDisplay]);
+  }, [storyToDisplay, keyIndex]);
 
   const handleStoryChange = (flag) => {
     if (Object.keys(storyToDisplay).length !== 0) {
@@ -50,12 +70,14 @@ const DisplayStory = () => {
         if (currentStoryIndex === userStoriesArray.length - 1) {
           currentKeyIndex = (currentKeyIndex + 1) % storyKeys.length;
           setStoryToDisplay(otherStories[storyKeys[currentKeyIndex]][0]);
+          setValueIndex(0);
         } else {
           console.log(otherStories);
           console.log(currentKeyIndex);
           setStoryToDisplay(
             otherStories[storyKeys[currentKeyIndex]][currentStoryIndex + 1]
           );
+          setValueIndex(currentStoryIndex + 1);
         }
       } else {
         if (currentStoryIndex === 0) {
@@ -65,21 +87,58 @@ const DisplayStory = () => {
           setStoryToDisplay(
             otherStories[storyKeys[currentKeyIndex]][lengthOfArray - 1]
           );
+          setValueIndex(lengthOfArray - 1);
         } else {
           setStoryToDisplay(
             otherStories[storyKeys[currentKeyIndex]][currentStoryIndex - 1]
           );
+          setValueIndex(currentStoryIndex - 1);
         }
       }
+      setKeyIndex(currentKeyIndex);
     }
   };
   return (
     <div className="displayStoryContainer">
-      <div className="storyArrawButton" onClick={() => handleStoryChange(-1)}>
+      <div
+        className="storyArrawButton"
+        onClick={() => {
+          handleStoryChange(-1);
+          setIsRunning(true);
+        }}
+      >
         <FaLessThan className="storyArraw" />
       </div>
       <div className="displayStory">
-        <div className="progressBar"></div>
+        <div
+          className="progressBar"
+          style={
+            storyKeys[keyIndex] !== undefined &&
+            otherStories[storyKeys[keyIndex]] !== undefined
+              ? {
+                  gridTemplateColumns: `repeat(${
+                    otherStories[storyKeys[keyIndex]].length
+                  },1fr)`,
+                }
+              : {}
+          }
+        >
+          {storyKeys[keyIndex] !== undefined &&
+            otherStories[storyKeys[keyIndex]] !== undefined &&
+            otherStories[storyKeys[keyIndex]].map((_, index) => (
+              <div
+                className="progressItem"
+                key={index}
+                style={
+                  index < valueIndex
+                    ? { backgroundColor: "#F3F3F3" }
+                    : index === valueIndex
+                    ? { width: `${filled}%`, backgroundColor: "#F3F3F3" }
+                    : { backgroundColor: "#808080" }
+                }
+              ></div>
+            ))}
+        </div>
         <div className="storyCreator">
           <div className="storyCreatorPicContainer">
             <div className="storyCreatorPic"></div>
@@ -90,15 +149,23 @@ const DisplayStory = () => {
           </div>
           <div className="displayStoryIcons">
             <p>...</p>
-            <FaPause style={{ color: "white", cursor: "pointer" }} />
-            <BsTriangleFill
-              style={{
-                color: "white",
-                cursor: "pointer",
-                fontSize: "0.75rem",
-                rotate: "90deg",
-              }}
-            />
+            {isRunning && (
+              <FaPause
+                style={{ color: "white", cursor: "pointer" }}
+                onClick={() => setIsRunning(false)}
+              />
+            )}
+            {!isRunning && (
+              <BsTriangleFill
+                style={{
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "0.75rem",
+                  rotate: "90deg",
+                }}
+                onClick={() => setIsRunning(true)}
+              />
+            )}
           </div>
         </div>
         <div
@@ -127,7 +194,13 @@ const DisplayStory = () => {
           </span>
         </div>
       </div>
-      <div className="storyArrawButton" onClick={() => handleStoryChange(1)}>
+      <div
+        className="storyArrawButton"
+        onClick={() => {
+          handleStoryChange(1);
+          setIsRunning(true);
+        }}
+      >
         <FaGreaterThan className="storyArraw" />
       </div>
     </div>

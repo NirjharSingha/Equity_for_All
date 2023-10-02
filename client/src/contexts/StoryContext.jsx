@@ -30,6 +30,8 @@ const StoryContextProvider = ({ children }) => {
   const [otherStories, setOtherStories] = useState([]);
   const [storyToDisplay, setStoryToDisplay] = useState({});
   const [storyKeys, setStoryKeys] = useState([]);
+  const [keyIndex, setKeyIndex] = useState(0);
+  const [valueIndex, setValueIndex] = useState(0);
 
   return (
     <StoryContext.Provider
@@ -59,6 +61,10 @@ const StoryContextProvider = ({ children }) => {
         setStoryToDisplay,
         storyKeys,
         setStoryKeys,
+        keyIndex,
+        setKeyIndex,
+        valueIndex,
+        setValueIndex,
       }}
     >
       {children}
