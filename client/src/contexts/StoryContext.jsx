@@ -24,6 +24,12 @@ const StoryContextProvider = ({ children }) => {
   const [selectedFile, setSelectedFile] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [crossFlag, setCrossFlag] = useState(false);
+  const [shouldFetchYourStories, setshouldFetchYourStories] = useState(true);
+  const [shouldFetchOtherStories, setshouldFetchOtherStories] = useState(true);
+  const [yourStories, setYourStories] = useState([]);
+  const [otherStories, setOtherStories] = useState([]);
+  const [storyToDisplay, setStoryToDisplay] = useState({});
+  const [storyKeys, setStoryKeys] = useState([]);
 
   return (
     <StoryContext.Provider
@@ -41,6 +47,18 @@ const StoryContextProvider = ({ children }) => {
         setInputValue,
         crossFlag,
         setCrossFlag,
+        shouldFetchYourStories,
+        setshouldFetchYourStories,
+        shouldFetchOtherStories,
+        setshouldFetchOtherStories,
+        yourStories,
+        setYourStories,
+        otherStories,
+        setOtherStories,
+        storyToDisplay,
+        setStoryToDisplay,
+        storyKeys,
+        setStoryKeys,
       }}
     >
       {children}

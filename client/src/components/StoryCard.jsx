@@ -4,19 +4,23 @@ import { useStoryContext } from "../contexts/StoryContext";
 import { useState, useEffect } from "react";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
-const StoryCard = ({ story, isYourStory }) => {
+const StoryCard = ({ story }) => {
   const navigate = useNavigate();
   const { getUserInfo } = useUserInfoContext();
   const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
-  const paragraphs = story.storyDescription
-    .split("\n")
-    .map((paragraph, index) => (
+  let paragraphs;
+  if (story.storyDescription !== undefined) {
+    paragraphs = story.storyDescription.split("\n").map((paragraph, index) => (
       <React.Fragment key={index}>
         <p>{paragraph}</p>
       </React.Fragment>
     ));
+  }
+  const email = jwtDecode(localStorage.getItem("token")).email;
+  const { setStoryToDisplay } = useStoryContext();
 
   useEffect(() => {
     const displayStoryUser = async () => {
@@ -28,7 +32,13 @@ const StoryCard = ({ story, isYourStory }) => {
   }, []);
 
   return (
-    <div className="storyCard" onClick={() => navigate("/main/stories")}>
+    <div
+      className="storyCard"
+      onClick={() => {
+        setStoryToDisplay(story);
+        navigate("/main/stories");
+      }}
+    >
       <div className="storyCardHeading">
         {userImg !== "" && (
           <img src={userImg} alt="" className="storyProfilePic" />
@@ -64,7 +74,7 @@ const StoryCard = ({ story, isYourStory }) => {
             ></path>{" "}
           </svg>
         )}
-        <p>{isYourStory ? "Your story" : userName}</p>
+        <p>{email === story.userEmail ? "Your story" : userName}</p>
       </div>
       <div
         className="storyCardPreview"

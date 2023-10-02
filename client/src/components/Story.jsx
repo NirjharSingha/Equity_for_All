@@ -6,12 +6,26 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useGlobals } from "../contexts/Globals";
 import CreateStoryCard from "./CreateStoryCard";
+import { useStoryContext } from "../contexts/StoryContext";
+import jwtDecode from "jwt-decode";
 
 const Story = () => {
   const { setIsValidJWT } = useGlobals();
   const navigate = useNavigate();
-  const [yourStories, setYourStories] = useState([]);
-  const [otherStories, setOtherStories] = useState([]);
+  const {
+    shouldFetchYourStories,
+    setshouldFetchYourStories,
+    shouldFetchOtherStories,
+    setshouldFetchOtherStories,
+    yourStories,
+    setYourStories,
+    otherStories,
+    setOtherStories,
+    storyToDisplay,
+    setStoryToDisplay,
+    setStoryKeys,
+  } = useStoryContext();
+  const email = jwtDecode(localStorage.getItem("token")).email;
 
   useEffect(() => {
     const fetchYourStories = async () => {
@@ -26,8 +40,9 @@ const Story = () => {
           }
         );
         if (response) {
-          setYourStories(response.data);
+          setOtherStories((prev) => ({ ...prev, ...response.data }));
           console.log(response.data);
+          setshouldFetchYourStories(false);
         }
       } catch (error) {
         if (
@@ -52,8 +67,9 @@ const Story = () => {
           }
         );
         if (response) {
-          setOtherStories(response.data);
+          setOtherStories((prev) => ({ ...prev, ...response.data }));
           console.log(response.data);
+          setshouldFetchOtherStories(false);
         }
       } catch (error) {
         if (
@@ -67,28 +83,38 @@ const Story = () => {
       }
     };
 
-    fetchYourStories();
-    fetchOtherStories();
-  }, []);
+    if (shouldFetchYourStories) {
+      fetchYourStories();
+    }
+    if (!shouldFetchYourStories && shouldFetchOtherStories) {
+      fetchOtherStories();
+    }
+
+    console.log(otherStories);
+  }, [shouldFetchYourStories, setshouldFetchOtherStories]);
+
+  useEffect(() => {
+    const arrayKeys = Object.keys(otherStories);
+    setStoryKeys(arrayKeys);
+    console.log(arrayKeys);
+  }, [otherStories]);
 
   return (
     <div className="storyDiv">
       <CreateStoryCard />
-      {yourStories.length > 0 && (
+      {/* {yourStories[email] && yourStories[email].length > 0 && (
         <StoryCard
-          story={yourStories[0]}
+          story={yourStories[email][0]}
           isYourStory={true}
           onClick={() => navigate("/main/stories")}
         />
+      )} */}
+      {Object.keys(otherStories).map(
+        (userEmail) =>
+          otherStories[userEmail].length > 0 && (
+            <StoryCard key={userEmail} story={otherStories[userEmail][0]} />
+          )
       )}
-      {Object.keys(otherStories).map((userEmail) => (
-        <StoryCard
-          key={userEmail}
-          story={otherStories[userEmail][0]}
-          isYourStory={false}
-          onClick={() => navigate("/main/stories")}
-        />
-      ))}
     </div>
   );
 };

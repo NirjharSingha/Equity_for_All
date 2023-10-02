@@ -23,10 +23,12 @@ const getYourStories = asyncHandler(async (req, res) => {
   const validStories = await Story.find({ userEmail: email });
   const reversedStories = validStories.reverse();
 
-  console.log(reversedStories);
+  let objectToSend = {};
+  objectToSend[email] = reversedStories;
+  console.log(objectToSend);
 
-  if (reversedStories) {
-    res.status(200).json(reversedStories);
+  if (objectToSend) {
+    res.status(200).json(objectToSend);
   } else {
     res.status(404).json({ error: "error in fetching your story." });
   }
