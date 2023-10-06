@@ -12,6 +12,9 @@ const PreviewStory = () => {
     selectedFile,
     inputValue,
     crossFlag,
+    isEdit,
+    storyToDisplay,
+    bgImgHandler,
   } = useStoryContext();
   const [paragraphs, setParagraphs] = useState();
   const [selectedImage, setSelectedImage] = useState();
@@ -27,7 +30,7 @@ const PreviewStory = () => {
   }, [inputValue]);
 
   useEffect(() => {
-    if (crossFlag) {
+    if (crossFlag && !bgImgHandler) {
       const reader = new FileReader();
       reader.readAsDataURL(selectedFile);
       reader.onload = () => {
@@ -51,7 +54,9 @@ const PreviewStory = () => {
                   backgroundColor: bgColors[selectedBg],
                 }
               : {
-                  backgroundImage: `url(${selectedImage})`,
+                  backgroundImage: bgImgHandler
+                    ? `url(${storyToDisplay.backgroundImage})`
+                    : `url(${selectedImage})`,
                   backgroundColor: "black",
                   border: `2px solid black`,
                 }

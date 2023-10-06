@@ -8,10 +8,12 @@ import { useGlobals } from "../contexts/Globals";
 import CreateStoryCard from "./CreateStoryCard";
 import { useStoryContext } from "../contexts/StoryContext";
 import jwtDecode from "jwt-decode";
+import { useFileContext } from "../contexts/FileContext";
 
 const Story = () => {
   const { setIsValidJWT } = useGlobals();
   const navigate = useNavigate();
+  const { deleteFile } = useFileContext();
   const {
     shouldFetchYourStories,
     setshouldFetchYourStories,
@@ -40,8 +42,12 @@ const Story = () => {
           }
         );
         if (response) {
-          setOtherStories((prev) => ({ ...prev, ...response.data }));
-          console.log(response.data);
+          if (response.data.stories[email].length > 0) {
+            setOtherStories((prev) => ({ ...prev, ...response.data.stories }));
+          }
+          if (response.data.filesToDelete.length > 0) {
+            deleteFile(response.data.filesToDelete);
+          }
           setshouldFetchYourStories(false);
         }
       } catch (error) {
@@ -102,13 +108,6 @@ const Story = () => {
   return (
     <div className="storyDiv">
       <CreateStoryCard />
-      {/* {yourStories[email] && yourStories[email].length > 0 && (
-        <StoryCard
-          story={yourStories[email][0]}
-          isYourStory={true}
-          onClick={() => navigate("/main/stories")}
-        />
-      )} */}
       {Object.keys(otherStories).map(
         (userEmail) =>
           otherStories[userEmail].length > 0 && (

@@ -10,6 +10,7 @@ const editPost = asyncHandler(async (req, res) => {
     id,
     prevAttachments,
   } = req.body;
+  console.log(id);
 
   let postAttachments = [];
 

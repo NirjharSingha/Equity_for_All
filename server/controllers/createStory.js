@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import Story from "../models/Story.js";
-import User from "../models/User.js";
 
 const createStory = asyncHandler(async (req, res) => {
   const userEmail = req.email;
@@ -36,6 +35,7 @@ const createStory = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     message: "story created successfully",
+    story: story,
   });
 });
 

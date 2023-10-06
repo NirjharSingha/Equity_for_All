@@ -32,6 +32,8 @@ const StoryContextProvider = ({ children }) => {
   const [storyKeys, setStoryKeys] = useState([]);
   const [keyIndex, setKeyIndex] = useState(0);
   const [valueIndex, setValueIndex] = useState(0);
+  const [isEdit, setIsEdit] = useState(false);
+  const [bgImgHandler, setBgImgHandler] = useState(false);
 
   return (
     <StoryContext.Provider
@@ -65,6 +67,10 @@ const StoryContextProvider = ({ children }) => {
         setKeyIndex,
         valueIndex,
         setValueIndex,
+        isEdit,
+        setIsEdit,
+        bgImgHandler,
+        setBgImgHandler,
       }}
     >
       {children}

@@ -4,6 +4,7 @@ import upload from "../middlewares/multer.js";
 import createStory from "../controllers/createStory.js";
 import getYourStories from "../controllers/getYourStories.js";
 import getOtherStories from "../controllers/getOtherStories.js";
+import editStory from "../controllers/editStory.js";
 
 const router = express.Router();
 
@@ -13,6 +14,11 @@ router.post(
   "/createStory",
   [verifyJWT, upload.single("backgroundImage")],
   createStory
+);
+router.put(
+  "/editStory",
+  [verifyJWT, upload.single("backgroundImage")],
+  editStory
 );
 
 export default router;

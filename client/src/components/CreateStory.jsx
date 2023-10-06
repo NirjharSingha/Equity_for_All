@@ -7,17 +7,20 @@ import axios from "axios";
 import { useStoryContext } from "../contexts/StoryContext";
 import { useGlobals } from "../contexts/Globals";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
+import { useFileContext } from "../contexts/FileContext";
 
 const CreateStory = () => {
   const navigate = useNavigate();
   const { setIsValidJWT } = useGlobals();
+  const { deleteFile } = useFileContext();
+  const [filesToDelete, setFilesToDelete] = useState([]);
   useEffect(() => {
     console.log("create story component loaded");
   }, []);
 
   const fileInputRef = useRef(null);
   const [isDisable, setIsDisable] = useState(true);
-  const [visibility, setVisibility] = useState("Anyone");
   const {
     selectedBg,
     setSelectedBg,
@@ -32,7 +35,18 @@ const CreateStory = () => {
     crossFlag,
     setCrossFlag,
     bgColors,
+    setOtherStories,
+    otherStories,
+    setStoryKeys,
+    isEdit,
+    setIsEdit,
+    storyToDisplay,
+    bgImgHandler,
+    setBgImgHandler,
   } = useStoryContext();
+  const [visibility, setVisibility] = useState(
+    isEdit ? storyToDisplay.storyVisibility : "Anyone"
+  );
 
   const resetValues = () => {
     setSelectedBg(0);
@@ -44,7 +58,13 @@ const CreateStory = () => {
   };
 
   useEffect(() => {
-    resetValues();
+    if (!isEdit) {
+      resetValues();
+    }
+    return () => {
+      setIsEdit(false);
+      setCrossFlag(false);
+    };
   }, []);
 
   const handleFileUpload = () => {
@@ -72,7 +92,16 @@ const CreateStory = () => {
     const storyData = new FormData();
     storyData.append("storyDescription", inputValue);
     storyData.append("storyVisibility", visibility);
-    storyData.append("createdAt", new Date(Date.now()).toLocaleString());
+    if (!isEdit) {
+      storyData.append("createdAt", new Date(Date.now()).toLocaleString());
+    } else {
+      storyData.append("updatedAt", new Date(Date.now()).toLocaleString());
+      storyData.append(
+        "prevBg",
+        bgImgHandler === true ? storyToDisplay.backgroundImage : ""
+      );
+      storyData.append("id", storyToDisplay._id);
+    }
     storyData.append("backgroundImage", selectedFile);
     storyData.append("backgroundColor", bgColors[selectedBg]);
     storyData.append("fontStyle", fontStyleVar);
@@ -81,22 +110,76 @@ const CreateStory = () => {
     try {
       const token = localStorage.getItem("token");
       let response;
-      response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/story/createStory`,
-        storyData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: token,
-          },
-        }
-      );
+      if (!isEdit) {
+        response = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/story/createStory`,
+          storyData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: token,
+            },
+          }
+        );
+      } else {
+        console.log("inside else block");
+        response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/story/editStory`,
+          storyData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: token,
+            },
+          }
+        );
+      }
+      const email = jwtDecode(localStorage.getItem("token")).email;
       if (response.status === 201) {
         console.log("story created successfully");
         resetValues();
-        navigate("/main");
+        if (email in otherStories) {
+          setOtherStories((prev) => {
+            const updatedArray = [...prev[email]]; // Create a copy of the existing array
+            updatedArray.unshift(response.data.story); // Add the new story to the beginning
+            return {
+              ...prev,
+              [email]: updatedArray, // Update the specific user's array in the object
+            };
+          });
+        } else {
+          setOtherStories((prev) => ({
+            [email]: [response.data.story],
+            ...prev,
+          }));
+          setStoryKeys((prev) => [email, ...prev]);
+        }
+      } else if (response.status === 200) {
+        deleteFile(filesToDelete);
+        console.log("story updated successfully");
+        // resetValues();
+        setOtherStories((prev) => {
+          const updatedArray = [...prev[email]];
+          const updatedStory = response.data.updatedStory;
+          console.log(updatedStory);
+          const indexOfStoryToUpdate = updatedArray.findIndex(
+            (story) => story._id === updatedStory._id
+          );
+          console.log(indexOfStoryToUpdate);
+          // Check if the story with the given _id was found
+          if (indexOfStoryToUpdate !== -1) {
+            updatedArray[indexOfStoryToUpdate] = updatedStory; // Replace updatedStoryData with the new data for the story
+          }
+          console.log(updatedArray);
+          return {
+            ...prev,
+            [email]: updatedArray,
+          };
+        });
       }
+      navigate("/main");
     } catch (error) {
+      console.log(error);
       if (
         error.response.status === 401 &&
         error.response.statusText === "Unauthorized"
@@ -106,6 +189,15 @@ const CreateStory = () => {
       }
       console.log(error);
     }
+  };
+
+  // useEffect(() => {
+  //   navigate("/main");
+  // }, [otherStories]);
+
+  const handleDeleteBgImg = () => {
+    setFilesToDelete((prev) => [storyToDisplay.backgroundImage, ...prev]);
+    setBgImgHandler(false);
   };
 
   return (
@@ -304,6 +396,9 @@ const CreateStory = () => {
               onClick={() => {
                 setSelectedFile({});
                 setCrossFlag(false);
+                if (bgImgHandler) {
+                  handleDeleteBgImg();
+                }
               }}
             >
               x
@@ -341,7 +436,7 @@ const CreateStory = () => {
           }
           disabled={isDisable}
         >
-          Upload
+          {isEdit ? "Apply changes" : "Upload"}
         </button>
       </div>
     </form>
