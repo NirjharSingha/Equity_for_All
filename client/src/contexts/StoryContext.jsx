@@ -26,7 +26,6 @@ const StoryContextProvider = ({ children }) => {
   const [crossFlag, setCrossFlag] = useState(false);
   const [shouldFetchYourStories, setshouldFetchYourStories] = useState(true);
   const [shouldFetchOtherStories, setshouldFetchOtherStories] = useState(true);
-  const [yourStories, setYourStories] = useState([]);
   const [otherStories, setOtherStories] = useState([]);
   const [storyToDisplay, setStoryToDisplay] = useState({});
   const [storyKeys, setStoryKeys] = useState([]);
@@ -55,8 +54,6 @@ const StoryContextProvider = ({ children }) => {
         setshouldFetchYourStories,
         shouldFetchOtherStories,
         setshouldFetchOtherStories,
-        yourStories,
-        setYourStories,
         otherStories,
         setOtherStories,
         storyToDisplay,

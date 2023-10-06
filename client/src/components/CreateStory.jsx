@@ -157,7 +157,7 @@ const CreateStory = () => {
       } else if (response.status === 200) {
         deleteFile(filesToDelete);
         console.log("story updated successfully");
-        // resetValues();
+        resetValues();
         setOtherStories((prev) => {
           const updatedArray = [...prev[email]];
           const updatedStory = response.data.updatedStory;
@@ -190,10 +190,6 @@ const CreateStory = () => {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   navigate("/main");
-  // }, [otherStories]);
 
   const handleDeleteBgImg = () => {
     setFilesToDelete((prev) => [storyToDisplay.backgroundImage, ...prev]);

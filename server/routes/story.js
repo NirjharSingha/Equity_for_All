@@ -5,6 +5,7 @@ import createStory from "../controllers/createStory.js";
 import getYourStories from "../controllers/getYourStories.js";
 import getOtherStories from "../controllers/getOtherStories.js";
 import editStory from "../controllers/editStory.js";
+import deleteStory from "../controllers/deleteStory.js";
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.put(
   [verifyJWT, upload.single("backgroundImage")],
   editStory
 );
+router.delete("/deleteStory/:storyId", verifyJWT, deleteStory);
 
 export default router;

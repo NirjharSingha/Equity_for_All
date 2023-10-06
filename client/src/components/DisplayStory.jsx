@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import jwtDecode from "jwt-decode";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import ConfirmWindow from "./ConfirmWindow";
+import axios from "axios";
+import { useFileContext } from "../contexts/FileContext";
 
 const DisplayStory = () => {
   const {
@@ -26,12 +29,11 @@ const DisplayStory = () => {
     setFontStyle,
     setFontColor,
     bgColors,
-    selectedFile,
-    setSelectedFile,
-    inputValue,
     setInputValue,
     setCrossFlag,
     setBgImgHandler,
+    setOtherStories,
+    setStoryKeys,
   } = useStoryContext();
   const navigate = useNavigate();
   const editContainerRef = useRef(null);
@@ -41,6 +43,8 @@ const DisplayStory = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { deleteFile } = useFileContext();
   useEffect(() => {
     let timeoutId;
     if (filled < 100 && isRunning) {
@@ -140,8 +144,82 @@ const DisplayStory = () => {
 
     displayStoryUser();
   }, [storyToDisplay]);
+
+  const handleDeleteStory = async () => {
+    const token = localStorage.getItem("token");
+    const email = jwtDecode(token).email;
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/story/deleteStory/${
+          storyToDisplay._id
+        }`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        console.log("inside Status");
+        if (storyToDisplay.backgroundImage !== "") {
+          console.log("inside bg");
+          deleteFile([storyToDisplay.backgroundImage]);
+        }
+        console.log("story deleted successfully");
+        if (otherStories[email].length > 1) {
+          setOtherStories((prev) => {
+            const updatedArray = [...prev[email]];
+            const indexOfStoryToDelete = updatedArray.findIndex(
+              (story) => story._id === storyToDisplay._id
+            );
+            if (indexOfStoryToDelete !== -1) {
+              updatedArray.splice(indexOfStoryToDelete, 1);
+            }
+            return {
+              ...prev,
+              [email]: updatedArray,
+            };
+          });
+        } else {
+          console.log(email);
+          setOtherStories((prevState) => {
+            const newState = { ...prevState };
+            delete newState[email];
+            console.log("other stories");
+            console.log(newState);
+            return newState;
+          });
+          setStoryKeys((prevState) => {
+            const newArray = prevState.filter((element) => element !== email);
+            console.log("story Keys");
+            console.log(newArray);
+            return newArray;
+          });
+        }
+        navigate("/main");
+      }
+    } catch (error) {
+      console.log("inside error block");
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
+    }
+  };
+
   return (
     <>
+      {showConfirm && (
+        <ConfirmWindow
+          handleAction={handleDeleteStory}
+          setShowConfirm={setShowConfirm}
+          flag="story"
+          isConfirmWindow={true}
+        />
+      )}
       {storyToDisplay && (
         <div className="displayStoryContainer">
           {storyKeys.length > 0 &&
@@ -183,8 +261,8 @@ const DisplayStory = () => {
                 <div
                   className="editOrDelete"
                   onClick={() => {
-                    // setShowConfirm(true);
-                    // setShowEdit(false);
+                    setShowConfirm(true);
+                    setShowEdit(false);
                   }}
                 >
                   Delete Story
@@ -256,7 +334,6 @@ const DisplayStory = () => {
                     ></path>{" "}
                   </svg>
                 )}
-                {/* <div className="storyCreatorPic"></div> */}
               </div>
               <div className="storyCreatorNameContainer">
                 <p className="storyCreatorName">

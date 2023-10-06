@@ -12,19 +12,14 @@ import { useFileContext } from "../contexts/FileContext";
 
 const Story = () => {
   const { setIsValidJWT } = useGlobals();
-  const navigate = useNavigate();
   const { deleteFile } = useFileContext();
   const {
     shouldFetchYourStories,
     setshouldFetchYourStories,
     shouldFetchOtherStories,
     setshouldFetchOtherStories,
-    yourStories,
-    setYourStories,
     otherStories,
     setOtherStories,
-    storyToDisplay,
-    setStoryToDisplay,
     setStoryKeys,
   } = useStoryContext();
   const email = jwtDecode(localStorage.getItem("token")).email;
