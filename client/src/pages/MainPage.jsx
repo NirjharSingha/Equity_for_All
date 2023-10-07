@@ -15,6 +15,7 @@ import { useGlobals } from "../contexts/Globals";
 import UserSession from "../components/UserSession";
 import PreviewStory from "../components/PreviewStory";
 import DisplayStory from "../components/DisplayStory";
+import GroupsBar from "../components/GroupsBar";
 
 const MainPage = () => {
   const { isValidJWT } = useGlobals();
@@ -70,9 +71,14 @@ const MainPage = () => {
             <Route
               path="/groups"
               element={
-                <div className="mainComponent">
-                  <Groups />
-                </div>
+                <>
+                  <div className="mainComponent">
+                    <Groups />
+                  </div>
+                  <div className="leftComponent">
+                    <GroupsBar />
+                  </div>
+                </>
               }
             />
             <Route

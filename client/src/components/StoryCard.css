@@ -37,7 +37,7 @@
 .storyProfilePic {
   height: 90%;
   aspect-ratio: 1;
-  background-color: aqua;
+  background-color: rgb(14, 134, 134);
   margin-left: 0.15rem;
   border-radius: 50%;
   border: 1.5px solid white;

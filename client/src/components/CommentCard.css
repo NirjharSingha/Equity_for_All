@@ -14,10 +14,11 @@ body {
   margin-left: 2rem;
   margin-right: 2rem;
   margin-top: 1rem;
-  border: 2px solid gray;
+  border: 2px solid #8096a8;
   display: grid;
   grid-template-rows: 2.3rem auto 1.5rem 1.7rem;
-  border-radius: 8px;
+  border-radius: 5px;
+  background-color: #eef1f5;
 }
 .commentFirstRow {
   grid-row: 1 / span 1;
@@ -54,7 +55,7 @@ body {
 .commentSecondRow {
   grid-row: 2;
   padding-left: 5px;
-  border-top: 2px solid gray;
+  border-top: 2px solid #b3bfce;
   padding-top: 3px;
   padding-bottom: 3px;
   position: relative;
@@ -68,11 +69,11 @@ body {
   display: flex;
   padding-left: 20px;
   padding-right: 20px;
-  border-top: 2px solid gray;
+  border-top: 2px solid #b3bfce;
   justify-content: space-between;
 }
 .commentFourthRow {
-  border-top: 2px solid gray;
+  border-top: 2px solid #b3bfce;
   grid-row: 4;
   display: flex;
   align-items: center;

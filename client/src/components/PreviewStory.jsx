@@ -12,7 +12,6 @@ const PreviewStory = () => {
     selectedFile,
     inputValue,
     crossFlag,
-    isEdit,
     storyToDisplay,
     bgImgHandler,
   } = useStoryContext();

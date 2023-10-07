@@ -207,6 +207,12 @@ body {
   margin-bottom: 4px;
   margin-right: 10px;
   position: relative;
+  display: flex;
+  background-color: white;
+  border-bottom: 2px solid rgb(109, 107, 107);
+  border-radius: 3px;
+  cursor: pointer;
+  align-items: center;
 }
 .regPassInput {
   grid-row: 4;
@@ -216,9 +222,7 @@ body {
   overflow: hidden;
   text-indent: 7px;
   cursor: pointer;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+  border: none;
 }
 .passLabelContainer {
   grid-column: 1;

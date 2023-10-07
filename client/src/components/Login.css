@@ -25,6 +25,13 @@ body {
 .loginInput:hover {
   cursor: pointer;
 }
+.loginPasswordInput {
+  text-indent: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+}
 .loginLogo {
   animation: rotate 5s infinite linear;
   display: flex;
@@ -162,4 +169,13 @@ body {
 }
 .marginDiv {
   min-height: 1rem;
+}
+.passwordConatiner {
+  display: flex;
+  align-items: center;
+  border: 2px solid black;
+}
+.passEye {
+  width: 2rem;
+  height: 1.3rem;
 }

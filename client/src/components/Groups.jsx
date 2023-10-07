@@ -17,7 +17,7 @@ const Home = () => {
         {/* <PreviewStory /> */}
         {/* <CreateStory /> */}
         {/* <UserSession /> */}
-        <DisplayStory />
+        {/* <DisplayStory /> */}
       </div>
     </div>
   );
