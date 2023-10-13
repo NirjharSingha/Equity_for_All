@@ -1,0 +1,59 @@
+.animationCard {
+  width: 100%;
+  aspect-ratio: 1.5/1;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin-top: 0.4rem;
+  border-radius: 0.4rem;
+  display: flex;
+}
+.animationContainer {
+  overflow-x: hidden;
+  padding-right: 0.3rem;
+  padding-left: 0.2rem;
+}
+.animation {
+  width: 100%;
+  aspect-ratio: 1.5/1;
+  object-fit: contain;
+  background-color: #ecedf4;
+  border-radius: 0.4rem;
+  transform: translateX(-100%);
+  animation: slide-in 1s forwards;
+}
+.animationMessage {
+  padding: 0.3rem;
+  background-color: rgb(217, 220, 220);
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.6rem;
+  border-radius: 0.3rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+.smallText {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+.animationIndex {
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.animationDots {
+  height: 0.6rem;
+  width: 0.6rem;
+  border-radius: 50%;
+  background-color: #c9cacf;
+  border: 1px solid #818184;
+  margin-right: 0.8rem;
+}
+@keyframes slide-in {
+  to {
+    transform: translateX(0);
+  }
+}

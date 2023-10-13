@@ -38,7 +38,7 @@ body {
   background-color: rgb(14, 134, 134);
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #3f3d3d;
+  border: 1px solid #3f3d3d;
 }
 .profileInfoContainer {
   width: 100%;

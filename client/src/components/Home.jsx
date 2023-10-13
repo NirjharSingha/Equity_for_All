@@ -3,7 +3,7 @@ import "./Home.css";
 import { useEffect, lazy, Suspense } from "react";
 import Story from "./Story";
 
-const WelcomeCard = lazy(() => import("./WelcomeCard"));
+const Animation = lazy(() => import("./Animation"));
 
 const Home = () => {
   useEffect(() => {
@@ -14,10 +14,9 @@ const Home = () => {
     <div className="homeDiv">
       <div className="homeContainer">
         <Suspense fallback={<div>Loading...</div>}>
-          <WelcomeCard />
+          <Animation />
         </Suspense>
         <h1 className="storyHeading">Top stories for you</h1>
-        {/* <div className="homeStories"></div> */}
         <Story />
       </div>
     </div>
