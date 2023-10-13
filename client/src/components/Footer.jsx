@@ -18,9 +18,13 @@ const Footer = () => {
   return (
     <div className="footerDiv">
       <div className="iconContainer">
-        <a href="#" className="footerIcon">
-          <img src="/nexusSphere.svg" alt="" width="52" height="53" />
-        </a>
+        <img
+          src="/nexusSphere.svg"
+          alt=""
+          width="52"
+          height="53"
+          className="footerIcon"
+        />
         <div className="footerText">
           <p>&copy; {new Date().getFullYear()} All rights reserved </p>
           <p>Terms and privacy policy</p>

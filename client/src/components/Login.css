@@ -173,7 +173,7 @@ body {
 .passwordConatiner {
   display: flex;
   align-items: center;
-  border: 2px solid black;
+  border: 2px solid #767676;
 }
 .passEye {
   width: 2rem;

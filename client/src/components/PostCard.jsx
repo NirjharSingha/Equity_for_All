@@ -17,6 +17,7 @@ import LikesList from "./LikesList";
 import ConfirmWindow from "./ConfirmWindow";
 import { useFileContext } from "../contexts/FileContext";
 import { useGlobals } from "../contexts/Globals";
+import EditSideBar from "./EditSideBar";
 
 const PostCard = ({ post, shareFlag }) => {
   const { setIsValidJWT } = useGlobals();
@@ -241,6 +242,17 @@ const PostCard = ({ post, shareFlag }) => {
       </React.Fragment>
     ));
 
+  const handleEdit = () => {
+    setSelectedPost(post);
+    setEditPost(true);
+    setShowEdit(false);
+  };
+
+  const handleDelete = () => {
+    setShowConfirm(true);
+    setShowEdit(false);
+  };
+
   return (
     <>
       {showConfirm && (
@@ -268,27 +280,33 @@ const PostCard = ({ post, shareFlag }) => {
       )}
       <div className="postCard">
         {showEdit && (
-          <div className="editPostButton" ref={editContainerRef}>
-            <div
-              className="editOrDelete"
-              onClick={() => {
-                setSelectedPost(post);
-                setEditPost(true);
-                setShowEdit(false);
-              }}
-            >
-              Edit Post
-            </div>
-            <div
-              className="editOrDelete"
-              onClick={() => {
-                setShowConfirm(true);
-                setShowEdit(false);
-              }}
-            >
-              Delete Post
-            </div>
-          </div>
+          // <div className="editPostButton" ref={editContainerRef}>
+          //   <div
+          //     className="editOrDelete"
+          //     onClick={() => {
+          //       setSelectedPost(post);
+          //       setEditPost(true);
+          //       setShowEdit(false);
+          //     }}
+          //   >
+          //     Edit Post
+          //   </div>
+          //   <div
+          //     className="editOrDelete"
+          //     onClick={() => {
+          //       setShowConfirm(true);
+          //       setShowEdit(false);
+          //     }}
+          //   >
+          //     Delete Post
+          //   </div>
+          // </div>
+          <EditSideBar
+            containerClass="editPostButton"
+            containerRef={editContainerRef}
+            handler_1={handleEdit}
+            handler_2={handleDelete}
+          />
         )}
         <div className="postHeading">
           {userImg !== "" && (

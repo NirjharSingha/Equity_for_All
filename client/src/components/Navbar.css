@@ -61,6 +61,7 @@ ul {
   justify-content: center;
   align-items: center;
   background-color: rgb(185, 243, 215);
+  cursor: pointer;
 }
 .gridItem {
   justify-self: end; /* Align grid items at the right */

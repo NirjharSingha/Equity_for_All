@@ -75,10 +75,10 @@
 .optionListName {
   margin-left: 0.5rem;
   font-weight: bold;
-  overflow-x: auto;
+  overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.optionListName::-webkit-scrollbar,
 .horizontalBar::-webkit-scrollbar {
   display: none;
 }

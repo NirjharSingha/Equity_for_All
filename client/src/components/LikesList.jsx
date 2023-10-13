@@ -5,6 +5,7 @@ import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaLaughSquint, FaSadCry, FaAngry } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import ItemCard from "./ItemCard";
 
 const LikesList = ({ setShowLikesList, likesData, total }) => {
   const [horizontalItems, setHorizontalItems] = useState([]);
@@ -155,19 +156,16 @@ const LikesList = ({ setShowLikesList, likesData, total }) => {
         </div>
         <div className="verticalContainer">
           {listToDisplay.map((userEmail, index) => (
-            <div className="verticalContainerLine" key={userEmail}>
-              {shouldDisplayUserImg[index] && (
-                <img src={userImg[index]} alt="" className="optionListImg" />
-              )}
-              {!shouldDisplayUserImg[index] && (
-                <img
-                  src="/profilePicIcon.svg" // Use the path to the SVG in the public folder
-                  alt=""
-                  className="optionListImg"
-                />
-              )}
-              <p className="optionListName">{userName[index]}</p>
-            </div>
+            <ItemCard
+              key={userEmail}
+              containerClass="verticalContainerLine"
+              imgClass="optionListImg"
+              nameClass="optionListName"
+              shouldDisplayImg={shouldDisplayUserImg[index]}
+              imgSrc={userImg[index]}
+              icon="/profilePicIcon.svg"
+              name={userName[index]}
+            />
           ))}
         </div>
       </div>

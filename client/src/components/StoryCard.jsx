@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import ItemCard from "./ItemCard";
 
 const StoryCard = ({ story }) => {
   const navigate = useNavigate();
@@ -42,19 +43,15 @@ const StoryCard = ({ story }) => {
         navigate("/main/stories");
       }}
     >
-      <div className="storyCardHeading">
-        {userImg !== "" && (
-          <img src={userImg} alt="" className="storyProfilePic" />
-        )}
-        {userImg === "" && (
-          <img
-            src="/profilePicIcon.svg" // Use the path to the SVG in the public folder
-            alt=""
-            className="storyProfilePic"
-          />
-        )}
-        <p>{email === story.userEmail ? "Your story" : userName}</p>
-      </div>
+      <ItemCard
+        containerClass="storyCardHeading"
+        imgClass="storyProfilePic"
+        nameClass=""
+        shouldDisplayImg={userImg !== ""}
+        imgSrc={userImg}
+        icon="/profilePicIcon.svg"
+        name={email === story.userEmail ? "Your story" : userName}
+      />
       <div
         className="storyCardPreview"
         style={

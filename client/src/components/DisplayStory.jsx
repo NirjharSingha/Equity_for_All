@@ -13,6 +13,7 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import ConfirmWindow from "./ConfirmWindow";
 import axios from "axios";
 import { useFileContext } from "../contexts/FileContext";
+import EditSideBar from "./EditSideBar";
 
 const DisplayStory = () => {
   const {
@@ -210,6 +211,28 @@ const DisplayStory = () => {
     }
   };
 
+  const handleEdit = () => {
+    setIsEdit(true);
+    setInputValue(storyToDisplay.storyDescription);
+    setFontStyle(storyToDisplay.fontStyle);
+    setFontColor(storyToDisplay.fontColor);
+    setSelectedBg(() =>
+      bgColors.findIndex(
+        (element) => element === storyToDisplay.backgroundColor
+      )
+    );
+    if (storyToDisplay.backgroundImage !== "") {
+      setCrossFlag(true);
+      setBgImgHandler(true);
+    }
+    navigate("/main/createStory");
+  };
+
+  const handleDelete = () => {
+    setShowConfirm(true);
+    setShowEdit(false);
+  };
+
   return (
     <>
       {showConfirm && (
@@ -236,38 +259,12 @@ const DisplayStory = () => {
             )}
           <div className="displayStory">
             {showEdit && (
-              <div className="editStoryContainer" ref={editContainerRef}>
-                <div
-                  className="editOrDelete"
-                  onClick={() => {
-                    setIsEdit(true);
-                    setInputValue(storyToDisplay.storyDescription);
-                    setFontStyle(storyToDisplay.fontStyle);
-                    setFontColor(storyToDisplay.fontColor);
-                    setSelectedBg(() =>
-                      bgColors.findIndex(
-                        (element) => element === storyToDisplay.backgroundColor
-                      )
-                    );
-                    if (storyToDisplay.backgroundImage !== "") {
-                      setCrossFlag(true);
-                      setBgImgHandler(true);
-                    }
-                    navigate("/main/createStory");
-                  }}
-                >
-                  Edit Story
-                </div>
-                <div
-                  className="editOrDelete"
-                  onClick={() => {
-                    setShowConfirm(true);
-                    setShowEdit(false);
-                  }}
-                >
-                  Delete Story
-                </div>
-              </div>
+              <EditSideBar
+                containerClass="editStoryContainer"
+                containerRef={editContainerRef}
+                handler_1={handleEdit}
+                handler_2={handleDelete}
+              />
             )}
             <div
               className="progressBar"

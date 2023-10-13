@@ -5,6 +5,7 @@ import PreviewStory from "./PreviewStory";
 import UserSession from "./UserSession";
 import CreateStory from "./CreateStory";
 import DisplayStory from "./DisplayStory";
+import ItemCard from "./ItemCard";
 
 const Home = () => {
   useEffect(() => {
@@ -13,12 +14,7 @@ const Home = () => {
 
   return (
     <div className="homeDiv">
-      <div className="homeContainer">
-        {/* <PreviewStory /> */}
-        {/* <CreateStory /> */}
-        {/* <UserSession /> */}
-        {/* <DisplayStory /> */}
-      </div>
+      <div className="homeContainer"></div>
     </div>
   );
 };

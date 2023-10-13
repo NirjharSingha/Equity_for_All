@@ -5,6 +5,8 @@
   flex-direction: column;
   align-items: center;
   padding: 0.4rem;
+  max-width: 25vw;
+  overflow-y: auto;
 }
 .createGroupButton {
   width: 100%;
@@ -14,6 +16,10 @@
   min-height: 2.3rem;
   background-color: #bed2e3;
   border-radius: 0.2rem;
+}
+.createGroupButton:hover {
+  background-color: #96b9d7;
+  cursor: pointer;
 }
 .createGroupButton p {
   font-weight: bold;
@@ -28,4 +34,51 @@
   margin-top: 0.5rem;
   font-weight: bold;
   font-size: 1.15rem;
+}
+.groupItem {
+  width: 100%;
+  height: 3rem;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 100%;
+  background-color: rgb(243, 239, 236);
+  border-radius: 0.3rem;
+  margin-top: 0.5rem;
+}
+.groupItem2 {
+  width: 100%;
+  height: 3rem;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 100%;
+  background-color: rgb(243, 239, 236);
+  border-radius: 0.3rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.groupItem2:hover,
+.groupItem:hover {
+  cursor: pointer;
+  background-color: rgb(200, 193, 188);
+}
+.groupsBar::-webkit-scrollbar {
+  width: 2px;
+}
+.groupsBar::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.groupsBar::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.groupsBar::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
+}
+.groupBarIcon {
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
 }

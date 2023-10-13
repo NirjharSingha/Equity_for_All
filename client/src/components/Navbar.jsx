@@ -23,9 +23,13 @@ export const Navbar = () => {
       {showSideBar && <ProfileIconSidebar />}
       <nav className="navBar">
         <div className="left">
-          <a href="#" className="navAnchor">
-            <img src="/nexusSphere.svg" alt="" width="40" height="41" />
-          </a>
+          <img
+            src="/nexusSphere.svg"
+            alt=""
+            width="40"
+            height="41"
+            className="navAnchor"
+          />
           <Searchbar />
         </div>
         <div className="center">
@@ -64,10 +68,8 @@ export const Navbar = () => {
             </div>
           </div>
           <div className="gridItem">
-            <div className="circle">
-              <a href="#" className="navAnchor" onClick={handleProfileIcon}>
-                <img src="/navUserIcon.svg" alt="" />
-              </a>
+            <div className="circle" onClick={handleProfileIcon}>
+              <img src="/navUserIcon.svg" alt="" className="navAnchor" />
             </div>
           </div>
         </div>
