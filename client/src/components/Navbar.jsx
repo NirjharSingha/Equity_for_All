@@ -8,8 +8,30 @@ import { Link } from "react-router-dom";
 import ProfileIconSidebar from "./ProfileIconSidebar";
 
 export const Navbar = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   useEffect(() => {
     console.log("nav bar loaded");
+  }, []);
+
+  useEffect(() => {
+    // Function to handle the media query change
+    const handleResize = (e) => {
+      setIsSmallScreen(e.matches);
+    };
+
+    // Create a media query list
+    const mediaQueryList = window.matchMedia("(max-width: 800px)");
+
+    // Initial check of the media query
+    setIsSmallScreen(mediaQueryList.matches);
+
+    // Add an event listener for the media query
+    mediaQueryList.addEventListener("change", handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      mediaQueryList.removeEventListener("change", handleResize);
+    };
   }, []);
 
   const [showSideBar, setShowSideBar] = useState(false);
@@ -23,14 +45,8 @@ export const Navbar = () => {
       {showSideBar && <ProfileIconSidebar />}
       <nav className="navBar">
         <div className="left">
-          <img
-            src="/nexusSphere.svg"
-            alt=""
-            width="40"
-            height="41"
-            className="navAnchor"
-          />
-          <Searchbar />
+          <img src="/nexusSphere.svg" alt="" className="navIcon" />
+          <Searchbar isSmallScreen={!isSmallScreen} />
         </div>
         <div className="center">
           <ul>
@@ -57,19 +73,23 @@ export const Navbar = () => {
           </ul>
         </div>
         <div className="right">
-          <div className="gridItem">
-            <div className="circle">
-              <NotificationsRoundedIcon />
+          {!isSmallScreen && (
+            <div className="gridItem">
+              <div className="circle">
+                <NotificationsRoundedIcon />
+              </div>
             </div>
-          </div>
-          <div className="gridItem">
-            <div className="circle">
-              <ChatSharpIcon />
+          )}
+          {!isSmallScreen && (
+            <div className="gridItem">
+              <div className="circle">
+                <ChatSharpIcon />
+              </div>
             </div>
-          </div>
+          )}
           <div className="gridItem">
             <div className="circle" onClick={handleProfileIcon}>
-              <img src="/navUserIcon.svg" alt="" className="navAnchor" />
+              <img src="/navUserIcon.svg" alt="" className="navIcon" />
             </div>
           </div>
         </div>

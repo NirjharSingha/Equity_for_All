@@ -58,16 +58,20 @@ body {
   border-radius: 8px;
   background-color: rgb(25, 199, 252);
 }
+.footerDiv::-webkit-scrollbar,
 .postContainer::-webkit-scrollbar {
   width: 2px;
 }
+.footerDiv::-webkit-scrollbar-track,
 .postContainer::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+.footerDiv::-webkit-scrollbar-thumb,
 .postContainer::-webkit-scrollbar-thumb {
   background-color: #706d6d;
   border-radius: 5px;
 }
+.footerDiv::-webkit-scrollbar-thumb:hover,
 .postContainer::-webkit-scrollbar-thumb:hover {
   background-color: #3f3d3d;
 }
