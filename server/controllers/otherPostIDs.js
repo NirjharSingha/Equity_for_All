@@ -30,6 +30,7 @@ const getOtherPostIDs = asyncHandler(async (req, res) => {
                 _id: 1,
                 createdAt: 1,
                 postCategory: 1,
+                group: 1,
               },
             },
           ],
@@ -56,7 +57,9 @@ const getOtherPostIDs = asyncHandler(async (req, res) => {
 
     const allPosts = [].concat(...allFriendPosts);
     const postToSend = allPosts.filter(
-      (post) => post.postCategory !== "onlyMe"
+      (post) =>
+        post.postCategory !== "onlyMe" &&
+        (post.group === undefined || post.group === "")
     );
     const postIDs = postToSend.map((post) => post._id.toString());
 
@@ -64,10 +67,13 @@ const getOtherPostIDs = asyncHandler(async (req, res) => {
       const randomPosts = await Post.aggregate([
         { $sort: { createdAt: -1 } },
         { $limit: 250 },
-        { $project: { _id: 1, postCategory: 1, userEmail: 1 } },
+        { $project: { _id: 1, postCategory: 1, userEmail: 1, group: 1 } },
       ]);
       const filteredPost = randomPosts.filter(
-        (post) => post.postCategory === "public" && post.userEmail !== userEmail
+        (post) =>
+          post.postCategory === "public" &&
+          post.userEmail !== userEmail &&
+          (post.group === undefined || post.group === "")
       );
       const dataToSend = filteredPost.map((post) => post._id.toString());
 
@@ -90,10 +96,13 @@ const getOtherPostIDs = asyncHandler(async (req, res) => {
     const posts = await Post.aggregate([
       { $sort: { createdAt: -1 } },
       { $limit: lastN },
-      { $project: { _id: 1, postCategory: 1, userEmail: 1 } },
+      { $project: { _id: 1, postCategory: 1, userEmail: 1, group: 1 } },
     ]);
     const filteredPost = posts.filter(
-      (post) => post.postCategory === "public" && post.userEmail !== userEmail
+      (post) =>
+        post.postCategory === "public" &&
+        post.userEmail !== userEmail &&
+        (post.group === undefined || post.group === "")
     );
     const dataToSend = filteredPost.map((post) => post._id);
     res.send(dataToSend);

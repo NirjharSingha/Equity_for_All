@@ -1,15 +1,21 @@
 import asyncHandler from "express-async-handler";
-import User from "../models/User.js";
+import Post from "../models/Post.js";
 
 const yourPostIDs = asyncHandler(async (req, res) => {
   const email = req.email;
   try {
-    const data = await User.findOne({ email }, "posts");
-    const posts = data.posts.reverse();
-    console.log(posts);
+    const data = await Post.find({ userEmail: email }, "_id group");
+    console.log(data);
+    let posts = [];
+    for (let index = data.length - 1; index >= 0; index--) {
+      if (data[index].group === undefined || data[index].group === "") {
+        const element = data[index]._id;
+        posts.push(element);
+      }
+    }
     res.json(posts);
   } catch (error) {
-    console.log("user not found");
+    console.log("post not found");
     res.json(error);
   }
 });

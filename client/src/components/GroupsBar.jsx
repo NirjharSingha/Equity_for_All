@@ -25,6 +25,7 @@ const GroupsBar = () => {
         />
         <BsFillGearFill className="groupBarIcon" />
       </div>
+      <button className="groupBarButton">Join Group</button>
       <ItemCard
         containerClass="groupItem"
         imgClass="storyProfilePic"

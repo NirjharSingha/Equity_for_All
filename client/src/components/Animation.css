@@ -45,12 +45,12 @@
   align-items: center;
 }
 .animationDots {
-  height: 0.6rem;
-  width: 0.6rem;
+  height: 0.5rem;
+  width: 0.5rem;
   border-radius: 50%;
   background-color: #c9cacf;
   border: 1px solid #818184;
-  margin-right: 0.8rem;
+  margin-right: 0.7rem;
 }
 @keyframes slide-in {
   to {

@@ -14,7 +14,6 @@ import getOtherPostIDs from "../controllers/otherPostIDs.js";
 import yourPostIDs from "../controllers/yourPostIDs.js";
 import getCommentIds from "../controllers/getCommentIds.js";
 import getSharedPost from "../controllers/getSharedPost.js";
-import handleUser from "../controllers/handleUser.js";
 
 const router = express.Router();
 
@@ -35,7 +34,5 @@ router.delete("/deletePost/:postId", verifyJWT, deletePost);
 router.get("/getOtherPostIDs", verifyJWT, getOtherPostIDs);
 router.get("/getYourPostIDs", verifyJWT, yourPostIDs);
 router.get("/getSharedPost/:postId", getSharedPost);
-router.put("/addPostID", handleUser);
-router.put("/removePostID", handleUser);
 
 export default router;

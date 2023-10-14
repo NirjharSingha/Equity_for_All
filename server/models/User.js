@@ -95,18 +95,6 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
-    posts: {
-      type: Array,
-      default: [],
-    },
-    yourGroups: {
-      type: Array,
-      default: [],
-    },
-    otherGroups: {
-      type: Array,
-      default: [],
-    },
     createdAt: {
       type: Date,
       default: Date.now,

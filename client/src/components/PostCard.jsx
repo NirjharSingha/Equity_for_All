@@ -101,22 +101,6 @@ const PostCard = ({ post, shareFlag }) => {
 
         setAlertMessage("Post deleted successfully");
         setShowAlert(true);
-
-        const data = {
-          email: response.data.email,
-          postID: response.data.id,
-        };
-        try {
-          const res = await axios.put(
-            `${import.meta.env.VITE_SERVER_URL}/post/removePostID`,
-            data
-          );
-          if (res.status === 200) {
-            console.log("user updated");
-          }
-        } catch (e) {
-          console.log(e);
-        }
       } else {
         console.log(response);
       }

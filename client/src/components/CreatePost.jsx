@@ -123,27 +123,12 @@ const CreatePost = () => {
         );
       }
       if (response.status === 201) {
-        const data = {
-          email: response.data.email,
-          postID: response.data.postId,
-        };
         console.log("post created");
         setInputValue("");
         setSelectedFiles([]);
         setPostCategory("public");
         setAlertMessage("Post created successfully");
         setShowAlert(true);
-        try {
-          const res = await axios.put(
-            `${import.meta.env.VITE_SERVER_URL}/post/addPostID`,
-            data
-          );
-          if (res.status === 200) {
-            console.log("user updated");
-          }
-        } catch (e) {
-          console.log(e);
-        }
         if (showYourPost) {
           setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
         } else {
