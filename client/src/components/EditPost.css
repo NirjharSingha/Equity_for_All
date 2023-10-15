@@ -38,3 +38,22 @@ body {
   cursor: pointer;
   background-color: rgb(255, 0, 0);
 }
+
+@media screen and (max-width: 1150px) {
+  .blurComponent {
+    width: 100vw;
+  }
+  .editPostCross {
+    right: 0.05rem;
+  }
+  .editPostContainer {
+    width: 40vw;
+    left: 30vw;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .editPostContainer {
+    width: 45vw;
+    left: 27.5vw;
+  }
+}

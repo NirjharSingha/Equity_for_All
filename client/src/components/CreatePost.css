@@ -31,12 +31,17 @@ body {
   overflow-x: hidden;
 }
 .postDescription {
-  width: 24vw;
   height: 8rem;
   margin: 5px;
   text-align: center;
   border: 2px solid rgb(178, 179, 181);
   border-radius: 0.4rem;
+}
+.postDesc {
+  width: 24vw;
+}
+.editPostDesc {
+  width: 34vw;
 }
 .postAttachment {
   width: calc(100% - 10px);
@@ -126,4 +131,18 @@ body {
 }
 .createPostFirstRow::-webkit-scrollbar {
   display: none;
+}
+
+@media screen and (max-width: 1150px) {
+  .postDesc {
+    width: 32.2vw;
+  }
+  .editPostDesc {
+    width: 38.5vw;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .editPostDesc {
+    width: 43.4vw;
+  }
 }

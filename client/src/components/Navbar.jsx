@@ -6,32 +6,12 @@ import ChatSharpIcon from "@mui/icons-material/ChatSharp";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileIconSidebar from "./ProfileIconSidebar";
+import { useGlobals } from "../contexts/Globals";
 
 export const Navbar = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const { windowWidth } = useGlobals();
   useEffect(() => {
     console.log("nav bar loaded");
-  }, []);
-
-  useEffect(() => {
-    // Function to handle the media query change
-    const handleResize = (e) => {
-      setIsSmallScreen(e.matches);
-    };
-
-    // Create a media query list
-    const mediaQueryList = window.matchMedia("(max-width: 800px)");
-
-    // Initial check of the media query
-    setIsSmallScreen(mediaQueryList.matches);
-
-    // Add an event listener for the media query
-    mediaQueryList.addEventListener("change", handleResize);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      mediaQueryList.removeEventListener("change", handleResize);
-    };
   }, []);
 
   const [showSideBar, setShowSideBar] = useState(false);
@@ -46,7 +26,7 @@ export const Navbar = () => {
       <nav className="navBar">
         <div className="left">
           <img src="/nexusSphere.svg" alt="" className="navIcon" />
-          <Searchbar isSmallScreen={!isSmallScreen} />
+          <Searchbar />
         </div>
         <div className="center">
           <ul>
@@ -73,14 +53,14 @@ export const Navbar = () => {
           </ul>
         </div>
         <div className="right">
-          {!isSmallScreen && (
+          {windowWidth >= 800 && (
             <div className="gridItem">
               <div className="circle">
                 <NotificationsRoundedIcon />
               </div>
             </div>
           )}
-          {!isSmallScreen && (
+          {windowWidth >= 800 && (
             <div className="gridItem">
               <div className="circle">
                 <ChatSharpIcon />

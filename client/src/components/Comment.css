@@ -123,3 +123,10 @@ body {
 .rotate-once {
   animation: rotateOnce 0.5s linear;
 }
+
+@media screen and (max-width: 1150px) {
+  .commentContainer {
+    width: 66.5vw;
+    left: calc(33.33vw + 2px);
+  }
+}

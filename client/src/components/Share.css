@@ -1,11 +1,11 @@
 .shareComponent {
   width: 25vw;
   min-width: 200px;
-  height: calc(100vh - 11rem);
-  max-height: calc(100vh - 11rem);
+  height: calc(100vh - 12rem);
+  max-height: calc(100vh - 12rem);
   background-color: antiquewhite;
   position: fixed;
-  bottom: 4.25rem;
+  bottom: 4.5rem;
   left: 49.8vw;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -15,8 +15,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding-left: 5vw;
-  z-index: 750;
+  z-index: 500;
 }
 .shareOptionIcon {
   width: 55px;
@@ -29,7 +28,17 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+.shareOptionDiv {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
   margin-bottom: 10px;
+  padding-left: 5vw;
+}
+.shareOptionDiv:hover {
+  background-color: #bdb4b4;
+  border-radius: 0.2rem;
 }
 .shareComponent::-webkit-scrollbar {
   width: 2px;
@@ -43,4 +52,17 @@
 }
 .shareComponent::-webkit-scrollbar-thumb:hover {
   background-color: #3f3d3d;
+}
+
+@media screen and (max-width: 1150px) {
+  .shareComponent {
+    width: 33vw;
+    left: 65vw;
+  }
+}
+@media screen and (max-width: 980px) {
+  .shareComponent {
+    width: 38vw;
+    left: 60vw;
+  }
 }

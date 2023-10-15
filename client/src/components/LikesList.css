@@ -96,3 +96,30 @@
 .verticalContainer::-webkit-scrollbar-thumb:hover {
   background-color: #3f3d3d;
 }
+
+@media screen and (max-width: 1150px) {
+  .outerBlurContainer {
+    width: 66.67vw;
+    left: 33.33vw;
+  }
+  .optionListContainer {
+    width: 30vw;
+  }
+  .horizontalBar {
+    max-width: 30vw;
+  }
+  .horizontalItemContainer {
+    min-width: 7.5vw;
+  }
+}
+@media screen and (max-width: 980px) {
+  .optionListContainer {
+    width: 34vw;
+  }
+  .horizontalBar {
+    max-width: 34vw;
+  }
+  .horizontalItemContainer {
+    min-width: 8.5vw;
+  }
+}

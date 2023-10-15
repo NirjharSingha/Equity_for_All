@@ -6,7 +6,7 @@ import "./EditPost.css";
 
 const EditPost = () => {
   const editPostRef = useRef(null);
-  const { setEditPost, selectedPost } = usePostContext();
+  const { setEditPost } = usePostContext();
   useEffect(() => {
     console.log("edit post loaded");
     const handleOutsideClick = (event) => {

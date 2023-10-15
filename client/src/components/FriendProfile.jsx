@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import Profile from "./Profile";
 import { useFriendContext } from "../contexts/FriendContext";
+import "./FriendProfile.css";
 
 const FriendProfile = ({ setShowFriendProfile, profileCode, friendEmail }) => {
   const { friendProfileRef } = useFriendContext();

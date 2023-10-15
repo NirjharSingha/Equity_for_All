@@ -178,8 +178,11 @@ const CreatePost = () => {
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
             placeholder="What's on your mind"
-            className="postDescription"
-            style={editPost ? { width: "34vw" } : { width: "24vw" }}
+            className={
+              editPost
+                ? "postDescription editPostDesc"
+                : "postDescription postDesc"
+            }
             ref={inputRef}
           />
         </div>

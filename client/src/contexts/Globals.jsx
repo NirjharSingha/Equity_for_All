@@ -8,12 +8,15 @@ export function useGlobals() {
 
 const GlobalsProvider = ({ children }) => {
   const [isValidJWT, setIsValidJWT] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   return (
     <GlobalsContext.Provider
       value={{
         isValidJWT,
         setIsValidJWT,
+        windowWidth,
+        setWindowWidth,
       }}
     >
       {children}

@@ -63,6 +63,12 @@ body {
   width: 100%;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
+
+@media screen and (max-width: 1150px) {
+  .mainContainer {
+    grid-template-columns: 1fr 2fr;
+  }
+}
 @media screen and (max-width: 500px) {
   .mainPage {
     grid-template-rows: 3rem calc(100vh - 6.4rem) 3.4rem;

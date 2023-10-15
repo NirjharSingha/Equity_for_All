@@ -18,7 +18,7 @@ import DisplayStory from "../components/DisplayStory";
 import GroupsBar from "../components/GroupsBar";
 
 const MainPage = () => {
-  const { isValidJWT } = useGlobals();
+  const { isValidJWT, windowWidth } = useGlobals();
   return (
     <>
       {!isValidJWT && <UserSession />}
@@ -30,9 +30,11 @@ const MainPage = () => {
           <Footer />
         </div>
         <div className="mainContainer">
-          <div className="chatComponent">
-            <Chat />
-          </div>
+          {windowWidth >= 1150 && (
+            <div className="chatComponent">
+              <Chat />
+            </div>
+          )}
           <Routes>
             <Route
               path="/"
