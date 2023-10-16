@@ -10,16 +10,6 @@
   padding-right: 0.2rem;
   border-radius: 5px;
 }
-.friendProfileBlurContainer {
-  width: 50.5vw;
-  height: calc(100vh - 8.2rem);
-  position: fixed;
-  top: 4.05rem;
-  left: 25vw;
-  background-color: rgba(207, 205, 205, 0.6);
-  z-index: 800;
-  border-radius: 5px;
-}
 .friendProfileCross {
   width: 1.7rem;
   height: 1.7rem;
@@ -43,10 +33,6 @@
 }
 
 @media screen and (max-width: 1150px) {
-  .friendProfileBlurContainer {
-    width: 67vw;
-    left: 33vw;
-  }
   .friendProfileContainer {
     width: 47vw;
     left: 43vw;

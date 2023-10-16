@@ -76,16 +76,3 @@
 .birthDayListName::-webkit-scrollbar {
   display: none;
 }
-.birthDayContainer::-webkit-scrollbar {
-  width: 2px;
-}
-.birthDayContainer::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
-.birthDayContainer::-webkit-scrollbar-thumb {
-  background-color: #706d6d;
-  border-radius: 5px;
-}
-.birthDayContainer::-webkit-scrollbar-thumb:hover {
-  background-color: #3f3d3d;
-}

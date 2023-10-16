@@ -43,18 +43,6 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
-/* .bgImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
-/* .displayStoryPreview p {
-  width: 100%;
-  overflow-wrap: break-word;
-  align-items: center;
-  font-size: large;
-  font-weight: bold;
-} */
 .storySpan {
   width: 100%;
   overflow-wrap: break-word;

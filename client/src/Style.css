@@ -1,0 +1,103 @@
+.friendContainer::-webkit-scrollbar,
+.groupsBar::-webkit-scrollbar,
+.homeContainer::-webkit-scrollbar,
+.verticalContainer::-webkit-scrollbar,
+.footerDiv::-webkit-scrollbar,
+.postContainer::-webkit-scrollbar,
+.registerLabel::-webkit-scrollbar,
+.userInfoContainer::-webkit-scrollbar,
+.shareComponent::-webkit-scrollbar,
+.upadateProfilePageContainer::-webkit-scrollbar,
+.friendOptionsContainer::-webkit-scrollbar,
+.allComments::-webkit-scrollbar,
+.birthDayContainer::-webkit-scrollbar {
+  width: 2px;
+  height: 1px;
+}
+.friendContainer::-webkit-scrollbar-track,
+.groupsBar::-webkit-scrollbar-track,
+.homeContainer::-webkit-scrollbar-track,
+.verticalContainer::-webkit-scrollbar-track,
+.footerDiv::-webkit-scrollbar-track,
+.postContainer::-webkit-scrollbar-track,
+.registerLabel::-webkit-scrollbar-track,
+.userInfoContainer::-webkit-scrollbar-track,
+.shareComponent::-webkit-scrollbar-track,
+.upadateProfilePageContainer::-webkit-scrollbar-track,
+.friendOptionsContainer::-webkit-scrollbar-track,
+.allComments::-webkit-scrollbar-track,
+.birthDayContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+.friendContainer::-webkit-scrollbar-thumb,
+.groupsBar::-webkit-scrollbar-thumb,
+.homeContainer::-webkit-scrollbar-thumb,
+.verticalContainer::-webkit-scrollbar-thumb,
+.footerDiv::-webkit-scrollbar-thumb,
+.postContainer::-webkit-scrollbar-thumb,
+.registerLabel::-webkit-scrollbar-thumb,
+.userInfoContainer::-webkit-scrollbar-thumb,
+.shareComponent::-webkit-scrollbar-thumb,
+.upadateProfilePageContainer::-webkit-scrollbar-thumb,
+.friendOptionsContainer::-webkit-scrollbar-thumb,
+.allComments::-webkit-scrollbar-thumb,
+.birthDayContainer::-webkit-scrollbar-thumb {
+  background-color: #706d6d;
+  border-radius: 5px;
+}
+.friendContainer::-webkit-scrollbar-thumb:hover,
+.groupsBar::-webkit-scrollbar-thumb:hover,
+.homeContainer::-webkit-scrollbar-thumb:hover,
+.verticalContainer::-webkit-scrollbar-thumb:hover,
+.footerDiv::-webkit-scrollbar-thumb:hover,
+.postContainer::-webkit-scrollbar-thumb:hover,
+.registerLabel::-webkit-scrollbar-thumb:hover,
+.userInfoContainer::-webkit-scrollbar-thumb:hover,
+.shareComponent::-webkit-scrollbar-thumb:hover,
+.upadateProfilePageContainer::-webkit-scrollbar-thumb:hover,
+.friendOptionsContainer::-webkit-scrollbar-thumb:hover,
+.allComments::-webkit-scrollbar-thumb:hover,
+.birthDayContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3d3d;
+}
+
+.fullScreenBlur {
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 980;
+  position: fixed;
+  background-color: rgba(207, 205, 205, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.blurComponent {
+  width: 75vw;
+  height: calc(100vh - 8.1rem);
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  background-color: rgba(207, 205, 205, 0.6);
+  z-index: 550;
+}
+.outerBlurContainer {
+  width: 50vw;
+  height: calc(100vh - 8.2rem);
+  position: fixed;
+  top: 4.05rem;
+  left: 25vw;
+  background-color: rgba(207, 205, 205, 0.6);
+  z-index: 750;
+}
+
+@media screen and (max-width: 1150px) {
+  .outerBlurContainer {
+    width: 66.67vw;
+    left: 33.33vw;
+  }
+  .blurComponent {
+    width: 100vw;
+  }
+}

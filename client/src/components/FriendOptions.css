@@ -65,16 +65,3 @@
 .friendCount::-webkit-scrollbar {
   display: none;
 }
-.friendOptionsContainer::-webkit-scrollbar {
-  width: 2px;
-}
-.friendOptionsContainer::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
-.friendOptionsContainer::-webkit-scrollbar-thumb {
-  background-color: #706d6d;
-  border-radius: 5px;
-}
-.friendOptionsContainer::-webkit-scrollbar-thumb:hover {
-  background-color: #3f3d3d;
-}

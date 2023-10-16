@@ -26,7 +26,7 @@ const FriendProfile = ({ setShowFriendProfile, profileCode, friendEmail }) => {
   }, []);
 
   return (
-    <div className="friendProfileBlurContainer" ref={friendProfileRef}>
+    <div className="outerBlurContainer" ref={friendProfileRef}>
       <div className="friendProfileContainer">
         <Profile
           profileCode={profileCode}

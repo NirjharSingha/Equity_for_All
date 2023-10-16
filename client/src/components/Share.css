@@ -40,19 +40,6 @@
   background-color: #bdb4b4;
   border-radius: 0.2rem;
 }
-.shareComponent::-webkit-scrollbar {
-  width: 2px;
-}
-.shareComponent::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
-.shareComponent::-webkit-scrollbar-thumb {
-  background-color: #706d6d;
-  border-radius: 5px;
-}
-.shareComponent::-webkit-scrollbar-thumb:hover {
-  background-color: #3f3d3d;
-}
 
 @media screen and (max-width: 1150px) {
   .shareComponent {

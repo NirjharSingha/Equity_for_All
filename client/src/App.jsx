@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage";
 import SharePage from "./pages/SharePage";
 import { useEffect } from "react";
 import { useGlobals } from "./contexts/Globals";
+import "./Style.css";
 import "./App.css";
 
 function App() {
