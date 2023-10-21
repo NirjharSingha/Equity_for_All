@@ -8,7 +8,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
   return (
     <div className="allLikesContainer">
       <AiFillLike
-        className="iconFlex blue"
+        className="iconFlex likeHover blue"
         onClick={() => {
           setSelected("like");
           setShouldDisplayAllLikes(false);
@@ -16,7 +16,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
         style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <AiFillDislike
-        className="iconFlex blue"
+        className="iconFlex likeHover blue"
         onClick={() => {
           setSelected("dislike");
           setShouldDisplayAllLikes(false);
@@ -24,7 +24,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
         style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaLaughSquint
-        className="iconFlex yellow"
+        className="iconFlex likeHover yellow"
         onClick={() => {
           setSelected("laugh");
           setShouldDisplayAllLikes(false);
@@ -32,7 +32,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
         style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaAngry
-        className="iconFlex red"
+        className="iconFlex likeHover red"
         onClick={() => {
           setSelected("angry");
           setShouldDisplayAllLikes(false);
@@ -40,7 +40,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
         style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaSadCry
-        className="iconFlex lightBlue"
+        className="iconFlex likeHover lightBlue"
         onClick={() => {
           setSelected("sad");
           setShouldDisplayAllLikes(false);
@@ -48,7 +48,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
         style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FcLike
-        className="iconFlex"
+        className="iconFlex likeHover"
         onClick={() => {
           setSelected("love");
           setShouldDisplayAllLikes(false);

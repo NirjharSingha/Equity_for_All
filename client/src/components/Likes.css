@@ -16,6 +16,9 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
+.likeHover:hover {
+  font-size: 1.9rem;
+}
 .blue {
   color: blue;
 }
@@ -27,4 +30,10 @@
 }
 .lightBlue {
   color: rgb(83, 229, 229);
+}
+
+@media screen and (max-width: 1150px) {
+  .allLikesContainer {
+    width: 21.3vw;
+  }
 }

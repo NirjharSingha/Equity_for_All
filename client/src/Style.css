@@ -81,6 +81,9 @@
   left: 0;
   background-color: rgba(207, 205, 205, 0.6);
   z-index: 550;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .outerBlurContainer {
   width: 50vw;

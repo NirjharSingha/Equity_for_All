@@ -264,27 +264,6 @@ const PostCard = ({ post, shareFlag }) => {
       )}
       <div className="postCard">
         {showEdit && (
-          // <div className="editPostButton" ref={editContainerRef}>
-          //   <div
-          //     className="editOrDelete"
-          //     onClick={() => {
-          //       setSelectedPost(post);
-          //       setEditPost(true);
-          //       setShowEdit(false);
-          //     }}
-          //   >
-          //     Edit Post
-          //   </div>
-          //   <div
-          //     className="editOrDelete"
-          //     onClick={() => {
-          //       setShowConfirm(true);
-          //       setShowEdit(false);
-          //     }}
-          //   >
-          //     Delete Post
-          //   </div>
-          // </div>
           <EditSideBar
             containerClass="editPostButton"
             containerRef={editContainerRef}

@@ -46,6 +46,7 @@
   background-color: rgb(243, 239, 236);
   border-radius: 0.3rem;
   margin-top: 0.5rem;
+  z-index: 100;
 }
 .groupItem2 {
   width: 100%;
@@ -56,18 +57,15 @@
   overflow: hidden;
   max-width: 100%;
   background-color: rgb(243, 239, 236);
-  border-radius: 0.3rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
 }
-.groupItem2:hover,
-.groupItem:hover {
+.groupItem2:hover {
   cursor: pointer;
   background-color: rgb(200, 193, 188);
 }
 .groupBarIcon {
   margin-left: 0.3rem;
   margin-right: 0.3rem;
+  cursor: pointer;
 }
 .groupBarButton {
   width: 100%;
@@ -75,14 +73,22 @@
   border: none;
   border-radius: 0.3rem;
   padding: 0.3rem;
-  font-size: large;
+  font-size: 1.05rem;
   font-weight: bold;
   font-family: "Times New Roman", Times, serif;
   color: white;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
+  transform: translateY(-100%);
+  animation: slide-down 0.5s forwards;
 }
 .groupBarButton:hover {
   background-color: rgb(110, 115, 116);
   cursor: pointer;
+}
+
+@keyframes slide-down {
+  to {
+    transform: translateX(0%);
+  }
 }

@@ -11,6 +11,7 @@ import FriendContextProvider from "./contexts/FriendContext.jsx";
 import StoryContextProvider from "./contexts/StoryContext.jsx";
 import GlobalsProvider from "./contexts/Globals.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
+import GroupContextProvider from "./contexts/GroupContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
@@ -29,7 +30,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <LikesListContextProvider>
                   <FriendContextProvider>
                     <StoryContextProvider>
-                      <App />
+                      <GroupContextProvider>
+                        <App />
+                      </GroupContextProvider>
                     </StoryContextProvider>
                   </FriendContextProvider>
                 </LikesListContextProvider>
