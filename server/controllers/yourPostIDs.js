@@ -4,14 +4,12 @@ import Post from "../models/Post.js";
 const yourPostIDs = asyncHandler(async (req, res) => {
   const email = req.email;
   try {
-    const data = await Post.find({ userEmail: email }, "_id group");
+    const data = await Post.find({ userEmail: email }, "_id");
     console.log(data);
     let posts = [];
     for (let index = data.length - 1; index >= 0; index--) {
-      if (data[index].group === undefined || data[index].group === "") {
-        const element = data[index]._id;
-        posts.push(element);
-      }
+      const element = data[index]._id;
+      posts.push(element);
     }
     res.json(posts);
   } catch (error) {

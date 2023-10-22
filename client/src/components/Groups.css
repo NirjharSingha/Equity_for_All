@@ -1,0 +1,84 @@
+.groupImage {
+  width: calc(100% - 0.8rem);
+  aspect-ratio: 2/1;
+  background-color: rgb(173, 224, 224);
+  border-radius: 0.3rem;
+  margin: 0.4rem;
+}
+.groupContainer {
+  width: 99.5%;
+  max-width: 99.4%;
+  height: 100%;
+  margin-left: 0.6%;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: #f0f2f5;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 0.3rem;
+}
+.groupInfo {
+  margin: 0.4rem;
+  margin-top: 0;
+  background-color: white;
+  overflow-x: hidden;
+  padding-left: 0.4rem;
+  max-width: calc(100% - 0.8rem);
+  padding-right: 0.4rem;
+  border-radius: 0.3rem;
+}
+.grpName {
+  font-weight: bold;
+  font-size: 1.4rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.1rem;
+  max-width: 48vw;
+}
+.friendsInGrp {
+  height: 2rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  max-width: 30.6rem;
+  overflow: hidden;
+}
+.grpFriend {
+  min-width: 1.8rem;
+  min-height: 1.8rem;
+  border-radius: 50%;
+  background-color: aqua;
+}
+.grpOptionBtn {
+  margin-top: 0.3rem;
+  min-height: 1rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-around;
+}
+.grpPageBtn {
+  font-weight: 600;
+  color: #616366;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  border: none;
+  background-color: white;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  border-radius: 0.2rem;
+}
+.grpPageBtn:hover {
+  background-color: #e7eaed;
+  cursor: pointer;
+}
+.grpPost {
+  width: calc(100% - 0.8rem);
+  margin: 0.4rem;
+  margin-top: 0.8rem;
+  border-radius: 0.3rem;
+  background-color: white;
+}

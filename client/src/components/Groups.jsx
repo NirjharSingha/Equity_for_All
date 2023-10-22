@@ -1,13 +1,9 @@
 import React from "react";
 import "./Groups.css";
 import { useEffect } from "react";
-import PreviewStory from "./PreviewStory";
-import UserSession from "./UserSession";
-import CreateStory from "./CreateStory";
-import DisplayStory from "./DisplayStory";
-import ItemCard from "./ItemCard";
 import CreateGroup from "./CreateGroup";
 import { useGroupContext } from "../contexts/GroupContext";
+import CreatePostCard from "./CreatePostCard";
 
 const Home = () => {
   const { showCreateGroup } = useGroupContext();
@@ -18,7 +14,28 @@ const Home = () => {
   return (
     <div className="homeDiv">
       {showCreateGroup && <CreateGroup />}
-      <div className="homeContainer"></div>
+      <div className="groupContainer">
+        <img src="/group.png" className="groupImage"></img>
+        <div className="groupInfo">
+          <p className="grpName">Group Name</p>
+          <div className="friendsInGrp">
+            <div className="grpFriend"></div>
+            <div className="grpFriend"></div>
+            <div className="grpFriend"></div>
+            <div className="grpFriend"></div>
+          </div>
+          <p style={{ marginBottom: "0.5rem" }}>Your x friends are members</p>
+          <hr />
+          <div className="grpOptionBtn">
+            <button className="grpPageBtn">Stream</button>
+            <button className="grpPageBtn">Members</button>
+            <button className="grpPageBtn">Invites</button>
+          </div>
+        </div>
+        <div className="grpPost">
+          <CreatePostCard />
+        </div>
+      </div>
     </div>
   );
 };
