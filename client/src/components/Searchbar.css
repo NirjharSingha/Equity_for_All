@@ -4,20 +4,61 @@
   margin-left: 10px;
 }
 .searchInput {
-  border-radius: 3%;
-  text-indent: 5px;
-  height: 1.5rem;
+  border-radius: 4rem;
+  text-indent: 7px;
+  height: 1.6rem;
+  border: none;
+}
+.searchInput:focus {
+  outline: none;
+}
+.searchList {
+  position: absolute;
+  top: 4rem;
+  left: 1rem;
+  width: 15.5rem;
+  height: 40vh;
+  background-color: #f0f2f5;
+  border-radius: 0.4rem;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.searchLine {
+  width: calc(100%-10px);
+  min-height: calc(2rem + 10px);
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding-left: 3px;
+  display: flex;
+  align-items: center;
+}
+.searchLine:hover {
+  cursor: pointer;
+  background-color: rgb(207, 211, 211);
+  border-radius: 0.3rem;
 }
 @media screen and (max-width: 1150px) {
   /* Styles for small screens go here */
   .searchbar {
     margin-left: 5px;
   }
+  .searchList {
+    left: 0rem;
+    width: 15rem;
+  }
 }
 @media screen and (max-width: 800px) {
   .searchInput {
     width: 7rem;
-    height: 1.2rem;
+    height: 1.4rem;
+  }
+  .searchList {
+    width: 14rem;
   }
 }
 @media screen and (max-width: 500px) {
