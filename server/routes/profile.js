@@ -1,10 +1,10 @@
 import express from "express";
 import validateGmailUniqueness from "../middlewares/validateGmailUniqueness.js";
 import verifyJWT from "../middlewares/verifyJWT.js";
-import profile from "../controllers/profile.js";
-import updateProfile from "../controllers/updateProfile.js";
+import profile from "../controllers/profile/profile.js";
+import updateProfile from "../controllers/profile/updateProfile.js";
 import upload from "../middlewares/multer.js";
-import getUserInfo from "../controllers/getUserInfo.js";
+import getUserInfo from "../controllers/profile/getUserInfo.js";
 
 const router = express.Router();
 

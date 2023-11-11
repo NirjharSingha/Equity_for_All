@@ -1,11 +1,11 @@
 import express from "express";
 import verifyJWT from "../middlewares/verifyJWT.js";
 import upload from "../middlewares/multer.js";
-import createStory from "../controllers/createStory.js";
-import getYourStories from "../controllers/getYourStories.js";
-import getOtherStories from "../controllers/getOtherStories.js";
-import editStory from "../controllers/editStory.js";
-import deleteStory from "../controllers/deleteStory.js";
+import createStory from "../controllers/story/createStory.js";
+import getYourStories from "../controllers/story/getYourStories.js";
+import getOtherStories from "../controllers/story/getOtherStories.js";
+import editStory from "../controllers/story/editStory.js";
+import deleteStory from "../controllers/story/deleteStory.js";
 
 const router = express.Router();
 

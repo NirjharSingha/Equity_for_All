@@ -1,7 +1,7 @@
 import express from "express";
-import commentSSE from "../controllers/commentSSE.js";
-import deleteFile from "../controllers/deleteFile.js";
-import searchResult from "../controllers/searchResult.js";
+import commentSSE from "../controllers/api/commentSSE.js";
+import deleteFile from "../controllers/api/deleteFile.js";
+import searchResult from "../controllers/api/searchResult.js";
 
 const router = express.Router();
 

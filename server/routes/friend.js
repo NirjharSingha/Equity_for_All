@@ -1,11 +1,11 @@
 import express from "express";
 import verifyJWT from "../middlewares/verifyJWT.js";
-import getFriendList from "../controllers/getFriendList.js";
-import getFriendSuggession from "../controllers/getFriendSuggessions.js";
-import countMutualFriends from "../controllers/countMutualFriends.js";
-import updateFriends from "../controllers/updateFriends.js";
-import checkBlocked from "../controllers/checkBlocked.js";
-import birthdays from "../controllers/birthdays.js";
+import getFriendList from "../controllers/friend/getFriendList.js";
+import getFriendSuggession from "../controllers/friend/getFriendSuggessions.js";
+import countMutualFriends from "../controllers/friend/countMutualFriends.js";
+import updateFriends from "../controllers/friend/updateFriends.js";
+import checkBlocked from "../controllers/friend/checkBlocked.js";
+import birthdays from "../controllers/friend/birthdays.js";
 
 const router = express.Router();
 

@@ -1,9 +1,9 @@
 import express from "express";
-import register from "../controllers/register.js";
-import login from "../controllers/login.js";
+import register from "../controllers/auth/register.js";
+import login from "../controllers/auth/login.js";
 import validateGmailUniqueness from "../middlewares/validateGmailUniqueness.js";
 import upload from "../middlewares/multer.js";
-import googleAuth from "../controllers/googleAuth.js";
+import googleAuth from "../controllers/auth/googleAuth.js";
 import verifyJWT from "../middlewares/verifyJWT.js";
 
 const router = express.Router();
