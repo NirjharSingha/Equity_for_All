@@ -4,16 +4,23 @@ import { useEffect } from "react";
 import CreateGroup from "./CreateGroup";
 import { useGroupContext } from "../contexts/GroupContext";
 import CreatePostCard from "./CreatePostCard";
+import EditPost from "./EditPost";
 
 const Home = () => {
-  const { showCreateGroup } = useGroupContext();
   useEffect(() => {
     console.log("group component loaded");
   }, []);
 
+  const { showCreateGroup, setIsGroupPost, isGroupPost } = useGroupContext();
+
+  const handleClick = () => {
+    setIsGroupPost(true);
+  };
+
   return (
     <div className="homeDiv">
       {showCreateGroup && <CreateGroup />}
+      {isGroupPost && <EditPost />}
       <div className="groupContainer">
         <img src="/group.png" className="groupImage"></img>
         <div className="groupInfo">
@@ -33,7 +40,7 @@ const Home = () => {
           </div>
         </div>
         <div className="grpPost">
-          <CreatePostCard />
+          <CreatePostCard handleClick={handleClick} />
         </div>
       </div>
     </div>

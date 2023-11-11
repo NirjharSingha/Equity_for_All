@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CreatePostCard.css";
 
-const CreatePostCard = () => {
+const CreatePostCard = ({ handleClick }) => {
   return (
     <div className="createPostCard">
       <div className="postContainerClass">
         <div className="postCardImage"></div>
-        <div className="postCardInput">Write something...</div>
+        <div className="postCardInput" onClick={handleClick}>
+          Write something...
+        </div>
       </div>
     </div>
   );

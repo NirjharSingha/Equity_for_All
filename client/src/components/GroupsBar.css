@@ -82,11 +82,19 @@
   transform: translateY(-100%);
   animation: slide-down 0.5s forwards;
 }
+.groupBarButton2 {
+  width: 97%;
+  justify-self: start;
+}
 .groupBarButton:hover {
   background-color: rgb(110, 115, 116);
   cursor: pointer;
 }
-
+.groupBarBtnContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 @keyframes slide-down {
   to {
     transform: translateX(0%);

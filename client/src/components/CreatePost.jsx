@@ -6,6 +6,7 @@ import PreviewItem from "./PreviewItem";
 import axios from "axios";
 import { usePostContext } from "../contexts/PostContext";
 import { useFileContext } from "../contexts/FileContext";
+import { useGroupContext } from "../contexts/GroupContext";
 import { useGlobals } from "../contexts/Globals";
 
 const CreatePost = () => {
@@ -18,6 +19,7 @@ const CreatePost = () => {
   const [postCategory, setPostCategory] = useState("public");
   const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
+  const { isGroupPost, setIsGroupPost } = useGroupContext();
   const {
     setYourPostArray,
     selectedPost,
@@ -150,6 +152,7 @@ const CreatePost = () => {
           });
         });
         setEditPost(false);
+        setIsGroupPost(false);
 
         setAlertMessage("Post updated successfully");
         setShowAlert(true);
@@ -179,7 +182,7 @@ const CreatePost = () => {
             onChange={(event) => setInputValue(event.target.value)}
             placeholder="What's on your mind"
             className={
-              editPost
+              editPost || isGroupPost
                 ? "postDescription editPostDesc"
                 : "postDescription postDesc"
             }

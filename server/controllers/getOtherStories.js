@@ -15,7 +15,7 @@ const getOtherStories = asyncHandler(async (req, res) => {
       $match: {
         $and: [
           { userEmail: { $in: [...friends] } }, // Include user and friends
-          { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
+          // { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
           { storyVisibility: { $in: ["Anyone", "Friends"] } }, // Visibility is "anyone" or "friends"
         ],
       },
@@ -49,7 +49,7 @@ const getOtherStories = asyncHandler(async (req, res) => {
         $match: {
           $and: [
             { userEmail: { $nin: [...friends, email] } }, // Include user and friends
-            { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
+            // { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
             { storyVisibility: { $in: ["Anyone"] } }, // Visibility is "anyone"
           ],
         },

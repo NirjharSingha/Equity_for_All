@@ -9,6 +9,7 @@ import CreateStoryCard from "./CreateStoryCard";
 import { useStoryContext } from "../contexts/StoryContext";
 import jwtDecode from "jwt-decode";
 import { useFileContext } from "../contexts/FileContext";
+import Loading from "./Loading";
 
 const Story = () => {
   const { setIsValidJWT } = useGlobals();
@@ -23,10 +24,12 @@ const Story = () => {
     setStoryKeys,
   } = useStoryContext();
   const email = jwtDecode(localStorage.getItem("token")).email;
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     const fetchYourStories = async () => {
       try {
+        setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_URL}/story/getYourStories`,
@@ -44,6 +47,7 @@ const Story = () => {
             deleteFile(response.data.filesToDelete);
           }
           setshouldFetchYourStories(false);
+          setShowLoading(false);
         }
       } catch (error) {
         if (
@@ -58,6 +62,7 @@ const Story = () => {
     };
     const fetchOtherStories = async () => {
       try {
+        setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_URL}/story/getOtherStories`,
@@ -71,6 +76,7 @@ const Story = () => {
           setOtherStories((prev) => ({ ...prev, ...response.data }));
           console.log(response.data);
           setshouldFetchOtherStories(false);
+          setShowLoading(false);
         }
       } catch (error) {
         if (
@@ -103,6 +109,7 @@ const Story = () => {
   return (
     <div className="storyDiv">
       <CreateStoryCard />
+      {showLoading && <Loading />}
       {Object.keys(otherStories).map(
         (userEmail) =>
           otherStories[userEmail].length > 0 && (

@@ -1,16 +1,21 @@
 .editPostContainer {
   width: 35vw;
   height: calc(100vh - 8.1rem);
-  position: fixed;
+  /* position: fixed;
   top: 4rem;
-  left: 20vw;
+  left: 20vw; */
   background-color: aliceblue;
   z-index: 750;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .editPostCross {
   position: fixed;
-  top: 4rem;
-  right: 25vw;
+  /* top: 4rem;
+  right: 25vw; */
+  top: 0;
+  right: 0;
   z-index: 750;
   background-color: rgb(157, 62, 62);
   width: 2.5rem;
@@ -27,17 +32,17 @@
 }
 
 @media screen and (max-width: 1150px) {
-  .editPostCross {
+  /* .editPostCross {
     right: 0.05rem;
-  }
+  } */
   .editPostContainer {
     width: 40vw;
-    left: 30vw;
+    /* left: 30vw; */
   }
 }
 @media screen and (max-width: 1000px) {
   .editPostContainer {
     width: 45vw;
-    left: 27.5vw;
+    /* left: 27.5vw; */
   }
 }

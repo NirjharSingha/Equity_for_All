@@ -2,11 +2,13 @@ import React from "react";
 import CreatePost from "./CreatePost";
 import { useEffect, useRef } from "react";
 import { usePostContext } from "../contexts/PostContext";
+import { useGroupContext } from "../contexts/GroupContext";
 import "./EditPost.css";
 
 const EditPost = () => {
   const editPostRef = useRef(null);
   const { setEditPost } = usePostContext();
+  const { setIsGroupPost } = useGroupContext();
   useEffect(() => {
     console.log("edit post loaded");
     const handleOutsideClick = (event) => {
@@ -20,8 +22,14 @@ const EditPost = () => {
     };
   }, []);
   return (
-    <div className="blurComponent" ref={editPostRef}>
-      <div className="editPostCross" onClick={() => setEditPost(false)}>
+    <div className="fullScreenBlur" ref={editPostRef}>
+      <div
+        className="editPostCross"
+        onClick={() => {
+          setEditPost(false);
+          setIsGroupPost(false);
+        }}
+      >
         X
       </div>
       <div className="editPostContainer">

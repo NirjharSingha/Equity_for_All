@@ -59,6 +59,7 @@ const Searchbar = () => {
 
   return (
     <div className="searchbar" ref={searchRef}>
+      {/* <SearchResult /> */}
       <input
         type="text"
         className="searchInput"
