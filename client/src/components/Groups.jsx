@@ -20,9 +20,6 @@ const Home = () => {
     setShowAlert,
     alertMessage,
     isEditGroup,
-    setIsEditGroup,
-    groupToEdit,
-    setGroupToEdit,
   } = useGroupContext();
 
   const handleClick = () => {

@@ -10,10 +10,7 @@ import Loading from "./Loading";
 
 const GroupsBar = () => {
   const {
-    showCreateGroup,
     setShowCreateGroup,
-    isGroupPost,
-    setIsGroupPost,
     groupsYouCreated,
     setGroupsYouCreated,
     groupsYouJoined,
@@ -22,8 +19,6 @@ const GroupsBar = () => {
     setReqSent,
     invitationReceived,
     setInvitationReceived,
-    fetchGroup,
-    setFetchGroup,
     suggestedGroups,
     setSuggestGroups,
   } = useGroupContext();

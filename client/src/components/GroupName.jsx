@@ -11,30 +11,17 @@ import { useFileContext } from "../contexts/FileContext";
 const GroupName = ({ group, flag }) => {
   const [show, setShow] = useState(false);
   const { deleteFile } = useFileContext();
-  const { _id, groupName, groupImage, groupVisibility } = group;
+  const { _id, groupName, groupImage } = group;
   const { setIsValidJWT } = useGlobals();
   const {
-    showCreateGroup,
-    setShowCreateGroup,
-    isGroupPost,
-    setIsGroupPost,
-    groupsYouCreated,
     setGroupsYouCreated,
-    groupsYouJoined,
     setGroupsYouJoined,
-    reqSent,
     setReqSent,
-    invitationReceived,
     setInvitationReceived,
-    fetchGroup,
-    setFetchGroup,
-    suggestedGroups,
     setSuggestGroups,
     setShowAlert,
     setAlertMessage,
-    isEditGroup,
     setIsEditGroup,
-    groupToEdit,
     setGroupToEdit,
   } = useGroupContext();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -74,7 +61,13 @@ const GroupName = ({ group, flag }) => {
           setAlertMessage(
             `Request sent successfully. When the admin accepts it, you'll be a member of the group.`
           );
-          setReqSent((prev) => prev.filter((group) => group._id !== _id));
+          setReqSent((prev) => [...prev, group]);
+        } else if (action === "remove" && option === "invitationSent") {
+          setInvitationReceived((prev) =>
+            prev.filter((group) => group._id !== _id)
+          );
+        } else if (action === "remove" && option === "suggessions") {
+          setSuggestGroups((prev) => prev.filter((group) => group._id !== _id));
         }
         setShowAlert(true);
       } else {
@@ -205,7 +198,10 @@ const GroupName = ({ group, flag }) => {
           <button
             className={`groupBarButton groupBarButton2`}
             style={{ justifySelf: "end" }}
-            onClick={() => handleAction("remove", "invitationSent")}
+            onClick={() => {
+              setAlertMessage("Invitation declined");
+              handleAction("remove", "invitationSent");
+            }}
           >
             Decline
           </button>
@@ -214,7 +210,10 @@ const GroupName = ({ group, flag }) => {
       {show && flag === 5 && (
         <button
           className={`groupBarButton`}
-          onClick={() => handleAction("add", "reqReceived")}
+          onClick={() => {
+            handleAction("add", "reqReceived");
+            handleAction("remove", "suggessions");
+          }}
         >
           Join Group
         </button>

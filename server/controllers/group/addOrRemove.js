@@ -15,7 +15,6 @@ const addOrRemove = asyncHandler(async (req, res) => {
         { new: true }
       );
     } else {
-      console.log("inside else");
       updatedGroup = await Group.findByIdAndUpdate(
         { _id: groupId },
         { $pull: { [option]: email } },
