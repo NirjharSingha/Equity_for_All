@@ -28,11 +28,11 @@ router.put("/postOptions/postLike", verifyJWT, handlePostLike);
 router.put("/postOptions/commentLike", verifyJWT, handleCommentLike);
 router.put("/postOptions/createComment", verifyJWT, createComment);
 router.put("/postOptions/editOrDeleteComment", verifyJWT, editOrDeleteComment);
+router.get("/getOtherPostIDs", verifyJWT, getOtherPostIDs);
+router.get("/getYourPostIDs", verifyJWT, yourPostIDs);
 router.get("/postOptions/getComments/:postId", verifyJWT, getComments);
 router.get("/postOptions/getCommentIds/:postId", verifyJWT, getCommentIds);
 router.delete("/deletePost/:postId", verifyJWT, deletePost);
-router.get("/getOtherPostIDs", verifyJWT, getOtherPostIDs);
-router.get("/getYourPostIDs", verifyJWT, yourPostIDs);
 router.get("/getSharedPost/:postId", getSharedPost);
 
 export default router;

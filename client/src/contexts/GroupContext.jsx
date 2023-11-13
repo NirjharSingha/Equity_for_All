@@ -15,6 +15,10 @@ const GroupContextProvider = ({ children }) => {
   const [invitationReceived, setInvitationReceived] = useState([]);
   const [suggestedGroups, setSuggestGroups] = useState([]);
   const [fetchGroup, setFetchGroup] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isEditGroup, setIsEditGroup] = useState(false);
+  const [groupToEdit, setGroupToEdit] = useState({});
 
   return (
     <GroupContext.Provider
@@ -35,6 +39,14 @@ const GroupContextProvider = ({ children }) => {
         setFetchGroup,
         suggestedGroups,
         setSuggestGroups,
+        showAlert,
+        setShowAlert,
+        alertMessage,
+        setAlertMessage,
+        isEditGroup,
+        setIsEditGroup,
+        groupToEdit,
+        setGroupToEdit,
       }}
     >
       {children}

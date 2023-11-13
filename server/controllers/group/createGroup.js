@@ -24,7 +24,7 @@ const createGroup = asyncHandler(async (req, res) => {
   await group.save();
 
   res.status(201).json({
-    message: "story created successfully",
+    message: "group created successfully",
     group: group,
   });
 });

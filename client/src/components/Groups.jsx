@@ -5,13 +5,25 @@ import CreateGroup from "./CreateGroup";
 import { useGroupContext } from "../contexts/GroupContext";
 import CreatePostCard from "./CreatePostCard";
 import EditPost from "./EditPost";
+import AlertMessage from "./AlertMessage";
 
 const Home = () => {
   useEffect(() => {
     console.log("group component loaded");
   }, []);
 
-  const { showCreateGroup, setIsGroupPost, isGroupPost } = useGroupContext();
+  const {
+    showCreateGroup,
+    setIsGroupPost,
+    isGroupPost,
+    showAlert,
+    setShowAlert,
+    alertMessage,
+    isEditGroup,
+    setIsEditGroup,
+    groupToEdit,
+    setGroupToEdit,
+  } = useGroupContext();
 
   const handleClick = () => {
     setIsGroupPost(true);
@@ -19,8 +31,11 @@ const Home = () => {
 
   return (
     <div className="homeDiv">
-      {showCreateGroup && <CreateGroup />}
+      {(showCreateGroup || isEditGroup) && <CreateGroup />}
       {isGroupPost && <EditPost />}
+      {showAlert && (
+        <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
+      )}
       <div className="groupContainer">
         <img src="/group.png" className="groupImage"></img>
         <div className="groupInfo">
@@ -36,7 +51,7 @@ const Home = () => {
           <div className="grpOptionBtn">
             <button className="grpPageBtn">Stream</button>
             <button className="grpPageBtn">Members</button>
-            <button className="grpPageBtn">Invites</button>
+            <button className="grpPageBtn">Requests</button>
           </div>
         </div>
         <div className="grpPost">

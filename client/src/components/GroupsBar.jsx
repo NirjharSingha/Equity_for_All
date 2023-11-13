@@ -1,7 +1,6 @@
 import React from "react";
 import "./GroupsBar.css";
 import { FaPlus } from "react-icons/fa";
-import ItemCard from "./ItemCard";
 import { useGroupContext } from "../contexts/GroupContext";
 import { useGlobals } from "../contexts/Globals";
 import GroupName from "./GroupName";
@@ -85,12 +84,7 @@ const GroupsBar = () => {
           <p className="groupBarHeadings">Groups you created</p>
           <hr style={{ width: "100%", marginTop: "0.35rem" }} />
           {groupsYouCreated.map((group) => (
-            <GroupName
-              key={group._id}
-              name={group.groupName}
-              image={group.groupImage}
-              flag={1}
-            />
+            <GroupName key={group._id} group={group} flag={1} />
           ))}
         </>
       )}
@@ -99,12 +93,7 @@ const GroupsBar = () => {
           <p className="groupBarHeadings">Groups you joined</p>
           <hr style={{ width: "100%", marginTop: "0.35rem" }} />
           {groupsYouJoined.map((group) => (
-            <GroupName
-              key={group._id}
-              name={group.groupName}
-              image={group.groupImage}
-              flag={2}
-            />
+            <GroupName key={group._id} group={group} flag={2} />
           ))}
         </>
       )}
@@ -113,13 +102,7 @@ const GroupsBar = () => {
           <p className="groupBarHeadings">Request Send</p>
           <hr style={{ width: "100%", marginTop: "0.35rem" }} />
           {reqSent.map((group) => (
-            <GroupName
-              key={group._id}
-              name={group.groupName}
-              image={group.groupImage}
-              visibility={group.groupVisibility}
-              flag={3}
-            />
+            <GroupName key={group._id} group={group} flag={3} />
           ))}
         </>
       )}
@@ -128,13 +111,7 @@ const GroupsBar = () => {
           <p className="groupBarHeadings">Invitation received</p>
           <hr style={{ width: "100%", marginTop: "0.35rem" }} />
           {invitationReceived.map((group) => (
-            <GroupName
-              key={group._id}
-              name={group.groupName}
-              image={group.groupImage}
-              visibility={group.groupVisibility}
-              flag={4}
-            />
+            <GroupName key={group._id} group={group} flag={4} />
           ))}
         </>
       )}
@@ -143,13 +120,7 @@ const GroupsBar = () => {
           <p className="groupBarHeadings">Suggested groups</p>
           <hr style={{ width: "100%", marginTop: "0.35rem" }} />
           {suggestedGroups.map((group) => (
-            <GroupName
-              key={group._id}
-              name={group.groupName}
-              image={group.groupImage}
-              visibility={group.groupVisibility}
-              flag={5}
-            />
+            <GroupName key={group._id} group={group} flag={5} />
           ))}
         </>
       )}

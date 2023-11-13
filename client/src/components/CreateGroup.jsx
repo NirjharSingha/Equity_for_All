@@ -11,19 +11,37 @@ import { useGroupContext } from "../contexts/GroupContext";
 import jwtDecode from "jwt-decode";
 
 const CreateGroup = () => {
+  const {
+    setShowCreateGroup,
+    setGroupsYouCreated,
+    setShowAlert,
+    setAlertMessage,
+    isEditGroup,
+    setIsEditGroup,
+    groupToEdit,
+    setGroupToEdit,
+  } = useGroupContext();
   const { setIsValidJWT } = useGlobals();
   const { deleteFile } = useFileContext();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState({});
-  const [groupName, setGroupName] = useState("");
+  const [groupName, setGroupName] = useState(
+    isEditGroup ? groupToEdit.groupName : ""
+  );
   const [isDisable, setIsDisable] = useState(true);
-  const [privacy, setPrivacy] = useState("");
+  const [privacy, setPrivacy] = useState(
+    isEditGroup ? groupToEdit.groupVisibility : ""
+  );
   const { getUserInfo } = useUserInfoContext();
   const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
-  const [crossFlag, setCrossFlag] = useState(false);
+  const [crossFlag, setCrossFlag] = useState(
+    isEditGroup && groupToEdit.groupImage !== ""
+  );
   const [imgUrl, setImgUrl] = useState("");
-  const { setShowCreateGroup } = useGroupContext();
+  const [isFirst, setIsFirst] = useState(
+    isEditGroup && groupToEdit.groupImage !== ""
+  );
 
   const handleButtonClick = () => {
     if (!crossFlag) {
@@ -57,24 +75,65 @@ const CreateGroup = () => {
     groupData.append("groupName", groupName);
     groupData.append("groupVisibility", privacy);
     groupData.append("backgroundImage", imgUrl);
-    groupData.append("createdAt", new Date(Date.now()).toLocaleString());
+    if (!isEditGroup) {
+      groupData.append("createdAt", new Date(Date.now()).toLocaleString());
+    } else {
+      groupData.append("updatedAt", new Date(Date.now()).toLocaleString());
+      groupData.append("_id", groupToEdit._id);
+      if (!isFirst && groupToEdit.groupImage !== "") {
+        groupData.append("deleteFile", "deleted");
+      }
+    }
 
     try {
       const token = localStorage.getItem("token");
       let response;
-      response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/group/createGroup`,
-        groupData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: token,
-          },
-        }
-      );
+      if (!isEditGroup) {
+        response = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/group/createGroup`,
+          groupData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: token,
+            },
+          }
+        );
+      } else {
+        response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/group/editGroup`,
+          groupData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: token,
+            },
+          }
+        );
+      }
       if (response) {
-        console.log("group created successfully");
-        setShowCreateGroup(false);
+        if (!isEditGroup) {
+          console.log("group created successfully");
+          setShowCreateGroup(false);
+          setGroupsYouCreated((prev) => [...prev, response.data.group]);
+          setAlertMessage("Group Created successfully");
+          setShowAlert(true);
+        } else {
+          if (!isFirst && groupToEdit.groupImage !== "") {
+            deleteFile([groupToEdit.groupImage]);
+          }
+          setIsEditGroup(false);
+          setGroupToEdit({});
+          setGroupsYouCreated((prev) =>
+            prev.map((group) =>
+              group._id === response.data.updatedGroup._id
+                ? response.data.updatedGroup
+                : group
+            )
+          );
+          setAlertMessage("Group updated successfully");
+          setShowAlert(true);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -98,8 +157,15 @@ const CreateGroup = () => {
     displayGroupAdmin();
   }, []);
   return (
-    <div className="blurComponent">
-      <div className="editPostCross" onClick={() => setShowCreateGroup(false)}>
+    <div className="fullScreenBlur">
+      <div
+        className="editPostCross"
+        onClick={() => {
+          setShowCreateGroup(false);
+          setIsEditGroup(false);
+          setGroupToEdit({});
+        }}
+      >
         X
       </div>
       <form
@@ -134,7 +200,7 @@ const CreateGroup = () => {
             value={privacy}
             onChange={(event) => setPrivacy(event.target.value)}
           >
-            <option value="">Select Privacy</option>
+            {!isEditGroup && <option value="">Select Privacy</option>}
             <option value="public">Public</option>
             <option value="private">Private</option>
           </select>
@@ -147,7 +213,17 @@ const CreateGroup = () => {
             onChange={handleFileChange}
           />
           <img
-            src={crossFlag ? selectedFile : "/group.png"}
+            src={
+              !isEditGroup
+                ? crossFlag
+                  ? selectedFile
+                  : "/group.png"
+                : isFirst
+                ? groupToEdit.groupImage
+                : imgUrl === ""
+                ? "/group.png"
+                : selectedFile
+            }
             className="groupImg"
           ></img>
           <button
@@ -162,7 +238,9 @@ const CreateGroup = () => {
                 className="fileUploadCross"
                 onClick={() => {
                   setSelectedFile({});
+                  setImgUrl("");
                   setCrossFlag(false);
+                  setIsFirst(false);
                 }}
               >
                 x
@@ -179,7 +257,7 @@ const CreateGroup = () => {
           }
           disabled={isDisable}
         >
-          Create Group
+          {isEditGroup ? "Update Group" : "Create Group"}
         </button>
       </form>
     </div>
