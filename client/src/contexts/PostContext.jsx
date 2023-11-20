@@ -17,6 +17,9 @@ const PostContextProvider = ({ children }) => {
   const [yourPostArray, setYourPostArray] = useState([]);
   const [yourPostPage, setYourPostPage] = useState(0);
   const [yourPostIds, setYourPostIds] = useState([]);
+  const [groupPostArray, setGroupPostArray] = useState([]);
+  const [groupPostPage, setGroupPostPage] = useState(0);
+  const [groupPostIds, setGroupPostIds] = useState([]);
   const [postPerPage] = useState(8);
   const [shouldFetchOtherPostIds, setShouldFetchOtherPostIds] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
@@ -152,6 +155,12 @@ const PostContextProvider = ({ children }) => {
         setShowAlert,
         alertMessage,
         setAlertMessage,
+        groupPostArray,
+        setGroupPostArray,
+        groupPostPage,
+        setGroupPostPage,
+        groupPostIds,
+        setGroupPostIds,
       }}
     >
       {children}

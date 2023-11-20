@@ -3,60 +3,79 @@ import "./Groups.css";
 import { useEffect } from "react";
 import CreateGroup from "./CreateGroup";
 import { useGroupContext } from "../contexts/GroupContext";
-import CreatePostCard from "./CreatePostCard";
 import EditPost from "./EditPost";
 import AlertMessage from "./AlertMessage";
+import GroupStream from "./GroupStream";
 
-const Home = () => {
+const Group = () => {
   useEffect(() => {
     console.log("group component loaded");
   }, []);
 
   const {
     showCreateGroup,
-    setIsGroupPost,
     isGroupPost,
     showAlert,
     setShowAlert,
     alertMessage,
     isEditGroup,
+    divRef,
+    selectedGroup,
+    access,
   } = useGroupContext();
-
-  const handleClick = () => {
-    setIsGroupPost(true);
-  };
 
   return (
     <div className="homeDiv">
+      {selectedGroup === null && (
+        <p className="selectGroupText">Select a group to view details</p>
+      )}
       {(showCreateGroup || isEditGroup) && <CreateGroup />}
       {isGroupPost && <EditPost />}
       {showAlert && (
         <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
       )}
-      <div className="groupContainer">
-        <img src="/group.png" className="groupImage"></img>
-        <div className="groupInfo">
-          <p className="grpName">Group Name</p>
-          <div className="friendsInGrp">
-            <div className="grpFriend"></div>
-            <div className="grpFriend"></div>
-            <div className="grpFriend"></div>
-            <div className="grpFriend"></div>
+      {selectedGroup !== null && (
+        <div className="groupContainer" ref={divRef}>
+          <img
+            src={
+              selectedGroup && selectedGroup.groupImage !== ""
+                ? selectedGroup.groupImage
+                : "/group.png"
+            }
+            className="groupImage"
+          ></img>
+          <div className="groupInfo">
+            <p className="grpName">
+              {selectedGroup && selectedGroup.groupName}
+            </p>
+            <p className="grpName" style={{ fontSize: "1.15rem" }}>
+              {`${selectedGroup && selectedGroup.groupVisibility} group`}
+            </p>
+            <div className="friendsInGrp">
+              <div className="grpFriend"></div>
+              <div className="grpFriend"></div>
+              <div className="grpFriend"></div>
+              <div className="grpFriend"></div>
+            </div>
+            <p style={{ marginBottom: "0.5rem" }}>Your x friends are members</p>
+            <hr />
+            <div className="grpOptionBtn">
+              <button className="grpPageBtn">Stream</button>
+              <button className="grpPageBtn">Members</button>
+              <button className="grpPageBtn">Requests</button>
+            </div>
           </div>
-          <p style={{ marginBottom: "0.5rem" }}>Your x friends are members</p>
-          <hr />
-          <div className="grpOptionBtn">
-            <button className="grpPageBtn">Stream</button>
-            <button className="grpPageBtn">Members</button>
-            <button className="grpPageBtn">Requests</button>
-          </div>
+          {access !== 0 && <GroupStream />}
+          {access === 0 && (
+            <p className="createPostCard groupAccessText">
+              This is private group. You cannot see its content without being a
+              member.
+            </p>
+          )}
         </div>
-        <div className="grpPost">
-          <CreatePostCard handleClick={handleClick} />
-        </div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default Home;
+export default Group;

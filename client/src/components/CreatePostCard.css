@@ -1,8 +1,11 @@
 .createPostCard {
   width: 100%;
-  padding: 0.5rem;
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
+  padding: 0.6rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  background-color: rgb(216, 213, 213);
+  margin-bottom: 0.8rem;
+  border-radius: 0.5rem;
 }
 .postContainerClass {
   display: flex;
@@ -23,7 +26,7 @@
   min-height: 2.1rem;
   border-radius: 0.5rem;
   text-indent: 0.6rem;
-  background-color: #e4e6e9;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   color: #606266;
@@ -31,5 +34,5 @@
   cursor: pointer;
 }
 .postCardInput:hover {
-  background-color: #cbcdd1;
+  background-color: #e4e6eb;
 }

@@ -10,7 +10,7 @@ const getGroupNames = asyncHandler(async (req, res) => {
   );
   const groupsJoined = await Group.find(
     { allMembers: { $in: [email] } },
-    "_id groupName groupImage"
+    "_id groupName groupImage groupVisibility"
   );
   const reqSent = await Group.find(
     { reqReceived: { $in: [email] } },

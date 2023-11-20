@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useRef } from "react";
 
 const GroupContext = createContext();
 
@@ -19,6 +19,9 @@ const GroupContextProvider = ({ children }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [isEditGroup, setIsEditGroup] = useState(false);
   const [groupToEdit, setGroupToEdit] = useState({});
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [access, setAccess] = useState(0);
+  const divRef = useRef(null);
 
   return (
     <GroupContext.Provider
@@ -47,6 +50,11 @@ const GroupContextProvider = ({ children }) => {
         setIsEditGroup,
         groupToEdit,
         setGroupToEdit,
+        divRef,
+        selectedGroup,
+        setSelectedGroup,
+        access,
+        setAccess,
       }}
     >
       {children}

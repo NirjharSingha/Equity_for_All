@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ItemCard from "./ItemCard";
 import { BsFillGearFill } from "react-icons/bs";
 import { useGlobals } from "../contexts/Globals";
@@ -23,6 +23,8 @@ const GroupName = ({ group, flag }) => {
     setAlertMessage,
     setIsEditGroup,
     setGroupToEdit,
+    selectedGroup,
+    setSelectedGroup,
   } = useGroupContext();
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -128,20 +130,30 @@ const GroupName = ({ group, flag }) => {
       <div
         className="groupItem"
         style={
-          show
+          show && selectedGroup && selectedGroup._id === group._id
+            ? {
+                borderBottomLeftRadius: "0",
+                borderBottomRightRadius: "0",
+                border: "3px solid rgb(30, 150, 194)",
+              }
+            : show
             ? { borderBottomLeftRadius: "0", borderBottomRightRadius: "0" }
+            : selectedGroup && selectedGroup._id === group._id
+            ? { border: "3px solid rgb(30, 150, 194)" }
             : {}
         }
       >
-        <ItemCard
-          containerClass="groupItem2"
-          imgClass="storyProfilePic"
-          nameClass="optionListName"
-          shouldDisplayImg={groupImage !== ""}
-          imgSrc={groupImage}
-          icon="/group.png"
-          name={groupName}
-        />
+        <div className="groupItem2" onClick={() => setSelectedGroup(group)}>
+          <ItemCard
+            containerClass="groupItem2"
+            imgClass="storyProfilePic"
+            nameClass="optionListName"
+            shouldDisplayImg={groupImage !== ""}
+            imgSrc={groupImage}
+            icon="/group.png"
+            name={groupName}
+          />
+        </div>
         <BsFillGearFill
           className="groupBarIcon"
           onClick={() => setShow((prev) => !prev)}

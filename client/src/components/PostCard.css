@@ -5,7 +5,7 @@
   background: rgb(242, 237, 237);
   display: grid;
   grid-template-rows: 3rem auto 2rem 2rem 1.5rem;
-  margin-left: 10px;
+  margin-left: 9px;
   position: relative;
   margin-bottom: 0.5rem;
 }

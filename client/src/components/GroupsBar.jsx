@@ -21,9 +21,53 @@ const GroupsBar = () => {
     setInvitationReceived,
     suggestedGroups,
     setSuggestGroups,
+    selectedGroup,
+    access,
+    setAccess,
   } = useGroupContext();
   const [showLoading, setShowLoading] = useState(false);
   const { setIsValidJWT } = useGlobals();
+
+  useEffect(() => {
+    console.log("selectedGroup " + selectedGroup);
+    let foundGroup = null;
+    console.log("length " + groupsYouCreated.length);
+
+    if (selectedGroup) {
+      for (let index = 0; index < groupsYouCreated.length; index++) {
+        const element = groupsYouCreated[index];
+        if (element._id === selectedGroup._id) {
+          console.log("group found");
+          foundGroup = element;
+          break;
+        }
+      }
+    }
+
+    if (foundGroup) {
+      setAccess(1);
+    } else {
+      if (selectedGroup) {
+        for (let index = 0; index < groupsYouJoined.length; index++) {
+          const element = groupsYouJoined[index];
+          if (element._id === selectedGroup._id) {
+            foundGroup = element;
+            break;
+          }
+        }
+      }
+
+      if (foundGroup) {
+        setAccess(2);
+      } else {
+        if (selectedGroup && selectedGroup.groupVisibility === "public") {
+          setAccess(3);
+        } else {
+          setAccess(0);
+        }
+      }
+    }
+  }, [selectedGroup]);
 
   const fetchGroupNames = async () => {
     try {
