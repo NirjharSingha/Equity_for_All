@@ -25,7 +25,7 @@ const GroupPosts = () => {
     setShowAlert,
     alertMessage,
   } = usePostContext();
-  const { divRef } = useGroupContext();
+  const { divRef, selectedGroup } = useGroupContext();
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [componentDidMount, setComponentDidMount] = useState(true);
   const [showLoading, setShowLoading] = useState(true);
@@ -46,28 +46,23 @@ const GroupPosts = () => {
 
   useEffect(() => {
     setGroupPostArray([]);
-    setGroupPostPage(0);
-
-    return () => {
-      setGroupPostPage(0);
-      setGroupPostArray([]);
-    };
-  }, []);
+    setGroupPostIds([]);
+  }, [selectedGroup]);
 
   useEffect(() => {
-    if (!componentDidMount) {
-      fetchPostDetails(
-        groupPostIds,
-        groupPostPage,
-        setGroupPostArray,
-        postPerPage,
-        setShowLoading,
-        setIsValidJWT
-      );
-    } else {
-      setComponentDidMount(false);
-    }
+    fetchPostDetails(
+      groupPostIds,
+      groupPostPage,
+      setGroupPostArray,
+      postPerPage,
+      setShowLoading,
+      setIsValidJWT
+    );
   }, [groupPostPage, groupPostIds]);
+
+  useEffect(() => {
+    setGroupPostPage(0);
+  }, [groupPostIds]);
 
   useEffect(() => {
     fetchPostIds(
@@ -76,7 +71,7 @@ const GroupPosts = () => {
       setShowLoading,
       setIsValidJWT
     );
-  }, []);
+  }, [selectedGroup]);
 
   return (
     <div>

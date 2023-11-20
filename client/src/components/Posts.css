@@ -13,11 +13,13 @@
   margin-bottom: 5px;
   width: calc(100% - 17px);
   height: 2.5rem;
-  background-color: rgb(139, 251, 251);
+  background-color: rgb(156, 246, 246);
   margin-top: 0px;
   margin-left: 10px;
   display: flex;
   justify-content: space-around;
+  border-bottom-left-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
 }
 .postContainer {
   max-height: calc(100vh - 11.2rem);
@@ -36,7 +38,7 @@
   border-radius: 8px;
 }
 .borderLessPostOption:hover {
-  background-color: rgb(25, 199, 252);
+  background-color: whitesmoke;
 }
 .selectedPostOption {
   border: none;
@@ -47,6 +49,8 @@
   margin-bottom: 3px;
   padding-left: 8px;
   padding-right: 8px;
-  border-radius: 8px;
-  background-color: rgb(25, 199, 252);
+  /* border-radius: 8px; */
+  color: rgb(4, 92, 119);
+  background-color: rgb(156, 246, 246);
+  border-bottom: 3px solid rgb(4, 92, 119);
 }

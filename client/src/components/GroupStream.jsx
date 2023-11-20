@@ -14,6 +14,7 @@ const GroupStream = () => {
     alertMessage,
     isEditGroup,
     access,
+    selectedGroup,
   } = useGroupContext();
 
   const handleClick = () => {
