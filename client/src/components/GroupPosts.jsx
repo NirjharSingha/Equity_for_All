@@ -25,7 +25,7 @@ const GroupPosts = () => {
     setShowAlert,
     alertMessage,
   } = usePostContext();
-  const { divRef, selectedGroup } = useGroupContext();
+  const { divRef, selectedGroup, access } = useGroupContext();
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [componentDidMount, setComponentDidMount] = useState(true);
   const [showLoading, setShowLoading] = useState(true);
@@ -34,8 +34,10 @@ const GroupPosts = () => {
     const currentDivRef = divRef.current;
 
     if (currentDivRef) {
-      const scrollHandler = () =>
+      const scrollHandler = () => {
         handleScroll(divRef, prevScrollTop, setPrevScrollTop, setGroupPostPage);
+        console.log("scroll");
+      };
       currentDivRef.addEventListener("scroll", scrollHandler);
 
       return () => {
@@ -46,42 +48,54 @@ const GroupPosts = () => {
 
   useEffect(() => {
     setGroupPostArray([]);
-    setGroupPostIds([]);
-  }, [selectedGroup]);
-
-  useEffect(() => {
-    fetchPostDetails(
-      groupPostIds,
-      groupPostPage,
-      setGroupPostArray,
-      postPerPage,
-      setShowLoading,
-      setIsValidJWT
-    );
-  }, [groupPostPage, groupPostIds]);
-
-  useEffect(() => {
-    setGroupPostPage(0);
-  }, [groupPostIds]);
-
-  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.scrollTop = 0;
+    }
     fetchPostIds(
       `${import.meta.env.VITE_SERVER_URL}/post/getYourPostIDs`,
       setGroupPostIds,
       setShowLoading,
       setIsValidJWT
     );
+    setGroupPostPage(0);
   }, [selectedGroup]);
+
+  useEffect(() => {
+    console.log("ids called");
+    fetchPostDetails(
+      groupPostIds,
+      0,
+      setGroupPostArray,
+      postPerPage,
+      setShowLoading,
+      setIsValidJWT
+    );
+  }, [groupPostIds]);
+
+  useEffect(() => {
+    if (groupPostPage !== 0) {
+      console.log("called");
+      fetchPostDetails(
+        groupPostIds,
+        groupPostPage,
+        setGroupPostArray,
+        postPerPage,
+        setShowLoading,
+        setIsValidJWT
+      );
+    }
+  }, [groupPostPage]);
 
   return (
     <div>
       {showAlert && (
         <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
       )}
-      {groupPostArray.map(
-        (post) =>
-          post && <PostCard key={post._id} post={post} shareFlag={false} />
-      )}
+      {access !== 0 &&
+        groupPostArray.map(
+          (post) =>
+            post && <PostCard key={post._id} post={post} shareFlag={false} />
+        )}
       {showLoading && <Loading />}
     </div>
   );

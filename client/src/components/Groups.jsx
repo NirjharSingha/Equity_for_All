@@ -65,7 +65,7 @@ const Group = () => {
               <button className="grpPageBtn">Requests</button>
             </div>
           </div>
-          {access !== 0 && <GroupStream />}
+          <GroupStream />
           {access === 0 && (
             <p className="createPostCard groupAccessText">
               This is private group. You cannot see its content without being a
