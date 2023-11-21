@@ -7,11 +7,11 @@ import YourPosts from "./YourPosts";
 
 const Posts = () => {
   const { showYourPost, setShowYourPost } = usePostContext();
-  const { editPost } = usePostContext();
+  // const { editPost } = usePostContext();
 
   return (
     <div className="postDiv">
-      {editPost && <EditPost />}
+      {/* {editPost && <EditPost />} */}
       <div className="postOption">
         <button
           className={

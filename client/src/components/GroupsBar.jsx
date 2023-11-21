@@ -29,15 +29,12 @@ const GroupsBar = () => {
   const { setIsValidJWT } = useGlobals();
 
   useEffect(() => {
-    console.log("selectedGroup " + selectedGroup);
     let foundGroup = null;
-    console.log("length " + groupsYouCreated.length);
 
     if (selectedGroup) {
       for (let index = 0; index < groupsYouCreated.length; index++) {
         const element = groupsYouCreated[index];
         if (element._id === selectedGroup._id) {
-          console.log("group found");
           foundGroup = element;
           break;
         }

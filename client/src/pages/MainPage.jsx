@@ -12,15 +12,19 @@ import PostComponent from "../components/PostComponent";
 import FriendOptions from "../components/FriendOptions";
 import CreateStory from "../components/CreateStory";
 import { useGlobals } from "../contexts/Globals";
+import { usePostContext } from "../contexts/PostContext";
 import UserSession from "../components/UserSession";
 import PreviewStory from "../components/PreviewStory";
 import DisplayStory from "../components/DisplayStory";
 import GroupsBar from "../components/GroupsBar";
+import EditPost from "../components/EditPost";
 
 const MainPage = () => {
   const { isValidJWT, windowWidth } = useGlobals();
+  const { editPost } = usePostContext();
   return (
     <>
+      {editPost && <EditPost />}
       {!isValidJWT && <UserSession />}
       <div className="mainPage">
         <div className="navComponent">

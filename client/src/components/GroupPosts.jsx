@@ -27,7 +27,6 @@ const GroupPosts = () => {
   } = usePostContext();
   const { divRef, selectedGroup, access } = useGroupContext();
   const [prevScrollTop, setPrevScrollTop] = useState(0);
-  const [componentDidMount, setComponentDidMount] = useState(true);
   const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const GroupPosts = () => {
     if (currentDivRef) {
       const scrollHandler = () => {
         handleScroll(divRef, prevScrollTop, setPrevScrollTop, setGroupPostPage);
-        console.log("scroll");
       };
       currentDivRef.addEventListener("scroll", scrollHandler);
 
@@ -61,7 +59,14 @@ const GroupPosts = () => {
   }, [selectedGroup]);
 
   useEffect(() => {
-    console.log("ids called");
+    return () => {
+      setGroupPostArray([]);
+      setGroupPostIds([]);
+      setGroupPostPage(0);
+    };
+  }, []);
+
+  useEffect(() => {
     fetchPostDetails(
       groupPostIds,
       0,
@@ -74,7 +79,6 @@ const GroupPosts = () => {
 
   useEffect(() => {
     if (groupPostPage !== 0) {
-      console.log("called");
       fetchPostDetails(
         groupPostIds,
         groupPostPage,
