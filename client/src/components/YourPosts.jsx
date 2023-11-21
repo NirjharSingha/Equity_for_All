@@ -50,6 +50,7 @@ const YourPosts = () => {
     return () => {
       setYourPostPage(0);
       setYourPostArray([]);
+      setYourPostIds([]);
     };
   }, []);
 

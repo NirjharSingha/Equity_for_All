@@ -8,10 +8,6 @@ import AlertMessage from "./AlertMessage";
 import GroupStream from "./GroupStream";
 
 const Group = () => {
-  useEffect(() => {
-    console.log("group component loaded");
-  }, []);
-
   const {
     showCreateGroup,
     isGroupPost,
@@ -21,8 +17,16 @@ const Group = () => {
     isEditGroup,
     divRef,
     selectedGroup,
+    setSelectedGroup,
     access,
   } = useGroupContext();
+
+  useEffect(() => {
+    console.log("group component loaded");
+    return () => {
+      setSelectedGroup(null);
+    };
+  }, []);
 
   return (
     <div className="homeDiv">

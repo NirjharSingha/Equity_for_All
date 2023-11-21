@@ -28,7 +28,6 @@ const CreatePost = () => {
     setAlertMessage,
     showYourPost,
     divRef,
-    setGroupPostArray,
   } = usePostContext();
   const inputRef = useRef(null);
 
@@ -152,10 +151,7 @@ const CreatePost = () => {
               setShowYourPost(true);
             }
           } else {
-            setGroupPostArray((prevPosts) => [
-              response.data.post,
-              ...prevPosts,
-            ]);
+            setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
           }
           setIsGroupPost(false);
         }

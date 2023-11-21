@@ -4,10 +4,16 @@ import EditPost from "./EditPost";
 import { usePostContext } from "../contexts/PostContext";
 import OtherPosts from "./OtherPosts";
 import YourPosts from "./YourPosts";
+import { useEffect } from "react";
 
 const Posts = () => {
   const { showYourPost, setShowYourPost } = usePostContext();
   // const { editPost } = usePostContext();
+  useEffect(() => {
+    return () => {
+      setShowYourPost(false);
+    };
+  }, []);
 
   return (
     <div className="postDiv">

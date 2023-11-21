@@ -14,6 +14,7 @@ import getOtherPostIDs from "../controllers/post/otherPostIDs.js";
 import yourPostIDs from "../controllers/post/yourPostIDs.js";
 import getCommentIds from "../controllers/post/getCommentIds.js";
 import getSharedPost from "../controllers/post/getSharedPost.js";
+import groupPostIDs from "../controllers/post/groupPostIDs.js";
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.put("/postOptions/createComment", verifyJWT, createComment);
 router.put("/postOptions/editOrDeleteComment", verifyJWT, editOrDeleteComment);
 router.get("/getOtherPostIDs", verifyJWT, getOtherPostIDs);
 router.get("/getYourPostIDs", verifyJWT, yourPostIDs);
+router.get("/getGroupPostIDs/:groupId", groupPostIDs);
 router.get("/postOptions/getComments/:postId", verifyJWT, getComments);
 router.get("/postOptions/getCommentIds/:postId", verifyJWT, getCommentIds);
 router.delete("/deletePost/:postId", verifyJWT, deletePost);
