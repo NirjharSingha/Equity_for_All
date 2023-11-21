@@ -3,7 +3,7 @@ import Post from "../../models/Post.js";
 
 const createPost = asyncHandler(async (req, res) => {
   const userEmail = req.email;
-  const { postDescription, postCategory, createdAt } = req.body;
+  const { postDescription, postCategory, createdAt, group } = req.body;
 
   let postAttachments = [];
 
@@ -21,6 +21,7 @@ const createPost = asyncHandler(async (req, res) => {
     postAttachments,
     postCategory,
     createdAt,
+    group,
   });
 
   await post.save();

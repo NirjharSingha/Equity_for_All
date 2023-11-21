@@ -19,7 +19,7 @@ const CreatePost = () => {
   const [postCategory, setPostCategory] = useState("public");
   const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
-  const { isGroupPost, setIsGroupPost } = useGroupContext();
+  const { isGroupPost, setIsGroupPost, selectedGroup } = useGroupContext();
   const {
     setYourPostArray,
     selectedPost,
@@ -27,6 +27,8 @@ const CreatePost = () => {
     setShowAlert,
     setAlertMessage,
     showYourPost,
+    divRef,
+    setGroupPostArray,
   } = usePostContext();
   const inputRef = useRef(null);
 
@@ -80,6 +82,11 @@ const CreatePost = () => {
 
     if (!editPost) {
       postData.append("createdAt", new Date(Date.now()).toLocaleString());
+      if (isGroupPost) {
+        postData.append("group", selectedGroup._id);
+      } else {
+        postData.append("group", "");
+      }
     }
 
     if (editPost) {
@@ -124,38 +131,54 @@ const CreatePost = () => {
           }
         );
       }
-      if (response.status === 201) {
-        console.log("post created");
-        setInputValue("");
-        setSelectedFiles([]);
-        setPostCategory("public");
-        setAlertMessage("Post created successfully");
-        setShowAlert(true);
-        if (showYourPost) {
-          setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
-        } else {
-          setShowYourPost(true);
+      if (response) {
+        if (response.status === 201) {
+          console.log("post created");
+          setInputValue("");
+          setSelectedFiles([]);
+          setPostCategory("public");
+          setAlertMessage("Post created successfully");
+          setShowAlert(true);
+          if (!isGroupPost) {
+            divRef.current.scrollTop = 0;
+          }
+          if (!isGroupPost) {
+            if (showYourPost) {
+              setYourPostArray((prevPosts) => [
+                response.data.post,
+                ...prevPosts,
+              ]);
+            } else {
+              setShowYourPost(true);
+            }
+          } else {
+            setGroupPostArray((prevPosts) => [
+              response.data.post,
+              ...prevPosts,
+            ]);
+          }
+          setIsGroupPost(false);
         }
-      }
-      if (response.status === 200) {
-        if (isDeleted && selectedPost.postAttachments.length !== 0) {
-          deleteFile(selectedPost.postAttachments);
-        } else {
-          console.log("no attachment to delete");
-        }
-        console.log("post updated successfully");
-        const updatedPost = response.data.updatedPost;
+        if (response.status === 200) {
+          if (isDeleted && selectedPost.postAttachments.length !== 0) {
+            deleteFile(selectedPost.postAttachments);
+          } else {
+            console.log("no attachment to delete");
+          }
+          console.log("post updated successfully");
+          const updatedPost = response.data.updatedPost;
 
-        setYourPostArray((prevPosts) => {
-          return prevPosts.map((post) => {
-            return post._id === updatedPost._id ? { ...updatedPost } : post;
+          setYourPostArray((prevPosts) => {
+            return prevPosts.map((post) => {
+              return post._id === updatedPost._id ? { ...updatedPost } : post;
+            });
           });
-        });
-        setEditPost(false);
-        setIsGroupPost(false);
+          setEditPost(false);
+          setIsGroupPost(false);
 
-        setAlertMessage("Post updated successfully");
-        setShowAlert(true);
+          setAlertMessage("Post updated successfully");
+          setShowAlert(true);
+        }
       }
     } catch (error) {
       if (

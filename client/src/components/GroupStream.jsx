@@ -20,6 +20,7 @@ const GroupStream = () => {
   const handleClick = () => {
     setIsGroupPost(true);
   };
+
   return (
     <div className="grpStream">
       {(access === 1 || access === 2) && (

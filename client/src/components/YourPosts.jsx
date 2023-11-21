@@ -23,8 +23,8 @@ const YourPosts = () => {
     showAlert,
     setShowAlert,
     alertMessage,
+    divRef,
   } = usePostContext();
-  const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [componentDidMount, setComponentDidMount] = useState(true);
   const [showLoading, setShowLoading] = useState(true);

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useRef } from "react";
 import axios from "axios";
 
 const PostContext = createContext();
@@ -24,6 +24,7 @@ const PostContextProvider = ({ children }) => {
   const [shouldFetchOtherPostIds, setShouldFetchOtherPostIds] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const divRef = useRef(null);
 
   const fetchPostDetails = async (
     postIds,
@@ -161,6 +162,7 @@ const PostContextProvider = ({ children }) => {
         setGroupPostPage,
         groupPostIds,
         setGroupPostIds,
+        divRef,
       }}
     >
       {children}
