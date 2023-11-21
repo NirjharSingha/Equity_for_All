@@ -14,8 +14,8 @@ const CreateGroup = () => {
   const {
     setShowCreateGroup,
     setGroupsYouCreated,
-    setShowAlert,
-    setAlertMessage,
+    setShowAlertMsg,
+    setAlertMsg,
     isEditGroup,
     setIsEditGroup,
     groupToEdit,
@@ -116,8 +116,8 @@ const CreateGroup = () => {
           console.log("group created successfully");
           setShowCreateGroup(false);
           setGroupsYouCreated((prev) => [...prev, response.data.group]);
-          setAlertMessage("Group Created successfully");
-          setShowAlert(true);
+          setAlertMsg("Group Created successfully");
+          setShowAlertMsg(true);
         } else {
           if (!isFirst && groupToEdit.groupImage !== "") {
             deleteFile([groupToEdit.groupImage]);
@@ -131,8 +131,8 @@ const CreateGroup = () => {
                 : group
             )
           );
-          setAlertMessage("Group updated successfully");
-          setShowAlert(true);
+          setAlertMsg("Group updated successfully");
+          setShowAlertMsg(true);
         }
       }
     } catch (error) {

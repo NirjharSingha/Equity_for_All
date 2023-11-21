@@ -10,7 +10,7 @@ const GroupStream = () => {
     setIsGroupPost,
     isGroupPost,
     showAlert,
-    setShowAlert,
+    setShowAlertMsg,
     alertMessage,
     isEditGroup,
     access,

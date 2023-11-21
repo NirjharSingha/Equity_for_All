@@ -51,6 +51,7 @@ const YourPosts = () => {
       setYourPostPage(0);
       setYourPostArray([]);
       setYourPostIds([]);
+      setShowAlert(false);
     };
   }, []);
 

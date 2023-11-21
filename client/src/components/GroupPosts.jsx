@@ -21,11 +21,15 @@ const GroupPosts = () => {
     handleScroll,
     fetchPostIds,
     postPerPage,
-    showAlert,
-    setShowAlert,
-    alertMessage,
   } = usePostContext();
-  const { divRef, selectedGroup, access } = useGroupContext();
+  const {
+    divRef,
+    selectedGroup,
+    access,
+    showAlert,
+    setShowAlertMsg,
+    alertMessage,
+  } = useGroupContext();
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [showLoading, setShowLoading] = useState(true);
 
@@ -94,9 +98,6 @@ const GroupPosts = () => {
 
   return (
     <div>
-      {showAlert && (
-        <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
-      )}
       {access !== 0 &&
         yourPostArray.map(
           (post) =>

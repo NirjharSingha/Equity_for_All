@@ -12,7 +12,7 @@ const Group = () => {
     showCreateGroup,
     isGroupPost,
     showAlert,
-    setShowAlert,
+    setShowAlertMsg,
     alertMessage,
     isEditGroup,
     divRef,
@@ -25,19 +25,20 @@ const Group = () => {
     console.log("group component loaded");
     return () => {
       setSelectedGroup(null);
+      setShowAlertMsg(false);
     };
   }, []);
 
   return (
     <div className="homeDiv">
+      {showAlert && (
+        <AlertMessage alertMessage={alertMessage} setState={setShowAlertMsg} />
+      )}
       {selectedGroup === null && (
         <p className="selectGroupText">Select a group to view details</p>
       )}
       {(showCreateGroup || isEditGroup) && <CreateGroup />}
       {isGroupPost && <EditPost />}
-      {showAlert && (
-        <AlertMessage alertMessage={alertMessage} setState={setShowAlert} />
-      )}
       {selectedGroup !== null && (
         <div className="groupContainer" ref={divRef}>
           <img

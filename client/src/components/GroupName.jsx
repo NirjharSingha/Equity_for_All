@@ -19,8 +19,8 @@ const GroupName = ({ group, flag }) => {
     setReqSent,
     setInvitationReceived,
     setSuggestGroups,
-    setShowAlert,
-    setAlertMessage,
+    setShowAlertMsg,
+    setAlertMsg,
     setIsEditGroup,
     setGroupToEdit,
     selectedGroup,
@@ -52,15 +52,15 @@ const GroupName = ({ group, flag }) => {
       );
       if (response.status == 200) {
         if (action === "remove" && option === "allMembers") {
-          setAlertMessage(`You left the group ${groupName}`);
+          setAlertMsg(`You left the group ${groupName}`);
           setGroupsYouJoined((prev) =>
             prev.filter((group) => group._id !== _id)
           );
         } else if (action === "remove" && option === "reqReceived") {
-          setAlertMessage(`Request canceled`);
+          setAlertMsg(`Request canceled`);
           setReqSent((prev) => prev.filter((group) => group._id !== _id));
         } else if (action === "add" && option === "reqReceived") {
-          setAlertMessage(
+          setAlertMsg(
             `Request sent successfully. When the admin accepts it, you'll be a member of the group.`
           );
           setReqSent((prev) => [...prev, group]);
@@ -71,7 +71,7 @@ const GroupName = ({ group, flag }) => {
         } else if (action === "remove" && option === "suggessions") {
           setSuggestGroups((prev) => prev.filter((group) => group._id !== _id));
         }
-        setShowAlert(true);
+        setShowAlertMsg(true);
       } else {
         console.log(response);
       }
@@ -103,8 +103,8 @@ const GroupName = ({ group, flag }) => {
         setGroupsYouCreated((prev) =>
           prev.filter((group) => group._id !== _id)
         );
-        setAlertMessage("Group deleted successfully");
-        setShowAlert(true);
+        setAlertMsg("Group deleted successfully");
+        setShowAlertMsg(true);
       } else {
         console.log(response);
       }
@@ -211,7 +211,7 @@ const GroupName = ({ group, flag }) => {
             className={`groupBarButton groupBarButton2`}
             style={{ justifySelf: "end" }}
             onClick={() => {
-              setAlertMessage("Invitation declined");
+              setAlertMsg("Invitation declined");
               handleAction("remove", "invitationSent");
             }}
           >

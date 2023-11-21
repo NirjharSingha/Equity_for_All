@@ -20,6 +20,7 @@ const CreatePost = () => {
   const { editPost, setEditPost } = usePostContext();
   const [isDeleted, setIsDeleted] = useState(false);
   const { isGroupPost, setIsGroupPost, selectedGroup } = useGroupContext();
+  const { setShowAlertMsg, setAlertMsg } = useGroupContext();
   const {
     setYourPostArray,
     selectedPost,
@@ -136,8 +137,13 @@ const CreatePost = () => {
           setInputValue("");
           setSelectedFiles([]);
           setPostCategory("public");
-          setAlertMessage("Post created successfully");
-          setShowAlert(true);
+          if (!isGroupPost) {
+            setAlertMessage("Post created successfully");
+            setShowAlert(true);
+          } else {
+            setAlertMsg("Post created successfully");
+            setShowAlertMsg(true);
+          }
           if (!isGroupPost) {
             divRef.current.scrollTop = 0;
           }
@@ -172,8 +178,13 @@ const CreatePost = () => {
           setEditPost(false);
           setIsGroupPost(false);
 
-          setAlertMessage("Post updated successfully");
-          setShowAlert(true);
+          if (selectedGroup === null) {
+            setAlertMessage("Post updated successfully");
+            setShowAlert(true);
+          } else {
+            setAlertMsg("Post updated successfully");
+            setShowAlertMsg(true);
+          }
         }
       }
     } catch (error) {

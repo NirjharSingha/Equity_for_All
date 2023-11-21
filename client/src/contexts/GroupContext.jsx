@@ -15,8 +15,8 @@ const GroupContextProvider = ({ children }) => {
   const [invitationReceived, setInvitationReceived] = useState([]);
   const [suggestedGroups, setSuggestGroups] = useState([]);
   const [fetchGroup, setFetchGroup] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlertMsg] = useState(false);
+  const [alertMessage, setAlertMsg] = useState("");
   const [isEditGroup, setIsEditGroup] = useState(false);
   const [groupToEdit, setGroupToEdit] = useState({});
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -43,9 +43,9 @@ const GroupContextProvider = ({ children }) => {
         suggestedGroups,
         setSuggestGroups,
         showAlert,
-        setShowAlert,
+        setShowAlertMsg,
         alertMessage,
-        setAlertMessage,
+        setAlertMsg,
         isEditGroup,
         setIsEditGroup,
         groupToEdit,

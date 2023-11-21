@@ -17,6 +17,7 @@ import LikesList from "./LikesList";
 import ConfirmWindow from "./ConfirmWindow";
 import { useFileContext } from "../contexts/FileContext";
 import { useGlobals } from "../contexts/Globals";
+import { useGroupContext } from "../contexts/GroupContext";
 import EditSideBar from "./EditSideBar";
 
 const PostCard = ({ post, shareFlag }) => {
@@ -39,6 +40,7 @@ const PostCard = ({ post, shareFlag }) => {
   const [showEdit, setShowEdit] = useState(false);
   const { setEditPost, setSelectedPost, setShowAlert, setAlertMessage } =
     usePostContext();
+  const { setShowAlertMsg, setAlertMsg, selectedGroup } = useGroupContext();
   const editContainerRef = useRef(null);
   const { setYourPostArray } = usePostContext();
   const [showLikesList, setShowLikesList] = useState(false);
@@ -99,8 +101,13 @@ const PostCard = ({ post, shareFlag }) => {
           return prevPosts.filter((post) => post._id !== response.data.id);
         });
 
-        setAlertMessage("Post deleted successfully");
-        setShowAlert(true);
+        if (selectedGroup === null) {
+          setAlertMessage("Post deleted successfully");
+          setShowAlert(true);
+        } else {
+          setAlertMsg("Post deleted successfully");
+          setShowAlertMsg(true);
+        }
       } else {
         console.log(response);
       }
