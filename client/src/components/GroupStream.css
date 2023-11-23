@@ -4,6 +4,42 @@
   margin-left: 0.45rem;
   margin-top: 0.8rem;
   border-radius: 0.3rem;
-  /* background-color: #f0f2f5; */
   background-color: white;
+}
+.grpMember {
+  display: grid;
+  align-items: center;
+  background-color: rgb(227, 224, 224);
+  border-radius: 0.3rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+  z-index: 100;
+}
+.grpMem {
+  height: 3rem;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  grid-column: 1;
+  z-index: 100;
+  border-radius: 0.3rem;
+  border-bottom-right-radius: 0;
+  background-color: rgb(227, 224, 224);
+}
+.grpMemBtn {
+  height: 2rem;
+  min-width: 4.5rem;
+  grid-column: 2;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(30, 150, 194);
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+.grpMemBtn:hover {
+  background-color: rgb(4, 102, 138);
+  cursor: pointer;
 }

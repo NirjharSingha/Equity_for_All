@@ -3,7 +3,6 @@ import "./Posts.css";
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import { usePostContext } from "../contexts/PostContext";
-import AlertMessage from "./AlertMessage";
 import Loading from "./Loading";
 import { useGlobals } from "../contexts/Globals";
 import { useGroupContext } from "../contexts/GroupContext";
@@ -22,14 +21,7 @@ const GroupPosts = () => {
     fetchPostIds,
     postPerPage,
   } = usePostContext();
-  const {
-    divRef,
-    selectedGroup,
-    access,
-    showAlert,
-    setShowAlertMsg,
-    alertMessage,
-  } = useGroupContext();
+  const { divRef, selectedGroup, access } = useGroupContext();
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [showLoading, setShowLoading] = useState(true);
 

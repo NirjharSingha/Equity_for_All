@@ -6,6 +6,7 @@ import getGroupNames from "../controllers/group/getGroupNames.js";
 import deleteGroup from "../controllers/group/deleteGroup.js";
 import addOrRemove from "../controllers/group/addOrRemove.js";
 import editGroup from "../controllers/group/editGroup.js";
+import allMembers from "../controllers/group/allMembers.js";
 
 const router = express.Router();
 router.post(
@@ -21,5 +22,6 @@ router.put(
 router.get("/groupNames", verifyJWT, getGroupNames);
 router.put("/addOrRemove", verifyJWT, addOrRemove);
 router.delete("/deleteGroup/:groupId", verifyJWT, deleteGroup);
+router.get("/allMembers/:groupId", verifyJWT, allMembers);
 
 export default router;

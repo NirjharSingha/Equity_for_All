@@ -43,7 +43,7 @@
   align-items: center;
   overflow: hidden;
   max-width: 100%;
-  background-color: rgb(243, 239, 236);
+  background-color: rgb(227, 224, 224);
   border-radius: 0.5rem;
   margin-top: 0.5rem;
   z-index: 100;
@@ -56,7 +56,7 @@
   align-items: center;
   overflow: hidden;
   max-width: 100%;
-  background-color: rgb(243, 239, 236);
+  background-color: rgb(227, 224, 224);
 }
 .groupItem2:hover {
   cursor: pointer;
@@ -71,7 +71,7 @@
   width: 100%;
   background-color: rgb(157, 162, 163);
   border: none;
-  border-radius: 0.3rem;
+  border-radius: 0.8rem;
   padding: 0.3rem;
   font-size: 1.05rem;
   font-weight: bold;
@@ -97,6 +97,6 @@
 }
 @keyframes slide-down {
   to {
-    transform: translateX(0%);
+    transform: translateY(0%);
   }
 }

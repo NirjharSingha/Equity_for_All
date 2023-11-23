@@ -21,6 +21,7 @@ const GroupContextProvider = ({ children }) => {
   const [groupToEdit, setGroupToEdit] = useState({});
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [access, setAccess] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("stream");
   const divRef = useRef(null);
 
   return (
@@ -55,6 +56,8 @@ const GroupContextProvider = ({ children }) => {
         setSelectedGroup,
         access,
         setAccess,
+        selectedOption,
+        setSelectedOption,
       }}
     >
       {children}

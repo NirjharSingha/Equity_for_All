@@ -94,3 +94,14 @@
   font-weight: bold;
   margin-top: 0.6rem;
 }
+.selectedGrpOption {
+  color: rgb(4, 102, 138);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  border: none;
+  border-bottom: 2px solid rgb(4, 102, 138);
+  background-color: white;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
