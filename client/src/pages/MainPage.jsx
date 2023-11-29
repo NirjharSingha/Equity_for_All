@@ -13,15 +13,70 @@ import FriendOptions from "../components/FriendOptions";
 import CreateStory from "../components/CreateStory";
 import { useGlobals } from "../contexts/Globals";
 import { usePostContext } from "../contexts/PostContext";
+import { useGroupContext } from "../contexts/GroupContext";
 import UserSession from "../components/UserSession";
 import PreviewStory from "../components/PreviewStory";
 import DisplayStory from "../components/DisplayStory";
 import GroupsBar from "../components/GroupsBar";
 import EditPost from "../components/EditPost";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const { isValidJWT, windowWidth } = useGlobals();
   const { editPost } = usePostContext();
+  const { groupsYouCreated, groupsYouJoined, selectedGroup, setAccess } =
+    useGroupContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let foundGroup = null;
+    console.log("inside access");
+
+    if (selectedGroup) {
+      for (let index = 0; index < groupsYouCreated.length; index++) {
+        const element = groupsYouCreated[index];
+        if (element._id === selectedGroup._id) {
+          foundGroup = element;
+          break;
+        }
+      }
+    }
+
+    if (foundGroup) {
+      setAccess(1);
+    } else {
+      if (selectedGroup) {
+        for (let index = 0; index < groupsYouJoined.length; index++) {
+          const element = groupsYouJoined[index];
+          if (element._id === selectedGroup._id) {
+            foundGroup = element;
+            break;
+          }
+        }
+      }
+
+      if (foundGroup) {
+        setAccess(2);
+      } else {
+        if (selectedGroup && selectedGroup.groupVisibility === "public") {
+          setAccess(3);
+        } else {
+          setAccess(0);
+        }
+      }
+    }
+
+    if (selectedGroup === null) {
+      if (windowWidth < 800) {
+        const currentUrl = window.location.href;
+        if (currentUrl === "http://localhost:5173/main/groups/id") {
+          navigate("/main/groups");
+        }
+      }
+    }
+  }, [selectedGroup]);
+
   return (
     <>
       {editPost && <EditPost />}
@@ -78,13 +133,30 @@ const MainPage = () => {
               path="/groups"
               element={
                 <>
-                  <div className="mainComponent">
-                    <Groups />
-                  </div>
-                  <div className="leftComponent">
-                    <GroupsBar />
-                  </div>
+                  {windowWidth >= 800 && (
+                    <>
+                      <div className="mainComponent">
+                        <Groups />
+                      </div>
+                      <div className="leftComponent">
+                        <GroupsBar />
+                      </div>
+                    </>
+                  )}
+                  {windowWidth < 800 && (
+                    <div className="mainComponent">
+                      <GroupsBar />
+                    </div>
+                  )}
                 </>
+              }
+            />
+            <Route
+              path="/groups/id"
+              element={
+                <div className="mainComponent">
+                  <Groups />
+                </div>
               }
             />
             <Route

@@ -3,11 +3,13 @@ import "./Groups.css";
 import { useEffect } from "react";
 import CreateGroup from "./CreateGroup";
 import { useGroupContext } from "../contexts/GroupContext";
+import { useGlobals } from "../contexts/Globals";
 import EditPost from "./EditPost";
 import AlertMessage from "./AlertMessage";
 import GroupStream from "./GroupStream";
 import GroupMembers from "./GroupMembers";
 import GroupRequests from "./GroupRequests";
+import { useNavigate } from "react-router-dom";
 
 const Group = () => {
   const {
@@ -24,28 +26,50 @@ const Group = () => {
     selectedOption,
     setSelectedOption,
   } = useGroupContext();
+  const { windowWidth } = useGlobals();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("group component loaded");
+    console.log(selectedGroup);
+    console.log("access " + access);
     return () => {
-      setSelectedGroup(null);
+      if (windowWidth >= 800) {
+        setSelectedGroup(null);
+      }
       setShowAlertMsg(false);
       setSelectedOption("stream");
     };
   }, []);
 
+  useEffect(() => {
+    if (windowWidth >= 800) {
+      const currentUrl = window.location.href;
+      if (currentUrl === "http://localhost:5173/main/groups/id") {
+        navigate("/main/groups");
+        setSelectedGroup(null);
+      }
+    }
+  }, [windowWidth]);
+
   return (
     <div className="homeDiv">
-      {showAlert && (
+      {/* {showAlert && (
         <AlertMessage alertMessage={alertMessage} setState={setShowAlertMsg} />
-      )}
+      )} */}
       {selectedGroup === null && (
         <p className="selectGroupText">Select a group to view details</p>
       )}
-      {(showCreateGroup || isEditGroup) && <CreateGroup />}
+      {/* {(showCreateGroup || isEditGroup) && <CreateGroup />} */}
       {isGroupPost && <EditPost />}
       {selectedGroup !== null && (
         <div className="groupContainer" ref={divRef}>
+          {showAlert && windowWidth >= 800 && (
+            <AlertMessage
+              alertMessage={alertMessage}
+              setState={setShowAlertMsg}
+            />
+          )}
           <img
             src={
               selectedGroup && selectedGroup.groupImage !== ""

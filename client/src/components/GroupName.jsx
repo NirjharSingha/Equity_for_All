@@ -7,12 +7,14 @@ import { useGroupContext } from "../contexts/GroupContext";
 import ConfirmWindow from "./ConfirmWindow";
 import jwtDecode from "jwt-decode";
 import { useFileContext } from "../contexts/FileContext";
+import { useNavigate } from "react-router-dom";
 
 const GroupName = ({ group, flag }) => {
   const [show, setShow] = useState(false);
   const { deleteFile } = useFileContext();
   const { _id, groupName, groupImage } = group;
-  const { setIsValidJWT } = useGlobals();
+  const { setIsValidJWT, windowWidth } = useGlobals();
+  const navigate = useNavigate();
   const {
     setGroupsYouCreated,
     setGroupsYouJoined,
@@ -71,7 +73,9 @@ const GroupName = ({ group, flag }) => {
         } else if (action === "remove" && option === "suggessions") {
           setSuggestGroups((prev) => prev.filter((group) => group._id !== _id));
         }
-        setShowAlertMsg(true);
+        if (windowWidth < 800 || selectedGroup !== null) {
+          setShowAlertMsg(true);
+        }
       } else {
         console.log(response);
       }
@@ -143,7 +147,15 @@ const GroupName = ({ group, flag }) => {
             : {}
         }
       >
-        <div className="groupItem2" onClick={() => setSelectedGroup(group)}>
+        <div
+          className="groupItem2"
+          onClick={() => {
+            setSelectedGroup(group);
+            if (windowWidth < 800) {
+              navigate("/main/groups/id");
+            }
+          }}
+        >
           <ItemCard
             containerClass="groupItem2"
             imgClass="storyProfilePic"

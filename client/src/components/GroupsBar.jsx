@@ -7,9 +7,13 @@ import GroupName from "./GroupName";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import CreateGroup from "./CreateGroup";
+import AlertMessage from "./AlertMessage";
 
 const GroupsBar = () => {
   const {
+    showCreateGroup,
+    isEditGroup,
     setShowCreateGroup,
     groupsYouCreated,
     setGroupsYouCreated,
@@ -21,50 +25,51 @@ const GroupsBar = () => {
     setInvitationReceived,
     suggestedGroups,
     setSuggestGroups,
-    selectedGroup,
-    access,
-    setAccess,
+    setShowAlertMsg,
+    alertMessage,
+    showAlert,
   } = useGroupContext();
   const [showLoading, setShowLoading] = useState(false);
-  const { setIsValidJWT } = useGlobals();
+  const { setIsValidJWT, windowWidth } = useGlobals();
 
-  useEffect(() => {
-    let foundGroup = null;
+  // useEffect(() => {
+  //   let foundGroup = null;
+  //   console.log("inside access");
 
-    if (selectedGroup) {
-      for (let index = 0; index < groupsYouCreated.length; index++) {
-        const element = groupsYouCreated[index];
-        if (element._id === selectedGroup._id) {
-          foundGroup = element;
-          break;
-        }
-      }
-    }
+  //   if (selectedGroup) {
+  //     for (let index = 0; index < groupsYouCreated.length; index++) {
+  //       const element = groupsYouCreated[index];
+  //       if (element._id === selectedGroup._id) {
+  //         foundGroup = element;
+  //         break;
+  //       }
+  //     }
+  //   }
 
-    if (foundGroup) {
-      setAccess(1);
-    } else {
-      if (selectedGroup) {
-        for (let index = 0; index < groupsYouJoined.length; index++) {
-          const element = groupsYouJoined[index];
-          if (element._id === selectedGroup._id) {
-            foundGroup = element;
-            break;
-          }
-        }
-      }
+  //   if (foundGroup) {
+  //     setAccess(1);
+  //   } else {
+  //     if (selectedGroup) {
+  //       for (let index = 0; index < groupsYouJoined.length; index++) {
+  //         const element = groupsYouJoined[index];
+  //         if (element._id === selectedGroup._id) {
+  //           foundGroup = element;
+  //           break;
+  //         }
+  //       }
+  //     }
 
-      if (foundGroup) {
-        setAccess(2);
-      } else {
-        if (selectedGroup && selectedGroup.groupVisibility === "public") {
-          setAccess(3);
-        } else {
-          setAccess(0);
-        }
-      }
-    }
-  }, [selectedGroup]);
+  //     if (foundGroup) {
+  //       setAccess(2);
+  //     } else {
+  //       if (selectedGroup && selectedGroup.groupVisibility === "public") {
+  //         setAccess(3);
+  //       } else {
+  //         setAccess(0);
+  //       }
+  //     }
+  //   }
+  // }, [selectedGroup]);
 
   const fetchGroupNames = async () => {
     try {
@@ -103,6 +108,10 @@ const GroupsBar = () => {
 
   return (
     <div className="groupsBar">
+      {showAlert && windowWidth < 800 && (
+        <AlertMessage alertMessage={alertMessage} setState={setShowAlertMsg} />
+      )}
+      {(showCreateGroup || isEditGroup) && <CreateGroup />}
       <div
         className="createGroupButton"
         onClick={() => setShowCreateGroup(true)}

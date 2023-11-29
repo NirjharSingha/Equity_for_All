@@ -100,3 +100,23 @@
     transform: translateY(0%);
   }
 }
+@media screen and (max-width: 1150px) {
+  .groupsBar {
+    max-width: 33vw;
+  }
+}
+@media screen and (max-width: 800px) {
+  .groupsBar {
+    max-width: 70vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .groupsBar {
+    max-width: 80vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .groupsBar {
+    max-width: 96vw;
+  }
+}

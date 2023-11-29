@@ -53,24 +53,22 @@ const GroupMembers = () => {
       {!showLoading &&
         allMembers &&
         allMembers.map((member) => (
-          <>
-            <div
-              className="grpMember"
-              style={access === 1 ? { gridTemplateColumns: "auto 5.5rem" } : {}}
-              key={member._id}
-            >
-              <ItemCard
-                containerClass="grpMem"
-                imgClass="storyProfilePic"
-                nameClass="optionListName"
-                shouldDisplayImg={member.profilePic !== ""}
-                imgSrc={member.profilePic}
-                icon="/profilePicIcon.svg"
-                name={member.name}
-              />
-              {access === 1 && <button className="grpMemBtn">Remove</button>}
-            </div>
-          </>
+          <div
+            className="grpMember"
+            style={access === 1 ? { gridTemplateColumns: "auto 5.5rem" } : {}}
+            key={member._id}
+          >
+            <ItemCard
+              containerClass="grpMem"
+              imgClass="storyProfilePic"
+              nameClass="optionListName"
+              shouldDisplayImg={member.profilePic !== ""}
+              imgSrc={member.profilePic}
+              icon="/profilePicIcon.svg"
+              name={member.name}
+            />
+            {access === 1 && <button className="grpMemBtn">Remove</button>}
+          </div>
         ))}
     </div>
   );

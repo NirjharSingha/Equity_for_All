@@ -20,8 +20,9 @@ const CreateGroup = () => {
     setIsEditGroup,
     groupToEdit,
     setGroupToEdit,
+    selectedGroup,
   } = useGroupContext();
-  const { setIsValidJWT } = useGlobals();
+  const { setIsValidJWT, windowWidth } = useGlobals();
   const { deleteFile } = useFileContext();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState({});
@@ -116,8 +117,10 @@ const CreateGroup = () => {
           console.log("group created successfully");
           setShowCreateGroup(false);
           setGroupsYouCreated((prev) => [...prev, response.data.group]);
-          setAlertMsg("Group Created successfully");
-          setShowAlertMsg(true);
+          if (windowWidth < 800 || selectedGroup !== null) {
+            setAlertMsg("Group Created successfully");
+            setShowAlertMsg(true);
+          }
         } else {
           if (!isFirst && groupToEdit.groupImage !== "") {
             deleteFile([groupToEdit.groupImage]);
@@ -131,8 +134,10 @@ const CreateGroup = () => {
                 : group
             )
           );
-          setAlertMsg("Group updated successfully");
-          setShowAlertMsg(true);
+          if (windowWidth < 800 || selectedGroup !== null) {
+            setAlertMsg("Group updated successfully");
+            setShowAlertMsg(true);
+          }
         }
       }
     } catch (error) {
