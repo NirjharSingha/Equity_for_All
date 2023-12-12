@@ -349,7 +349,9 @@ const PostCard = ({ post, shareFlag }) => {
             onMouseEnter={() => {
               setMouseOnAllLikes(true);
             }}
-            onMouseLeave={() => setMouseOnAllLikes(false)}
+            onMouseLeave={() => {
+              setMouseOnAllLikes(false);
+            }}
           >
             {shouldDisplayAllLikes && (mouseOnAllLikes || mouseOnLike) && (
               <AllLikes
@@ -375,7 +377,10 @@ const PostCard = ({ post, shareFlag }) => {
                   setShouldDisplayAllLikes(true);
                 }}
                 onMouseLeave={handleMouseLeaveFromLike}
-                onClick={() => setSelected("")}
+                onClick={() => {
+                  setSelected("");
+                  setShouldDisplayAllLikes((prev) => !prev);
+                }}
               >
                 {selected === "like" ? (
                   <AiFillLike className="iconFlex blue" />

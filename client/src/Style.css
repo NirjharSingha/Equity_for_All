@@ -116,3 +116,15 @@
     width: 100vw;
   }
 }
+@media screen and (max-width: 800px) {
+  .outerBlurContainer {
+    width: 100vw;
+    left: 0;
+  }
+}
+@media screen and (max-width: 500px) {
+  .outerBlurContainer {
+    height: calc(100vh - 6.45rem);
+    top: 3.05rem;
+  }
+}

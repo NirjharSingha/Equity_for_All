@@ -36,3 +36,9 @@
   color: white;
   font-weight: bold;
 }
+
+@media screen and (max-width: 600px) {
+  .createStoryCard {
+    min-width: 10rem;
+  }
+}

@@ -53,3 +53,28 @@
     left: 60vw;
   }
 }
+@media screen and (max-width: 800px) {
+  .shareComponent {
+    width: 45vw;
+    left: 50vw;
+  }
+}
+@media screen and (max-width: 560px) {
+  .shareComponent {
+    width: 55vw;
+    left: 40vw;
+  }
+  .shareOptionIcon {
+    width: 43px;
+    height: 43px;
+  }
+  .shareOptionDiv span {
+    font-size: 0.8rem;
+  }
+}
+@media screen and (max-width: 420px) {
+  .shareComponent {
+    width: 65vw;
+    left: 30vw;
+  }
+}

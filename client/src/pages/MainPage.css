@@ -93,4 +93,11 @@ body {
   .mainPage {
     grid-template-rows: 3rem calc(100vh - 6.4rem) 3.4rem;
   }
+  .mainContainer {
+    grid-template-rows: calc(100vh - 6.4rem);
+  }
+  .friendMain {
+    min-height: calc(100vh - 6.5rem);
+    max-height: calc(100vh - 6.5rem);
+  }
 }

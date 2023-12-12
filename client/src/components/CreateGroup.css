@@ -59,14 +59,23 @@
   .CreateGroup {
     width: 50vw;
   }
+  .createGroupBtn {
+    min-width: calc(50vw - 2.4rem);
+  }
 }
 @media screen and (max-width: 600px) {
   .CreateGroup {
     width: 70vw;
   }
+  .createGroupBtn {
+    min-width: calc(70vw - 2.4rem);
+  }
 }
 @media screen and (max-width: 500px) {
   .CreateGroup {
     width: 96vw;
+  }
+  .createGroupBtn {
+    min-width: calc(96vw - 2.4rem);
   }
 }

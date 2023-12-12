@@ -401,6 +401,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
               onMouseLeave={handleMouseLeaveFromLike}
               onClick={() => {
                 setSelectedLike("");
+                setShouldDisplayAllLikes((prev) => !prev);
               }}
             >
               {selectedLike === "like" ? (

@@ -16,8 +16,8 @@ import GroupContextProvider from "./contexts/GroupContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
     <Auth0Provider
-      domain="dev-xjdn44xqcb3pgmhc.us.auth0.com"
-      clientId="5ZGKvK4sC3pEM4qjRdZOHbrcMFW71AfN"
+      domain={import.meta.env.VITE_AUTH_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH_CLIENT}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}

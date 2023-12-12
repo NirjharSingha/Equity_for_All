@@ -217,3 +217,58 @@
 .postUserName::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 570px) {
+  .postCard {
+    grid-template-rows: 2.6rem auto 1.7rem 1.7rem 1.3rem;
+  }
+  .postUserName {
+    font-size: 1.1rem;
+  }
+  .postTime {
+    font-size: 0.8rem;
+  }
+  .postUserProfilePic {
+    height: 2.6rem;
+    width: 2.6rem;
+  }
+  .shareIcon span {
+    font-size: 0.9rem;
+  }
+  .postOptionText {
+    font-size: 0.9rem;
+  }
+  .commentIcon span {
+    font-size: 0.9rem;
+  }
+  .seeMoreButton,
+  .postOptionCountText,
+  .postContent p {
+    font-size: 0.9rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .postCard {
+    grid-template-rows: 2.6rem auto 1.7rem 1.7rem 1.3rem;
+  }
+  .postUserName {
+    font-size: 1rem;
+  }
+  .postTime {
+    font-size: 0.75rem;
+  }
+  .shareIcon span {
+    font-size: 0.7rem;
+  }
+  .postOptionText {
+    font-size: 0.7rem;
+  }
+  .commentIcon span {
+    font-size: 0.7rem;
+  }
+  .seeMoreButton,
+  .postOptionCountText,
+  .postContent p {
+    font-size: 0.7rem;
+  }
+}

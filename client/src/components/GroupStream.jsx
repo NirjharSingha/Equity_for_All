@@ -24,7 +24,10 @@ const GroupStream = () => {
   return (
     <div className="grpStream">
       {(access === 1 || access === 2) && (
-        <CreatePostCard handleClick={handleClick} />
+        <CreatePostCard
+          handleClick={handleClick}
+          message={"Create post in this group"}
+        />
       )}
       {access === 3 && (
         <p

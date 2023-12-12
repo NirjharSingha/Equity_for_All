@@ -32,3 +32,8 @@
     padding-left: 3px;
   }
 }
+@media screen and (max-width: 500px) {
+  .friendDiv {
+    max-height: calc(100vh - 10.3rem);
+  }
+}

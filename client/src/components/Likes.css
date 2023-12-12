@@ -37,3 +37,29 @@
     width: 21.3vw;
   }
 }
+@media screen and (max-width: 800px) {
+  .allLikesContainer {
+    width: 29vw;
+  }
+}
+@media screen and (max-width: 700px) {
+  .allLikesContainer {
+    width: 30vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .allLikesContainer {
+    width: 31.5vw;
+    min-width: 128px;
+  }
+}
+@media screen and (max-width: 570px) {
+  .iconFlex {
+    font-size: 1.2rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .iconFlex {
+    font-size: 1rem;
+  }
+}

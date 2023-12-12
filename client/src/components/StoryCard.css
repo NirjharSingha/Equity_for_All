@@ -50,3 +50,12 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+@media screen and (max-width: 600px) {
+  .storyCard {
+    min-width: 10rem;
+  }
+  .storySpan p {
+    font-size: 0.9rem;
+  }
+}

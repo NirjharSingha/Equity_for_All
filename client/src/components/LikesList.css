@@ -96,3 +96,36 @@
     min-width: 8.5vw;
   }
 }
+@media screen and (max-width: 750px) {
+  .optionListContainer {
+    width: 40vw;
+  }
+  .horizontalBar {
+    max-width: 40vw;
+  }
+  .horizontalItemContainer {
+    min-width: 10vw;
+  }
+}
+@media screen and (max-width: 650px) {
+  .optionListContainer {
+    width: 55vw;
+  }
+  .horizontalBar {
+    max-width: 55vw;
+  }
+  .horizontalItemContainer {
+    min-width: 13.75vw;
+  }
+}
+@media screen and (max-width: 450px) {
+  .optionListContainer {
+    width: 70vw;
+  }
+  .horizontalBar {
+    max-width: 70vw;
+  }
+  .horizontalItemContainer {
+    min-width: 17.5vw;
+  }
+}

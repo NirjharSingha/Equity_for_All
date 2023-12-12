@@ -17,7 +17,8 @@
   height: 2.2rem;
   min-height: 2.2rem;
   border-radius: 50%;
-  background-color: aqua;
+  background-color: rgb(14, 134, 134);
+  border: 1px solid white;
   margin-right: 0.4rem;
 }
 .postCardInput {
@@ -35,4 +36,11 @@
 }
 .postCardInput:hover {
   background-color: #e4e6eb;
+}
+.createPostMessage {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #4f5154;
 }

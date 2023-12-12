@@ -79,3 +79,8 @@
     padding: 0;
   }
 }
+@media screen and (max-width: 600px) {
+  .friendButtonText {
+    font-size: 0.9rem;
+  }
+}

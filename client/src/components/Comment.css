@@ -105,3 +105,37 @@
     left: calc(33.33vw + 2px);
   }
 }
+@media screen and (max-width: 800px) {
+  .commentContainer {
+    width: 90vw;
+    left: 5vw;
+  }
+}
+@media screen and (max-width: 700px) {
+  .commentContainer {
+    width: 94vw;
+    left: 3vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .commentContainer {
+    width: 98vw;
+    left: 1vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .commentContainer {
+    height: calc(100vh - 6.45rem);
+    bottom: 3.4rem;
+  }
+  .writeAComment {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .level_1 {
+    margin-left: 0.5rem;
+  }
+  .level_2 {
+    margin-left: 0.5rem;
+  }
+}
