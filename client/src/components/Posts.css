@@ -54,3 +54,24 @@
   background-color: rgb(156, 246, 246);
   border-bottom: 3px solid rgb(4, 92, 119);
 }
+
+@media screen and (max-width: 800px) {
+  .postDiv {
+    width: 90vw;
+  }
+}
+@media screen and (max-width: 700px) {
+  .postDiv {
+    width: 94vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .postDiv {
+    width: 98vw;
+  }
+}
+@media screen and (max-width: 530px) {
+  .postDiv {
+    width: 100vw;
+  }
+}

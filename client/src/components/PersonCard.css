@@ -76,3 +76,26 @@
     max-width: 20vw;
   }
 }
+@media screen and (max-width: 800px) {
+  .personCardContainer {
+    width: 31.5vw;
+  }
+  .personImg {
+    width: 30.5vw;
+  }
+  .personCardButton {
+    width: 30.5vw;
+  }
+  .personName {
+    max-width: 29.5vw;
+  }
+  .personText {
+    max-width: 29.5vw;
+  }
+  .personImg {
+    height: 26vh;
+  }
+  .personCardButton {
+    height: 2.3rem;
+  }
+}

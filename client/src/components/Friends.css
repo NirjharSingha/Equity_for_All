@@ -23,3 +23,12 @@
 .friendLoading {
   grid-column: 1 / span 3;
 }
+
+@media screen and (max-width: 800px) {
+  .friendDiv {
+    max-height: calc(100vh - 12rem);
+  }
+  .friendContainer {
+    padding-left: 3px;
+  }
+}

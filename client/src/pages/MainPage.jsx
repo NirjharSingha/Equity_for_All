@@ -14,6 +14,7 @@ import CreateStory from "../components/CreateStory";
 import { useGlobals } from "../contexts/Globals";
 import { usePostContext } from "../contexts/PostContext";
 import { useGroupContext } from "../contexts/GroupContext";
+import { useFriendContext } from "../contexts/FriendContext";
 import UserSession from "../components/UserSession";
 import PreviewStory from "../components/PreviewStory";
 import DisplayStory from "../components/DisplayStory";
@@ -28,6 +29,7 @@ const MainPage = () => {
   const { groupsYouCreated, groupsYouJoined, selectedGroup, setAccess } =
     useGroupContext();
   const navigate = useNavigate();
+  const { divRef } = useFriendContext();
 
   useEffect(() => {
     let foundGroup = null;
@@ -102,9 +104,11 @@ const MainPage = () => {
                   <div className="mainComponent">
                     <Home />
                   </div>
-                  <div className="leftComponent">
-                    <Profile profileCode={0} />
-                  </div>
+                  {windowWidth >= 800 && (
+                    <div className="leftComponent">
+                      <Profile profileCode={0} />
+                    </div>
+                  )}
                 </>
               }
             />
@@ -121,11 +125,16 @@ const MainPage = () => {
               element={
                 <>
                   <div className="mainComponent">
-                    <Friends />
+                    <div className="friendMain" ref={divRef}>
+                      {windowWidth < 800 && <FriendOptions />}
+                      <Friends />
+                    </div>
                   </div>
-                  <div className="leftComponent">
-                    <FriendOptions />
-                  </div>
+                  {windowWidth >= 800 && (
+                    <div className="leftComponent">
+                      <FriendOptions />
+                    </div>
+                  )}
                 </>
               }
             />

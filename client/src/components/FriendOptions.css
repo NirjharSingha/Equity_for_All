@@ -65,3 +65,17 @@
 .friendCount::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 800px) {
+  .friendOptionsContainer {
+    max-width: 98vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    height: 3.2rem;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 900;
+    padding: 0;
+  }
+}

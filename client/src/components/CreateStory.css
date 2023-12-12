@@ -192,3 +192,9 @@
   background-color: rgb(30, 150, 194);
   cursor: pointer;
 }
+
+@media screen and (max-width: 1150px) {
+  .storyDescription {
+    width: 32vw;
+  }
+}

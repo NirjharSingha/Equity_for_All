@@ -19,6 +19,7 @@ const FriendContextProvider = ({ children }) => {
   const [selectedOption, setSelectedOption] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const divRef = useRef(null);
 
   return (
     <FriendContext.Provider
@@ -46,6 +47,7 @@ const FriendContextProvider = ({ children }) => {
         setShowAlert,
         alertMessage,
         setAlertMessage,
+        divRef,
       }}
     >
       {children}

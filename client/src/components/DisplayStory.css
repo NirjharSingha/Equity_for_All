@@ -141,3 +141,52 @@
   min-height: 3.2rem;
   min-width: 3.2rem;
 }
+
+@media screen and (max-width: 1050px) {
+  .displayStory {
+    width: 42vw;
+  }
+}
+@media screen and (max-width: 900px) {
+  .displayStory {
+    width: 48vw;
+  }
+}
+@media screen and (max-width: 750px) {
+  .displayStory {
+    width: 55vw;
+  }
+  .storyArrawButton:hover {
+    cursor: pointer;
+    min-height: 2.7rem;
+    min-width: 2.7rem;
+  }
+}
+@media screen and (max-width: 570px) {
+  .displayStory {
+    width: 60vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .displayStory {
+    width: 70vw;
+  }
+}
+@media screen and (max-width: 430px) {
+  .displayStoryContainer {
+    justify-content: space-between;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+  }
+  .displayStory {
+    width: 80vw;
+  }
+  .storyArrawButton {
+    min-height: 2.3rem;
+    min-width: 2.3rem;
+  }
+  .storyArrawButton:hover {
+    min-height: 2.3rem;
+    min-width: 2.3rem;
+  }
+}

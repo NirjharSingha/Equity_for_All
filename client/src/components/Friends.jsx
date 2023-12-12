@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "./Friends.css";
 import { useEffect } from "react";
 import PersonCard from "./PersonCard";
@@ -34,6 +34,7 @@ const Friends = () => {
     showAlert,
     setShowAlert,
     alertMessage,
+    divRef,
   } = useFriendContext();
 
   const [flags, setFlags] = useState({
@@ -45,7 +46,6 @@ const Friends = () => {
 
   const [idToDisplay, setIdToDisplay] = useState([]);
   const [page, setPage] = useState(0);
-  const divRef = useRef(null);
   const [prevScrollTop, setPrevScrollTop] = useState(0);
   const [cardPerPage] = useState(7);
   const [showLoading, setShowLoading] = useState(true);
@@ -286,19 +286,33 @@ const Friends = () => {
     }
   }, []);
 
-  const handleScroll = (divRef, prevScrollTop, setPrevScrollTop) => {
-    const currentScrollTop = divRef.current.scrollTop;
-    if (currentScrollTop > prevScrollTop) {
-      if (
-        divRef.current.scrollHeight -
-          divRef.current.scrollTop -
-          divRef.current.clientHeight <
-        1
-      ) {
-        setPage((prev) => prev + 1);
-      }
+  useEffect(() => {
+    if (
+      divRef !== null &&
+      divRef.current !== null &&
+      divRef.current.scrollTop != null
+    ) {
+      divRef.current.scrollTop = 0;
     }
-    setPrevScrollTop(currentScrollTop);
+  }, [selectedOption]);
+
+  const handleScroll = (divRef, prevScrollTop, setPrevScrollTop) => {
+    if (divRef.current) {
+      const currentScrollTop = divRef.current.scrollTop;
+      if (currentScrollTop !== null) {
+        if (currentScrollTop > prevScrollTop) {
+          if (
+            divRef.current.scrollHeight -
+              divRef.current.scrollTop -
+              divRef.current.clientHeight <
+            1
+          ) {
+            setPage((prev) => prev + 1);
+          }
+        }
+      }
+      setPrevScrollTop(currentScrollTop);
+    }
   };
 
   return (
@@ -308,7 +322,7 @@ const Friends = () => {
       )}
       {selectedOption === 7 && <BirthDays />}
       {selectedOption !== 7 && (
-        <div className="friendContainer" ref={divRef}>
+        <div className="friendContainer">
           {idToDisplay.map((id) => (
             <div key={id} className="personFlex">
               <PersonCard email={id} />

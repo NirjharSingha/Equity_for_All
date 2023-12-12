@@ -63,6 +63,11 @@ body {
   width: 100%;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
+.friendMain {
+  min-height: calc(100vh - 8.1rem);
+  max-height: calc(100vh - 8.1rem);
+  overflow-y: auto;
+}
 
 @media screen and (max-width: 1150px) {
   .mainContainer {
@@ -78,6 +83,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .doubleColumn {
+    grid-column: 1 / span 1;
+    grid-template-columns: 1fr;
   }
 }
 @media screen and (max-width: 500px) {
