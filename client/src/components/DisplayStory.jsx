@@ -13,6 +13,7 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import ConfirmWindow from "./ConfirmWindow";
 import axios from "axios";
 import { useFileContext } from "../contexts/FileContext";
+import { useGlobals } from "../contexts/Globals";
 import EditSideBar from "./EditSideBar";
 
 const DisplayStory = () => {
@@ -36,6 +37,7 @@ const DisplayStory = () => {
     setOtherStories,
     setStoryKeys,
   } = useStoryContext();
+  const { setIsValidJWT } = useGlobals();
   const navigate = useNavigate();
   const editContainerRef = useRef(null);
   const { getUserInfo } = useUserInfoContext();

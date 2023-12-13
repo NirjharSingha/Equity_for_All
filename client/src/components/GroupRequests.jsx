@@ -4,13 +4,14 @@ import { useGroupContext } from "../contexts/GroupContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "./Loading";
-import { BsFillGearFill } from "react-icons/bs";
 import GroupReq from "./GroupReq";
+import { useGlobals } from "../contexts/Globals";
 
 const GroupRequests = () => {
-  const { access, selectedGroup } = useGroupContext();
+  const { selectedGroup } = useGroupContext();
   const [allMembers, setAllMembers] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
+  const { setIsValidJWT } = useGlobals();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +19,7 @@ const GroupRequests = () => {
         setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/group/allMembers/${
+          `${import.meta.env.VITE_SERVER_URL}/group/allRequests/${
             selectedGroup._id
           }`,
           {
@@ -55,7 +56,7 @@ const GroupRequests = () => {
       {!showLoading &&
         allMembers &&
         allMembers.map((member) => (
-          <GroupReq member={member} key={member._id} />
+          <GroupReq member={member} key={member._id} setState={setAllMembers} />
         ))}
     </div>
   );

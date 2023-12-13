@@ -7,6 +7,8 @@ import deleteGroup from "../controllers/group/deleteGroup.js";
 import addOrRemove from "../controllers/group/addOrRemove.js";
 import editGroup from "../controllers/group/editGroup.js";
 import allMembers from "../controllers/group/allMembers.js";
+import allRequests from "../controllers/group/allRequests.js";
+import groupFriends from "../controllers/group/groupFriends.js";
 
 const router = express.Router();
 router.post(
@@ -23,5 +25,7 @@ router.get("/groupNames", verifyJWT, getGroupNames);
 router.put("/addOrRemove", verifyJWT, addOrRemove);
 router.delete("/deleteGroup/:groupId", verifyJWT, deleteGroup);
 router.get("/allMembers/:groupId", verifyJWT, allMembers);
+router.get("/allRequests/:groupId", verifyJWT, allRequests);
+router.get("/groupFriends/:groupId", verifyJWT, groupFriends);
 
 export default router;

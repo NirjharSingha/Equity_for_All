@@ -8,7 +8,6 @@ import { useEffect } from "react";
 
 const Posts = () => {
   const { showYourPost, setShowYourPost } = usePostContext();
-  // const { editPost } = usePostContext();
   useEffect(() => {
     return () => {
       setShowYourPost(false);
@@ -17,7 +16,6 @@ const Posts = () => {
 
   return (
     <div className="postDiv">
-      {/* {editPost && <EditPost />} */}
       <div className="postOption">
         <button
           className={

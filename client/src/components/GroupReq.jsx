@@ -2,10 +2,57 @@ import React, { useState } from "react";
 import ItemCard from "./ItemCard";
 import { useGroupContext } from "../contexts/GroupContext";
 import { BsFillGearFill } from "react-icons/bs";
+import { useGlobals } from "../contexts/Globals";
+import axios from "axios";
 
-const GroupReq = ({ member }) => {
-  const { access } = useGroupContext();
+const GroupReq = ({ member, setState }) => {
+  const { access, selectedGroup, setShowAlertMsg, setAlertMsg } =
+    useGroupContext();
+  const { setIsValidJWT } = useGlobals();
   const [show, setShow] = useState(false);
+  const handleReq = async (option, action) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/group/addOrRemove`,
+        {
+          option: option,
+          action: action,
+          groupId: selectedGroup._id,
+          email: member.email,
+        },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        if (action === "add") {
+          setAlertMsg(`${member.name} is added to the group`);
+        }
+        if (action === "remove") {
+          setAlertMsg(`Request declined`);
+        }
+        setState((prevMembers) => {
+          return prevMembers.filter(
+            (member) => member.email !== response.data.email
+          );
+        });
+        setShowAlertMsg(true);
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        setIsValidJWT(false);
+      }
+    }
+  };
   return (
     <>
       <div
@@ -56,10 +103,21 @@ const GroupReq = ({ member }) => {
       </div>
       {show && (
         <div className="groupBarBtnContainer" style={{ height: "2rem" }}>
-          <button className={`groupBarButton groupBarButton2`}>Accept</button>
+          <button
+            className={`groupBarButton groupBarButton2`}
+            onClick={() => {
+              handleReq("allMembers", "add");
+              handleReq("reqReceived", "remove");
+            }}
+          >
+            Accept
+          </button>
           <button
             className={`groupBarButton groupBarButton2`}
             style={{ justifySelf: "end" }}
+            onClick={() => {
+              handleReq("reqReceived", "remove");
+            }}
           >
             Decline
           </button>

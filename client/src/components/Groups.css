@@ -50,8 +50,10 @@
 .grpFriend {
   min-width: 1.8rem;
   min-height: 1.8rem;
+  max-width: 1.8rem;
+  max-height: 1.8rem;
   border-radius: 50%;
-  background-color: aqua;
+  background-color: rgb(14, 134, 134);
 }
 .grpOptionBtn {
   margin-top: 0.3rem;

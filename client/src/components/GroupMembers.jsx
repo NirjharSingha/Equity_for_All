@@ -4,11 +4,14 @@ import { useGroupContext } from "../contexts/GroupContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "./Loading";
+import { useGlobals } from "../contexts/Globals";
 
 const GroupMembers = () => {
-  const { access, selectedGroup } = useGroupContext();
+  const { access, selectedGroup, setAlertMsg, setShowAlertMsg } =
+    useGroupContext();
   const [allMembers, setAllMembers] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
+  const { setIsValidJWT } = useGlobals();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +46,44 @@ const GroupMembers = () => {
     fetchData();
   }, [selectedGroup]);
 
+  const removeMember = async (member) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/group/addOrRemove`,
+        {
+          option: "allMembers",
+          action: "remove",
+          groupId: selectedGroup._id,
+          email: member.email,
+        },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        setAlertMsg(`${member.name} is removed from the group`);
+        setShowAlertMsg(true);
+        setAllMembers((prevMembers) => {
+          return prevMembers.filter(
+            (member) => member.email !== response.data.email
+          );
+        });
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        setIsValidJWT(false);
+      }
+    }
+  };
+
   return (
     <div className="grpStream">
       {showLoading && (
@@ -67,7 +108,14 @@ const GroupMembers = () => {
               icon="/profilePicIcon.svg"
               name={member.name}
             />
-            {access === 1 && <button className="grpMemBtn">Remove</button>}
+            {access === 1 && (
+              <button
+                className="grpMemBtn"
+                onClick={() => removeMember(member)}
+              >
+                Remove
+              </button>
+            )}
           </div>
         ))}
     </div>

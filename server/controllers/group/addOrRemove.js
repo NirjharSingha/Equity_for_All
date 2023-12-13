@@ -26,6 +26,7 @@ const addOrRemove = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "error occured" });
     }
     return res.status(200).json({
+      email: email,
       message: "Action done successfully",
     });
   } catch (error) {

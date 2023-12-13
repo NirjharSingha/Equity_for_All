@@ -1,7 +1,6 @@
 import React from "react";
 import "./Groups.css";
-import { useEffect } from "react";
-import CreateGroup from "./CreateGroup";
+import { useEffect, useState } from "react";
 import { useGroupContext } from "../contexts/GroupContext";
 import { useGlobals } from "../contexts/Globals";
 import EditPost from "./EditPost";
@@ -10,15 +9,14 @@ import GroupStream from "./GroupStream";
 import GroupMembers from "./GroupMembers";
 import GroupRequests from "./GroupRequests";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Group = () => {
   const {
-    showCreateGroup,
     isGroupPost,
     showAlert,
     setShowAlertMsg,
     alertMessage,
-    isEditGroup,
     divRef,
     selectedGroup,
     setSelectedGroup,
@@ -26,13 +24,13 @@ const Group = () => {
     selectedOption,
     setSelectedOption,
   } = useGroupContext();
-  const { windowWidth } = useGlobals();
+  const { windowWidth, setIsValidJWT } = useGlobals();
   const navigate = useNavigate();
+  const [count, setCount] = useState(0);
+  const [pics, setPics] = useState([]);
 
   useEffect(() => {
     console.log("group component loaded");
-    console.log(selectedGroup);
-    console.log("access " + access);
     return () => {
       if (windowWidth >= 800) {
         setSelectedGroup(null);
@@ -41,6 +39,39 @@ const Group = () => {
       setSelectedOption("stream");
     };
   }, []);
+
+  useEffect(() => {
+    const groupFriends = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/group/groupFriends/${
+            selectedGroup._id
+          }`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          const { count, pic } = response.data;
+          setCount(count);
+          setPics(pic);
+        }
+      } catch (error) {
+        if (
+          error.response.status === 401 &&
+          error.response.statusText === "Unauthorized"
+        ) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
+        console.log(error);
+      }
+    };
+    if (selectedGroup !== null) groupFriends();
+  }, [selectedGroup]);
 
   useEffect(() => {
     if (windowWidth >= 800) {
@@ -54,13 +85,9 @@ const Group = () => {
 
   return (
     <div className="homeDiv">
-      {/* {showAlert && (
-        <AlertMessage alertMessage={alertMessage} setState={setShowAlertMsg} />
-      )} */}
       {selectedGroup === null && (
         <p className="selectGroupText">Select a group to view details</p>
       )}
-      {/* {(showCreateGroup || isEditGroup) && <CreateGroup />} */}
       {isGroupPost && <EditPost />}
       {selectedGroup !== null && (
         <div className="groupContainer" ref={divRef}>
@@ -85,13 +112,18 @@ const Group = () => {
             <p className="grpName" style={{ fontSize: "1.15rem" }}>
               {`${selectedGroup && selectedGroup.groupVisibility} group`}
             </p>
-            <div className="friendsInGrp">
-              <div className="grpFriend"></div>
-              <div className="grpFriend"></div>
-              <div className="grpFriend"></div>
-              <div className="grpFriend"></div>
-            </div>
-            <p style={{ marginBottom: "0.5rem" }}>Your x friends are members</p>
+            {pics && pics.length > 0 && (
+              <div className="friendsInGrp">
+                {pics.map((pic, index) => (
+                  <img src={pic} key={index} className="grpFriend" />
+                ))}
+              </div>
+            )}
+            <p style={{ marginBottom: "0.5rem", marginTop: "0.3rem" }}>
+              {count > 0
+                ? `Your ${count} friends are members here`
+                : `You have no friend in this group`}
+            </p>
             <hr />
             <div className="grpOptionBtn">
               <button

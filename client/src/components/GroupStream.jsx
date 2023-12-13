@@ -5,17 +5,7 @@ import { useGroupContext } from "../contexts/GroupContext";
 import GroupPosts from "./GroupPosts";
 
 const GroupStream = () => {
-  const {
-    showCreateGroup,
-    setIsGroupPost,
-    isGroupPost,
-    showAlert,
-    setShowAlertMsg,
-    alertMessage,
-    isEditGroup,
-    access,
-    selectedGroup,
-  } = useGroupContext();
+  const { setIsGroupPost, access } = useGroupContext();
 
   const handleClick = () => {
     setIsGroupPost(true);
