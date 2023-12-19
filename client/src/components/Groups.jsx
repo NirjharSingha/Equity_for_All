@@ -119,11 +119,22 @@ const Group = () => {
                 ))}
               </div>
             )}
-            <p style={{ marginBottom: "0.5rem", marginTop: "0.3rem" }}>
-              {count > 0
-                ? `Your ${count} friends are members here`
-                : `You have no friend in this group`}
-            </p>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <p style={{ marginBottom: "0.5rem", marginTop: "0.3rem" }}>
+                {count > 0
+                  ? `Your ${count} friends are members here`
+                  : `You have no friend in this group`}
+              </p>
+              {(access === 1 || access === 2) && (
+                <button className="invite">Invite</button>
+              )}
+            </div>
             <hr />
             <div className="grpOptionBtn">
               <button

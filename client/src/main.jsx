@@ -15,32 +15,32 @@ import GroupContextProvider from "./contexts/GroupContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
-    <Auth0Provider
+    {/* <Auth0Provider
       domain={import.meta.env.VITE_AUTH_DOMAIN}
       clientId={import.meta.env.VITE_AUTH_CLIENT}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}
-    >
-      <GlobalsProvider>
-        <UserInfoProvider>
-          <FileContextProvider>
-            <LikesContextProvider>
-              <PostContext>
-                <LikesListContextProvider>
-                  <FriendContextProvider>
-                    <StoryContextProvider>
-                      <GroupContextProvider>
-                        <App />
-                      </GroupContextProvider>
-                    </StoryContextProvider>
-                  </FriendContextProvider>
-                </LikesListContextProvider>
-              </PostContext>
-            </LikesContextProvider>
-          </FileContextProvider>
-        </UserInfoProvider>
-      </GlobalsProvider>
-    </Auth0Provider>
+    > */}
+    <GlobalsProvider>
+      <UserInfoProvider>
+        <FileContextProvider>
+          <LikesContextProvider>
+            <PostContext>
+              <LikesListContextProvider>
+                <FriendContextProvider>
+                  <StoryContextProvider>
+                    <GroupContextProvider>
+                      <App />
+                    </GroupContextProvider>
+                  </StoryContextProvider>
+                </FriendContextProvider>
+              </LikesListContextProvider>
+            </PostContext>
+          </LikesContextProvider>
+        </FileContextProvider>
+      </UserInfoProvider>
+    </GlobalsProvider>
+    {/* </Auth0Provider> */}
   </Router>
 );

@@ -107,6 +107,22 @@
   padding-left: 0.6rem;
   padding-right: 0.6rem;
 }
+.invite {
+  margin-right: 0.2rem;
+  margin-bottom: 0.2rem;
+  min-width: 4rem;
+  min-height: 28px;
+  max-height: 28px;
+  border-radius: 0.2rem;
+  border: none;
+  background-color: rgb(30, 150, 194);
+  color: white;
+  font-weight: bold;
+}
+.invite:hover {
+  background-color: rgb(4, 102, 138);
+  cursor: pointer;
+}
 
 @media screen and (max-width: 800px) {
   .groupContainer {

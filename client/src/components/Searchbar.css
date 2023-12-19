@@ -27,7 +27,7 @@
   overflow-y: auto;
 }
 .searchLine {
-  width: calc(100%-10px);
+  width: calc(100% - 10px);
   min-height: calc(2rem + 10px);
   margin-left: 5px;
   margin-right: 5px;
