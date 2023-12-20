@@ -53,7 +53,7 @@ const Login = () => {
     };
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/auth/login`,
+        `${import.meta.env.VITE_SERVER_URL}auth/login`,
         postData
       );
       if (response.status == 200) {
