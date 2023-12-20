@@ -35,6 +35,8 @@ app.use(cors());
 app.use(
   cors({
     origin: "https://nexus-sphere.vercel.app",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,TRACE",
+    credentials: true,
   })
 );
 
