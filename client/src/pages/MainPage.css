@@ -26,6 +26,8 @@ body {
   grid-row: 3 / span 1;
 }
 .mainContainer {
+  min-height: calc(100vh - 8.1rem);
+  max-height: calc(100vh - 8.1rem);
   grid-row: 2 / span 1;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -94,6 +96,8 @@ body {
     grid-template-rows: 3rem calc(100vh - 6.4rem) 3.4rem;
   }
   .mainContainer {
+    min-height: calc(100vh - 6.4rem);
+    max-height: calc(100vh - 6.4rem);
     grid-template-rows: calc(100vh - 6.4rem);
   }
   .friendMain {
