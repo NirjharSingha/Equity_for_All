@@ -2,6 +2,7 @@
   width: 100%;
   height: 99%;
   max-height: 99%;
+  max-height: calc(100vh - 8.1rem);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -75,4 +76,10 @@
 }
 .birthDayListName::-webkit-scrollbar {
   display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .birthDayContainer {
+    max-height: calc(100vh - 6.45rem);
+  }
 }
