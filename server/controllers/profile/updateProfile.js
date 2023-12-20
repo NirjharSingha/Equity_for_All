@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/User.js";
 import bcrypt from "bcrypt";
+import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const updateProfile = asyncHandler(async (req, res) => {
   let {
@@ -48,7 +49,7 @@ const updateProfile = asyncHandler(async (req, res) => {
     { new: true }
   );
   if (req.file !== undefined) {
-    let profilePic = process.env.server_url + req.file.path;
+    let profilePic = await uploadToCloudinary(req.file);
     updatedUser = await User.findOneAndUpdate(
       { email: req.email },
       {

@@ -3,7 +3,7 @@ import React from "react";
 const UserSession = () => {
   const handleGoToLogin = () => {
     localStorage.removeItem("token");
-    window.location.href = "http://localhost:5173/";
+    window.location.href = import.meta.env.VITE_CLIENT_URL;
   };
   return (
     <div className="fullScreenBlur" style={{ zIndex: "990" }}>

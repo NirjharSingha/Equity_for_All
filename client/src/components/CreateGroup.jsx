@@ -122,9 +122,9 @@ const CreateGroup = () => {
             setShowAlertMsg(true);
           }
         } else {
-          if (!isFirst && groupToEdit.groupImage !== "") {
-            deleteFile([groupToEdit.groupImage]);
-          }
+          // if (!isFirst && groupToEdit.groupImage !== "") {
+          //   deleteFile([groupToEdit.groupImage]);
+          // }
           setIsEditGroup(false);
           setGroupToEdit({});
           setGroupsYouCreated((prev) =>

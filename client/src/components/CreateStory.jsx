@@ -155,7 +155,7 @@ const CreateStory = () => {
           setStoryKeys((prev) => [email, ...prev]);
         }
       } else if (response.status === 200) {
-        deleteFile(filesToDelete);
+        // deleteFile(filesToDelete);
         console.log("story updated successfully");
         resetValues();
         setOtherStories((prev) => {

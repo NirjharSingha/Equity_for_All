@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Post from "../../models/Post.js";
+import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const editPost = asyncHandler(async (req, res) => {
   const {
@@ -17,8 +18,11 @@ const editPost = asyncHandler(async (req, res) => {
   if (req.files === undefined || req.files.length === 0) {
     postAttachments = [];
   } else {
-    postAttachments = req.files.map(
-      (file) => process.env.server_url + file.path
+    postAttachments = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await uploadToCloudinary(file);
+        return result;
+      })
     );
   }
 

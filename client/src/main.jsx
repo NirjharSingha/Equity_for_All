@@ -10,18 +10,10 @@ import LikesListContextProvider from "./contexts/LikesListContext.jsx";
 import FriendContextProvider from "./contexts/FriendContext.jsx";
 import StoryContextProvider from "./contexts/StoryContext.jsx";
 import GlobalsProvider from "./contexts/Globals.jsx";
-import { Auth0Provider } from "@auth0/auth0-react";
 import GroupContextProvider from "./contexts/GroupContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
-    {/* <Auth0Provider
-      domain={import.meta.env.VITE_AUTH_DOMAIN}
-      clientId={import.meta.env.VITE_AUTH_CLIENT}
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-    > */}
     <GlobalsProvider>
       <UserInfoProvider>
         <FileContextProvider>
@@ -41,6 +33,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </FileContextProvider>
       </UserInfoProvider>
     </GlobalsProvider>
-    {/* </Auth0Provider> */}
   </Router>
 );

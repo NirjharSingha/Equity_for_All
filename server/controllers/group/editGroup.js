@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Group from "../../models/Group.js";
+import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const editGroup = asyncHandler(async (req, res) => {
   const { groupName, groupVisibility, _id, updatedAt, deleteFile } = req.body;
@@ -35,7 +36,7 @@ const editGroup = asyncHandler(async (req, res) => {
         groupName,
         groupVisibility,
         updatedAt,
-        groupImage: process.env.server_url + req.file.path,
+        groupImage: await uploadToCloudinary(req.file),
       },
       { new: true }
     );

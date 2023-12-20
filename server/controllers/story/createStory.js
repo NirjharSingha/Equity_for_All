@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Story from "../../models/Story.js";
+import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const createStory = asyncHandler(async (req, res) => {
   const userEmail = req.email;
@@ -8,7 +9,7 @@ const createStory = asyncHandler(async (req, res) => {
   if (req.file === undefined) {
     backgroundImage = "";
   } else {
-    backgroundImage = process.env.server_url + req.file.path;
+    backgroundImage = await uploadToCloudinary(req.file);
   }
 
   const {

@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Group from "../../models/Group.js";
+import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const createGroup = asyncHandler(async (req, res) => {
   const userEmail = req.email;
@@ -8,7 +9,7 @@ const createGroup = asyncHandler(async (req, res) => {
   if (req.file === undefined) {
     backgroundImage = "";
   } else {
-    backgroundImage = process.env.server_url + req.file.path;
+    backgroundImage = await uploadToCloudinary(req.file);
   }
 
   const { groupName, groupVisibility, createdAt } = req.body;

@@ -1,13 +1,14 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/User.js";
 import jwt from "jsonwebtoken";
+import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const register = asyncHandler(async (req, res) => {
   let profilePic;
   if (req.file === undefined) {
     profilePic = "";
   } else {
-    profilePic = process.env.server_url + req.file.path;
+    profilePic = await uploadToCloudinary(req.file);
   }
 
   const {

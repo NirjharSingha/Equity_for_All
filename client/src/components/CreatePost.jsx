@@ -162,11 +162,11 @@ const CreatePost = () => {
           setIsGroupPost(false);
         }
         if (response.status === 200) {
-          if (isDeleted && selectedPost.postAttachments.length !== 0) {
-            deleteFile(selectedPost.postAttachments);
-          } else {
-            console.log("no attachment to delete");
-          }
+          // if (isDeleted && selectedPost.postAttachments.length !== 0) {
+          //   deleteFile(selectedPost.postAttachments);
+          // } else {
+          //   console.log("no attachment to delete");
+          // }
           console.log("post updated successfully");
           const updatedPost = response.data.updatedPost;
 
