@@ -32,6 +32,12 @@ const port = process.env.server_port;
 
 //middlewares
 app.use(cors());
+app.use(
+  cors({
+    origin: "https://nexus-sphere.vercel.app",
+  })
+);
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use("/uploads", express.static(join(__dirname, "uploads")));

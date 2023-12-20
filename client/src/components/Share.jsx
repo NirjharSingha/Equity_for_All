@@ -50,7 +50,7 @@ const Share = ({ post }) => {
     console.log("share component loaded");
   }, []);
 
-  const shareUrl = `http://localhost:5173/share/${post._id}`;
+  const shareUrl = `${import.meta.env.VITE_CLIENT_URL}share/${post._id}`;
 
   return (
     <div className="shareComponent">

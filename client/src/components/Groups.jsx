@@ -76,7 +76,7 @@ const Group = () => {
   useEffect(() => {
     if (windowWidth >= 800) {
       const currentUrl = window.location.href;
-      if (currentUrl === "http://localhost:5173/main/groups/id") {
+      if (currentUrl === `${import.meta.env.VITE_CLIENT_URL}main/groups/id`) {
         navigate("/main/groups");
         setSelectedGroup(null);
       }
