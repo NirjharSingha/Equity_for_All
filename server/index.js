@@ -32,19 +32,19 @@ const port = process.env.server_port;
 
 //middlewares
 app.use(cors());
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,TRACE",
-//     credentials: true,
-//   })
-// );
-app.use((_req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
+// // app.use(
+// //   cors({
+// //     origin: "http://localhost:5173",
+// //     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,TRACE",
+// //     credentials: true,
+// //   })
+// // );
+// app.use((_req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "*");
 
-  next();
-});
+//   next();
+// });
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
