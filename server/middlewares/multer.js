@@ -1,12 +1,14 @@
 import multer from "multer";
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
+const generateFileName = (originalName) => {
+  const sanitizedFilename = originalName.replace(/\s+/g, "_");
+  const uniqueIdentifier = Date.now();
+  return `${uniqueIdentifier}-${sanitizedFilename}`;
+};
+
+const storage = multer.memoryStorage({
   filename: function (req, file, cb) {
-    const sanitizedFilename = file.originalname.replace(/\s+/g, "_");
-    cb(null, Date.now() + "-" + sanitizedFilename);
+    cb(null, generateFileName(file.originalname));
   },
 });
 
@@ -21,6 +23,9 @@ const fileFilter = function (req, file, cb) {
   }
 };
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+});
 
 export default upload;

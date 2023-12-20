@@ -13,6 +13,7 @@ import bodyParser from "body-parser";
 import http from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import cloudinary from "cloudinary";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,6 +21,11 @@ const __dirname = dirname(__filename);
 //configs
 dotenv.config();
 dbConfig();
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 const port = process.env.server_port;
