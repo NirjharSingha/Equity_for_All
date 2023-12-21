@@ -3,8 +3,8 @@ import { addClient, removeClient } from "../../utils/sse.js";
 
 const commentSSE = asyncHandler(async (req, res) => {
   // Add CORS headers
-  res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", false);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, OPTIONS, POST, PUT, DELETE"
