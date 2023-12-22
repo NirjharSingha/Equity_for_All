@@ -15,7 +15,7 @@ const commentSSE = asyncHandler(async (req, res) => {
     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
   );
 
-  // res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
