@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { addClient, removeClient } from "../../utils/sse.js";
+import cors from "cors";
 
 const commentSSE = asyncHandler(async (req, res) => {
   // Add CORS headers
@@ -14,16 +15,16 @@ const commentSSE = asyncHandler(async (req, res) => {
     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
   );
 
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
-  }
-
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  res.status(200).flushHeaders();
+  cors()(req, res, () => {});
+
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
 
   addClient(res);
 
