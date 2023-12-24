@@ -224,10 +224,12 @@ const postSchema = mongoose.Schema(
       default: [],
     },
     createdAt: {
-      type: Date,
+      type: String,
+      default: "",
     },
     updatedAt: {
-      type: Date,
+      type: String,
+      default: "",
     },
   },
   {
