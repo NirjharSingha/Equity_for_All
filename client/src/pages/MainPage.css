@@ -95,24 +95,24 @@ body {
 }
 @media screen and (max-width: 500px) {
   .mainPage {
-    grid-template-rows: 3rem calc(100vh - 6.4rem) 3.4rem;
+    grid-template-rows: 3rem calc(100vh - 10rem) 3.4rem;
   }
   .doubleColumn {
-    min-height: calc(100vh - 6.4rem);
-    max-height: calc(100vh - 6.4rem);
+    min-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 10rem);
   }
   .mainContainer {
-    min-height: calc(100vh - 6.4rem);
-    max-height: calc(100vh - 6.4rem);
-    grid-template-rows: calc(100vh - 6.4rem);
+    min-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 10rem);
+    grid-template-rows: calc(100vh - 10rem);
   }
   .mainComponent {
-    min-height: calc(100vh - 6.4rem);
-    max-height: calc(100vh - 6.4rem);
+    min-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 10rem);
     overflow-y: scroll;
   }
   .friendMain {
-    min-height: calc(100vh - 6.5rem);
-    max-height: calc(100vh - 6.5rem);
+    min-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 10rem);
   }
 }
