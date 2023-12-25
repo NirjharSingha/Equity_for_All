@@ -1,11 +1,11 @@
 html {
-  height: 100vh;
+  height: 100svh;
   width: 100vw;
   overflow: hidden;
   font-size: 16px;
 }
 body {
-  height: 100vh;
+  height: 100svh;
   width: 100vw;
   margin: 0;
   padding: 0;
@@ -14,7 +14,7 @@ body {
 }
 .mainPage {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   display: grid;
   grid-template-columns: 100vw;
   grid-template-rows: 4rem 1fr 4.1rem;
@@ -31,7 +31,7 @@ body {
   grid-row: 2 / span 1;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: calc(100vh - 8.1rem);
+  grid-template-rows: calc(100svh - 8.1rem);
 }
 .doubleColumn {
   grid-row: 1;
@@ -97,9 +97,6 @@ body {
     grid-template-rows: 3rem 1fr 3.4rem;
   }
   .mainContainer {
-    grid-template-rows: calc(
-      100vh - 6.4rem - constant(safe-area-inset-top) -
-        constant(safe-area-inset-bottom)
-    );
+    grid-template-rows: calc(100svh - 6.4rem);
   }
 }
