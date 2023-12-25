@@ -107,7 +107,7 @@ const Login = () => {
           <div className="loginLeft">
             <div className="loginNameContainer">
               <a href="#" className="loginLogo">
-                <img src="/nexusSphere.svg" alt="" width="60" height="62" />
+                <img src="/nexusSphere.svg" alt="" className="loginLogoSize" />
               </a>
               <h1 className="loginHeading">Nexus Sphere</h1>
             </div>

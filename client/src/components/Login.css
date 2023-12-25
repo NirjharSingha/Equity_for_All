@@ -24,6 +24,10 @@
   display: flex;
   align-items: center;
 }
+.loginLogoSize {
+  width: 60px;
+  height: 62px;
+}
 .container {
   margin: 0;
   padding: 0;
@@ -35,14 +39,15 @@
   align-items: center;
 }
 .loginPage {
-  display: grid;
+  display: flex;
   width: 100%;
   height: 100%;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  justify-content: space-around;
+  /* grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr; */
 }
 .loginLeft {
-  grid-column: 1 / span 1;
+  /* grid-column: 1 / span 1; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,9 +57,9 @@
   align-items: center;
 }
 .loginRight {
-  grid-column: 2 / span 1;
-  grid-row: 1 / span 1;
-  height: 100%;
+  /* grid-column: 2 / span 1;
+  grid-row: 1 / span 1; */
+  /* height: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,8 +67,8 @@
 }
 .flexContainer {
   display: flex;
-  width: 60%;
-  height: 45%;
+  width: 38vw;
+  height: 45svh;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
@@ -165,4 +170,114 @@
 .passEye {
   width: 2rem;
   height: 1.3rem;
+}
+
+@media screen and (max-height: 700px) {
+  .flexContainer {
+    height: 50svh;
+  }
+}
+@media screen and (max-height: 620px) {
+  .flexContainer {
+    height: 55svh;
+  }
+}
+@media screen and (max-height: 535px) {
+  .flexContainer {
+    height: 60svh;
+  }
+}
+@media screen and (max-height: 450px) {
+  .flexContainer {
+    height: 65svh;
+  }
+}
+@media screen and (max-width: 1220px) {
+  .flexContainer {
+    width: 40vw;
+  }
+}
+@media screen and (max-width: 1145px) {
+  .loginLogoSize {
+    height: 51px;
+    width: 50px;
+  }
+  .loginHeading {
+    font-size: 2.5rem;
+  }
+}
+@media screen and (max-width: 1070px) {
+  .flexContainer {
+    width: 44vw;
+  }
+}
+@media screen and (max-width: 940px) {
+  .loginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .loginLeft {
+    margin-bottom: 1rem;
+  }
+}
+@media screen and (max-width: 1070px) {
+  .flexContainer {
+    width: 50vw;
+  }
+}
+@media screen and (max-width: 740px) {
+  .flexContainer {
+    width: 60vw;
+  }
+}
+@media screen and (max-width: 595px) {
+  .flexContainer {
+    width: 70vw;
+  }
+}
+@media screen and (max-width: 540px) {
+  .loginHeading {
+    font-size: 2.3rem;
+  }
+  .loginLogoSize {
+    height: 46px;
+    width: 45px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .flexContainer {
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 440px) {
+  .loginHeading {
+    font-size: 2.1rem;
+  }
+  .loginLogoSize {
+    height: 41px;
+    width: 40px;
+  }
+}
+@media screen and (max-width: 370px) {
+  .flexContainer {
+    width: 90vw;
+  }
+  #invalid {
+    font-size: 0.9rem;
+  }
+  #signup {
+    width: 82%;
+  }
+}
+@media screen and (max-width: 320px) {
+  .flexContainer {
+    width: 100vw;
+  }
+}
+@media screen and (max-width: 350px) {
+  .loginHeading {
+    font-size: 1.8rem;
+  }
 }
