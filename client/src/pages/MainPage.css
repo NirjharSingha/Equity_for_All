@@ -97,6 +97,6 @@ body {
     grid-template-rows: 3rem 1fr 3.4rem;
   }
   .mainContainer {
-    grid-template-rows: calc(100vh - 13rem);
+    grid-template-rows: 1fr;
   }
 }
