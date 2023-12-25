@@ -4,7 +4,9 @@ const verifyJWT = (req, res, next) => {
   const token = req.headers.token;
   const flag = req.query.flag;
   if (!token) {
-    res.status(401).json({ error: "missing access token" });
+    res
+      .status(401)
+      .json({ statusText: "Unauthorized", error: "missing access token" });
   } else {
     try {
       const decoded = jwt.verify(token, process.env.jwt_secret);
@@ -14,7 +16,9 @@ const verifyJWT = (req, res, next) => {
       }
       next();
     } catch (err) {
-      res.status(401).json({ error: "fail to authorize" });
+      res
+        .status(401)
+        .json({ statusText: "Unauthorized", error: "fail to authorize" });
     }
   }
 };
