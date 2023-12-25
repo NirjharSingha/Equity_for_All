@@ -17,7 +17,7 @@ const PostComponent = () => {
         {windowWidth >= 800 && <CreatePost />}
       </div>
       {pathname === "/main/posts" && (
-        <div className="mainComponent">
+        <div className="mainComponent" style={{ overflowY: "hidden" }}>
           <Posts />
         </div>
       )}

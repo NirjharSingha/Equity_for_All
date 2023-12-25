@@ -13,6 +13,7 @@
   margin-bottom: 5px;
   width: calc(100% - 6.5px);
   height: 2.5rem;
+  min-height: 2.5rem;
   background-color: rgb(156, 246, 246);
   margin-top: 0px;
   margin-left: 4.5px;

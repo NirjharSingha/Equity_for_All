@@ -101,7 +101,10 @@ const MainPage = () => {
               path="/"
               element={
                 <>
-                  <div className="mainComponent">
+                  <div
+                    className="mainComponent"
+                    style={{ overflowY: "hidden" }}
+                  >
                     <Home />
                   </div>
                   {windowWidth >= 800 && (
@@ -124,7 +127,10 @@ const MainPage = () => {
               path="/friends"
               element={
                 <>
-                  <div className="mainComponent">
+                  <div
+                    className="mainComponent"
+                    style={{ overflowY: "hidden" }}
+                  >
                     <div className="friendMain" ref={divRef}>
                       {windowWidth < 800 && <FriendOptions />}
                       <Friends />
@@ -153,7 +159,10 @@ const MainPage = () => {
                     </>
                   )}
                   {windowWidth < 800 && (
-                    <div className="mainComponent">
+                    <div
+                      className="mainComponent"
+                      style={{ overflowY: "hidden" }}
+                    >
                       <GroupsBar />
                     </div>
                   )}
@@ -163,7 +172,7 @@ const MainPage = () => {
             <Route
               path="/groups/id"
               element={
-                <div className="mainComponent">
+                <div className="mainComponent" style={{ overflowY: "hidden" }}>
                   <Groups />
                 </div>
               }

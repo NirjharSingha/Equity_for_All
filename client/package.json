@@ -41,6 +41,12 @@
     "sort-by": "^0.0.2",
     "twemoji": "^14.0.2"
   },
+  "snyk": {
+    "axios": {
+      "vulnPaths": ["*"],
+      "ignore": true
+    }
+  },
   "devDependencies": {
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
