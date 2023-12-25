@@ -54,10 +54,7 @@ const GroupsBar = () => {
       }
     } catch (error) {
       console.log(error);
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }

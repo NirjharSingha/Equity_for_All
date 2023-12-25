@@ -80,10 +80,7 @@ const GroupName = ({ group, flag }) => {
         console.log(response);
       }
     } catch (error) {
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         setIsValidJWT(false);
       }
     }
@@ -113,10 +110,7 @@ const GroupName = ({ group, flag }) => {
         console.log(response);
       }
     } catch (error) {
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         setIsValidJWT(false);
       }
     }

@@ -203,10 +203,7 @@ const DisplayStory = () => {
       }
     } catch (error) {
       console.log("inside error block");
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }

@@ -87,10 +87,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
       );
     } catch (error) {
       console.log(error);
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }
@@ -121,10 +118,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
         setPrevSecLike(selectedLike);
       }
     } catch (error) {
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }
@@ -246,10 +240,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           setIsReply(false);
         }
       } catch (error) {
-        if (
-          error.response.status === 401 &&
-          error.response.statusText === "Unauthorized"
-        ) {
+        if (error.response.status === 401) {
           console.log("inside status code");
           setIsValidJWT(false);
         }
@@ -283,10 +274,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           setIsEdit(false);
         }
       } catch (error) {
-        if (
-          error.response.status === 401 &&
-          error.response.statusText === "Unauthorized"
-        ) {
+        if (error.response.status === 401) {
           console.log("inside status code");
           setIsValidJWT(false);
         }

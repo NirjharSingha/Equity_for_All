@@ -45,10 +45,7 @@ const GroupReq = ({ member, setState }) => {
       }
     } catch (error) {
       console.log(error);
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         setIsValidJWT(false);
       }
     }

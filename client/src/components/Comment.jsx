@@ -172,10 +172,7 @@ const Comment = ({ setShowComments, post }) => {
           setShowLoading(false);
         }
       } catch (error) {
-        if (
-          error.response.status === 401 &&
-          error.response.statusText === "Unauthorized"
-        ) {
+        if (error.response.status === 401) {
           console.log("inside status code");
           setIsValidJWT(false);
         }
@@ -234,10 +231,7 @@ const Comment = ({ setShowComments, post }) => {
           setShowLoading(false);
         }
       } catch (error) {
-        if (
-          error.response.status === 401 &&
-          error.response.statusText === "Unauthorized"
-        ) {
+        if (error.response.status === 401) {
           console.log("inside status code");
           setIsValidJWT(false);
         }
@@ -292,10 +286,7 @@ const Comment = ({ setShowComments, post }) => {
       );
       setCommentInput("");
     } catch (error) {
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }

@@ -112,10 +112,7 @@ const PostCard = ({ post, shareFlag }) => {
         console.log(response);
       }
     } catch (error) {
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }
@@ -150,10 +147,7 @@ const PostCard = ({ post, shareFlag }) => {
         setPrevLike(selected);
       }
     } catch (error) {
-      if (
-        error.response.status === 401 &&
-        error.response.statusText === "Unauthorized"
-      ) {
+      if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }
