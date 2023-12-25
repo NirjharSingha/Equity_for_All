@@ -23,7 +23,7 @@
   border-bottom-right-radius: 0.3rem;
 }
 .postContainer {
-  max-height: calc(100vh - 11.2rem);
+  max-height: calc(100svh - 11.2rem);
   overflow-y: auto;
 }
 .borderLessPostOption {
@@ -78,9 +78,9 @@
 }
 @media screen and (max-width: 500px) {
   .postDiv {
-    height: calc(100vh - 6.4rem);
+    height: calc(100svh - 6.4rem);
   }
   .postContainer {
-    max-height: calc(100vh - 9.5rem);
+    max-height: calc(100svh - 9.5rem);
   }
 }

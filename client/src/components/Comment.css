@@ -1,6 +1,6 @@
 .commentContainer {
   width: 50vw;
-  height: calc(100vh - 8.15rem);
+  height: calc(100svh - 8.15rem);
   z-index: 500;
   position: absolute;
   bottom: 4.1rem;
@@ -125,7 +125,7 @@
 }
 @media screen and (max-width: 500px) {
   .commentContainer {
-    height: calc(100vh - 6.45rem);
+    height: calc(100svh - 6.45rem);
     bottom: 3.4rem;
   }
   .writeAComment {

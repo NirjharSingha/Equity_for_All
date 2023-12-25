@@ -1,8 +1,8 @@
 .shareComponent {
   width: 25vw;
   min-width: 200px;
-  height: calc(100vh - 12rem);
-  max-height: calc(100vh - 12rem);
+  height: calc(100svh - 12rem);
+  max-height: calc(100svh - 12rem);
   background-color: antiquewhite;
   position: fixed;
   bottom: 4.5rem;

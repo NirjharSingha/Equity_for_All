@@ -77,6 +77,6 @@
 
 @media screen and (max-width: 500px) {
   .birthDayContainer {
-    max-height: calc(100vh - 9.65rem);
+    max-height: calc(100svh - 9.65rem);
   }
 }

@@ -1,7 +1,7 @@
 .friendProfileContainer {
   width: 35vw;
   left: 32.5vw;
-  height: calc(100vh - 8.3rem);
+  height: calc(100svh - 8.3rem);
   top: 4.1rem;
   z-index: 700;
   position: fixed;
@@ -28,7 +28,7 @@
 .profileWarningText {
   width: 100%;
   text-align: center;
-  margin-top: 20vh;
+  margin-top: 20svh;
   font-weight: bold;
 }
 

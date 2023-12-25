@@ -1,6 +1,6 @@
 .registerPageContainer {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 1fr;
@@ -11,7 +11,7 @@
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
   width: 50vw;
-  height: 100vh;
+  height: 100svh;
   background-color: rgb(223, 234, 244);
   box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.2);
   top: 0;

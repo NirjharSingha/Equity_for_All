@@ -1,6 +1,6 @@
 .updateProfileContainer {
   width: calc(1.8 * ((100vw - 4rem) / 4 + 2rem));
-  height: calc(100vh - 8.2rem);
+  height: calc(100svh - 8.2rem);
   z-index: 500;
   position: absolute;
   bottom: 4.1rem;

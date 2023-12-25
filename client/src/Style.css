@@ -74,7 +74,7 @@
 }
 
 .fullScreenBlur {
-  height: 100vh;
+  height: 100svh;
   width: 100vw;
   top: 0;
   left: 0;
@@ -87,7 +87,7 @@
 }
 .blurComponent {
   width: 75vw;
-  height: calc(100vh - 8.1rem);
+  height: calc(100svh - 8.1rem);
   position: fixed;
   top: 4rem;
   left: 0;
@@ -99,7 +99,7 @@
 }
 .outerBlurContainer {
   width: 50vw;
-  height: calc(100vh - 8.2rem);
+  height: calc(100svh - 8.2rem);
   position: fixed;
   top: 4.05rem;
   left: 25vw;
@@ -124,7 +124,7 @@
 }
 @media screen and (max-width: 500px) {
   .outerBlurContainer {
-    height: calc(100vh - 6.45rem);
+    height: calc(100svh - 6.45rem);
     top: 3.05rem;
   }
 }
