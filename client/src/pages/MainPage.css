@@ -97,6 +97,9 @@ body {
     grid-template-rows: 3rem 1fr 3.4rem;
   }
   .mainContainer {
-    grid-template-rows: 1fr;
+    grid-template-rows: calc(
+      100vh - 6.4rem - constant(safe-area-inset-top) -
+        constant(safe-area-inset-bottom)
+    );
   }
 }
