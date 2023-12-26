@@ -266,13 +266,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       <div
         className={isReg ? "regIconContainer" : "upadateProfileIconContainer"}
       >
-        <img
-          src="/nexusSphere.svg"
-          alt=""
-          width="80"
-          height="82"
-          className="regLogo"
-        />
+        <img src="/nexusSphere.svg" alt="" className="regLogo" />
       </div>
       <div
         className={

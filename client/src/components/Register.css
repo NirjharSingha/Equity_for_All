@@ -283,6 +283,8 @@
   animation: rotate 5s infinite linear;
   display: flex;
   align-items: center;
+  width: 80px;
+  height: 82px;
 }
 .regHeadingContainer {
   grid-column: 3;
@@ -334,4 +336,78 @@
 }
 .regCross {
   color: red;
+}
+
+@media screen and (max-width: 1120px) {
+  .regHeading {
+    font-size: 1.8rem;
+  }
+  .regLogo {
+    width: 60px;
+    height: 62px;
+  }
+  .displayImage {
+    height: 80%;
+  }
+}
+@media screen and (max-width: 920px) {
+  .registerPageContainer {
+    grid-template-columns: 1fr;
+    justify-content: center;
+  }
+  .regLogo {
+    display: none;
+  }
+  .regHeading {
+    display: none;
+  }
+  .registerPage {
+    grid-column: 1 / span 1;
+    width: 70%;
+    margin-left: 15%;
+  }
+  .displayImage {
+    height: 70%;
+  }
+}
+@media screen and (max-width: 680px) {
+  .registerPage {
+    width: 80%;
+    margin-left: 10%;
+  }
+  .registerLabel {
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 530px) {
+  .registerPage {
+    width: 100%;
+    margin-left: 0;
+  }
+  .displayImage {
+    height: 62%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .registerLabel {
+    font-size: 0.85rem;
+  }
+  .imageButton {
+    height: 12%;
+  }
+}
+@media screen and (max-width: 350px) {
+  .registerInput {
+    max-width: 210px;
+  }
+}
+@media screen and (max-height: 460px) {
+  .displayImage {
+    height: 95%;
+  }
+}
+@media screen and (max-height: 390px) {
+  .displayImage {
+    height: 100%;
+  }
 }

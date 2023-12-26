@@ -43,11 +43,8 @@
   width: 100%;
   height: 100%;
   justify-content: space-around;
-  /* grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr; */
 }
 .loginLeft {
-  /* grid-column: 1 / span 1; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,9 +54,6 @@
   align-items: center;
 }
 .loginRight {
-  /* grid-column: 2 / span 1;
-  grid-row: 1 / span 1; */
-  /* height: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;

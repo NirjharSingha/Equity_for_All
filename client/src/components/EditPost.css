@@ -1,9 +1,6 @@
 .editPostContainer {
   width: 35vw;
   height: calc(100svh - 8.2rem);
-  /* position: fixed;
-  top: 4rem;
-  left: 20vw; */
   background-color: aliceblue;
   z-index: 750;
   display: flex;
@@ -12,8 +9,6 @@
 }
 .editPostCross {
   position: fixed;
-  /* top: 4rem;
-  right: 25vw; */
   top: 0;
   right: 0;
   z-index: 750;
@@ -32,17 +27,42 @@
 }
 
 @media screen and (max-width: 1150px) {
-  /* .editPostCross {
-    right: 0.05rem;
-  } */
   .editPostContainer {
     width: 40vw;
-    /* left: 30vw; */
   }
 }
 @media screen and (max-width: 1000px) {
   .editPostContainer {
     width: 45vw;
-    /* left: 27.5vw; */
+  }
+}
+@media screen and (max-width: 800px) {
+  .editPostContainer {
+    width: 50vw;
+  }
+}
+@media screen and (max-width: 670px) {
+  .editPostContainer {
+    width: 58vw;
+  }
+}
+@media screen and (max-width: 525px) {
+  .editPostContainer {
+    width: 65vw;
+  }
+}
+@media screen and (max-width: 430px) {
+  .editPostContainer {
+    width: 75vw;
+  }
+}
+@media screen and (max-width: 370px) {
+  .editPostContainer {
+    width: 85vw;
+  }
+}
+@media screen and (max-width: 300px) {
+  .editPostContainer {
+    width: 92vw;
   }
 }

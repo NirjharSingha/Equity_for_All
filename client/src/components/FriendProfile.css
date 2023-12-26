@@ -38,3 +38,27 @@
     left: 43vw;
   }
 }
+@media screen and (max-width: 800px) {
+  .friendProfileContainer {
+    width: 60vw;
+    left: 20vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .friendProfileContainer {
+    width: 70vw;
+    left: 15vw;
+  }
+}
+@media screen and (max-width: 480px) {
+  .friendProfileContainer {
+    width: 80vw;
+    left: 10vw;
+  }
+}
+@media screen and (max-width: 380px) {
+  .friendProfileContainer {
+    width: 96vw;
+    left: 2vw;
+  }
+}

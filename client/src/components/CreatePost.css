@@ -133,3 +133,33 @@
     width: 43.4vw;
   }
 }
+@media screen and (max-width: 800px) {
+  .editPostDesc {
+    width: 48.3vw;
+  }
+}
+@media screen and (max-width: 670px) {
+  .editPostDesc {
+    width: 56.2vw;
+  }
+}
+@media screen and (max-width: 525px) {
+  .editPostDesc {
+    width: 63vw;
+  }
+}
+@media screen and (max-width: 430px) {
+  .editPostDesc {
+    width: 72.8vw;
+  }
+}
+@media screen and (max-width: 370px) {
+  .editPostDesc {
+    width: 82vw;
+  }
+}
+@media screen and (max-width: 300px) {
+  .editPostDesc {
+    width: 88vw;
+  }
+}

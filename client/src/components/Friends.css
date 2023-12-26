@@ -36,4 +36,7 @@
   .friendDiv {
     max-height: calc(100svh - 10.3rem);
   }
+  .friendContainer {
+    grid-template-columns: 1fr 1fr;
+  }
 }

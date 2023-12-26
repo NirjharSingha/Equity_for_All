@@ -99,3 +99,34 @@
     height: 2.3rem;
   }
 }
+@media screen and (max-width: 500px) {
+  .personCardContainer {
+    width: 48vw;
+  }
+  .personImg {
+    width: 47vw;
+  }
+  .personCardButton {
+    width: 47vw;
+  }
+  .personName {
+    max-width: 46vw;
+  }
+  .personText {
+    max-width: 46vw;
+  }
+  .personImg {
+    height: 26vh;
+  }
+  .personCardButton {
+    height: 2.3rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .personImg {
+    height: 23vh;
+  }
+  .personCardButton {
+    height: 2.1rem;
+  }
+}
