@@ -79,6 +79,15 @@ const MainPage = () => {
     }
   }, [selectedGroup]);
 
+  useEffect(() => {
+    if (windowWidth > 800) {
+      const currentUrl = window.location.href;
+      if (currentUrl === `${import.meta.env.VITE_CLIENT_URL}main/yourProfile`) {
+        navigate("/main");
+      }
+    }
+  }, [windowWidth]);
+
   return (
     <>
       {editPost && <EditPost />}
@@ -194,6 +203,19 @@ const MainPage = () => {
                   </div>
                   <div className="leftComponent">
                     <CreateStory />
+                  </div>
+                </>
+              }
+            />
+            <Route
+              path="/yourProfile"
+              element={
+                <>
+                  <div
+                    className="mainComponent"
+                    style={{ overflowY: "hidden" }}
+                  >
+                    <Profile profileCode={0} />
                   </div>
                 </>
               }

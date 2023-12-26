@@ -21,3 +21,9 @@
   cursor: pointer;
   background-color: rgb(172, 195, 216);
 }
+
+@media screen and (max-width: 500px) {
+  .sideBarContainer {
+    top: 3rem;
+  }
+}

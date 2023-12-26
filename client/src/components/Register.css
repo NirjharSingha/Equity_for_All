@@ -226,6 +226,7 @@
 }
 .regDoBInput {
   grid-row: 8;
+  min-width: calc(100% - 10px);
 }
 .regSchoolInput {
   grid-row: 9;
@@ -399,6 +400,11 @@
 @media screen and (max-width: 350px) {
   .registerInput {
     max-width: 210px;
+  }
+}
+@media screen and (max-height: 580px) {
+  .regImage {
+    height: 35%;
   }
 }
 @media screen and (max-height: 460px) {

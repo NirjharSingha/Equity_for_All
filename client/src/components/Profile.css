@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: 2fr 7fr;
 }
 .profileImageContainer {
   grid-row: 1 / span 1;
@@ -12,7 +12,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: rgb(242, 239, 239); */
   padding-top: 5px;
   padding-bottom: 5px;
   overflow: hidden;
@@ -122,4 +121,45 @@
 .profileUpdateButton:hover {
   background-color: rgb(16, 110, 144);
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .profileContainer {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 660px) {
+  .profileContainer {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 560px) {
+  .profileContainer {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 450px) {
+  .profileContainer {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 390px) {
+  .profileContainer {
+    width: 98%;
+  }
+}
+@media screen and (max-height: 620px) {
+  .profileContainer {
+    grid-template-rows: 1fr 3fr;
+  }
+}
+@media screen and (max-height: 570px) {
+  .profileContainer {
+    grid-template-rows: 2fr 5fr;
+  }
+}
+@media screen and (max-height: 510px) {
+  .profileContainer {
+    grid-template-rows: 5fr 12fr;
+  }
 }

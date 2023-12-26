@@ -68,3 +68,41 @@
     width: calc(2.3 * ((100vw - 4rem) / 4 + 2rem));
   }
 }
+@media screen and (max-width: 800px) {
+  .updateProfileContainer {
+    width: 70vw;
+    margin-left: 15vw;
+  }
+}
+@media screen and (max-width: 800px) {
+  .updateProfileContainer {
+    width: 70vw;
+    margin-left: 15vw;
+  }
+}
+@media screen and (max-width: 720px) {
+  .updateProfileContainer {
+    width: 80vw;
+    margin-left: 10vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .updateProfileContainer {
+    width: 90vw;
+    margin-left: 5vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .updateProfileContainer {
+    width: 96vw;
+    margin-left: 2vw;
+    bottom: 3.4rem;
+    height: calc(100svh - 6.5rem);
+  }
+}
+@media screen and (max-width: 450px) {
+  .updateProfileContainer {
+    width: 100vw;
+    margin-left: 0vw;
+  }
+}
