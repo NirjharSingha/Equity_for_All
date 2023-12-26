@@ -3,26 +3,43 @@ import Searchbar from "./Searchbar";
 import "./Navbar.css";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import ChatSharpIcon from "@mui/icons-material/ChatSharp";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import ProfileIconSidebar from "./ProfileIconSidebar";
 import { useGlobals } from "../contexts/Globals";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
+import jwtDecode from "jwt-decode";
 
 export const Navbar = () => {
+  const { getUserInfo } = useUserInfoContext();
   const { windowWidth } = useGlobals();
   useEffect(() => {
     console.log("nav bar loaded");
   }, []);
-
+  const navIconRef = useRef(null);
+  const [userImg, setUserImg] = useState("");
   const [showSideBar, setShowSideBar] = useState(false);
 
+  useEffect(() => {
+    const displayUser = async () => {
+      const { name, profilePic } = await getUserInfo(
+        jwtDecode(localStorage.getItem("token")).email
+      );
+      setUserImg(profilePic);
+    };
+
+    displayUser();
+  }, []);
+
   const handleProfileIcon = () => {
-    setShowSideBar((prevVisible) => !prevVisible);
+    setShowSideBar((prev) => !prev);
   };
 
   return (
     <>
-      {showSideBar && <ProfileIconSidebar />}
+      {showSideBar && (
+        <ProfileIconSidebar setState={setShowSideBar} Ref={navIconRef} />
+      )}
       <nav className="navBar">
         <div className="left">
           <img src="/nexusSphere.svg" alt="" className="navIcon" />
@@ -68,8 +85,16 @@ export const Navbar = () => {
             </div>
           )}
           <div className="gridItem">
-            <div className="circle" onClick={handleProfileIcon}>
-              <img src="/navUserIcon.svg" alt="" className="navIcon" />
+            <div
+              className="circle"
+              onClick={handleProfileIcon}
+              ref={navIconRef}
+            >
+              <img
+                src={userImg === "" ? "/navUserIcon.svg" : userImg}
+                alt=""
+                className="navIcon"
+              />
             </div>
           </div>
         </div>

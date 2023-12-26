@@ -29,6 +29,8 @@ const CreatePost = () => {
     setAlertMessage,
     showYourPost,
     divRef,
+    showCreatePostMobile,
+    setShowCreatePostMobile,
   } = usePostContext();
   const inputRef = useRef(null);
 
@@ -137,29 +139,35 @@ const CreatePost = () => {
           setInputValue("");
           setSelectedFiles([]);
           setPostCategory("public");
-          if (!isGroupPost) {
-            setAlertMessage("Post created successfully");
-            setShowAlert(true);
-          } else {
-            setAlertMsg("Post created successfully");
-            setShowAlertMsg(true);
-          }
-          if (!isGroupPost) {
-            divRef.current.scrollTop = 0;
-          }
-          if (!isGroupPost) {
-            if (showYourPost) {
+          if (!showCreatePostMobile) {
+            if (!isGroupPost) {
+              setAlertMessage("Post created successfully");
+              setShowAlert(true);
+            } else {
+              setAlertMsg("Post created successfully");
+              setShowAlertMsg(true);
+            }
+            if (!isGroupPost && !showCreatePostMobile) {
+              divRef.current.scrollTop = 0;
+            }
+            if (!isGroupPost) {
+              if (showYourPost) {
+                setYourPostArray((prevPosts) => [
+                  response.data.post,
+                  ...prevPosts,
+                ]);
+              } else {
+                setShowYourPost(true);
+              }
+            } else {
               setYourPostArray((prevPosts) => [
                 response.data.post,
                 ...prevPosts,
               ]);
-            } else {
-              setShowYourPost(true);
             }
-          } else {
-            setYourPostArray((prevPosts) => [response.data.post, ...prevPosts]);
           }
           setIsGroupPost(false);
+          setShowCreatePostMobile(false);
         }
         if (response.status === 200) {
           // if (isDeleted && selectedPost.postAttachments.length !== 0) {
@@ -177,8 +185,9 @@ const CreatePost = () => {
           });
           setEditPost(false);
           setIsGroupPost(false);
+          setShowCreatePostMobile(false);
 
-          if (selectedGroup === null) {
+          if (!isGroupPost) {
             setAlertMessage("Post updated successfully");
             setShowAlert(true);
           } else {
@@ -188,11 +197,11 @@ const CreatePost = () => {
         }
       }
     } catch (error) {
+      console.log(error);
       if (error.response.status === 401) {
         console.log("inside status code");
         setIsValidJWT(false);
       }
-      console.log(error);
     }
   };
 
@@ -209,7 +218,7 @@ const CreatePost = () => {
             onChange={(event) => setInputValue(event.target.value)}
             placeholder="What's on your mind"
             className={
-              editPost || isGroupPost
+              editPost || isGroupPost || showCreatePostMobile
                 ? "postDescription editPostDesc"
                 : "postDescription postDesc"
             }

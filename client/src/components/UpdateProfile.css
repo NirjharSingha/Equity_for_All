@@ -57,3 +57,14 @@
   grid-template-columns: 2fr 3fr;
   grid-template-rows: 1.5rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 2.8125rem 8.4375rem 2.8125rem 8.4375rem 4.0625rem;
 }
+
+@media screen and (max-width: 1150px) {
+  .updateProfileContainer {
+    width: calc(2 * ((100vw - 4rem) / 4 + 2rem));
+  }
+}
+@media screen and (max-width: 920px) {
+  .updateProfileContainer {
+    width: calc(2.3 * ((100vw - 4rem) / 4 + 2rem));
+  }
+}

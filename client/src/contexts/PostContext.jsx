@@ -24,6 +24,7 @@ const PostContextProvider = ({ children }) => {
   const [shouldFetchOtherPostIds, setShouldFetchOtherPostIds] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [showCreatePostMobile, setShowCreatePostMobile] = useState(false);
   const divRef = useRef(null);
 
   const fetchPostDetails = async (
@@ -156,6 +157,8 @@ const PostContextProvider = ({ children }) => {
         setGroupPostPage,
         groupPostIds,
         setGroupPostIds,
+        showCreatePostMobile,
+        setShowCreatePostMobile,
         divRef,
       }}
     >

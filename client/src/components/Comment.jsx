@@ -25,6 +25,7 @@ const Comment = ({ setShowComments, post }) => {
   const [commentLimit] = useState(3);
   const [commentIds, setCommentIds] = useState([]);
   const inputRef = useRef(null);
+  const Ref = useRef(null);
   const [showLoading, setShowLoading] = useState(true);
 
   const handleRotateClick = async () => {
@@ -319,7 +320,9 @@ const Comment = ({ setShowComments, post }) => {
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (emojiRef.current && !emojiRef.current.contains(event.target)) {
-        setShowEmojis(false);
+        if (Ref.current && !Ref.current.contains(event.target)) {
+          setShowEmojis(false);
+        }
       }
     };
     document.addEventListener("mousedown", handleOutsideClick);
@@ -377,11 +380,13 @@ const Comment = ({ setShowComments, post }) => {
             <EmojiList setInputValue={setCommentInput} inputRef={inputRef} />
           </div>
         )}
-        <BsEmojiSmile
-          className="commentEmojiIcon"
-          style={{ fontSize: "1.7rem" }}
-          onClick={handleEmojiClick}
-        />
+        <span ref={Ref} style={{ display: "flex", alignItems: "center" }}>
+          <BsEmojiSmile
+            className="commentEmojiIcon"
+            style={{ fontSize: "1.7rem" }}
+            onClick={handleEmojiClick}
+          />
+        </span>
         <input
           type="text"
           className="commentReply"

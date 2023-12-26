@@ -1,6 +1,5 @@
 import React from "react";
 import "./Posts.css";
-import EditPost from "./EditPost";
 import { usePostContext } from "../contexts/PostContext";
 import OtherPosts from "./OtherPosts";
 import YourPosts from "./YourPosts";

@@ -7,7 +7,7 @@ import "./EditPost.css";
 
 const EditPost = () => {
   const editPostRef = useRef(null);
-  const { setEditPost } = usePostContext();
+  const { setEditPost, setShowCreatePostMobile } = usePostContext();
   const { setIsGroupPost } = useGroupContext();
   useEffect(() => {
     console.log("edit post loaded");
@@ -28,6 +28,7 @@ const EditPost = () => {
         onClick={() => {
           setEditPost(false);
           setIsGroupPost(false);
+          setShowCreatePostMobile(false);
         }}
       >
         X

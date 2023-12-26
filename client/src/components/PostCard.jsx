@@ -40,7 +40,8 @@ const PostCard = ({ post, shareFlag }) => {
   const [showEdit, setShowEdit] = useState(false);
   const { setEditPost, setSelectedPost, setShowAlert, setAlertMessage } =
     usePostContext();
-  const { setShowAlertMsg, setAlertMsg, selectedGroup } = useGroupContext();
+  const { setShowAlertMsg, setAlertMsg, selectedGroup, isGroupPost } =
+    useGroupContext();
   const editContainerRef = useRef(null);
   const { setYourPostArray } = usePostContext();
   const [showLikesList, setShowLikesList] = useState(false);
@@ -101,7 +102,7 @@ const PostCard = ({ post, shareFlag }) => {
           return prevPosts.filter((post) => post._id !== response.data.id);
         });
 
-        if (selectedGroup === null) {
+        if (!isGroupPost) {
           setAlertMessage("Post deleted successfully");
           setShowAlert(true);
         } else {
