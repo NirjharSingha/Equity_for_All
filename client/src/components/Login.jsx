@@ -67,7 +67,7 @@ const Login = () => {
         if (statusCode == 400) {
           if (errorMessage === "Invalid gmail") {
             setWarning("Invalid gmail. Register first");
-          } else {
+          } else if (errorMessage === "Invalid password") {
             setWarning("Invalid password. Try again");
           }
         }

@@ -35,11 +35,7 @@ const Comment = ({ setShowComments, post }) => {
     }, 500);
   };
 
-  const handleSSEData = (event) => {
-    handleRotateClick();
-
-    const data = JSON.parse(event.data);
-
+  const setCommentInPlace = (data) => {
     if (data.createFlag) {
       if (data.level === 0) {
         setComments((prevComments) => [data, ...prevComments]);
@@ -150,6 +146,16 @@ const Comment = ({ setShowComments, post }) => {
           );
         }
       });
+    }
+  };
+
+  const handleSSEData = (event) => {
+    handleRotateClick();
+
+    const data = JSON.parse(event.data);
+    const decodedToken = jwtDecode(localStorage.getItem("token"));
+    if (decodedToken.email !== data.userEmail) {
+      setCommentInPlace(data);
     }
   };
 
@@ -285,7 +291,11 @@ const Comment = ({ setShowComments, post }) => {
           },
         }
       );
-      setCommentInput("");
+      if (response) {
+        setCommentInput("");
+        console.log(response.data);
+        setCommentInPlace(response.data);
+      }
     } catch (error) {
       if (error.response.status === 401) {
         console.log("inside status code");
