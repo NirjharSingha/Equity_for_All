@@ -19,7 +19,13 @@ import jwtDecode from "jwt-decode";
 import ConfirmWindow from "./ConfirmWindow";
 import { useGlobals } from "../contexts/Globals";
 
-const CommentCard = ({ comment, postID, level, allComments }) => {
+const CommentCard = ({
+  comment,
+  postID,
+  level,
+  allComments,
+  setCommentInPlace,
+}) => {
   const { setIsValidJWT } = useGlobals();
   const [showReply, setShowReply] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
@@ -85,6 +91,9 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           },
         }
       );
+      if (response) {
+        setCommentInPlace(response.data);
+      }
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
@@ -238,13 +247,14 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           setShowEmojis(false);
           setShowReplyComments(true);
           setIsReply(false);
+          setCommentInPlace(response.data);
         }
       } catch (error) {
+        console.log(error);
         if (error.response.status === 401) {
           console.log("inside status code");
           setIsValidJWT(false);
         }
-        console.log(error);
       }
     } else {
       const sendData = {
@@ -272,6 +282,7 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
           setShowReply((prev) => !prev);
           setShowEmojis(false);
           setIsEdit(false);
+          setCommentInPlace(response.data);
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -513,10 +524,16 @@ const CommentCard = ({ comment, postID, level, allComments }) => {
               postID={postID}
               allComments={c.reply}
               level={1}
+              setCommentInPlace={setCommentInPlace}
             />
             {c.reply.map((x) => (
               <div className="level_2" key={x.commentID}>
-                <CommentCard key={x.commentID} comment={x} postID={postID} />
+                <CommentCard
+                  key={x.commentID}
+                  comment={x}
+                  postID={postID}
+                  setCommentInPlace={setCommentInPlace}
+                />
               </div>
             ))}
           </div>

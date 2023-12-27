@@ -293,7 +293,6 @@ const Comment = ({ setShowComments, post }) => {
       );
       if (response) {
         setCommentInput("");
-        console.log(response.data);
         setCommentInPlace(response.data);
       }
     } catch (error) {
@@ -373,6 +372,7 @@ const Comment = ({ setShowComments, post }) => {
               postID={post._id}
               allComments={comment.reply}
               level={0}
+              setCommentInPlace={setCommentInPlace}
             />
           </div>
         ))}

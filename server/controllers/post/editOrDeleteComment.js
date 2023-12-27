@@ -81,8 +81,8 @@ const editOrDeleteComment = asyncHandler(async (req, res) => {
     }
 
     if (updatedComment) {
+      res.status(200).json(dataToSend);
       sendSseDataToClients(dataToSend);
-      res.status(200).json(updatedComment);
     } else {
       res.status(404).json({ message: "Comment not found" });
     }
