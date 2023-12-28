@@ -1,3 +1,4 @@
+.mobileStoryContainer::-webkit-scrollbar,
 .allFriends::-webkit-scrollbar,
 .friendMain::-webkit-scrollbar,
 .searchList::-webkit-scrollbar,
@@ -18,6 +19,7 @@
   width: 2px;
   height: 1px;
 }
+.mobileStoryContainer::-webkit-scrollbar-track,
 .allFriends::-webkit-scrollbar-track,
 .friendMain::-webkit-scrollbar-track,
 .searchList::-webkit-scrollbar-track,
@@ -37,6 +39,7 @@
 .birthDayContainer::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+.mobileStoryContainer::-webkit-scrollbar-thumb,
 .allFriends::-webkit-scrollbar-thumb,
 .friendMain::-webkit-scrollbar-thumb,
 .searchList::-webkit-scrollbar-thumb,
@@ -57,6 +60,7 @@
   background-color: #706d6d;
   border-radius: 5px;
 }
+.mobileStoryContainer::-webkit-scrollbar-thumb:hover,
 .allFriends::-webkit-scrollbar-thumb:hover,
 .friendMain::-webkit-scrollbar-thumb:hover,
 .searchList::-webkit-scrollbar-thumb:hover,

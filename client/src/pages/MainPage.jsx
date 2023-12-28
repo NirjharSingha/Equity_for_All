@@ -20,6 +20,7 @@ import PreviewStory from "../components/PreviewStory";
 import DisplayStory from "../components/DisplayStory";
 import GroupsBar from "../components/GroupsBar";
 import EditPost from "../components/EditPost";
+import CreateStoryMobile from "../components/CreateStoryMobile";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -197,14 +198,20 @@ const MainPage = () => {
             <Route
               path="/createStory"
               element={
-                <>
-                  <div className="mainComponent">
-                    <PreviewStory />
-                  </div>
-                  <div className="leftComponent">
-                    <CreateStory />
-                  </div>
-                </>
+                windowWidth > 800 ? (
+                  <>
+                    <div className="mainComponent">
+                      <PreviewStory />
+                    </div>
+                    <div className="leftComponent">
+                      <CreateStory />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <CreateStoryMobile />
+                  </>
+                )
               }
             />
             <Route

@@ -49,3 +49,59 @@
   font-size: large;
   font-weight: bold;
 }
+
+@media screen and (max-width: 1000px) {
+  .displayStoryPreview {
+    width: 40vw;
+  }
+}
+@media screen and (max-width: 850px) {
+  .displayStoryPreview {
+    width: 45vw;
+  }
+}
+@media screen and (max-width: 800px) {
+  .previewStory {
+    max-height: 1150px;
+  }
+  .displayStoryPreview {
+    width: 50vw;
+  }
+}
+@media screen and (max-width: 720px) {
+  .previewStory {
+    max-height: 1030px;
+  }
+  .displayStoryPreview {
+    width: 60vw;
+  }
+}
+@media screen and (max-width: 560px) {
+  .previewStory {
+    max-height: 790px;
+  }
+  .displayStoryPreview {
+    width: 70vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .previewStory {
+    max-height: 680px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .previewStory {
+    max-height: 600px;
+  }
+  .displayStoryPreview {
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 360px) {
+  .previewStory {
+    max-height: 500px;
+  }
+  .displayStoryPreview {
+    width: 92vw;
+  }
+}

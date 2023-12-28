@@ -195,7 +195,7 @@ const CreateStory = () => {
 
   return (
     <form
-      className="createPost"
+      className="createStory"
       onSubmit={handleCreateStory}
       encType="multipart/form-data"
     >
