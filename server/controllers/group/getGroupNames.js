@@ -6,19 +6,19 @@ const getGroupNames = asyncHandler(async (req, res) => {
   const email = req.email;
   const groupsCreated = await Group.find(
     { admin: email },
-    "_id groupName groupImage groupVisibility"
+    "_id admin groupName groupImage groupVisibility"
   );
   const groupsJoined = await Group.find(
     { allMembers: { $in: [email] } },
-    "_id groupName groupImage groupVisibility"
+    "_id admin groupName groupImage groupVisibility"
   );
   const reqSent = await Group.find(
     { reqReceived: { $in: [email] } },
-    "_id groupName groupImage groupVisibility"
+    "_id admin groupName groupImage groupVisibility"
   );
   const invitationReceived = await Group.find(
     { invitationSent: { $in: [email] } },
-    "_id groupName groupImage groupVisibility"
+    "_id admin groupName groupImage groupVisibility"
   );
   let groupSuggessions = [];
 
@@ -31,6 +31,7 @@ const getGroupNames = asyncHandler(async (req, res) => {
       $group: {
         _id: "$_id",
         groupName: { $first: "$groupName" },
+        admin: { $first: "$admin" },
         groupImage: { $first: "$groupImage" },
         groupVisibility: { $first: "$groupVisibility" },
         friendsCount: {
@@ -50,7 +51,7 @@ const getGroupNames = asyncHandler(async (req, res) => {
     ) {
       groupSuggessions = await Group.find(
         {},
-        "_id groupName groupImage groupVisibility"
+        "_id admin groupName groupImage groupVisibility"
       ).limit(5);
     }
   }

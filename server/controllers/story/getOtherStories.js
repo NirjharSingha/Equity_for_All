@@ -25,7 +25,6 @@ const getOtherStories = asyncHandler(async (req, res) => {
     },
   ]);
 
-  // console.log(stories);
   let userStories = {};
 
   stories.forEach((story) => {
@@ -86,8 +85,6 @@ const getOtherStories = asyncHandler(async (req, res) => {
     // Add the reversed array to the new object
     reversedStoriesObject[userEmail] = reversedUserStories;
   }
-
-  console.log(reversedStoriesObject);
 
   if (reversedStoriesObject) {
     res.status(200).json(reversedStoriesObject);

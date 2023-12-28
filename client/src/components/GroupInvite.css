@@ -1,0 +1,65 @@
+.allFriendsContainer {
+  width: 30vw;
+  height: 50vh;
+  max-height: 50vh;
+  background-color: white;
+  z-index: 950;
+  border-radius: 0.5rem;
+}
+.allFriends {
+  width: 98%;
+  height: calc(50vh - 0.2rem);
+  max-height: calc(50vh - 0.2rem);
+  margin-left: 1%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.friendHover:hover {
+  background-color: rgb(188, 194, 198);
+  cursor: pointer;
+  border-radius: 0.3rem;
+}
+
+@media screen and (max-width: 970px) {
+  .allFriendsContainer {
+    width: 35vw;
+  }
+}
+@media screen and (max-width: 800px) {
+  .allFriendsContainer {
+    width: 40vw;
+  }
+}
+@media screen and (max-width: 670px) {
+  .allFriendsContainer {
+    width: 48vw;
+  }
+}
+@media screen and (max-width: 550px) {
+  .allFriendsContainer {
+    width: 55vw;
+  }
+}
+@media screen and (max-width: 470px) {
+  .allFriendsContainer {
+    width: 65vw;
+  }
+}
+@media screen and (max-width: 390px) {
+  .allFriendsContainer {
+    width: 75vw;
+  }
+}
+@media screen and (max-width: 320px) {
+  .allFriendsContainer {
+    width: 85vw;
+  }
+}
+@media screen and (max-width: 280px) {
+  .allFriendsContainer {
+    width: 92vw;
+  }
+}

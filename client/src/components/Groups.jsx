@@ -10,6 +10,7 @@ import GroupMembers from "./GroupMembers";
 import GroupRequests from "./GroupRequests";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import GroupInvite from "./GroupInvite";
 
 const Group = () => {
   const {
@@ -28,6 +29,7 @@ const Group = () => {
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [pics, setPics] = useState([]);
+  const [showInvite, setShowInvite] = useState(false);
 
   useEffect(() => {
     console.log("group component loaded");
@@ -82,6 +84,9 @@ const Group = () => {
 
   return (
     <div className="homeDiv">
+      {selectedGroup !== null && showInvite && (
+        <GroupInvite setState={setShowInvite} />
+      )}
       {selectedGroup === null && (
         <p className="selectGroupText">Select a group to view details</p>
       )}
@@ -129,7 +134,9 @@ const Group = () => {
                   : `You have no friend in this group`}
               </p>
               {(access === 1 || access === 2) && (
-                <button className="invite">Invite</button>
+                <button className="invite" onClick={() => setShowInvite(true)}>
+                  Invite
+                </button>
               )}
             </div>
             <hr />

@@ -18,8 +18,6 @@ const createPost = asyncHandler(async (req, res) => {
     );
   }
 
-  console.log(postAttachments);
-
   const post = new Post({
     userEmail,
     postDescription,

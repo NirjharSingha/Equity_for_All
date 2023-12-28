@@ -123,6 +123,12 @@
   background-color: rgb(4, 102, 138);
   cursor: pointer;
 }
+.memHeading {
+  font: 1.3rem sans-serif;
+  font-weight: bold;
+  padding: 0.3rem;
+  color: #616366;
+}
 
 @media screen and (max-width: 800px) {
   .groupContainer {

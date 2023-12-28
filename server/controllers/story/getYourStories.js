@@ -33,7 +33,6 @@ const getYourStories = asyncHandler(async (req, res) => {
 
   let objectToSend = {};
   objectToSend[email] = reversedStories;
-  console.log(objectToSend);
 
   if (objectToSend) {
     res

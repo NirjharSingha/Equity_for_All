@@ -3,7 +3,6 @@ import Story from "../../models/Story.js";
 import uploadToCloudinary from "../../utils/cloudinaryUpload.js";
 
 const editStory = asyncHandler(async (req, res) => {
-  console.log("inside edit story");
   const {
     storyDescription,
     storyVisibility,
@@ -16,7 +15,6 @@ const editStory = asyncHandler(async (req, res) => {
   } = req.body;
   let backgroundImage;
 
-  console.log(id);
   if (req.file === undefined) {
     backgroundImage = prevBg;
   } else {
@@ -36,8 +34,6 @@ const editStory = asyncHandler(async (req, res) => {
     },
     { new: true }
   );
-
-  console.log(updatedStory);
 
   if (updatedStory) {
     return res.status(200).json({

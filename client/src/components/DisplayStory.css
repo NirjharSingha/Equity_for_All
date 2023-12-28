@@ -1,6 +1,7 @@
 .displayStoryContainer {
   width: 100%;
   height: 100%;
+  max-height: calc(100vh - 8.2rem);
   display: flex;
   grid-column: 1 / span 2;
   justify-content: space-evenly;
@@ -8,8 +9,10 @@
   padding: 0.6rem;
 }
 .displayStory {
-  width: 35vw;
-  height: 100%;
+  width: 30vw;
+  aspect-ratio: 1/1.7;
+  max-height: calc(100vh - 9.5rem);
+  overflow-y: auto;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -141,6 +144,9 @@
   min-height: 3.2rem;
   min-width: 3.2rem;
 }
+.displayStory::-webkit-scrollbar {
+  display: none;
+}
 
 @media screen and (max-width: 1050px) {
   .displayStory {
@@ -188,5 +194,23 @@
   .storyArrawButton:hover {
     min-height: 2.3rem;
     min-width: 2.3rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .storyCreator {
+    height: 2.6rem;
+  }
+  .storyCreatorPicContainer {
+    width: 2.6rem;
+  }
+  .storyCreatorPic {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+  .storyCreatorName {
+    font-size: 0.8rem;
+  }
+  .storyTime {
+    font-size: 0.6rem;
   }
 }

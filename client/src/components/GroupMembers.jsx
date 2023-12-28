@@ -5,16 +5,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "./Loading";
 import { useGlobals } from "../contexts/Globals";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
 const GroupMembers = () => {
+  const { getUserInfo } = useUserInfoContext();
   const { access, selectedGroup, setAlertMsg, setShowAlertMsg } =
     useGroupContext();
   const [allMembers, setAllMembers] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
   const { setIsValidJWT } = useGlobals();
+  const [adminName, setAdminName] = useState("");
+  const [adminPic, setAdminPic] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(selectedGroup);
+      const { name, profilePic } = await getUserInfo(selectedGroup.admin);
+      setAdminName(name);
+      setAdminPic(profilePic);
+
       try {
         setShowLoading(true);
         const token = localStorage.getItem("token");
@@ -40,7 +49,9 @@ const GroupMembers = () => {
         }
       }
     };
-    fetchData();
+    if (selectedGroup !== null) {
+      fetchData();
+    }
   }, [selectedGroup]);
 
   const removeMember = async (member) => {
@@ -84,6 +95,27 @@ const GroupMembers = () => {
         <div className="loadingContainer">
           <Loading />
         </div>
+      )}
+      {!showLoading && (
+        <div>
+          <p className="memHeading" style={{ marginBottom: "0.3rem" }}>
+            Admin
+          </p>
+          <ItemCard
+            containerClass="grpMem"
+            imgClass="storyProfilePic"
+            nameClass="optionListName"
+            shouldDisplayImg={adminPic !== ""}
+            imgSrc={adminPic}
+            icon="/profilePicIcon.svg"
+            name={adminName}
+          />
+        </div>
+      )}
+      {!showLoading && allMembers && allMembers.length > 0 && (
+        <p className="memHeading" style={{ marginTop: "0.3rem" }}>
+          Other Members
+        </p>
       )}
       {!showLoading &&
         allMembers &&
