@@ -29,7 +29,6 @@ const CreateGroup = () => {
   const [groupName, setGroupName] = useState(
     isEditGroup ? groupToEdit.groupName : ""
   );
-  const [isDisable, setIsDisable] = useState(true);
   const [privacy, setPrivacy] = useState(
     isEditGroup ? groupToEdit.groupVisibility : ""
   );
@@ -61,14 +60,6 @@ const CreateGroup = () => {
       setSelectedFile(reader.result);
     };
   };
-
-  useEffect(() => {
-    if (groupName === "" || privacy === "") {
-      setIsDisable(true);
-    } else {
-      setIsDisable(false);
-    }
-  }, [groupName, privacy]);
 
   const handleCreateGroup = async (e) => {
     e.preventDefault();
@@ -194,6 +185,7 @@ const CreateGroup = () => {
             className="groupInput"
             value={groupName}
             onChange={(event) => setGroupName(event.target.value)}
+            required
           />
           <select
             id="privacy"
@@ -201,6 +193,7 @@ const CreateGroup = () => {
             className="groupInput"
             value={privacy}
             onChange={(event) => setPrivacy(event.target.value)}
+            required
           >
             {!isEditGroup && <option value="">Select Privacy</option>}
             <option value="public">Public</option>
@@ -250,15 +243,7 @@ const CreateGroup = () => {
             )}
           </button>
         </div>
-        <button
-          type="submit"
-          className={
-            isDisable
-              ? "createGroupBtn disabledCreatePost"
-              : "createGroupBtn buttonHover"
-          }
-          disabled={isDisable}
-        >
+        <button type="submit" className={"createGroupBtn buttonHover"}>
           {isEditGroup ? "Update Group" : "Create Group"}
         </button>
       </form>

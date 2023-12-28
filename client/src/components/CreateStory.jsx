@@ -20,7 +20,6 @@ const CreateStory = () => {
   }, []);
 
   const fileInputRef = useRef(null);
-  const [isDisable, setIsDisable] = useState(true);
   const {
     selectedBg,
     setSelectedBg,
@@ -78,14 +77,6 @@ const CreateStory = () => {
     setSelectedFile(file);
     setCrossFlag(true);
   };
-
-  useEffect(() => {
-    if (inputValue === "" && crossFlag === false) {
-      setIsDisable(true);
-    } else {
-      setIsDisable(false);
-    }
-  }, [inputValue, crossFlag]);
 
   const handleCreateStory = async (e) => {
     e.preventDefault();
@@ -208,6 +199,7 @@ const CreateStory = () => {
             }}
             placeholder="Start writing"
             className="storyDescription"
+            required
           />
         </div>
         <select
@@ -422,12 +414,8 @@ const CreateStory = () => {
       <div className="createPostSecondRow">
         <button
           type="submit"
-          className={
-            isDisable
-              ? "createStoryButton disabledCreatePost"
-              : "createStoryButton createStoryHover"
-          }
-          disabled={isDisable}
+          className={"createStoryButton createStoryHover"}
+          disabled={false}
         >
           {isEdit ? "Apply changes" : "Upload"}
         </button>
