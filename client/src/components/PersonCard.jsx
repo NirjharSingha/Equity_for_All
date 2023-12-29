@@ -8,7 +8,12 @@ import axios from "axios";
 import ConfirmWindow from "./ConfirmWindow";
 import { useGlobals } from "../contexts/Globals";
 
-const PersonCard = ({ email }) => {
+const PersonCard = ({
+  email,
+  searchFlag,
+  setSearchMessage,
+  setShowSearchResult,
+}) => {
   const { setIsValidJWT } = useGlobals();
   const {
     friendsID,
@@ -32,6 +37,7 @@ const PersonCard = ({ email }) => {
   const [showMessage, setShowMessage] = useState(false);
   const [messageToShow, setMessageToShow] = useState("");
   const [showFriendProfile, setShowFriendProfile] = useState(false);
+  const [searchValue, setSearchValue] = useState({});
 
   useEffect(() => {
     const displayPerson = async () => {
@@ -65,6 +71,36 @@ const PersonCard = ({ email }) => {
     displayPerson();
     countMutualFriends();
     console.log("person card loaded");
+  }, []);
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/api/personSearch?friendEmail=${email}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setSearchValue(response.data);
+          console.log(response.data);
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          setIsValidJWT(false);
+        }
+      }
+    };
+
+    if (searchFlag === true) {
+      handleSearch();
+    }
   }, []);
 
   const updateFriends = async (option, action, num) => {
@@ -158,31 +194,42 @@ const PersonCard = ({ email }) => {
       );
       if (!isFollow) {
         if (response.data.message === "blocked") {
-          setShowMessage(true);
-          setMessageToShow(
-            "Sorry, the user has blocked you. This request cannot be sent."
-          );
+          if (searchFlag !== true) {
+            setShowMessage(true);
+            setMessageToShow("Sorry, the user blocked you.");
+          } else {
+            setSearchMessage(true);
+          }
           return;
         } else {
           updateFriends("friendRequestSend", "add");
-          updateIDArray(setReqSendID, "add");
-          updateIDArray(setSuggessionsID, "remove");
-          setAlertMessage("friend request sent successfully");
-          setShowAlert(true);
+          if (searchFlag !== true) {
+            updateIDArray(setReqSendID, "add");
+            updateIDArray(setSuggessionsID, "remove");
+            setAlertMessage("friend request sent");
+            setShowAlert(true);
+          } else {
+            setShowSearchResult(false);
+          }
         }
       } else {
         if (response.data.message === "blocked") {
-          setShowMessage(true);
-          setMessageToShow(
-            "Sorry, the user has blocked you. You cannot follow the user."
-          );
+          if (searchFlag !== true) {
+            setShowMessage(true);
+            setMessageToShow("Sorry, the user blocked you.");
+          } else {
+            setSearchMessage(true);
+          }
           return;
         } else {
-          console.log(response.data.message);
           updateFriends("followings", "add");
-          updateIDArray(setFollowingsID, "add");
-          setAlertMessage(`you followed the user`);
-          setShowAlert(true);
+          if (searchFlag !== true) {
+            updateIDArray(setFollowingsID, "add");
+            setAlertMessage(`you followed the user`);
+            setShowAlert(true);
+          } else {
+            setShowSearchResult(false);
+          }
         }
       }
     } catch (error) {
@@ -315,7 +362,9 @@ const PersonCard = ({ email }) => {
       {showFriendProfile && (
         <FriendProfile
           setShowFriendProfile={setShowFriendProfile}
-          profileCode={friendsID.includes(email) ? 1 : 2}
+          profileCode={
+            friendsID.includes(email) || searchValue.friends === 1 ? 1 : 2
+          }
           friendEmail={email}
         />
       )}
@@ -328,7 +377,7 @@ const PersonCard = ({ email }) => {
         </div>
         <p className="personName">{userName}</p>
         <p className="personText">{mutualFriends} mutual friends</p>
-        {selectedOption === 0 && (
+        {selectedOption === 0 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -348,7 +397,7 @@ const PersonCard = ({ email }) => {
             </button>
           </>
         )}
-        {selectedOption === 1 && (
+        {selectedOption === 1 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -368,7 +417,7 @@ const PersonCard = ({ email }) => {
             </button>
           </>
         )}
-        {selectedOption === 2 && (
+        {selectedOption === 2 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -396,7 +445,7 @@ const PersonCard = ({ email }) => {
             </button>
           </>
         )}
-        {selectedOption === 3 && (
+        {selectedOption === 3 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -428,7 +477,7 @@ const PersonCard = ({ email }) => {
             </button>
           </>
         )}
-        {selectedOption === 4 && (
+        {selectedOption === 4 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -452,7 +501,7 @@ const PersonCard = ({ email }) => {
             </button>
           </>
         )}
-        {selectedOption === 5 && (
+        {selectedOption === 5 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -472,7 +521,7 @@ const PersonCard = ({ email }) => {
             </button>
           </>
         )}
-        {selectedOption === 6 && (
+        {selectedOption === 6 && searchFlag !== true && (
           <>
             <button
               className="personCardButton personCardElement"
@@ -482,6 +531,134 @@ const PersonCard = ({ email }) => {
             >
               Unblock
             </button>
+          </>
+        )}
+        {searchFlag === true && (
+          <>
+            <>
+              {searchValue.blockList === 1 && (
+                <button
+                  className="personCardButton personCardElement"
+                  onClick={() => {
+                    updateFriends("blockList", "remove");
+                    setShowSearchResult(false);
+                  }}
+                >
+                  Unblock
+                </button>
+              )}
+            </>
+            <>
+              {searchValue.blockList === 0 && searchValue.friends === 1 && (
+                <button
+                  className="personCardButton personCardElement"
+                  onClick={() => {
+                    updateFriends("friends", "remove");
+                    setShowSearchResult(false);
+                  }}
+                >
+                  Unfriend
+                </button>
+              )}
+            </>
+            <>
+              {searchValue.blockList === 0 &&
+                searchValue.friendRequestSend === 1 && (
+                  <button
+                    className="personCardButton personCardElement"
+                    onClick={() => {
+                      updateFriends("friendRequestSend", "remove");
+                      setShowSearchResult(false);
+                    }}
+                  >
+                    Cancel Request
+                  </button>
+                )}
+            </>
+            <>
+              {searchValue.blockList === 0 &&
+                searchValue.friendRequestReceived === 1 && (
+                  <>
+                    <button
+                      className="personCardButton personCardElement"
+                      onClick={() => {
+                        updateFriends("friendRequestReceived", "remove");
+                        updateFriends("friends", "add");
+                        setShowSearchResult(false);
+                      }}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="personCardButton personCardElement"
+                      onClick={() => {
+                        updateFriends("friendRequestReceived", "remove");
+                        setShowSearchResult(false);
+                      }}
+                    >
+                      Decline
+                    </button>
+                  </>
+                )}
+            </>
+            <>
+              {searchValue.blockList === 0 &&
+                searchValue.friends === 0 &&
+                searchValue.friendRequestReceived === 0 &&
+                searchValue.friendRequestSend === 0 && (
+                  <button
+                    className="personCardButton personCardElement"
+                    onClick={() => {
+                      handleAddFriend(false);
+                    }}
+                  >
+                    Add Friend
+                  </button>
+                )}
+            </>
+            <>
+              {searchValue.blockList === 0 && searchValue.followings === 0 && (
+                <button
+                  className="personCardButton personCardElement"
+                  onClick={() => {
+                    handleAddFriend(true);
+                  }}
+                >
+                  Follow
+                </button>
+              )}
+            </>
+            <>
+              {searchValue.blockList === 0 && searchValue.followings === 1 && (
+                <button
+                  className="personCardButton personCardElement"
+                  onClick={() => {
+                    updateFriends("followings", "remove");
+                    setShowSearchResult(false);
+                  }}
+                >
+                  Unfollow
+                </button>
+              )}
+            </>
+            <>
+              {searchValue.blockList === 0 && (
+                <button
+                  className="personCardButton personCardElement"
+                  onClick={() => {
+                    updateFriends("followers", "remove");
+                    updateFriends("followings", "remove");
+                    updateFriends("friends", "remove");
+                    updateFriends("friendRequestSend", "remove");
+                    updateFriends("friendRequestReceived", "remove");
+                    updateFriends("blockList", "add");
+                    setShowSearchResult(false);
+                  }}
+                >
+                  Block
+                </button>
+              )}
+            </>
           </>
         )}
       </div>

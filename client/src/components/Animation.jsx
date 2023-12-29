@@ -1,12 +1,12 @@
 import React from "react";
 import "./Animation.css";
 import Lottie from "lottie-react";
-import Story from "../lib/Story.json";
-import Post from "../lib/Post.json";
-import Group from "../lib/Group.json";
-import Friend from "../lib/Friend.json";
-import Chat from "../lib/Chat.json";
-import LandingPage from "../lib/LandingPage.json";
+import Story from "../animations/Story.json";
+import Post from "../animations/Post.json";
+import Group from "../animations/Group.json";
+import Friend from "../animations/Friend.json";
+import Chat from "../animations/Chat.json";
+import LandingPage from "../animations/LandingPage.json";
 import { useState, useEffect } from "react";
 
 const Animation = () => {
