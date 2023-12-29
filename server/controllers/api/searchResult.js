@@ -6,11 +6,12 @@ const searchResult = asyncHandler(async (req, res) => {
   const value = req.query.value;
   const users = await User.find(
     { name: { $regex: value, $options: "i" } },
-    "name profilePic"
+    "email name profilePic"
   );
 
   const usersWithFlag = users.map((user) => ({
     _id: user._id,
+    email: user.email,
     name: user.name,
     pic: user.profilePic,
     flag: "user",

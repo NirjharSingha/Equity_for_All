@@ -4,8 +4,12 @@ import "./Searchbar.css";
 import { useEffect } from "react";
 import axios from "axios";
 import ItemCard from "./ItemCard";
+import { useGlobals } from "../contexts/Globals";
+import { FaArrowLeft } from "react-icons/fa6";
+import SearchResult from "./SearchResult";
 
 const Searchbar = () => {
+  const { windowWidth } = useGlobals();
   useEffect(() => {
     console.log("search bar loaded");
   }, []);
@@ -15,6 +19,8 @@ const Searchbar = () => {
   const [showSearchList, setShowList] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const searchRef = useRef(null);
+  const [showResult, setShowResult] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   const handleInputChange = async (value) => {
     setInputValue(value);
@@ -49,6 +55,7 @@ const Searchbar = () => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowList(false);
         setInputValue("");
+        setFilteredData([]);
       }
     };
     document.addEventListener("mousedown", handleOutsideClick);
@@ -57,9 +64,22 @@ const Searchbar = () => {
     };
   }, []);
 
+  const handleSearchClick = (searchItem) => {
+    setSelectedItem(searchItem);
+    setShowList(false);
+    setInputValue("");
+    setFilteredData([]);
+    setShowResult(true);
+  };
+
   return (
     <div className="searchbar" ref={searchRef}>
-      {/* <SearchResult /> */}
+      {showResult && (
+        <SearchResult
+          selectedItem={selectedItem}
+          setShowResult={setShowResult}
+        />
+      )}
       <input
         type="text"
         className="searchInput"
@@ -67,24 +87,61 @@ const Searchbar = () => {
         value={inputValue}
         onChange={(e) => handleInputChange(e.target.value)}
       />
-      <SearchIcon style={{ color: "#4d4f52", cursor: "pointer" }} />
+      {windowWidth <= 500 && (
+        <SearchIcon
+          style={{ color: "#4d4f52", cursor: "pointer" }}
+          onClick={() => {
+            setShowList(true);
+          }}
+        />
+      )}
       {showSearchList && (
         <div className="searchList">
+          {windowWidth <= 500 && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "0.5rem",
+              }}
+            >
+              <FaArrowLeft
+                className="searchListIcon"
+                onClick={() => {
+                  setShowList(false);
+                  setInputValue("");
+                  setFilteredData([]);
+                }}
+              />
+              <input
+                type="text"
+                className="searchListInput"
+                placeholder="Search here"
+                value={inputValue}
+                onChange={(e) => handleInputChange(e.target.value)}
+              />
+            </div>
+          )}
           {filteredData.map((searchItem) => (
-            <ItemCard
+            <div
               key={searchItem._id}
-              containerClass="searchLine"
-              imgClass="optionListImg"
-              nameClass="optionListName"
-              shouldDisplayImg={!(searchItem.pic === "")}
-              imgSrc={searchItem.pic}
-              icon={
-                searchItem.flag === "user"
-                  ? "/profilePicIcon.svg"
-                  : "/group.png"
-              }
-              name={searchItem.name}
-            />
+              onClick={() => handleSearchClick(searchItem)}
+            >
+              <ItemCard
+                key={searchItem._id}
+                containerClass="searchLine"
+                imgClass="optionListImg"
+                nameClass="optionListName"
+                shouldDisplayImg={!(searchItem.pic === "")}
+                imgSrc={searchItem.pic}
+                icon={
+                  searchItem.flag === "user"
+                    ? "/profilePicIcon.svg"
+                    : "/group.png"
+                }
+                name={searchItem.name}
+              />
+            </div>
           ))}
         </div>
       )}

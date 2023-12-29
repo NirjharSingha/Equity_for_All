@@ -15,11 +15,14 @@
   grid-template-rows: 1fr;
   grid-template-columns: auto 1rem;
   width: calc(100% - 0.8rem);
+  max-width: calc(100% - 0.8rem);
+  overflow-wrap: break-word;
 }
 .alertMessage {
   grid-column: 1 / span 1;
   margin: 0;
   text-align: center;
+  overflow-wrap: break-word;
 }
 .closeAlert {
   grid-column: 2 / span 1;

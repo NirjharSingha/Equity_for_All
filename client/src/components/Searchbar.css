@@ -25,6 +25,21 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   overflow-x: hidden;
   overflow-y: auto;
+  z-index: 500;
+}
+.searchListInput {
+  border-radius: 4rem;
+  text-indent: 7px;
+  height: 1.5rem;
+  border: none;
+  width: 80%;
+  margin-right: 0.2rem;
+  margin-left: 0.5rem;
+}
+.searchListIcon {
+  color: #4d4f52;
+  cursor: pointer;
+  margin-left: 0.3rem;
 }
 .searchLine {
   width: calc(100% - 10px);
@@ -69,5 +84,9 @@
   }
   .searchInput {
     display: none;
+  }
+  .searchList {
+    top: 0;
+    left: 0;
   }
 }

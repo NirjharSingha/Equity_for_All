@@ -181,7 +181,7 @@ const PersonCard = ({ email }) => {
           console.log(response.data.message);
           updateFriends("followings", "add");
           updateIDArray(setFollowingsID, "add");
-          setAlertMessage(`you have followed ${userName}`);
+          setAlertMessage(`you followed the user`);
           setShowAlert(true);
         }
       }
@@ -211,7 +211,7 @@ const PersonCard = ({ email }) => {
 
   const func_1 = () => {
     updateIDArray(setFriendsID, "remove");
-    setAlertMessage(`you and ${userName} are not friends anymore`);
+    setAlertMessage(`you unfriend the user`);
     setShowAlert(true);
   };
 
@@ -222,7 +222,7 @@ const PersonCard = ({ email }) => {
 
   const func_3 = () => {
     updateIDArray(setReqSendID, "remove");
-    setAlertMessage(`friend request deleted successfully`);
+    setAlertMessage(`friend request deleted`);
     setShowAlert(true);
   };
 
@@ -235,7 +235,7 @@ const PersonCard = ({ email }) => {
     updateIDArray(setReqReceivedID, "remove");
     updateFriends("friends", "add");
     updateIDArray(setFriendsID, "add");
-    setAlertMessage(`you and ${userName} are friends now`);
+    setAlertMessage(`you both are friends now`);
     setShowAlert(true);
   };
 
@@ -252,31 +252,31 @@ const PersonCard = ({ email }) => {
 
   const func_8 = () => {
     updateIDArray(setFollowingsID, "remove");
-    setAlertMessage(`you have unfollowed ${userName}`);
+    setAlertMessage(`you unfollowed the user`);
     setShowAlert(true);
   };
 
   const func_9 = () => {
     updateIDArray(setFollowingsID, "remove");
-    setAlertMessage(`you have unfollowed ${userName}`);
+    setAlertMessage(`you unfollowed the user`);
     setShowAlert(true);
   };
 
   const func_10 = () => {
     updateIDArray(setFollowingsID, "add");
-    setAlertMessage(`you have followed ${userName}`);
+    setAlertMessage(`you followed the user`);
     setShowAlert(true);
   };
 
   const func_11 = () => {
     updateIDArray(setFollowingsID, "remove");
-    setAlertMessage(`you have unfollowed ${userName}`);
+    setAlertMessage(`you unfollowed the user`);
     setShowAlert(true);
   };
 
   const func_12 = () => {
     updateIDArray(setBlockID, "remove");
-    setAlertMessage(`${userName} is unblocked`);
+    setAlertMessage(`the user is unblocked`);
     setShowAlert(true);
   };
 
@@ -288,7 +288,7 @@ const PersonCard = ({ email }) => {
     updateIDArray(setReqReceivedID, "remove");
     updateIDArray(setSuggessionsID, "remove");
     updateIDArray(setBlockID, "add");
-    setAlertMessage(`${userName} is blocked`);
+    setAlertMessage(`the user is blocked`);
     setShowAlert(true);
   };
 
@@ -296,7 +296,7 @@ const PersonCard = ({ email }) => {
     updateIDArray(setBlockID, "add");
     updateIDArray(setFollowersID, "remove");
     updateIDArray(setFollowingsID, "remove");
-    setAlertMessage(`${userName} is blocked`);
+    setAlertMessage(`the user is blocked`);
     setShowAlert(true);
     if (selectedOption === 3) {
       updateIDArray(setSuggessionsID, "remove");

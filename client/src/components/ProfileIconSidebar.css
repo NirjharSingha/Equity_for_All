@@ -16,6 +16,8 @@
   padding: 3px 3px 3px 3px;
   font-size: 0.8rem;
   font-weight: 570;
+  display: flex;
+  align-items: center;
 }
 .sidebarButton:hover {
   cursor: pointer;

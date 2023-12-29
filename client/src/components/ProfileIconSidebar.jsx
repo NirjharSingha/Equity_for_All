@@ -3,6 +3,8 @@ import "./ProfileIconSidebar.css";
 import { BiLogOut } from "react-icons/bi";
 import { useEffect, useRef } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
+import { MdNotificationsActive } from "react-icons/md";
+import { IoChatboxEllipses } from "react-icons/io5";
 import { useGlobals } from "../contexts/Globals";
 import { useNavigate } from "react-router-dom";
 
@@ -41,12 +43,21 @@ const ProfileIconSidebar = ({ setState, Ref }) => {
   return (
     <div className="sideBarContainer" ref={containerRef}>
       {windowWidth < 800 && (
-        <button className="sidebarButton" onClick={handleProfile}>
-          Profile <BsFillPersonFill />
-        </button>
+        <>
+          <button className="sidebarButton" onClick={handleProfile}>
+            Profile <BsFillPersonFill style={{ marginLeft: "0.2rem" }} />
+          </button>
+          <button className="sidebarButton" onClick={handleProfile}>
+            Notification{" "}
+            <MdNotificationsActive style={{ marginLeft: "0.2rem" }} />
+          </button>
+          <button className="sidebarButton" onClick={handleProfile}>
+            Chat <IoChatboxEllipses style={{ marginLeft: "0.2rem" }} />
+          </button>
+        </>
       )}
       <button className="sidebarButton" onClick={handleLogout}>
-        Log out <BiLogOut />
+        Log out <BiLogOut style={{ marginLeft: "0.2rem" }} />
       </button>
     </div>
   );

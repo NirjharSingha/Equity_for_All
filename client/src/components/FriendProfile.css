@@ -1,6 +1,6 @@
 .friendProfileContainer {
   width: 35vw;
-  left: 32.5vw;
+  /* left: 32.5vw; */
   height: calc(100svh - 8.3rem);
   top: 4.1rem;
   z-index: 700;
@@ -35,30 +35,30 @@
 @media screen and (max-width: 1150px) {
   .friendProfileContainer {
     width: 47vw;
-    left: 43vw;
+    /* left: 43vw; */
   }
 }
 @media screen and (max-width: 800px) {
   .friendProfileContainer {
     width: 60vw;
-    left: 20vw;
+    /* left: 20vw; */
   }
 }
 @media screen and (max-width: 600px) {
   .friendProfileContainer {
     width: 70vw;
-    left: 15vw;
+    /* left: 15vw; */
   }
 }
 @media screen and (max-width: 480px) {
   .friendProfileContainer {
     width: 80vw;
-    left: 10vw;
+    /* left: 10vw; */
   }
 }
 @media screen and (max-width: 380px) {
   .friendProfileContainer {
     width: 96vw;
-    left: 2vw;
+    /* left: 2vw; */
   }
 }

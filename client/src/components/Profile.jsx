@@ -70,7 +70,10 @@ const Profile = ({ profileCode, setShowFriendProfile, friendEmail }) => {
         </div>
       )}
       {!showLoading && (
-        <div className="profileContainer">
+        <div
+          className="profileContainer"
+          style={profileCode === 0 ? {} : { minWidth: "100%" }}
+        >
           <div className="profileImageContainer">
             <img src={profileData.profilePic} className="profileImage" />
             <button
