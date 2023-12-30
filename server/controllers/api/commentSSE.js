@@ -26,25 +26,19 @@ const commentSSE = asyncHandler(async (req, res) => {
     return;
   }
 
-  addClient(res);
+  const postId = req.query.postId; // Assuming postId is part of the query parameters
+
+  addClient(res, postId);
 
   // Function to send comments periodically
   const sendCommentPeriodically = () => {
-    // Customize this part to generate your comment data
     const commentData = "New comment data";
-
-    // Send the comment to the connected clients
     res.write(`data: ${JSON.stringify({ comment: commentData })}\n\n`);
   };
-
-  // Set up a timer to send comments every few seconds
-  const commentInterval = setInterval(sendCommentPeriodically, 5000);
+  const commentInterval = setInterval(sendCommentPeriodically, 600000);
 
   req.on("close", () => {
-    // Remove the client when the connection is closed
-    removeClient(res);
-
-    // Clear the interval when the connection is closed
+    removeClient(res, postId);
     clearInterval(commentInterval);
   });
 });

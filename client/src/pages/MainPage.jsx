@@ -89,6 +89,21 @@ const MainPage = () => {
     }
   }, [windowWidth]);
 
+  // useEffect(() => {
+  //   const handleNotification = async () => {};
+
+  //   const eventSource = new EventSource(
+  //     `${import.meta.env.VITE_SERVER_URL}/api/handleNotification`
+  //   );
+
+  //   eventSource.addEventListener("message", handleNotification);
+
+  //   return () => {
+  //     eventSource.removeEventListener("message", handleNotification);
+  //     eventSource.close();
+  //   };
+  // }, []);
+
   return (
     <>
       {editPost && <EditPost />}

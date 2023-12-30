@@ -135,7 +135,7 @@ const createComment = asyncHandler(async (req, res) => {
 
     if (updatedPost) {
       res.status(200).json(dataToSend);
-      sendSseDataToClients(dataToSend);
+      sendSseDataToClients(dataToSend, postId);
     } else {
       res.status(404).json({ message: "Post not found" });
     }
