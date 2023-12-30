@@ -22,6 +22,7 @@ const GroupContextProvider = ({ children }) => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [access, setAccess] = useState(0);
   const [selectedOption, setSelectedOption] = useState("stream");
+  const [searchTime, setSearchTime] = useState("");
   const divRef = useRef(null);
 
   return (
@@ -58,6 +59,8 @@ const GroupContextProvider = ({ children }) => {
         setAccess,
         selectedOption,
         setSelectedOption,
+        searchTime,
+        setSearchTime,
       }}
     >
       {children}

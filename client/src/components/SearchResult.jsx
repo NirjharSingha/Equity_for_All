@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import PersonCard from "./PersonCard";
 import AlertMessage from "./AlertMessage";
-import "./SearchResult.css";
 
 const SearchResult = ({ selectedItem, setShowResult }) => {
   const [searchMessage, setSearchMessage] = useState(false);
   return (
-    <div className="searchBlur">
+    <div className="fullScreenBlur">
       {searchMessage && (
         <div style={{ maxWidth: "50vw" }}>
           <AlertMessage
@@ -15,7 +14,7 @@ const SearchResult = ({ selectedItem, setShowResult }) => {
           />
         </div>
       )}
-      <div className="searchCross" onClick={() => setShowResult(false)}>
+      <div className="editPostCross" onClick={() => setShowResult(false)}>
         X
       </div>
       <div className="searchResult">

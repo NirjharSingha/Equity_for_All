@@ -10,6 +10,7 @@ import allMembers from "../controllers/group/allMembers.js";
 import allRequests from "../controllers/group/allRequests.js";
 import groupFriends from "../controllers/group/groupFriends.js";
 import findInviteList from "../controllers/group/findInviteList.js";
+import getGroup from "../controllers/group/getGroup.js";
 
 const router = express.Router();
 router.post(
@@ -29,5 +30,6 @@ router.delete("/deleteGroup/:groupId", verifyJWT, deleteGroup);
 router.get("/allMembers/:groupId", verifyJWT, allMembers);
 router.get("/allRequests/:groupId", verifyJWT, allRequests);
 router.get("/groupFriends/:groupId", verifyJWT, groupFriends);
+router.get("/getGroup/:groupId", verifyJWT, getGroup);
 
 export default router;

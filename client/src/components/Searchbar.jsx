@@ -7,6 +7,8 @@ import ItemCard from "./ItemCard";
 import { useGlobals } from "../contexts/Globals";
 import { FaArrowLeft } from "react-icons/fa6";
 import SearchResult from "./SearchResult";
+import { useNavigate } from "react-router-dom";
+import { useGroupContext } from "../contexts/GroupContext";
 
 const Searchbar = () => {
   const { windowWidth } = useGlobals();
@@ -14,6 +16,9 @@ const Searchbar = () => {
     console.log("search bar loaded");
   }, []);
 
+  const { setSearchTime, setSelectedGroup, setSelectedOption } =
+    useGroupContext();
+  const navigate = useNavigate();
   const [fetchedData, setFetchedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [showSearchList, setShowList] = useState(false);
@@ -44,7 +49,6 @@ const Searchbar = () => {
         const data = fetchedData.filter((item) =>
           item.name.toLowerCase().includes(value.toLowerCase())
         );
-        console.log(data);
         return data;
       });
     }
@@ -70,11 +74,33 @@ const Searchbar = () => {
     setInputValue("");
     setFilteredData([]);
     setShowResult(true);
+
+    if (searchItem.flag === "group") {
+      console.log("inside search click");
+      setSelectedOption("stream");
+      const tempGroup = {
+        _id: searchItem._id,
+        admin: searchItem.admin,
+        groupName: searchItem.name,
+        groupImage: searchItem.pic,
+        groupVisibility: searchItem.visibility,
+      };
+      setSelectedGroup(tempGroup);
+      const currentUrl = window.location.href;
+      console.log(currentUrl);
+      if (currentUrl !== `${import.meta.env.VITE_CLIENT_URL}main/groups`) {
+        console.log("if");
+        navigate("/main/groups");
+      } else {
+        console.log("inside else");
+        setSearchTime(tempGroup._id);
+      }
+    }
   };
 
   return (
     <div className="searchbar" ref={searchRef}>
-      {showResult && (
+      {showResult && selectedItem.flag === "user" && (
         <SearchResult
           selectedItem={selectedItem}
           setShowResult={setShowResult}

@@ -72,6 +72,7 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
       const allFriendSuggessions = Array.from(
         new Set(dataToSend.flatMap((obj) => obj.friends))
       );
+
       if (allFriendSuggessions.length < 5) {
         const lastN = 30;
         const randomUsers = await User.aggregate([
@@ -80,7 +81,9 @@ const getFriendSuggessions = asyncHandler(async (req, res) => {
           { $project: { email: 1 } },
         ]);
         randomUsers.forEach((e) => {
-          allFriendSuggessions.push(e.email);
+          if (!allFriendSuggessions.includes(e.email)) {
+            allFriendSuggessions.push(e.email);
+          }
         });
       }
 

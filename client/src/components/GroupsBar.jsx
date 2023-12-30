@@ -28,9 +28,31 @@ const GroupsBar = () => {
     setShowAlertMsg,
     alertMessage,
     showAlert,
+    selectedGroup,
+    searchTime,
   } = useGroupContext();
   const [showLoading, setShowLoading] = useState(false);
   const { setIsValidJWT, windowWidth } = useGlobals();
+
+  const isGroupInResponse = (response, groupId) => {
+    const {
+      createdGroups,
+      joinedGroups,
+      reqSentGroups,
+      invitationReceivedGroups,
+      groupSuggessions,
+    } = response;
+
+    const allGroups = [
+      ...createdGroups,
+      ...joinedGroups,
+      ...reqSentGroups,
+      ...invitationReceivedGroups,
+      ...groupSuggessions,
+    ];
+
+    return allGroups.some((group) => group._id === groupId);
+  };
 
   const fetchGroupNames = async () => {
     try {
@@ -45,6 +67,12 @@ const GroupsBar = () => {
         }
       );
       if (response) {
+        if (selectedGroup !== null) {
+          const ans = isGroupInResponse(response.data, selectedGroup._id);
+          if (!ans) {
+            response.data.groupSuggessions.push(selectedGroup);
+          }
+        }
         setGroupsYouCreated(response.data.createdGroups);
         setGroupsYouJoined(response.data.joinedGroups);
         setReqSent(response.data.reqSentGroups);
@@ -62,7 +90,40 @@ const GroupsBar = () => {
   };
   useEffect(() => {
     fetchGroupNames();
+    console.log("selected group :");
+    console.log(selectedGroup);
   }, []);
+
+  useEffect(() => {
+    const searchGrp = async () => {
+      if (searchTime !== "") {
+        const response = {
+          createdGroups: groupsYouCreated,
+          joinedGroups: groupsYouJoined,
+          reqSentGroups: reqSent,
+          invitationReceivedGroups: invitationReceived,
+          groupSuggessions: suggestedGroups,
+        };
+        const ans = isGroupInResponse(response, searchTime);
+        if (!ans) {
+          const token = localStorage.getItem("token");
+          const res = await axios.get(
+            `${import.meta.env.VITE_SERVER_URL}/group/getGroup/${searchTime}`,
+            {
+              headers: {
+                token: token,
+              },
+            }
+          );
+          if (res) {
+            console.log(res.data);
+            setSuggestGroups((prev) => [...prev, res.data]);
+          }
+        }
+      }
+    };
+    searchGrp();
+  }, [searchTime]);
 
   return (
     <div className="groupsBar">

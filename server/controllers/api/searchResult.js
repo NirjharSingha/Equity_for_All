@@ -19,13 +19,15 @@ const searchResult = asyncHandler(async (req, res) => {
 
   const groups = await Group.find(
     { groupName: { $regex: value, $options: "i" } },
-    "groupName groupImage"
+    "_id admin groupName groupImage groupVisibility"
   );
 
   const groupsWithFlag = groups.map((group) => ({
     _id: group._id,
     name: group.groupName,
     pic: group.groupImage,
+    admin: group.admin,
+    visibility: group.groupVisibility,
     flag: "group",
   }));
 
