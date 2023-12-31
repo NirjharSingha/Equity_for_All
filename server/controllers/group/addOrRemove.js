@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Group from "../../models/Group.js";
+import { sendSseDataToClients } from "../../utils/sse.js";
 
 const addOrRemove = asyncHandler(async (req, res) => {
   const groupId = req.body.groupId;
@@ -24,10 +25,16 @@ const addOrRemove = asyncHandler(async (req, res) => {
     if (!updatedGroup) {
       return res.status(404).json({ message: "error occured" });
     }
-    return res.status(200).json({
+    res.status(200).json({
       email: email,
       message: "Action done successfully",
     });
+
+    const notificationMessage = req.body.notificationMessage;
+    const notificationTarget = req.body.notificationTarget;
+    if (notificationMessage !== undefined && notificationMessage !== "") {
+      sendSseDataToClients(notificationMessage, notificationTarget);
+    }
   } catch (error) {
     console.log("inside catch");
     return res.status(500).json({ message: "Internal server error" });

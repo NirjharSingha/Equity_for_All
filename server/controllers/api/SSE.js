@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import { addClient, removeClient } from "../../utils/sse.js";
 import cors from "cors";
 
-const commentSSE = asyncHandler(async (req, res) => {
+const SSE = asyncHandler(async (req, res) => {
   // Add CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", false);
@@ -26,21 +26,13 @@ const commentSSE = asyncHandler(async (req, res) => {
     return;
   }
 
-  const postId = req.query.postId; // Assuming postId is part of the query parameters
+  const id = req.query.id;
 
-  addClient(res, postId);
-
-  // Function to send comments periodically
-  const sendCommentPeriodically = () => {
-    const commentData = "New comment data";
-    res.write(`data: ${JSON.stringify({ comment: commentData })}\n\n`);
-  };
-  const commentInterval = setInterval(sendCommentPeriodically, 600000);
+  addClient(res, id);
 
   req.on("close", () => {
-    removeClient(res, postId);
-    clearInterval(commentInterval);
+    removeClient(res, id);
   });
 });
 
-export default commentSSE;
+export default SSE;

@@ -10,7 +10,7 @@ const GroupReq = ({ member, setState }) => {
     useGroupContext();
   const { setIsValidJWT } = useGlobals();
   const [show, setShow] = useState(false);
-  const handleReq = async (option, action) => {
+  const handleReq = async (option, action, notificationMessage) => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.put(
@@ -20,6 +20,8 @@ const GroupReq = ({ member, setState }) => {
           action: action,
           groupId: selectedGroup._id,
           email: member.email,
+          notificationMessage: notificationMessage,
+          notificationTarget: member.email,
         },
         {
           headers: {
@@ -29,7 +31,7 @@ const GroupReq = ({ member, setState }) => {
       );
       if (response.status == 200) {
         if (action === "add") {
-          setAlertMsg(`${member.name} is added to the group`);
+          setAlertMsg(`The member is added to the group`);
         }
         if (action === "remove") {
           setAlertMsg(`Request declined`);
@@ -103,8 +105,12 @@ const GroupReq = ({ member, setState }) => {
           <button
             className={`groupBarButton groupBarButton2`}
             onClick={() => {
-              handleReq("allMembers", "add");
-              handleReq("reqReceived", "remove");
+              handleReq("reqReceived", "remove", "");
+              handleReq(
+                "allMembers",
+                "add",
+                `Your join request to the group ${selectedGroup.groupName} has been accepted`
+              );
             }}
           >
             Accept
@@ -113,7 +119,11 @@ const GroupReq = ({ member, setState }) => {
             className={`groupBarButton groupBarButton2`}
             style={{ justifySelf: "end" }}
             onClick={() => {
-              handleReq("reqReceived", "remove");
+              handleReq(
+                "reqReceived",
+                "remove",
+                `Your join request to the group ${selectedGroup.groupName} has been declined`
+              );
             }}
           >
             Decline

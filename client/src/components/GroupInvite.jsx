@@ -6,6 +6,7 @@ import axios from "axios";
 import "./GroupInvite.css";
 import { useGlobals } from "../contexts/Globals";
 import { useGroupContext } from "../contexts/GroupContext";
+import jwtDecode from "jwt-decode";
 
 const GroupInvite = ({ setState }) => {
   const [showLoading, setShowLoading] = useState(false);
@@ -44,6 +45,7 @@ const GroupInvite = ({ setState }) => {
 
   const handleInvite = async (item) => {
     const token = localStorage.getItem("token");
+    const email = jwtDecode(token).email;
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_SERVER_URL}/group/addOrRemove`,
@@ -52,6 +54,8 @@ const GroupInvite = ({ setState }) => {
           action: "add",
           groupId: selectedGroup._id,
           email: item.email,
+          notificationMessage: `${email} has sent you an invitation to join the group ${selectedGroup.groupName}`,
+          notificationTarget: item.email,
         },
         {
           headers: {

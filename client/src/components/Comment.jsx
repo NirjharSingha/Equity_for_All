@@ -190,7 +190,7 @@ const Comment = ({ setShowComments, post }) => {
     fetchCommentIds();
 
     const eventSource = new EventSource(
-      `${import.meta.env.VITE_SERVER_URL}/api/commentSSE?postId=${post._id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/SSE?id=${post._id}`
     );
 
     eventSource.addEventListener("message", handleSSEData);

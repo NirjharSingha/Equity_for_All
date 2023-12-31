@@ -1,34 +1,34 @@
-const connectedClientsByPost = new Map();
+const connectedClientsById = new Map();
 
-export function addClient(res, postId) {
-  if (!connectedClientsByPost.has(postId)) {
-    connectedClientsByPost.set(postId, new Set());
+export function addClient(res, id) {
+  if (!connectedClientsById.has(id)) {
+    connectedClientsById.set(id, new Set());
   }
 
-  connectedClientsByPost.get(postId).add(res);
+  connectedClientsById.get(id).add(res);
 }
 
-export function removeClient(res, postId) {
-  if (connectedClientsByPost.has(postId)) {
-    connectedClientsByPost.get(postId).delete(res);
+export function removeClient(res, id) {
+  if (connectedClientsById.has(id)) {
+    connectedClientsById.get(id).delete(res);
 
     // Clean up the set if it becomes empty
-    if (connectedClientsByPost.get(postId).size === 0) {
-      connectedClientsByPost.delete(postId);
+    if (connectedClientsById.get(id).size === 0) {
+      connectedClientsById.delete(id);
     }
   }
 }
 
-function sendSseData(data, postId) {
+function sendSseData(data, id) {
   const formattedData = JSON.stringify(data);
-  if (connectedClientsByPost.has(postId)) {
-    const clients = connectedClientsByPost.get(postId);
+  if (connectedClientsById.has(id)) {
+    const clients = connectedClientsById.get(id);
     clients.forEach((client) => {
       client.write(`data: ${formattedData}\n\n`);
     });
   }
 }
 
-export function sendSseDataToClients(data, postId) {
-  sendSseData(data, postId);
+export function sendSseDataToClients(data, id) {
+  sendSseData(data, id);
 }

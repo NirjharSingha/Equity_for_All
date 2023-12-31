@@ -23,6 +23,7 @@ import EditPost from "../components/EditPost";
 import CreateStoryMobile from "../components/CreateStoryMobile";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const MainPage = () => {
   const { isValidJWT, windowWidth } = useGlobals();
@@ -89,20 +90,24 @@ const MainPage = () => {
     }
   }, [windowWidth]);
 
-  // useEffect(() => {
-  //   const handleNotification = async () => {};
+  useEffect(() => {
+    const handleNotification = async (event) => {
+      const data = JSON.parse(event.data);
+      console.log(data);
+    };
 
-  //   const eventSource = new EventSource(
-  //     `${import.meta.env.VITE_SERVER_URL}/api/handleNotification`
-  //   );
+    const email = jwtDecode(localStorage.getItem("token")).email;
+    const eventSource = new EventSource(
+      `${import.meta.env.VITE_SERVER_URL}/api/SSE?id=${email}`
+    );
 
-  //   eventSource.addEventListener("message", handleNotification);
+    eventSource.addEventListener("message", handleNotification);
 
-  //   return () => {
-  //     eventSource.removeEventListener("message", handleNotification);
-  //     eventSource.close();
-  //   };
-  // }, []);
+    return () => {
+      eventSource.removeEventListener("message", handleNotification);
+      eventSource.close();
+    };
+  }, []);
 
   return (
     <>

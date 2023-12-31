@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ItemCard from "./ItemCard";
 import { BsFillGearFill } from "react-icons/bs";
 import { useGlobals } from "../contexts/Globals";
@@ -35,7 +35,7 @@ const GroupName = ({ group, flag }) => {
     setShow(false);
   };
 
-  const handleAction = async (action, option) => {
+  const handleAction = async (action, option, notificationMessage) => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.put(
@@ -45,6 +45,8 @@ const GroupName = ({ group, flag }) => {
           action: action,
           groupId: _id,
           email: jwtDecode(localStorage.getItem("token")).email,
+          notificationMessage: notificationMessage,
+          notificationTarget: group.admin,
         },
         {
           headers: {
@@ -54,7 +56,7 @@ const GroupName = ({ group, flag }) => {
       );
       if (response.status == 200) {
         if (action === "remove" && option === "allMembers") {
-          setAlertMsg(`You left the group ${groupName}`);
+          setAlertMsg(`You left the group`);
           setGroupsYouJoined((prev) =>
             prev.filter((group) => group._id !== _id)
           );
@@ -62,9 +64,7 @@ const GroupName = ({ group, flag }) => {
           setAlertMsg(`Request canceled`);
           setReqSent((prev) => prev.filter((group) => group._id !== _id));
         } else if (action === "add" && option === "reqReceived") {
-          setAlertMsg(
-            `Request sent successfully. When the admin accepts it, you'll be a member of the group.`
-          );
+          setAlertMsg(`Request sent successfully`);
           setReqSent((prev) => [...prev, group]);
         } else if (action === "remove" && option === "invitationSent") {
           setInvitationReceived((prev) =>
@@ -80,6 +80,7 @@ const GroupName = ({ group, flag }) => {
         console.log(response);
       }
     } catch (error) {
+      console.log(error);
       if (error.response.status === 401) {
         setIsValidJWT(false);
       }
@@ -189,7 +190,7 @@ const GroupName = ({ group, flag }) => {
       {show && flag === 2 && (
         <button
           className={`groupBarButton`}
-          onClick={() => handleAction("remove", "allMembers")}
+          onClick={() => handleAction("remove", "allMembers", "")}
         >
           Leave Group
         </button>
@@ -197,7 +198,7 @@ const GroupName = ({ group, flag }) => {
       {show && flag === 3 && (
         <button
           className={`groupBarButton`}
-          onClick={() => handleAction("remove", "reqReceived")}
+          onClick={() => handleAction("remove", "reqReceived", "")}
         >
           Cancel Request
         </button>
@@ -207,8 +208,8 @@ const GroupName = ({ group, flag }) => {
           <button
             className={`groupBarButton groupBarButton2`}
             onClick={() => {
-              handleAction("remove", "invitationSent");
-              handleAction("add", "reqReceived");
+              handleAction("remove", "invitationSent", "");
+              handleAction("add", "reqReceived", "");
             }}
           >
             Accept
@@ -218,7 +219,7 @@ const GroupName = ({ group, flag }) => {
             style={{ justifySelf: "end" }}
             onClick={() => {
               setAlertMsg("Invitation declined");
-              handleAction("remove", "invitationSent");
+              handleAction("remove", "invitationSent", "");
             }}
           >
             Decline
@@ -229,8 +230,14 @@ const GroupName = ({ group, flag }) => {
         <button
           className={`groupBarButton`}
           onClick={() => {
-            handleAction("add", "reqReceived");
-            handleAction("remove", "suggessions");
+            handleAction(
+              "add",
+              "reqReceived",
+              `${
+                jwtDecode(localStorage.getItem("token")).email
+              } has requested to join your group ${group.groupName}`
+            );
+            handleAction("remove", "suggessions", "");
           }}
         >
           Join Group

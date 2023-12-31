@@ -64,6 +64,8 @@ const GroupMembers = () => {
           action: "remove",
           groupId: selectedGroup._id,
           email: member.email,
+          notificationMessage: `The admin removed you from the group ${selectedGroup.groupName}`,
+          notificationTarget: member.email,
         },
         {
           headers: {
@@ -72,7 +74,7 @@ const GroupMembers = () => {
         }
       );
       if (response.status == 200) {
-        setAlertMsg(`${member.name} is removed from the group`);
+        setAlertMsg(`the member is removed from the group`);
         setShowAlertMsg(true);
         setAllMembers((prevMembers) => {
           return prevMembers.filter(
