@@ -10,7 +10,7 @@ const GroupReq = ({ member, setState }) => {
     useGroupContext();
   const { setIsValidJWT } = useGlobals();
   const [show, setShow] = useState(false);
-  const handleReq = async (option, action, notificationMessage) => {
+  const handleReq = async (option, action, notificationMessage, flag) => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.put(
@@ -34,7 +34,9 @@ const GroupReq = ({ member, setState }) => {
           setAlertMsg(`The member is added to the group`);
         }
         if (action === "remove") {
-          setAlertMsg(`Request declined`);
+          if (flag === 1) {
+            setAlertMsg(`Request declined`);
+          }
         }
         setState((prevMembers) => {
           return prevMembers.filter(
@@ -105,11 +107,12 @@ const GroupReq = ({ member, setState }) => {
           <button
             className={`groupBarButton groupBarButton2`}
             onClick={() => {
-              handleReq("reqReceived", "remove", "");
+              handleReq("reqReceived", "remove", "", 0);
               handleReq(
                 "allMembers",
                 "add",
-                `Your join request to the group ${selectedGroup.groupName} has been accepted`
+                `Your join request to the group ${selectedGroup.groupName} has been accepted`,
+                1
               );
             }}
           >
@@ -122,7 +125,8 @@ const GroupReq = ({ member, setState }) => {
               handleReq(
                 "reqReceived",
                 "remove",
-                `Your join request to the group ${selectedGroup.groupName} has been declined`
+                `Your join request to the group ${selectedGroup.groupName} has been declined`,
+                1
               );
             }}
           >
