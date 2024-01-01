@@ -12,7 +12,8 @@ import jwtDecode from "jwt-decode";
 
 export const Navbar = () => {
   const { getUserInfo } = useUserInfoContext();
-  const { windowWidth } = useGlobals();
+  const { windowWidth, setShowNotifications, navNotificationRef } =
+    useGlobals();
   useEffect(() => {
     console.log("nav bar loaded");
   }, []);
@@ -72,7 +73,11 @@ export const Navbar = () => {
         <div className="right">
           {windowWidth >= 800 && (
             <div className="gridItem">
-              <div className="circle">
+              <div
+                className="circle"
+                ref={navNotificationRef}
+                onClick={() => setShowNotifications((prev) => !prev)}
+              >
                 <NotificationsRoundedIcon />
               </div>
             </div>

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const ProfileIconSidebar = ({ setState, Ref }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  const { windowWidth } = useGlobals();
+  const { windowWidth, setShowNotifications } = useGlobals();
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -47,8 +47,14 @@ const ProfileIconSidebar = ({ setState, Ref }) => {
           <button className="sidebarButton" onClick={handleProfile}>
             Profile <BsFillPersonFill style={{ marginLeft: "0.2rem" }} />
           </button>
-          <button className="sidebarButton" onClick={handleProfile}>
-            Notification{" "}
+          <button
+            className="sidebarButton"
+            onClick={() => {
+              setShowNotifications(true);
+              setState(false);
+            }}
+          >
+            Notification
             <MdNotificationsActive style={{ marginLeft: "0.2rem" }} />
           </button>
           <button className="sidebarButton" onClick={handleProfile}>

@@ -24,9 +24,11 @@ import CreateStoryMobile from "../components/CreateStoryMobile";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import Notification from "../components/Notification";
 
 const MainPage = () => {
-  const { isValidJWT, windowWidth } = useGlobals();
+  const { isValidJWT, windowWidth, showNotifications, setWindowWidth } =
+    useGlobals();
   const { editPost } = usePostContext();
   const { groupsYouCreated, groupsYouJoined, selectedGroup, setAccess } =
     useGroupContext();
@@ -113,6 +115,7 @@ const MainPage = () => {
     <>
       {editPost && <EditPost />}
       {!isValidJWT && <UserSession />}
+      {showNotifications && <Notification />}
       <div className="mainPage">
         <div className="navComponent">
           <Navbar />

@@ -1,0 +1,98 @@
+.notifications {
+  position: fixed;
+  width: 28vw;
+  right: 0;
+  bottom: 4.1rem;
+  z-index: 600;
+  background-color: whitesmoke;
+  height: calc(100svh - 8.4rem);
+  box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.3);
+  border-top-left-radius: 10px;
+}
+.notificationCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.2rem;
+  margin-bottom: 0.5rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.2rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 0.3rem;
+}
+.notificationMessage {
+  word-wrap: break-word;
+  max-width: 27vw;
+  padding: 0.1rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+.notificationTime {
+  text-align: right;
+  min-width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  font-size: small;
+  font-family: "Times New Roman", Times, serif;
+  margin-top: 0.1rem;
+  padding-right: 0.5rem;
+}
+.deleteNotificationHover:hover {
+  cursor: pointer;
+  background-color: #848489;
+}
+
+@media screen and (max-width: 1180px) {
+  .notifications {
+    width: 35vw;
+  }
+  .notificationMessage {
+    max-width: 33.5vw;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .notifications {
+    width: 40vw;
+  }
+  .notificationMessage {
+    max-width: 38.5vw;
+  }
+}
+@media screen and (max-width: 800px) {
+  .notifications {
+    width: 50vw;
+  }
+  .notificationMessage {
+    max-width: 48.5vw;
+  }
+}
+@media screen and (max-width: 650px) {
+  .notifications {
+    width: 64vw;
+  }
+  .notificationMessage {
+    max-width: 63.5vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .notifications {
+    bottom: 3.4rem;
+    height: calc(100svh - 6.7rem);
+    width: 75vw;
+  }
+  .notificationMessage {
+    max-width: 73.5vw;
+  }
+}
+@media screen and (max-width: 440px) {
+  .notifications {
+    right: 1.5vw;
+    width: 97vw;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.3), 5px 0 10px rgba(0, 0, 0, 0.3);
+    border-top-right-radius: 10px;
+  }
+  .notificationMessage {
+    max-width: 95.5vw;
+  }
+}
