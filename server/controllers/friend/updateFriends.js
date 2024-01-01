@@ -1,10 +1,13 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/User.js";
+import { sendSseDataToClients } from "../../utils/sse.js";
+import Notification from "../../models/Notification.js";
 
 const updatedFriends = asyncHandler(async (req, res) => {
   const friendEmail = req.body.friendEmail;
   const option = req.body.option;
   const action = req.body.action;
+  const notificationMessage = req.body.notificationMessage;
   const userEmail = req.email;
 
   if (action === "add") {
@@ -102,6 +105,18 @@ const updatedFriends = asyncHandler(async (req, res) => {
   }
 
   res.json({ message: "friends updated" });
+
+  if (notificationMessage !== "" && notificationMessage !== undefined) {
+    const notification = new Notification({
+      userEmail: friendEmail,
+      message: notificationMessage,
+      time: new Date(Date.now()).toLocaleString(),
+      isSeen: false,
+    });
+
+    await notification.save();
+    sendSseDataToClients(notificationMessage, friendEmail);
+  }
 });
 
 export default updatedFriends;

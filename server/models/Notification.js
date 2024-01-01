@@ -9,8 +9,8 @@ const notificationSchema = mongoose.Schema(
     message: {
       type: String,
     },
-    createdAt: {
-      time: String,
+    time: {
+      type: String,
       default: "",
     },
     isSeen: {
@@ -23,5 +23,5 @@ const notificationSchema = mongoose.Schema(
   }
 );
 
-const Notification = mongoose.model("Group", notificationSchema);
+const Notification = mongoose.model("Notification", notificationSchema);
 export default Notification;

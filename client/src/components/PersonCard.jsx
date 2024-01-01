@@ -7,6 +7,7 @@ import { useUserInfoContext } from "../contexts/UserInfoContext";
 import axios from "axios";
 import ConfirmWindow from "./ConfirmWindow";
 import { useGlobals } from "../contexts/Globals";
+import jwtDecode from "jwt-decode";
 
 const PersonCard = ({
   email,
@@ -103,12 +104,17 @@ const PersonCard = ({
     }
   }, []);
 
-  const updateFriends = async (option, action, num) => {
+  const updateFriends = async (option, action, notificationMessage, num) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
         `${import.meta.env.VITE_SERVER_URL}/friend/updateFriends`,
-        { friendEmail: email, option: option, action: action },
+        {
+          friendEmail: email,
+          option: option,
+          action: action,
+          notificationMessage: notificationMessage,
+        },
         {
           headers: {
             token: token,
@@ -202,7 +208,13 @@ const PersonCard = ({
           }
           return;
         } else {
-          updateFriends("friendRequestSend", "add");
+          updateFriends(
+            "friendRequestSend",
+            "add",
+            `${
+              jwtDecode(localStorage.getItem("token")).email
+            } has sent you a friend request`
+          );
           if (searchFlag !== true) {
             updateIDArray(setReqSendID, "add");
             updateIDArray(setSuggessionsID, "remove");
@@ -222,7 +234,11 @@ const PersonCard = ({
           }
           return;
         } else {
-          updateFriends("followings", "add");
+          updateFriends(
+            "followings",
+            "add",
+            `${jwtDecode(localStorage.getItem("token")).email} has followed you`
+          );
           if (searchFlag !== true) {
             updateIDArray(setFollowingsID, "add");
             setAlertMessage(`you followed the user`);
@@ -243,16 +259,25 @@ const PersonCard = ({
 
   const handleBlock = async (isFollowPage) => {
     if (isFollowPage) {
-      updateFriends("followers", "remove");
-      updateFriends("followings", "remove");
-      updateFriends("friends", "remove");
-      updateFriends("friendRequestSend", "remove");
-      updateFriends("friendRequestReceived", "remove");
-      updateFriends("blockList", "add", 101);
+      updateFriends("followers", "remove", "");
+      updateFriends("followings", "remove", "");
+      updateFriends("friends", "remove", "");
+      updateFriends("friendRequestSend", "remove", "");
+      updateFriends("friendRequestReceived", "remove", "");
+      updateFriends(
+        "blockList",
+        "add",
+        `${jwtDecode(localStorage.getItem("token")).email} has blocked you`,
+        101
+      );
     } else {
-      updateFriends("blockList", "add");
-      updateFriends("followers", "remove");
-      updateFriends("followings", "remove", 102);
+      updateFriends(
+        "blockList",
+        "add",
+        `${jwtDecode(localStorage.getItem("token")).email} has blocked you`
+      );
+      updateFriends("followers", "remove", "");
+      updateFriends("followings", "remove", "", 102);
     }
   };
 
@@ -280,7 +305,13 @@ const PersonCard = ({
 
   const func_5 = () => {
     updateIDArray(setReqReceivedID, "remove");
-    updateFriends("friends", "add");
+    updateFriends(
+      "friends",
+      "add",
+      `${
+        jwtDecode(localStorage.getItem("token")).email
+      } has accepted your friend request`
+    );
     updateIDArray(setFriendsID, "add");
     setAlertMessage(`you both are friends now`);
     setShowAlert(true);
@@ -382,7 +413,14 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friends", "remove", 1);
+                updateFriends(
+                  "friends",
+                  "remove",
+                  `${
+                    jwtDecode(localStorage.getItem("token")).email
+                  } has unfriended you`,
+                  1
+                );
               }}
             >
               Unfriend
@@ -390,7 +428,7 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friends", "remove", 2);
+                updateFriends("friends", "remove", ``, 2);
               }}
             >
               Block
@@ -402,7 +440,14 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friendRequestSend", "remove", 3);
+                updateFriends(
+                  "friendRequestSend",
+                  "remove",
+                  `${
+                    jwtDecode(localStorage.getItem("token")).email
+                  } has canceled his friend request sent to you`,
+                  3
+                );
               }}
             >
               Cancel Request
@@ -410,7 +455,7 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friendRequestSend", "remove", 4);
+                updateFriends("friendRequestSend", "remove", ``, 4);
               }}
             >
               Block
@@ -422,7 +467,7 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friendRequestReceived", "remove", 5);
+                updateFriends("friendRequestReceived", "remove", "", 5);
               }}
             >
               Accept
@@ -430,7 +475,14 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friendRequestReceived", "remove", 6);
+                updateFriends(
+                  "friendRequestReceived",
+                  "remove",
+                  `${
+                    jwtDecode(localStorage.getItem("token")).email
+                  } has declined your friend request`,
+                  6
+                );
               }}
             >
               Decline
@@ -438,7 +490,7 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("friendRequestReceived", "remove", 7);
+                updateFriends("friendRequestReceived", "remove", ``, 7);
               }}
             >
               Block
@@ -459,7 +511,14 @@ const PersonCard = ({
               className="personCardButton personCardElement"
               onClick={() => {
                 if (followingsID.includes(email)) {
-                  updateFriends("followings", "remove", 8);
+                  updateFriends(
+                    "followings",
+                    "remove",
+                    `${
+                      jwtDecode(localStorage.getItem("token")).email
+                    } has unfollowed you`,
+                    8
+                  );
                 } else {
                   handleAddFriend(true);
                 }
@@ -483,9 +542,23 @@ const PersonCard = ({
               className="personCardButton personCardElement"
               onClick={() => {
                 if (followingsID.includes(email)) {
-                  updateFriends("followings", "remove", 9);
+                  updateFriends(
+                    "followings",
+                    "remove",
+                    `${
+                      jwtDecode(localStorage.getItem("token")).email
+                    } has unfollowed you`,
+                    9
+                  );
                 } else {
-                  updateFriends("followings", "add", 10);
+                  updateFriends(
+                    "followings",
+                    "add",
+                    `${
+                      jwtDecode(localStorage.getItem("token")).email
+                    } has followed you`,
+                    10
+                  );
                 }
               }}
             >
@@ -506,7 +579,14 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("followings", "remove", 11);
+                updateFriends(
+                  "followings",
+                  "remove",
+                  `${
+                    jwtDecode(localStorage.getItem("token")).email
+                  } has unfollowed you`,
+                  11
+                );
               }}
             >
               Unfollow
@@ -526,7 +606,14 @@ const PersonCard = ({
             <button
               className="personCardButton personCardElement"
               onClick={() => {
-                updateFriends("blockList", "remove", 12);
+                updateFriends(
+                  "blockList",
+                  "remove",
+                  `${
+                    jwtDecode(localStorage.getItem("token")).email
+                  } has unblocked you`,
+                  12
+                );
               }}
             >
               Unblock
@@ -540,7 +627,13 @@ const PersonCard = ({
                 <button
                   className="personCardButton personCardElement"
                   onClick={() => {
-                    updateFriends("blockList", "remove");
+                    updateFriends(
+                      "blockList",
+                      "remove",
+                      `${
+                        jwtDecode(localStorage.getItem("token")).email
+                      } has unblocked you`
+                    );
                     setShowSearchResult(false);
                   }}
                 >
@@ -553,7 +646,13 @@ const PersonCard = ({
                 <button
                   className="personCardButton personCardElement"
                   onClick={() => {
-                    updateFriends("friends", "remove");
+                    updateFriends(
+                      "friends",
+                      "remove",
+                      `${
+                        jwtDecode(localStorage.getItem("token")).email
+                      } has unfriended you`
+                    );
                     setShowSearchResult(false);
                   }}
                 >
@@ -567,7 +666,13 @@ const PersonCard = ({
                   <button
                     className="personCardButton personCardElement"
                     onClick={() => {
-                      updateFriends("friendRequestSend", "remove");
+                      updateFriends(
+                        "friendRequestSend",
+                        "remove",
+                        `${
+                          jwtDecode(localStorage.getItem("token")).email
+                        } has canceled his friend request sent to you`
+                      );
                       setShowSearchResult(false);
                     }}
                   >
@@ -582,8 +687,14 @@ const PersonCard = ({
                     <button
                       className="personCardButton personCardElement"
                       onClick={() => {
-                        updateFriends("friendRequestReceived", "remove");
-                        updateFriends("friends", "add");
+                        updateFriends("friendRequestReceived", "remove", "");
+                        updateFriends(
+                          "friends",
+                          "add",
+                          `${
+                            jwtDecode(localStorage.getItem("token")).email
+                          } has accepted your friend request`
+                        );
                         setShowSearchResult(false);
                       }}
                     >
@@ -592,7 +703,13 @@ const PersonCard = ({
                     <button
                       className="personCardButton personCardElement"
                       onClick={() => {
-                        updateFriends("friendRequestReceived", "remove");
+                        updateFriends(
+                          "friendRequestReceived",
+                          "remove",
+                          `${
+                            jwtDecode(localStorage.getItem("token")).email
+                          } has declined your friend request`
+                        );
                         setShowSearchResult(false);
                       }}
                     >
@@ -633,7 +750,13 @@ const PersonCard = ({
                 <button
                   className="personCardButton personCardElement"
                   onClick={() => {
-                    updateFriends("followings", "remove");
+                    updateFriends(
+                      "followings",
+                      "remove",
+                      `${
+                        jwtDecode(localStorage.getItem("token")).email
+                      } has unfollowed you`
+                    );
                     setShowSearchResult(false);
                   }}
                 >
@@ -651,7 +774,13 @@ const PersonCard = ({
                     updateFriends("friends", "remove");
                     updateFriends("friendRequestSend", "remove");
                     updateFriends("friendRequestReceived", "remove");
-                    updateFriends("blockList", "add");
+                    updateFriends(
+                      "blockList",
+                      "add",
+                      `${
+                        jwtDecode(localStorage.getItem("token")).email
+                      } has blocked you`
+                    );
                     setShowSearchResult(false);
                   }}
                 >

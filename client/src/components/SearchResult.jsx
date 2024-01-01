@@ -5,7 +5,7 @@ import AlertMessage from "./AlertMessage";
 const SearchResult = ({ selectedItem, setShowResult }) => {
   const [searchMessage, setSearchMessage] = useState(false);
   return (
-    <div className="fullScreenBlur">
+    <div className="fullScreenBlur" style={{ flexDirection: "column" }}>
       {searchMessage && (
         <div style={{ maxWidth: "50vw" }}>
           <AlertMessage

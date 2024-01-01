@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Group from "../../models/Group.js";
 import { sendSseDataToClients } from "../../utils/sse.js";
+import Notification from "../../models/Notification.js";
 
 const addOrRemove = asyncHandler(async (req, res) => {
   const groupId = req.body.groupId;
@@ -32,7 +33,16 @@ const addOrRemove = asyncHandler(async (req, res) => {
 
     const notificationMessage = req.body.notificationMessage;
     const notificationTarget = req.body.notificationTarget;
+
     if (notificationMessage !== undefined && notificationMessage !== "") {
+      const notification = new Notification({
+        userEmail: notificationTarget,
+        message: notificationMessage,
+        time: new Date(Date.now()).toLocaleString(),
+        isSeen: false,
+      });
+
+      await notification.save();
       sendSseDataToClients(notificationMessage, notificationTarget);
     }
   } catch (error) {
