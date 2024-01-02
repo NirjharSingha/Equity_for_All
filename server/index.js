@@ -7,6 +7,7 @@ import profileRouter from "./routes/profile.js";
 import friendRouter from "./routes/friend.js";
 import storyRouter from "./routes/story.js";
 import groupRouter from "./routes/group.js";
+import notificationRouter from "./routes/notification.js";
 import cors from "cors";
 import dbConfig from "./configs/dbConfig.js";
 import bodyParser from "body-parser";
@@ -50,6 +51,7 @@ app.use("/post", postRouter);
 app.use("/api", apiRouter);
 app.use("/story", storyRouter);
 app.use("/group", groupRouter);
+app.use("/notification", notificationRouter);
 
 const server = http.createServer(app);
 
