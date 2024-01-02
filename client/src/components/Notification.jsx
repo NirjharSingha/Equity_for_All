@@ -1,12 +1,98 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Notification.css";
 import { useGlobals } from "../contexts/Globals";
+import NotificationCard from "./NotificationCard";
+import axios from "axios";
 
 const Notification = () => {
-  const { isValidJWT, windowWidth, setShowNotifications, navNotificationRef } =
-    useGlobals();
+  const {
+    setIsValidJWT,
+    windowWidth,
+    setShowNotifications,
+    navNotificationRef,
+  } = useGlobals();
   const [selectedOption, setSelectedOption] = useState("new");
   const containerRef = useRef(null);
+  const [shouldFetchAllNotification, setShouldFetchAllNotification] =
+    useState(true);
+  const [newNotifications, setNewNotifications] = useState([]);
+  const [allNotifications, setAllNotifications] = useState([]);
+
+  const fetchNotifications = async (flag) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/notification/${flag}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response) {
+        if (flag === "new") {
+          setNewNotifications(response.data);
+        } else {
+          setAllNotifications(response.data);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        setIsValidJWT(false);
+      }
+    }
+  };
+
+  const deleteAll = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/notification/deleteAll`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response) {
+        setAllNotifications([]);
+        setNewNotifications([]);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        setIsValidJWT(false);
+      }
+    }
+  };
+
+  const deleteOne = async (_id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/notification/deleteOne/${_id}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response) {
+        setNewNotifications((prevNotifications) =>
+          prevNotifications.filter((notification) => notification._id !== _id)
+        );
+        setAllNotifications((prevNotifications) =>
+          prevNotifications.filter((notification) => notification._id !== _id)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        setIsValidJWT(false);
+      }
+    }
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -28,6 +114,8 @@ const Notification = () => {
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
+
+    fetchNotifications("new");
 
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
@@ -73,7 +161,13 @@ const Notification = () => {
           className={
             selectedOption === "all" ? "selectedGrpOption" : "grpPageBtn"
           }
-          onClick={() => setSelectedOption("all")}
+          onClick={() => {
+            setSelectedOption("all");
+            if (shouldFetchAllNotification) {
+              fetchNotifications("all");
+              setShouldFetchAllNotification(false);
+            }
+          }}
         >
           All
         </button>
@@ -87,93 +181,28 @@ const Notification = () => {
         }
       >
         <div className="createPostFirstRow" style={{ paddingBottom: "0.2rem" }}>
-          <div className="notificationCard">
-            <p className="notificationMessage">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-              unde dolor maiores quam quia quos? Saepe praesentium porro
-              necessitatibus
-              impeditaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!
-            </p>
-            <p className="notificationTime">Lorem ipsum</p>
-            <button
-              className="createStoryButton deleteNotificationHover"
-              style={{
-                maxHeight: "1.65rem",
-                minHeight: "1.65rem",
-                marginTop: "0.2rem",
-                marginBottom: "0.2rem",
-                maxWidth: "90%",
-              }}
-            >
-              Delete
-            </button>
-          </div>
-          <div className="notificationCard">
-            <p className="notificationMessage">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-              unde dolor maiores quam quia quos? Saepe praesentium porro
-              necessitatibus
-              impeditaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!
-            </p>
-            <p className="notificationTime">Lorem ipsum</p>
-            <button
-              className="createStoryButton deleteNotificationHover"
-              style={{
-                maxHeight: "1.65rem",
-                minHeight: "1.65rem",
-                marginTop: "0.2rem",
-                marginBottom: "0.2rem",
-                maxWidth: "90%",
-              }}
-            >
-              Delete
-            </button>
-          </div>
-          <div className="notificationCard">
-            <p className="notificationMessage">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-              unde dolor maiores quam quia quos? Saepe praesentium porro
-              necessitatibus
-              impeditaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!
-            </p>
-            <p className="notificationTime">Lorem ipsum</p>
-            <button
-              className="createStoryButton deleteNotificationHover"
-              style={{
-                maxHeight: "1.65rem",
-                minHeight: "1.65rem",
-                marginTop: "0.2rem",
-                marginBottom: "0.2rem",
-                maxWidth: "90%",
-              }}
-            >
-              Delete
-            </button>
-          </div>
-          <div className="notificationCard">
-            <p className="notificationMessage">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-              unde dolor maiores quam quia quos? Saepe praesentium porro
-              necessitatibus
-              impeditaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!
-            </p>
-            <p className="notificationTime">Lorem ipsum</p>
-            <button
-              className="createStoryButton deleteNotificationHover"
-              style={{
-                maxHeight: "1.65rem",
-                minHeight: "1.65rem",
-                marginTop: "0.2rem",
-                marginBottom: "0.2rem",
-                maxWidth: "90%",
-              }}
-            >
-              Delete
-            </button>
-          </div>
+          {selectedOption === "new" &&
+            newNotifications.map((notification) => (
+              <NotificationCard
+                notification={notification}
+                deleteOne={() => deleteOne(notification._id)}
+                key={notification._id}
+              />
+            ))}
+          {selectedOption === "all" &&
+            allNotifications.map((notification) => (
+              <NotificationCard
+                notification={notification}
+                deleteOne={() => deleteOne(notification._id)}
+                key={notification._id}
+              />
+            ))}
         </div>
         <div className="createPostSecondRow">
-          <button className={"createPostButton buttonHover"}>
+          <button
+            className={"createPostButton buttonHover"}
+            onClick={deleteAll}
+          >
             Delete All Notifications
           </button>
         </div>

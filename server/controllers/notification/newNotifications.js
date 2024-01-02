@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import Notification from "../../models/Notification.js";
 
 const newNotifications = asyncHandler(async (req, res) => {
-  const userEmail = req.query.userEmail;
+  const userEmail = req.email;
 
   try {
     const notifications = await Notification.find({ userEmail, isSeen: false });

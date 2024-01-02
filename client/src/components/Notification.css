@@ -1,6 +1,6 @@
 .notifications {
   position: fixed;
-  width: 28vw;
+  width: 28.5vw;
   right: 0;
   bottom: 4.1rem;
   z-index: 600;
@@ -23,6 +23,7 @@
 .notificationMessage {
   word-wrap: break-word;
   max-width: 27vw;
+  min-width: 27vw;
   padding: 0.1rem;
   padding-left: 0.2rem;
   padding-right: 0.2rem;
@@ -49,6 +50,7 @@
   }
   .notificationMessage {
     max-width: 33.5vw;
+    min-width: 33.5vw;
   }
 }
 @media screen and (max-width: 1000px) {
@@ -57,6 +59,7 @@
   }
   .notificationMessage {
     max-width: 38.5vw;
+    min-width: 38.5vw;
   }
 }
 @media screen and (max-width: 800px) {
@@ -64,7 +67,8 @@
     width: 50vw;
   }
   .notificationMessage {
-    max-width: 48.5vw;
+    max-width: 48vw;
+    min-width: 48vw;
   }
 }
 @media screen and (max-width: 650px) {
@@ -72,7 +76,8 @@
     width: 64vw;
   }
   .notificationMessage {
-    max-width: 63.5vw;
+    max-width: 61.5vw;
+    min-width: 61.5vw;
   }
 }
 @media screen and (max-width: 500px) {
@@ -82,7 +87,8 @@
     width: 75vw;
   }
   .notificationMessage {
-    max-width: 73.5vw;
+    max-width: 72vw;
+    min-width: 72vw;
   }
 }
 @media screen and (max-width: 440px) {
@@ -93,6 +99,7 @@
     border-top-right-radius: 10px;
   }
   .notificationMessage {
-    max-width: 95.5vw;
+    max-width: 93vw;
+    min-width: 93vw;
   }
 }

@@ -11,6 +11,7 @@ const GlobalsProvider = ({ children }) => {
   const [isValidJWT, setIsValidJWT] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [unseenNotificationCount, setUnseenNotificationCount] = useState(0);
   const navNotificationRef = useRef(null);
 
   return (
@@ -23,6 +24,8 @@ const GlobalsProvider = ({ children }) => {
         showNotifications,
         setShowNotifications,
         navNotificationRef,
+        unseenNotificationCount,
+        setUnseenNotificationCount,
       }}
     >
       {children}

@@ -25,10 +25,17 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Notification from "../components/Notification";
+import axios from "axios";
 
 const MainPage = () => {
-  const { isValidJWT, windowWidth, showNotifications, setWindowWidth } =
-    useGlobals();
+  const {
+    setIsValidJWT,
+    isValidJWT,
+    windowWidth,
+    showNotifications,
+    unseenNotificationCount,
+    setUnseenNotificationCount,
+  } = useGlobals();
   const { editPost } = usePostContext();
   const { groupsYouCreated, groupsYouJoined, selectedGroup, setAccess } =
     useGroupContext();
@@ -95,7 +102,8 @@ const MainPage = () => {
   useEffect(() => {
     const handleNotification = async (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
+      alert(data);
+      setUnseenNotificationCount((prev) => prev + 1);
     };
 
     const email = jwtDecode(localStorage.getItem("token")).email;
@@ -104,6 +112,32 @@ const MainPage = () => {
     );
 
     eventSource.addEventListener("message", handleNotification);
+
+    const unseenNotificationCount = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/notification/countUnseen`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setUnseenNotificationCount(response.data);
+          if (response.data > 0) {
+            alert(`You have ${response.data} new notifications`);
+          }
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          setIsValidJWT(false);
+        }
+      }
+    };
+
+    unseenNotificationCount();
 
     return () => {
       eventSource.removeEventListener("message", handleNotification);

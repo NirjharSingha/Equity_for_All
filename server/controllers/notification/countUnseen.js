@@ -1,12 +1,15 @@
 import asyncHandler from "express-async-handler";
 import Notification from "../../models/Notification.js";
 
-const allNotifications = asyncHandler(async (req, res) => {
+const countUnseen = asyncHandler(async (req, res) => {
   const userEmail = req.email;
 
   try {
-    const notifications = await Notification.find({ userEmail });
-    res.json(notifications);
+    const countOfUnseenNotifications = await Notification.countDocuments({
+      userEmail,
+      isSeen: false,
+    });
+    res.json(countOfUnseenNotifications);
   } catch (error) {
     console.error("Error fetching notifications:", error);
     res
@@ -15,4 +18,4 @@ const allNotifications = asyncHandler(async (req, res) => {
   }
 });
 
-export default allNotifications;
+export default countUnseen;
