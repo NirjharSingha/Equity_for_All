@@ -18,6 +18,7 @@
   font-weight: 570;
   display: flex;
   align-items: center;
+  min-height: 1.5rem;
 }
 .sidebarButton:hover {
   cursor: pointer;

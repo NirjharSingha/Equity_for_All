@@ -9,11 +9,16 @@ import ProfileIconSidebar from "./ProfileIconSidebar";
 import { useGlobals } from "../contexts/Globals";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import jwtDecode from "jwt-decode";
+import CountIcon from "./CountIcon";
 
 export const Navbar = () => {
   const { getUserInfo } = useUserInfoContext();
-  const { windowWidth, setShowNotifications, navNotificationRef } =
-    useGlobals();
+  const {
+    windowWidth,
+    setShowNotifications,
+    navNotificationRef,
+    unseenNotificationCount,
+  } = useGlobals();
   useEffect(() => {
     console.log("nav bar loaded");
   }, []);
@@ -79,6 +84,7 @@ export const Navbar = () => {
                 onClick={() => setShowNotifications((prev) => !prev)}
               >
                 <NotificationsRoundedIcon />
+                {unseenNotificationCount > 0 && <CountIcon />}
               </div>
             </div>
           )}

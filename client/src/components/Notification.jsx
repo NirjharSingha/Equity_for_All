@@ -10,6 +10,7 @@ const Notification = () => {
     windowWidth,
     setShowNotifications,
     navNotificationRef,
+    setUnseenNotificationCount,
   } = useGlobals();
   const [selectedOption, setSelectedOption] = useState("new");
   const containerRef = useRef(null);
@@ -32,6 +33,7 @@ const Notification = () => {
       if (response) {
         if (flag === "new") {
           setNewNotifications(response.data);
+          setUnseenNotificationCount(0);
         } else {
           setAllNotifications(response.data);
         }

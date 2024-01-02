@@ -7,11 +7,13 @@ import { MdNotificationsActive } from "react-icons/md";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { useGlobals } from "../contexts/Globals";
 import { useNavigate } from "react-router-dom";
+import CountIcon from "./CountIcon";
 
 const ProfileIconSidebar = ({ setState, Ref }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  const { windowWidth, setShowNotifications } = useGlobals();
+  const { windowWidth, setShowNotifications, unseenNotificationCount } =
+    useGlobals();
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -56,6 +58,7 @@ const ProfileIconSidebar = ({ setState, Ref }) => {
           >
             Notification
             <MdNotificationsActive style={{ marginLeft: "0.2rem" }} />
+            {unseenNotificationCount > 0 && <CountIcon />}
           </button>
           <button className="sidebarButton" onClick={handleProfile}>
             Chat <IoChatboxEllipses style={{ marginLeft: "0.2rem" }} />
