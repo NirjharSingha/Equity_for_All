@@ -2,12 +2,13 @@
   margin: 5px;
   width: calc(100% - 15px);
   border-radius: 5px;
-  background: rgb(242, 237, 237);
+  background: rgb(246, 244, 244);
   display: grid;
   grid-template-rows: 3rem auto 2rem 2rem 1.5rem;
   margin-left: 9px;
   position: relative;
   margin-bottom: 0.5rem;
+  box-shadow: -3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 .postContent {
   grid-row: 2 / span 1;
