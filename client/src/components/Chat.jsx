@@ -3,6 +3,7 @@ import "./Chat.css";
 import { useEffect, useState } from "react";
 import ChatSearch from "./ChatSearch";
 import ItemCard from "./ItemCard";
+import ChatBox from "./ChatBox";
 
 const Chat = () => {
   useEffect(() => {
@@ -10,9 +11,11 @@ const Chat = () => {
   }, []);
 
   const [selectedOption, setSelectedOption] = useState("inbox");
+  const [showChat, setShowChat] = useState(false);
 
   return (
     <div className="chatContainer">
+      {showChat && <ChatBox />}
       <p className="chatHeading">Chats</p>
       <ChatSearch />
       <div className="grpOptionBtn">
@@ -34,7 +37,7 @@ const Chat = () => {
         </button>
       </div>
       <div className="chatCardContainer">
-        <div key={1} className="chatCard">
+        <div key={1} className="chatCard" onClick={() => setShowChat(true)}>
           <ItemCard
             key={1}
             containerClass="chatCardVerticalLine"

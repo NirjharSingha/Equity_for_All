@@ -13,7 +13,7 @@ const SharePage = () => {
   const fetchPostDetails = async (postID) => {
     try {
       const response = await axios.get(
-        `${VITE_SERVER_URL}post/getSharedPost/${postID}`
+        `${import.meta.env.VITE_SERVER_URL}/post/getSharedPost/${postID}`
       );
       if (response) {
         const post = response.data;

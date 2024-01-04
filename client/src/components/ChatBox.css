@@ -1,0 +1,39 @@
+.chatBox {
+  width: 30vw;
+  height: calc(100vh - 8.5rem);
+  position: fixed;
+  bottom: 4.1rem;
+  right: 0;
+  background-color: white;
+  z-index: 600;
+  border-top-left-radius: 0.5rem;
+}
+.chatInputLine {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  bottom: 20px;
+  padding-left: 0.6rem;
+  padding-right: 0.5rem;
+}
+.voiceMessage {
+  min-width: 1.7rem;
+  min-height: 1.7rem;
+  background-color: #ccced0;
+  margin-top: 0.5rem;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.chatInboxContainer {
+  width: 100%;
+  height: calc(100vh - 14.5rem);
+  max-height: calc(100vh - 14.5rem);
+  margin-top: 0.3rem;
+  margin-bottom: 0.2rem;
+  background-color: bisque;
+}
