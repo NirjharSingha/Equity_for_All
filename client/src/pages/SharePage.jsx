@@ -25,7 +25,13 @@ const SharePage = () => {
   };
 
   useEffect(() => {
-    setPostID(location.pathname.split("/share/")[1]);
+    try {
+      console.log(location);
+      console.log(location.pathname);
+      setPostID(location.pathname.split("/share/")[1]);
+    } catch (error) {
+      console.log(error);
+    }
   }, [location]);
 
   useEffect(() => {
