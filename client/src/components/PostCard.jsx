@@ -220,13 +220,14 @@ const PostCard = ({ post, shareFlag }) => {
     };
   }, []);
 
-  const paragraphs = post.postDescription;
-  // .split("\n")
-  // .map((paragraph, index) => (
-  //   <React.Fragment key={index}>
-  //     <p>{paragraph}</p>
-  //   </React.Fragment>
-  // ));
+  let paragraphs;
+  if (post.postDescription) {
+    paragraphs = post.postDescription.split("\n").map((paragraph, index) => (
+      <React.Fragment key={index}>
+        <p>{paragraph}</p>
+      </React.Fragment>
+    ));
+  }
 
   const handleEdit = () => {
     setSelectedPost(post);
