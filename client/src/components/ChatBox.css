@@ -1,12 +1,14 @@
 .chatBox {
   width: 30vw;
+  min-width: 440px;
   height: calc(100vh - 8.5rem);
   position: fixed;
   bottom: 4.1rem;
   right: 0;
   background-color: white;
-  z-index: 600;
+  z-index: 500;
   border-top-left-radius: 0.5rem;
+  box-shadow: -4px -2px 10px rgba(0, 0, 0, 0.4);
 }
 .chatInputLine {
   position: absolute;
@@ -35,5 +37,9 @@
   max-height: calc(100vh - 14.5rem);
   margin-top: 0.3rem;
   margin-bottom: 0.2rem;
-  background-color: bisque;
+  /* position: relative; */
+  overflow-y: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  /* background-color: bisque; */
 }

@@ -1,4 +1,69 @@
-.chatCard {
+.singleChat {
   display: flex;
-  background-color: aqua;
+  flex-direction: column;
+  background-color: rgb(29, 220, 220);
+  width: 70%;
+  z-index: 600;
+  padding: 0.3rem;
+  overflow-x: hidden;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  align-items: center;
+  position: relative;
+  border-bottom-right-radius: 0.9rem;
+}
+.singleChatMessage {
+  font-family: "Times New Roman", Times, serif;
+  margin-bottom: 0.2rem;
+  width: 100%;
+}
+.singleChatTime {
+  font-family: "Times New Roman", Times, serif;
+  font-size: small;
+  width: 100%;
+  text-align: right;
+  padding-right: 0.2rem;
+  margin-bottom: 1.2rem;
+}
+.singleChatCon {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.chatSideBar {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.2);
+  z-index: 750;
+  background-color: white;
+  border-radius: 5px;
+}
+.chatSidebarButton {
+  border: none;
+  text-align: left;
+  margin: 2px 2px 2px 2px;
+  padding: 2px 2px 2px 2px;
+  font-size: 0.8rem;
+  font-weight: 570;
+  display: flex;
+  align-items: center;
+  font-family: "Times New Roman", Times, serif;
+}
+.chatSidebarButton:hover {
+  cursor: pointer;
+  background-color: rgb(172, 195, 216);
+}
+.chatReactContainer {
+  min-width: 1.6rem;
+  min-height: 1.6rem;
+  background-color: rgb(181, 179, 179);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

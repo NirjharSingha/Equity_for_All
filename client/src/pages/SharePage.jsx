@@ -8,7 +8,7 @@ import "./SharePage.css";
 const SharePage = () => {
   const location = useLocation();
   const [postID, setPostID] = useState("");
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState({ name: "User Name", profilePic: "" });
 
   const fetchPostDetails = async (postID) => {
     try {
@@ -16,8 +16,8 @@ const SharePage = () => {
         `${import.meta.env.VITE_SERVER_URL}/post/getSharedPost/${postID}`
       );
       if (response) {
-        const post = response.data;
-        setPost(post);
+        const _post = response.data;
+        setPost(_post);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -26,8 +26,6 @@ const SharePage = () => {
 
   useEffect(() => {
     try {
-      console.log(location);
-      console.log(location.pathname);
       setPostID(location.pathname.split("/share/")[1]);
     } catch (error) {
       console.log(error);

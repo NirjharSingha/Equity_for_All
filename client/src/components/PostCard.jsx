@@ -34,8 +34,8 @@ const PostCard = ({ post, shareFlag }) => {
   const isInitialMount = useRef(true);
   const { getUserInfo } = useUserInfoContext();
   const { checkInitialMount, setUserLikes } = useLikesContext();
-  const [userName, setUserName] = useState("User Name");
-  const [userImg, setUserImg] = useState("");
+  const [userName, setUserName] = useState(shareFlag ? post.name : "");
+  const [userImg, setUserImg] = useState(shareFlag ? post.profilePic : "");
   const [showEditButton, setShowEditButton] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const { setEditPost, setSelectedPost, setShowAlert, setAlertMessage } =
@@ -132,6 +132,13 @@ const PostCard = ({ post, shareFlag }) => {
     }
   }, [mouseOnAllLikes, mouseOnLike]);
 
+  useEffect(() => {
+    if (shareFlag) {
+      setUserName(post.name);
+      setUserImg(post.profilePic);
+    }
+  }, [post.name, post.profilePic]);
+
   const handleLikePut = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -165,6 +172,7 @@ const PostCard = ({ post, shareFlag }) => {
   }, [selected]);
 
   useEffect(() => {
+    console.log(post);
     const displayPostUser = async () => {
       const { name, profilePic } = await getUserInfo(post.userEmail);
       setUserName(name), setUserImg(profilePic);

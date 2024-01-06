@@ -5,6 +5,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { IoAttachOutline } from "react-icons/io5";
 import { MdKeyboardVoice } from "react-icons/md";
 import { BiSolidSend } from "react-icons/bi";
+import ChatCard from "./ChatCard";
 
 const ChatBox = () => {
   const { setIsValidJWT, windowWidth } = useGlobals();
@@ -26,7 +27,17 @@ const ChatBox = () => {
           X
         </button>
       </div>
-      <div className="chatInboxContainer"></div>
+      <div className="chatInboxContainer">
+        <ChatCard />
+        {/* <ChatCard />
+        <ChatCard />
+        <ChatCard />
+        <ChatCard />
+        <ChatCard />
+        <ChatCard />
+        <ChatCard />
+        <ChatCard /> */}
+      </div>
       <div className="chatInputLine">
         <div style={{ display: "flex", width: "100%" }}>
           <div className="chatSearchIconConainer" style={{ width: "2.4rem" }}>
