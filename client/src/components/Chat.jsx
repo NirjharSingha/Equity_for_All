@@ -4,10 +4,116 @@ import { useEffect, useState } from "react";
 import ChatSearch from "./ChatSearch";
 import ItemCard from "./ItemCard";
 import ChatBox from "./ChatBox";
+import axios from "axios";
+import { useGlobals } from "../contexts/Globals";
+import jwtDecode from "jwt-decode";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
 const Chat = () => {
+  const { getUserInfo } = useUserInfoContext();
+  const [chatUsers, setChatUsers] = useState([]);
+  const [blockList, setBlockList] = useState([]);
+  const [showLoading, setShowLoading] = useState(false);
+  const { setIsValidJWT } = useGlobals();
+
   useEffect(() => {
     console.log("chat component loaded");
+
+    const fetchSuggessionData = async (dataToSend) => {
+      console.log("fetching suggessions");
+      try {
+        setShowLoading(true);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/friend/getFriendSuggessions?ids=${dataToSend}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          let suggessionsData = response.data;
+          const userEmail = jwtDecode(token).email;
+
+          suggessionsData = suggessionsData.filter(
+            (element) => element != userEmail
+          );
+          setShowLoading(false);
+          return suggessionsData;
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
+      }
+    };
+
+    const fetchChatUsers = async () => {
+      try {
+        setShowLoading(true);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/chat/getChatUsers`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          const { mergedChatList, blockList } = response.data;
+          setChatUsers(mergedChatList);
+          setBlockList(blockList);
+
+          if (mergedChatList.length > 0) {
+            setShowLoading(false);
+            return;
+          } else {
+            const friendList = [];
+            let chatSuggessions = await fetchSuggessionData(friendList);
+            chatSuggessions = chatSuggessions.filter(
+              (id) => !blockList.includes(id)
+            );
+
+            let promises = [];
+
+            chatSuggessions.forEach((id) => {
+              promises.push(
+                (async () => {
+                  const { name, profilePic } = await getUserInfo(id);
+                  return {
+                    id: id,
+                    name: name,
+                    profilePic: profilePic,
+                    unreadCount: 0,
+                  };
+                })()
+              );
+            });
+
+            Promise.all(promises)
+              .then((finalData) => {
+                setChatUsers(finalData);
+              })
+              .catch((error) => {
+                console.error("Error fetching user info:", error);
+              });
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 401) {
+          console.log("inside status code");
+          setIsValidJWT(false);
+        }
+      }
+    };
+
+    fetchChatUsers();
   }, []);
 
   const [selectedOption, setSelectedOption] = useState("inbox");
@@ -37,37 +143,44 @@ const Chat = () => {
         </button>
       </div>
       <div className="chatCardContainer">
-        <div key={1} className="chatCard" onClick={() => setShowChat(true)}>
-          <ItemCard
-            key={1}
-            containerClass="chatCardVerticalLine"
-            imgClass="optionListImg"
-            nameClass="optionListName"
-            shouldDisplayImg={false}
-            imgSrc={""}
-            icon="/profilePicIcon.svg"
-            name={
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            }
-          />
+        {chatUsers.map((user) => (
           <div
-            style={{
-              height: "100%",
-              aspectRatio: "1/1",
-              borderRadius: "50%",
-              backgroundColor: "grey",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "0.7rem",
-              fontWeight: "bold",
-              padding: "3px",
-              color: "white",
-            }}
+            key={user.id}
+            className="chatCard"
+            onClick={() => setShowChat(true)}
           >
-            12
+            <ItemCard
+              key={user.id}
+              containerClass="chatCardVerticalLine"
+              imgClass="optionListImg"
+              nameClass="optionListName"
+              shouldDisplayImg={user.profilePic !== ""}
+              imgSrc={user.profilePic}
+              icon="/profilePicIcon.svg"
+              name={user.name}
+            />
+            {user.unreadCount > 0 && (
+              <div
+                style={{
+                  height: "100%",
+                  aspectRatio: "1/1",
+                  minWidth: "1.2rem",
+                  borderRadius: "50%",
+                  backgroundColor: "grey",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "0.7rem",
+                  fontWeight: "bold",
+                  padding: "3px",
+                  color: "white",
+                }}
+              >
+                {user.unreadCount}
+              </div>
+            )}
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

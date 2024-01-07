@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import InboxMessage from "../../models/InboxMessage";
-import User from "../../models/User";
+import InboxMessage from "../../models/InboxMessage.js";
+import User from "../../models/User.js";
 
 const getChatList = asyncHandler(async (req, res) => {
   const userId = req.email;
@@ -89,6 +89,8 @@ const getChatList = asyncHandler(async (req, res) => {
         mergedChatList: chatUserInfoList,
         blockList: friendsData.blockList,
       };
+
+      console.log(dataToSend);
 
       res.json(dataToSend);
     }

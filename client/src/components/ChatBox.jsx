@@ -92,11 +92,11 @@ const ChatBox = () => {
             />
           </div>
         </div>
-        <div className="voiceMessage">
+        {/* <div className="voiceMessage">
           <MdKeyboardVoice
             style={{ fontSize: "1.2rem", color: "rgb(114, 113, 113)" }}
           />
-        </div>
+        </div> */}
         <BiSolidSend
           style={{
             fontSize: "1.4rem",
