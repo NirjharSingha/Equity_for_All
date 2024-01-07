@@ -7,15 +7,31 @@ import { useState } from "react";
 const ChatCard = () => {
   const [selected, setSelected] = useState("");
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
+  const [flag] = useState(1);
   return (
-    <div className="singleChatCon">
-      <div className="singleChat">
+    <div
+      className="singleChatCon"
+      style={flag === 1 ? { flexDirection: "row-reverse" } : {}}
+    >
+      <div
+        className="singleChat"
+        style={
+          flag === 1
+            ? {
+                borderTopRightRadius: "0",
+                borderTopLeftRadius: "0.9rem",
+                backgroundColor: "#50b5f8",
+                justifySelf: "flex-end",
+              }
+            : {}
+        }
+      >
         <div className="singleChatMessage">Lorem ipsum,</div>
         <div key={1}>
           {/* {attachment.endsWith(".jpg") ||
         attachment.endsWith(".png") ||
         attachment.endsWith(".jpeg") ? ( */}
-          {/* <img
+          <img
             key={1}
             src={
               "https://res.cloudinary.com/dsk08ceun/image/upload/v1703035274/your_folder_name/Screenshot%20from%202023-12-18%2001-12-05.png.png"
@@ -26,9 +42,9 @@ const ChatCard = () => {
             // ref={(el) => (imageRef.current[index] = el)}
             // onClick={() => toggleFullscreen(index)}
             className="postFiles"
-          /> */}
+          />
           {/* ) : attachment.endsWith(".mp4") ? ( */}
-          {/* <video controls width="200">
+          <video controls width="200">
             <source
               src={
                 "https://res.cloudinary.com/dsk08ceun/video/upload/v1703035544/your_folder_name/testVideo.mp4.mp4"
@@ -36,17 +52,23 @@ const ChatCard = () => {
               controls
               className="postFiles"
             />
-          </video> */}
+          </video>
           {/* ) : (
           <p></p>
         )} */}
         </div>
         <div className="singleChatTime">Lorem ipsum dolor</div>
-        <div className="chatReactContainer"></div>
+        <div
+          className="chatReactContainer"
+          style={flag === 1 ? { left: "0" } : { right: "0" }}
+        ></div>
       </div>
       <BsThreeDots style={{ color: "grey", cursor: "pointer" }} />
-      <div className="chatSideBar">
-        <>
+      <div
+        className="chatSideBar"
+        style={flag === 1 ? { left: "150px" } : { right: "5px" }}
+      >
+        {/* <>
           <button className="chatSidebarButton">Profile</button>
           <button
             className="chatSidebarButton"
@@ -57,15 +79,14 @@ const ChatCard = () => {
           >
             Notification
           </button>
-        </>
-        <button className="chatSidebarButton">Log out</button>
-        <div style={{ borderRadius: "10px", backgroundColor: "black" }}>
-          {/* <AllLikes
-            setSelected={setSelected}
-            setShouldDisplayAllLikes={setShouldDisplayAllLikes}
-            isCommentPage={true}
-          /> */}
-        </div>
+          <button className="chatSidebarButton">Log out</button>
+        </> */}
+
+        <AllLikes
+          setSelected={setSelected}
+          setShouldDisplayAllLikes={setShouldDisplayAllLikes}
+          isCommentPage={true}
+        />
       </div>
     </div>
   );

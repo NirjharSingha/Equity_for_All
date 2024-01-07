@@ -6,6 +6,7 @@ import { IoAttachOutline } from "react-icons/io5";
 import { MdKeyboardVoice } from "react-icons/md";
 import { BiSolidSend } from "react-icons/bi";
 import ChatCard from "./ChatCard";
+import ItemCard from "./ItemCard";
 
 const ChatBox = () => {
   const { setIsValidJWT, windowWidth } = useGlobals();
@@ -18,6 +19,7 @@ const ChatBox = () => {
           borderTopRightRadius: `${windowWidth > 440 ? 0 : "10px"}`,
           backgroundColor: "rgb(162, 158, 158)",
           height: "2.1rem",
+          backgroundColor: "rgb(197, 190, 190)",
         }}
       >
         <button
@@ -27,6 +29,18 @@ const ChatBox = () => {
           X
         </button>
       </div>
+      <ItemCard
+        key={1}
+        containerClass="chatInboxHeading"
+        imgClass="optionListImg"
+        nameClass="optionListName"
+        shouldDisplayImg={false}
+        imgSrc={""}
+        icon="/profilePicIcon.svg"
+        name={
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      />
       <div className="chatInboxContainer">
         <ChatCard />
         {/* <ChatCard />

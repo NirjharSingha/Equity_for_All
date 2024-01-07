@@ -1,17 +1,15 @@
 .singleChat {
   display: flex;
   flex-direction: column;
-  background-color: rgb(29, 220, 220);
+  background-color: rgb(211, 208, 208);
   width: 70%;
   z-index: 600;
   padding: 0.3rem;
   overflow-x: hidden;
-  border-radius: 1rem;
-  border-bottom-right-radius: 0;
+  border-radius: 0.9rem;
   border-top-left-radius: 0;
   align-items: center;
   position: relative;
-  border-bottom-right-radius: 0.9rem;
 }
 .singleChatMessage {
   font-family: "Times New Roman", Times, serif;
@@ -35,7 +33,7 @@
 .chatSideBar {
   position: absolute;
   top: 50%;
-  right: 5px;
+  /* right: 5px; */
   transform: translate(-50%, -50%);
   display: flex;
   box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.2);
@@ -65,5 +63,5 @@
   border-radius: 50%;
   position: absolute;
   bottom: 0;
-  right: 0;
+  /* right: 0; */
 }
