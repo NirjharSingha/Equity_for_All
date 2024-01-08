@@ -11,27 +11,30 @@ import FriendContextProvider from "./contexts/FriendContext.jsx";
 import StoryContextProvider from "./contexts/StoryContext.jsx";
 import GlobalsProvider from "./contexts/Globals.jsx";
 import GroupContextProvider from "./contexts/GroupContext.jsx";
+import ChatProvider from "./contexts/ChatContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
-    <GlobalsProvider>
-      <UserInfoProvider>
-        <FileContextProvider>
-          <LikesContextProvider>
-            <PostContext>
-              <LikesListContextProvider>
-                <FriendContextProvider>
-                  <StoryContextProvider>
-                    <GroupContextProvider>
-                      <App />
-                    </GroupContextProvider>
-                  </StoryContextProvider>
-                </FriendContextProvider>
-              </LikesListContextProvider>
-            </PostContext>
-          </LikesContextProvider>
-        </FileContextProvider>
-      </UserInfoProvider>
-    </GlobalsProvider>
+    <ChatProvider>
+      <GlobalsProvider>
+        <UserInfoProvider>
+          <FileContextProvider>
+            <LikesContextProvider>
+              <PostContext>
+                <LikesListContextProvider>
+                  <FriendContextProvider>
+                    <StoryContextProvider>
+                      <GroupContextProvider>
+                        <App />
+                      </GroupContextProvider>
+                    </StoryContextProvider>
+                  </FriendContextProvider>
+                </LikesListContextProvider>
+              </PostContext>
+            </LikesContextProvider>
+          </FileContextProvider>
+        </UserInfoProvider>
+      </GlobalsProvider>
+    </ChatProvider>
   </Router>
 );

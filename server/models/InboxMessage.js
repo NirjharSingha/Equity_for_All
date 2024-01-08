@@ -19,8 +19,8 @@ const inboxMessageSchema = mongoose.Schema(
       default: [],
     },
     time: {
-      type: String,
-      default: "",
+      type: Date,
+      default: null,
     },
     isSeen: {
       type: Boolean,
@@ -35,12 +35,12 @@ const inboxMessageSchema = mongoose.Schema(
       default: "",
     },
     updatedAt: {
-      type: String,
-      default: "",
+      type: Date,
+      default: null,
     },
     deletedAt: {
-      type: String,
-      default: "",
+      type: Date,
+      default: null,
     },
   },
   {

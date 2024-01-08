@@ -14,6 +14,7 @@ const Chat = () => {
   const [chatUsers, setChatUsers] = useState([]);
   const [blockList, setBlockList] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
+  const [selectedInbox, setSelectedInbox] = useState({});
   const { setIsValidJWT } = useGlobals();
 
   useEffect(() => {
@@ -121,7 +122,7 @@ const Chat = () => {
 
   return (
     <div className="chatContainer">
-      {showChat && <ChatBox />}
+      {showChat && <ChatBox chatUser={selectedInbox} />}
       <p className="chatHeading">Chats</p>
       <ChatSearch />
       <div className="grpOptionBtn">
@@ -147,7 +148,10 @@ const Chat = () => {
           <div
             key={user.id}
             className="chatCard"
-            onClick={() => setShowChat(true)}
+            onClick={() => {
+              setSelectedInbox(user);
+              setShowChat(true);
+            }}
           >
             <ItemCard
               key={user.id}
