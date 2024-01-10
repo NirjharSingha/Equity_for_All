@@ -45,15 +45,33 @@ import {
 import React, { useEffect } from "react";
 import "./Share.css";
 
-const Share = ({ post }) => {
+const Share = ({ post, setShowPostShare, shareComponentRef }) => {
   useEffect(() => {
     console.log("share component loaded");
+  }, []);
+
+  useEffect(() => {
+    console.log("post card loaded");
+    const handleOutsideClick = (event) => {
+      if (
+        shareComponentRef.current &&
+        !shareComponentRef.current.contains(event.target)
+      ) {
+        setShowPostShare(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
   }, []);
 
   const shareUrl = `${import.meta.env.VITE_CLIENT_URL}share/${post._id}`;
 
   return (
-    <div className="shareComponent">
+    <div className="shareComponent" ref={shareComponentRef}>
       <div className="shareOptionDiv">
         <EmailShareButton className="shareOptionContainer" url={shareUrl}>
           <EmailIcon className="shareOptionIcon" /> <span>Email</span>

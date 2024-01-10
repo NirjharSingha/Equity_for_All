@@ -41,7 +41,8 @@
   overflow-y: auto;
   padding-left: 10px;
   padding-right: 10px;
-  /* background-color: bisque; */
+  display: flex;
+  flex-direction: column-reverse;
 }
 .chatInboxHeading {
   width: calc(100%);

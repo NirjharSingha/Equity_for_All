@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import InboxMessage from "../../models/InboxMessage.js";
 import User from "../../models/User.js";
 
-const getChatList = asyncHandler(async (req, res) => {
+const getChatUsers = asyncHandler(async (req, res) => {
   const userId = req.email;
 
   try {
@@ -99,4 +99,4 @@ const getChatList = asyncHandler(async (req, res) => {
   }
 });
 
-export default getChatList;
+export default getChatUsers;

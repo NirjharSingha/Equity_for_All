@@ -141,7 +141,8 @@
 }
 .emojiClass {
   margin-left: 2rem;
-  margin-right: 2rem;
+  margin-right: 2.5rem;
+  margin-top: 0.5rem;
 }
 .commentLikes {
   height: 20px;

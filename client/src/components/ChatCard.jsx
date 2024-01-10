@@ -1,13 +1,77 @@
 import React from "react";
 import "./ChatCard.css";
 import { BsThreeDots } from "react-icons/bs";
-import AllLikes from "./Likes";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import jwtDecode from "jwt-decode";
+import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { FaLaughSquint, FaSadCry, FaAngry } from "react-icons/fa";
+import { FcLike } from "react-icons/fc";
+import ChatCardSideBar from "./ChatCardSideBar";
+import ChatLikes from "./ChatLikes";
+import { useChat } from "../contexts/ChatContext";
 
-const ChatCard = () => {
-  const [selected, setSelected] = useState("");
+const ChatCard = ({ chat }) => {
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
-  const [flag] = useState(1);
+  const imageRef = useRef([]);
+  const {
+    _id,
+    sender,
+    receiver,
+    messageText,
+    messageAttachments,
+    time,
+    react,
+    replyId,
+    updatedAt,
+    deletedAt,
+  } = chat;
+
+  const {
+    selectedFiles,
+    setSelectedFiles,
+    inputValue,
+    setInputValue,
+    chats,
+    setChats,
+    chatToEdit,
+    setChatToEdit,
+    prevFiles,
+    setPrevFiles,
+  } = useChat();
+
+  const [selectedLike, setSelectedLike] = useState(react);
+  const currentUser = jwtDecode(localStorage.getItem("token")).email;
+  const flag = sender === currentUser ? 1 : 0;
+  const [showChatSideBar, setShowChatSideBar] = useState(false);
+
+  const toggleFullscreen = (index) => {
+    const imageElement = imageRef.current[index];
+
+    if (!document.fullscreenElement) {
+      if (imageElement.requestFullscreen) {
+        imageElement.requestFullscreen();
+      } else if (imageElement.mozRequestFullScreen) {
+        imageElement.mozRequestFullScreen();
+      } else if (imageElement.webkitRequestFullscreen) {
+        imageElement.webkitRequestFullscreen();
+      } else if (imageElement.msRequestFullscreen) {
+        imageElement.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  const handleEdit = () => {
+    setInputValue(messageText);
+    setSelectedFiles(messageAttachments);
+    setPrevFiles(messageAttachments);
+    setChatToEdit(_id);
+    setShowChatSideBar(false);
+  };
+
   return (
     <div
       className="singleChatCon"
@@ -26,68 +90,96 @@ const ChatCard = () => {
             : {}
         }
       >
-        <div className="singleChatMessage">Lorem ipsum,</div>
-        <div key={1}>
-          {/* {attachment.endsWith(".jpg") ||
-        attachment.endsWith(".png") ||
-        attachment.endsWith(".jpeg") ? ( */}
-          <img
-            key={1}
-            src={
-              "https://res.cloudinary.com/dsk08ceun/image/upload/v1703035274/your_folder_name/Screenshot%20from%202023-12-18%2001-12-05.png.png"
-            }
-            alt=""
-            style={{ maxWidth: "200px" }}
-            // height={200}
-            // ref={(el) => (imageRef.current[index] = el)}
-            // onClick={() => toggleFullscreen(index)}
-            className="postFiles"
-          />
-          {/* ) : attachment.endsWith(".mp4") ? ( */}
-          <video controls width="200">
-            <source
-              src={
-                "https://res.cloudinary.com/dsk08ceun/video/upload/v1703035544/your_folder_name/testVideo.mp4.mp4"
-              }
-              controls
-              className="postFiles"
-            />
-          </video>
-          {/* ) : (
-          <p></p>
-        )} */}
-        </div>
-        <div className="singleChatTime">Lorem ipsum dolor</div>
+        <div className="singleChatMessage">{messageText}</div>
+        {messageAttachments.map((attachment, index) => (
+          <div key={index}>
+            {attachment.endsWith(".jpg") ||
+            attachment.endsWith(".png") ||
+            attachment.endsWith(".jpeg") ? (
+              <img
+                key={index}
+                src={attachment}
+                alt=""
+                width={200}
+                height={200}
+                ref={(el) => (imageRef.current[index] = el)}
+                onClick={() => toggleFullscreen(index)}
+                style={{ maxWidth: "200px" }}
+                className="postFiles"
+              />
+            ) : attachment.endsWith(".mp4") ? (
+              <video controls width="200">
+                <source src={attachment} controls className="postFiles" />
+              </video>
+            ) : (
+              <p key={index}></p>
+            )}
+          </div>
+        ))}
         <div
-          className="chatReactContainer"
-          style={flag === 1 ? { left: "0" } : { right: "0" }}
-        ></div>
-      </div>
-      <BsThreeDots style={{ color: "grey", cursor: "pointer" }} />
-      <div
-        className="chatSideBar"
-        style={flag === 1 ? { left: "150px" } : { right: "5px" }}
-      >
-        {/* <>
-          <button className="chatSidebarButton">Profile</button>
-          <button
-            className="chatSidebarButton"
-            // onClick={() => {
-            //   setShowNotifications(true);
-            //   setState(false);
-            // }}
+          className="singleChatTime"
+          style={
+            selectedLike !== "" && flag === 0 ? { paddingRight: "1.2rem" } : {}
+          }
+        >
+          {new Date(time).toLocaleString()}
+        </div>
+        {selectedLike !== "" && (
+          <div
+            className="chatReactContainer"
+            style={flag === 1 ? { left: "0" } : { right: "0" }}
           >
-            Notification
-          </button>
-          <button className="chatSidebarButton">Log out</button>
-        </> */}
-
-        <AllLikes
-          setSelected={setSelected}
-          setShouldDisplayAllLikes={setShouldDisplayAllLikes}
-          isCommentPage={true}
-        />
+            {selectedLike === "like" ? (
+              <AiFillLike
+                className="iconFlex blue"
+                style={{ fontSize: "1rem" }}
+              />
+            ) : selectedLike === "dislike" ? (
+              <AiFillDislike
+                className="iconFlex blue"
+                style={{ fontSize: "1rem" }}
+              />
+            ) : selectedLike === "laugh" ? (
+              <FaLaughSquint
+                className="iconFlex yellow"
+                style={{ fontSize: "1rem" }}
+              />
+            ) : selectedLike === "angry" ? (
+              <FaAngry className="iconFlex red" style={{ fontSize: "1rem" }} />
+            ) : selectedLike === "sad" ? (
+              <FaSadCry
+                className="iconFlex yellow"
+                style={{ fontSize: "1rem" }}
+              />
+            ) : selectedLike === "love" ? (
+              <FcLike className="iconFlex" style={{ fontSize: "1rem" }} />
+            ) : (
+              <AiOutlineLike
+                className="likeIcon iconFlex"
+                style={{ fontSize: "1rem" }}
+              />
+            )}
+          </div>
+        )}
       </div>
+      <BsThreeDots
+        style={{ color: "grey", cursor: "pointer", margin: "0.2rem" }}
+        onClick={() => setShowChatSideBar(true)}
+      />
+      {showChatSideBar && (
+        <ChatCardSideBar
+          flag={flag}
+          setState={setShowChatSideBar}
+          handleEdit={handleEdit}
+        />
+      )}
+      {shouldDisplayAllLikes && (
+        <ChatLikes
+          flag={flag}
+          setSelectedLike={setSelectedLike}
+          setShouldDisplayAllLikes={setShouldDisplayAllLikes}
+        />
+      )}
     </div>
   );
 };

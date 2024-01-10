@@ -8,9 +8,27 @@ export function useChat() {
 }
 
 const ChatProvider = ({ children }) => {
-  const [selectedInbox, setSelectedInbox] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [chats, setChats] = useState([]);
+  const [chatToEdit, setChatToEdit] = useState("");
+  const [prevFiles, setPrevFiles] = useState([]);
+
   return (
-    <ChatContext.Provider value={{ selectedInbox, setSelectedInbox }}>
+    <ChatContext.Provider
+      value={{
+        selectedFiles,
+        setSelectedFiles,
+        inputValue,
+        setInputValue,
+        chats,
+        setChats,
+        chatToEdit,
+        setChatToEdit,
+        prevFiles,
+        setPrevFiles,
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );

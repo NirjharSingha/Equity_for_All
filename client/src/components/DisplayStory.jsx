@@ -39,7 +39,6 @@ const DisplayStory = () => {
   } = useStoryContext();
   const { setIsValidJWT } = useGlobals();
   const navigate = useNavigate();
-  const editContainerRef = useRef(null);
   const { getUserInfo } = useUserInfoContext();
   const [userName, setUserName] = useState("User Name");
   const [userImg, setUserImg] = useState("");
@@ -118,21 +117,7 @@ const DisplayStory = () => {
       setKeyIndex(currentKeyIndex);
     }
   };
-  useEffect(() => {
-    console.log(storyToDisplay);
-    const handleOutsideClick = (event) => {
-      if (
-        editContainerRef.current &&
-        !editContainerRef.current.contains(event.target)
-      ) {
-        setShowEdit(false);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
+
   useEffect(() => {
     const displayStoryUser = async () => {
       if (storyToDisplay.userEmail !== undefined) {
@@ -142,8 +127,6 @@ const DisplayStory = () => {
         setUserName(name), setUserImg(profilePic);
       }
     };
-    console.log(storyKeys.length);
-    console.log(otherStories);
 
     displayStoryUser();
   }, [storyToDisplay]);
@@ -184,7 +167,6 @@ const DisplayStory = () => {
             };
           });
         } else {
-          console.log(email);
           setOtherStories((prevState) => {
             const newState = { ...prevState };
             delete newState[email];
@@ -260,9 +242,9 @@ const DisplayStory = () => {
             {showEdit && (
               <EditSideBar
                 containerClass="editStoryContainer"
-                containerRef={editContainerRef}
                 handler_1={handleEdit}
                 handler_2={handleDelete}
+                setShowEdit={setShowEdit}
               />
             )}
             <div

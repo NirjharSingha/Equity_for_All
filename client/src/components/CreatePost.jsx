@@ -225,7 +225,9 @@ const CreatePost = () => {
             ref={inputRef}
           />
         </div>
-        <EmojiList setInputValue={setInputValue} inputRef={inputRef} />
+        <div style={{ marginRight: "0.5rem" }}>
+          <EmojiList setInputValue={setInputValue} inputRef={inputRef} />
+        </div>
         <div className="postAttachment">
           {selectedFiles.map((file, index) => (
             <PreviewItem

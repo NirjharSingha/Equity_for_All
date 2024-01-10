@@ -42,7 +42,6 @@ const PostCard = ({ post, shareFlag }) => {
     usePostContext();
   const { setShowAlertMsg, setAlertMsg, selectedGroup, isGroupPost } =
     useGroupContext();
-  const editContainerRef = useRef(null);
   const { setYourPostArray } = usePostContext();
   const [showLikesList, setShowLikesList] = useState(false);
   const shareComponentRef = useRef(null);
@@ -172,7 +171,7 @@ const PostCard = ({ post, shareFlag }) => {
   }, [selected]);
 
   useEffect(() => {
-    console.log(post);
+    console.log("post card loaded");
     const displayPostUser = async () => {
       const { name, profilePic } = await getUserInfo(post.userEmail);
       setUserName(name), setUserImg(profilePic);
@@ -194,39 +193,6 @@ const PostCard = ({ post, shareFlag }) => {
   const handleSeeMore = () => {
     setExpanded((prev) => !prev);
   };
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (
-        editContainerRef.current &&
-        !editContainerRef.current.contains(event.target)
-      ) {
-        setShowEdit(false);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log("post card loaded");
-    const handleOutsideClick = (event) => {
-      if (
-        shareComponentRef.current &&
-        !shareComponentRef.current.contains(event.target)
-      ) {
-        setShowPostShare(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
 
   let paragraphs;
   if (post.postDescription) {
@@ -266,8 +232,12 @@ const PostCard = ({ post, shareFlag }) => {
         />
       )}
       {showPostShare && (
-        <div ref={shareComponentRef}>
-          <Share post={post} />
+        <div>
+          <Share
+            post={post}
+            shareComponentRef={shareComponentRef}
+            setShowPostShare={setShowPostShare}
+          />
         </div>
       )}
       {showComments && (
@@ -277,9 +247,9 @@ const PostCard = ({ post, shareFlag }) => {
         {showEdit && (
           <EditSideBar
             containerClass="editPostButton"
-            containerRef={editContainerRef}
             handler_1={handleEdit}
             handler_2={handleDelete}
+            setShowEdit={setShowEdit}
           />
         )}
         <div className="postHeading">

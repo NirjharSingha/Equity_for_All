@@ -3,23 +3,47 @@ import "./ChatBox.css";
 import { useGlobals } from "../contexts/Globals";
 import { BsEmojiSmile } from "react-icons/bs";
 import { IoAttachOutline } from "react-icons/io5";
-import { MdKeyboardVoice } from "react-icons/md";
 import { BiSolidSend } from "react-icons/bi";
 import ChatCard from "./ChatCard";
 import ItemCard from "./ItemCard";
 import EmojiList from "./EmojiList";
 import { useRef } from "react";
 import axios from "axios";
+import { useChat } from "../contexts/ChatContext";
+import { TbReload } from "react-icons/tb";
 
 const ChatBox = ({ chatUser }) => {
+  const [isRotating, setIsRotating] = useState(false);
   const { setIsValidJWT, windowWidth } = useGlobals();
   const [showEmojis, setShowEmojis] = useState(false);
   const fileInputRef = useRef(null);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const {
+    selectedFiles,
+    setSelectedFiles,
+    inputValue,
+    setInputValue,
+    chats,
+    setChats,
+    chatToEdit,
+    setChatToEdit,
+    prevFiles,
+    setPrevFiles,
+  } = useChat();
   const inputRef = useRef(null);
   const emojiRef = useRef(null);
   const Ref = useRef(null);
+  const [showLoading, setShowLoading] = useState(false);
+
+  const handleRotateClick = () => {
+    setIsRotating(true);
+    setChatToEdit("");
+    setInputValue("");
+    setSelectedFiles([]);
+    setPrevFiles([]);
+    setTimeout(() => {
+      setIsRotating(false);
+    }, 500);
+  };
 
   const handleFileChange = (event) => {
     const files = event.target.files;
@@ -85,6 +109,34 @@ const ChatBox = ({ chatUser }) => {
         }
       }
     };
+
+    const fetchChats = async () => {
+      try {
+        setShowLoading(true);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/chat/getChats/${chatUser.id}`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setChats(response.data);
+          console.log(response.data);
+          setShowLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+        if (error.response.status === 401) {
+          setIsValidJWT(false);
+        }
+      }
+    };
+
+    fetchChats();
+
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
@@ -96,13 +148,18 @@ const ChatBox = ({ chatUser }) => {
       <div
         className="commentCrossContainer"
         style={{
-          justifyContent: "flex-end",
           borderTopRightRadius: `${windowWidth > 440 ? 0 : "10px"}`,
           backgroundColor: "rgb(162, 158, 158)",
           height: "2.1rem",
           backgroundColor: "rgb(197, 190, 190)",
         }}
       >
+        <TbReload
+          className={`commentReload rotating-element ${
+            isRotating ? "rotate-once" : ""
+          }`}
+          onClick={handleRotateClick}
+        />
         <button
           className="commentCross"
           //   onClick={() => setShowNotifications(false)}
@@ -120,7 +177,9 @@ const ChatBox = ({ chatUser }) => {
         name={chatUser.name}
       />
       <div className="chatInboxContainer">
-        <ChatCard />
+        {chats.map((chat) => (
+          <ChatCard key={chat._id} chat={chat} />
+        ))}
       </div>
       <form className="chatInputLine" encType="multipart/form-data">
         <div style={{ display: "flex", width: "100%" }}>
@@ -219,7 +278,6 @@ const ChatBox = ({ chatUser }) => {
           <p>
             {selectedFiles.length +
               ` ${selectedFiles.length > 1 ? "files" : "file"} selected`}
-            {/* {`${selectedFiles.length} files selected`} */}
           </p>
           <div
             className="chatFileUploadCross"
@@ -227,7 +285,10 @@ const ChatBox = ({ chatUser }) => {
           >
             <p
               style={{ fontSize: "0.8rem" }}
-              onClick={() => setSelectedFiles([])}
+              onClick={() => {
+                setSelectedFiles([]);
+                setPrevFiles([]);
+              }}
             >
               x
             </p>

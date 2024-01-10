@@ -3,7 +3,6 @@ import "./Comment.css";
 import { useEffect, useState, useRef } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { BiSolidSend } from "react-icons/bi";
-import { TbReload } from "react-icons/tb";
 import CommentCard from "./CommentCard";
 import EmojiList from "./EmojiList";
 import axios from "axios";
@@ -19,7 +18,6 @@ const Comment = ({ setShowComments, post }) => {
   const [commentInput, setCommentInput] = useState("");
   const emojiRef = useRef(null);
   const [comments, setComments] = useState([]);
-  const [isRotating, setIsRotating] = useState(false);
   const { getUserInfo } = useUserInfoContext();
   const [commentPage, setCommentPage] = useState(0);
   const [commentLimit] = useState(3);
@@ -27,13 +25,6 @@ const Comment = ({ setShowComments, post }) => {
   const inputRef = useRef(null);
   const Ref = useRef(null);
   const [showLoading, setShowLoading] = useState(true);
-
-  const handleRotateClick = async () => {
-    setIsRotating(true);
-    setTimeout(() => {
-      setIsRotating(false);
-    }, 500);
-  };
 
   const setCommentInPlace = (data) => {
     if (data.createFlag) {
@@ -150,8 +141,6 @@ const Comment = ({ setShowComments, post }) => {
   };
 
   const handleSSEData = (event) => {
-    handleRotateClick();
-
     const data = JSON.parse(event.data);
     const decodedToken = jwtDecode(localStorage.getItem("token"));
     if (decodedToken.email !== data.userEmail) {
@@ -352,13 +341,10 @@ const Comment = ({ setShowComments, post }) => {
 
   return (
     <div className="commentContainer" ref={commentContainerRef}>
-      <div className="commentCrossContainer">
-        <TbReload
-          className={`commentReload rotating-element ${
-            isRotating ? "rotate-once" : ""
-          }`}
-          onClick={handleRotateClick}
-        />
+      <div
+        className="commentCrossContainer"
+        style={{ justifyContent: "flex-end" }}
+      >
         <button className="commentCross" onClick={() => setShowComments(false)}>
           X
         </button>

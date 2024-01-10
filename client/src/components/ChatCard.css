@@ -22,7 +22,7 @@
   width: 100%;
   text-align: right;
   padding-right: 0.2rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.2rem;
 }
 .singleChatCon {
   display: flex;
@@ -57,11 +57,13 @@
   background-color: rgb(172, 195, 216);
 }
 .chatReactContainer {
-  min-width: 1.6rem;
-  min-height: 1.6rem;
-  background-color: rgb(181, 179, 179);
+  min-width: 1.3rem;
+  min-height: 1.3rem;
+  background-color: white;
   border-radius: 50%;
   position: absolute;
   bottom: 0;
-  /* right: 0; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
