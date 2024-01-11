@@ -9,6 +9,7 @@ import { FcLike } from "react-icons/fc";
 import ChatCardSideBar from "./ChatCardSideBar";
 import ChatLikes from "./ChatLikes";
 import { useChat } from "../contexts/ChatContext";
+import axios from "axios";
 
 const ChatCard = ({ chat }) => {
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
@@ -72,6 +73,33 @@ const ChatCard = ({ chat }) => {
     setShowChatSideBar(false);
   };
 
+  const handleDelete = async () => {
+    console.log("inside delete");
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/chat/deleteChat/${_id}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        console.log("chat deleted successfully");
+        // setShowEdit(false);
+        // setYourPostArray((prevPosts) => {
+        //   return prevPosts.filter((post) => post._id !== response.data.id);
+        // });
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
+    }
+  };
+
   return (
     <div
       className="singleChatCon"
@@ -119,7 +147,9 @@ const ChatCard = ({ chat }) => {
         <div
           className="singleChatTime"
           style={
-            selectedLike !== "" && flag === 0 ? { paddingRight: "1.2rem" } : {}
+            selectedLike !== "" && flag === 0
+              ? { paddingRight: "1.2rem", fontSize: "0.8rem" }
+              : { fontSize: "0.65rem" }
           }
         >
           {new Date(time).toLocaleString()}
@@ -171,6 +201,7 @@ const ChatCard = ({ chat }) => {
           flag={flag}
           setState={setShowChatSideBar}
           handleEdit={handleEdit}
+          handleDelete={handleDelete}
         />
       )}
       {shouldDisplayAllLikes && (

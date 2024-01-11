@@ -28,6 +28,8 @@ const ChatBox = ({ chatUser }) => {
     setChatToEdit,
     prevFiles,
     setPrevFiles,
+    newFiles,
+    setNewFiles,
   } = useChat();
   const inputRef = useRef(null);
   const emojiRef = useRef(null);
@@ -49,6 +51,10 @@ const ChatBox = ({ chatUser }) => {
     const files = event.target.files;
     const filesArray = Array.from(files);
     setSelectedFiles((prevFiles) => [...prevFiles, ...filesArray]);
+
+    if (chatToEdit !== "") {
+      setNewFiles((prevFiles) => [...prevFiles, ...filesArray]);
+    }
   };
 
   const handleSubmitChat = async (e) => {
@@ -60,26 +66,51 @@ const ChatBox = ({ chatUser }) => {
     const chatData = new FormData();
 
     chatData.append("chatDescription", inputValue);
-    chatData.append("time", new Date(Date.now()));
-    chatData.append("receiver", chatUser.id);
 
-    for (let i = 0; i < selectedFiles.length; i++) {
-      chatData.append("chatAttachments", selectedFiles[i]);
+    if (chatToEdit === "") {
+      chatData.append("time", new Date(Date.now()));
+      chatData.append("receiver", chatUser.id);
+
+      for (let i = 0; i < selectedFiles.length; i++) {
+        chatData.append("chatAttachments", selectedFiles[i]);
+      }
+    } else {
+      for (let i = 0; i < prevFiles.length; i++) {
+        chatData.append("prevFiles", prevFiles[i]);
+      }
+      for (let i = 0; i < newFiles.length; i++) {
+        chatData.append("chatAttachments", newFiles[i]);
+      }
+      chatData.append("id", chatToEdit);
     }
 
     try {
       const token = localStorage.getItem("token");
       let response;
-      response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/chat/createChat`,
-        chatData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: token,
-          },
-        }
-      );
+
+      if (chatToEdit === "") {
+        response = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/chat/createChat`,
+          chatData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: token,
+            },
+          }
+        );
+      } else {
+        response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/chat/editChat`,
+          chatData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: token,
+            },
+          }
+        );
+      }
 
       if (response) {
         console.log(response.data);
@@ -97,7 +128,7 @@ const ChatBox = ({ chatUser }) => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleSubmitChat();
+      handleSubmitChat(event);
     }
   };
 
@@ -288,6 +319,7 @@ const ChatBox = ({ chatUser }) => {
               onClick={() => {
                 setSelectedFiles([]);
                 setPrevFiles([]);
+                setNewFiles([]);
               }}
             >
               x

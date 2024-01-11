@@ -26,7 +26,9 @@ const editPost = asyncHandler(async (req, res) => {
   }
 
   if (isDeleted === "false") {
-    postAttachments = postAttachments.concat(prevAttachments);
+    if (prevAttachments !== undefined) {
+      postAttachments = postAttachments.concat(prevAttachments);
+    }
   }
 
   const updatedPost = await Post.findOneAndUpdate(
