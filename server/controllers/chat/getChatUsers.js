@@ -90,8 +90,6 @@ const getChatUsers = asyncHandler(async (req, res) => {
         blockList: friendsData.blockList,
       };
 
-      console.log(dataToSend);
-
       res.json(dataToSend);
     }
   } catch (error) {

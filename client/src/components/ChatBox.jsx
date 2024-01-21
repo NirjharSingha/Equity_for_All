@@ -12,7 +12,7 @@ import axios from "axios";
 import { useChat } from "../contexts/ChatContext";
 import { TbReload } from "react-icons/tb";
 
-const ChatBox = ({ chatUser }) => {
+const ChatBox = ({ chatUser, setShowChat }) => {
   const [isRotating, setIsRotating] = useState(false);
   const { setIsValidJWT, windowWidth } = useGlobals();
   const [showEmojis, setShowEmojis] = useState(false);
@@ -34,6 +34,7 @@ const ChatBox = ({ chatUser }) => {
   const inputRef = useRef(null);
   const emojiRef = useRef(null);
   const Ref = useRef(null);
+  const chatRef = useRef(null);
   const [showLoading, setShowLoading] = useState(false);
 
   const handleRotateClick = () => {
@@ -142,6 +143,7 @@ const ChatBox = ({ chatUser }) => {
     };
 
     const fetchChats = async () => {
+      console.log("fetchChats");
       try {
         setShowLoading(true);
         const token = localStorage.getItem("token");
@@ -174,8 +176,21 @@ const ChatBox = ({ chatUser }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (chatRef.current && !chatRef.current.contains(event.target)) {
+        setShowChat(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className="chatBox">
+    <div className="chatBox" ref={chatRef}>
       <div
         className="commentCrossContainer"
         style={{
@@ -191,10 +206,7 @@ const ChatBox = ({ chatUser }) => {
           }`}
           onClick={handleRotateClick}
         />
-        <button
-          className="commentCross"
-          //   onClick={() => setShowNotifications(false)}
-        >
+        <button className="commentCross" onClick={() => setShowChat(false)}>
           X
         </button>
       </div>

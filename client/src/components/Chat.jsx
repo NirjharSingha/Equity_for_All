@@ -122,7 +122,9 @@ const Chat = () => {
 
   return (
     <div className="chatContainer">
-      {showChat && <ChatBox chatUser={selectedInbox} />}
+      {showChat && (
+        <ChatBox chatUser={selectedInbox} setShowChat={setShowChat} />
+      )}
       <p className="chatHeading">Chats</p>
       <ChatSearch />
       <div className="grpOptionBtn">

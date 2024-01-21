@@ -40,7 +40,7 @@ const AllLikes = ({ setSelected, setShouldDisplayAllLikes, isCommentPage }) => {
         style={isCommentPage ? { fontSize: "1rem" } : {}}
       />
       <FaSadCry
-        className="iconFlex likeHover lightBlue"
+        className="iconFlex likeHover yellow"
         onClick={() => {
           setSelected("sad");
           setShouldDisplayAllLikes(false);

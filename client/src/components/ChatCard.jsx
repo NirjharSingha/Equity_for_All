@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ChatCard.css";
 import { BsThreeDots } from "react-icons/bs";
 import { useState, useRef } from "react";
@@ -9,6 +9,8 @@ import { FcLike } from "react-icons/fc";
 import ChatCardSideBar from "./ChatCardSideBar";
 import ChatLikes from "./ChatLikes";
 import { useChat } from "../contexts/ChatContext";
+import { BsEmojiSmile } from "react-icons/bs";
+import { useGlobals } from "../contexts/Globals";
 import axios from "axios";
 
 const ChatCard = ({ chat }) => {
@@ -41,9 +43,11 @@ const ChatCard = ({ chat }) => {
   } = useChat();
 
   const [selectedLike, setSelectedLike] = useState(react);
+  const [isMount, setIsMount] = useState(true);
   const currentUser = jwtDecode(localStorage.getItem("token")).email;
   const flag = sender === currentUser ? 1 : 0;
   const [showChatSideBar, setShowChatSideBar] = useState(false);
+  const { setIsValidJWT } = useGlobals();
 
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
@@ -74,7 +78,6 @@ const ChatCard = ({ chat }) => {
   };
 
   const handleDelete = async () => {
-    console.log("inside delete");
     const token = localStorage.getItem("token");
     try {
       const response = await axios.delete(
@@ -87,6 +90,7 @@ const ChatCard = ({ chat }) => {
       );
       if (response.status == 200) {
         console.log("chat deleted successfully");
+        setShowChatSideBar(false);
         // setShowEdit(false);
         // setYourPostArray((prevPosts) => {
         //   return prevPosts.filter((post) => post._id !== response.data.id);
@@ -99,6 +103,43 @@ const ChatCard = ({ chat }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const updateLike = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/chat/updateLike/${_id}`,
+          { selectedLike },
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response.status == 200) {
+          console.log("like updated successfully");
+          setShouldDisplayAllLikes(false);
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 401) {
+          // setIsValidJWT(false);
+          console.log(401);
+        }
+      }
+    };
+
+    if (!isMount) {
+      updateLike();
+    } else {
+      setIsMount(false);
+    }
+  }, [selectedLike]);
+
+  useEffect(() => {
+    setSelectedLike(chat.react);
+  }, [chat.react]);
 
   return (
     <div
@@ -158,6 +199,7 @@ const ChatCard = ({ chat }) => {
           <div
             className="chatReactContainer"
             style={flag === 1 ? { left: "0" } : { right: "0" }}
+            onClick={() => setSelectedLike("")}
           >
             {selectedLike === "like" ? (
               <AiFillLike
@@ -192,10 +234,17 @@ const ChatCard = ({ chat }) => {
           </div>
         )}
       </div>
-      <BsThreeDots
-        style={{ color: "grey", cursor: "pointer", margin: "0.2rem" }}
-        onClick={() => setShowChatSideBar(true)}
-      />
+      {flag === 1 ? (
+        <BsThreeDots
+          style={{ color: "grey", cursor: "pointer", margin: "0.2rem" }}
+          onClick={() => setShowChatSideBar(true)}
+        />
+      ) : (
+        <BsEmojiSmile
+          style={{ color: "grey", cursor: "pointer", margin: "0.2rem" }}
+          onClick={() => setShouldDisplayAllLikes(true)}
+        />
+      )}
       {showChatSideBar && (
         <ChatCardSideBar
           flag={flag}

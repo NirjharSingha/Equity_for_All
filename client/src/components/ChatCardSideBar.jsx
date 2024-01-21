@@ -24,7 +24,6 @@ const ChatCardSideBar = ({ flag, setState, handleEdit, handleDelete }) => {
       className="chatSideBar"
       style={flag === 1 ? { left: "120px" } : { right: "45px" }}
     >
-      <button className="chatSidebarButton">Reply</button>
       {flag === 1 && (
         <button className="chatSidebarButton" onClick={handleEdit}>
           Edit

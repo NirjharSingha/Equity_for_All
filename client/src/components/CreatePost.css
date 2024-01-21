@@ -36,7 +36,7 @@
   margin: 5px;
   margin-top: 0px;
   text-align: center;
-  background-color: rgb(190, 193, 194);
+  background-color: rgb(226, 229, 230);
   overflow-y: auto;
   max-height: 200px;
 }
@@ -50,14 +50,14 @@
   margin-right: 5px;
   color: white;
   font-weight: bold;
-  background-color: rgb(73, 230, 70);
+  background-color: rgb(159, 159, 163);
   border-radius: 10px;
   width: calc(100% - 10px);
   border: none;
   margin-top: 3px;
 }
 .uploadPostAttachment:hover {
-  background-color: rgb(6, 124, 4);
+  background-color: rgb(111, 111, 114);
   cursor: pointer;
 }
 .createPostSecondRow {
@@ -84,7 +84,7 @@
 .postCategory {
   font: 1.1em sans-serif;
   font-weight: bold;
-  color: rgb(144, 2, 144);
+  color: rgb(80, 80, 80);
   margin-bottom: 5px;
 }
 .postCategoryContainer {
@@ -103,15 +103,15 @@
   border-radius: 10px;
   cursor: pointer;
   color: white;
-  background-color: rgb(173, 86, 253);
+  background-color: rgb(159, 159, 163);
   font-weight: bold;
   border: none;
 }
 .postCategoryOption:hover {
-  background-color: rgb(144, 2, 144);
+  background-color: rgb(111, 111, 114);
 }
 .categotyOptionClass {
-  background-color: rgb(239, 113, 239);
+  background-color: rgb(212, 212, 216);
 }
 .postAttachment::-webkit-scrollbar {
   display: none;

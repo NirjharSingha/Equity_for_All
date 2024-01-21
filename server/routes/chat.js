@@ -6,6 +6,7 @@ import createChat from "../controllers/chat/createChat.js";
 import getChats from "../controllers/chat/getChats.js";
 import editChat from "../controllers/chat/editChat.js";
 import deleteChat from "../controllers/chat/deleteChat.js";
+import updateLike from "../controllers/chat/updateLike.js";
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.post(
   createChat
 );
 router.put("/editChat", [verifyJWT, upload.array("chatAttachments")], editChat);
+router.put("/updateLike/:id", verifyJWT, updateLike);
 router.delete("/deleteChat/:chatId", verifyJWT, deleteChat);
 router.get("/getChats/:userId2", verifyJWT, getChats);
 
