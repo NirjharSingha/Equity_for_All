@@ -90,11 +90,6 @@ const PostCard = ({ post, shareFlag }) => {
         }
       );
       if (response.status == 200) {
-        // if (post.postAttachments.length > 0) {
-        //   deleteFile(post.postAttachments);
-        // } else {
-        //   console.log("no attachments");
-        // }
         console.log("post deleted successfully");
         setShowEdit(false);
         setYourPostArray((prevPosts) => {

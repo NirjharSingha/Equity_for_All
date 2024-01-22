@@ -61,19 +61,19 @@
 
 @media screen and (max-width: 1150px) {
   .personCardContainer {
-    width: 21.7vw;
+    width: 21.2vw;
   }
   .personImg {
-    width: 20.7vw;
+    width: 20.2vw;
   }
   .personCardButton {
-    width: 20.7vw;
+    width: 20.2vw;
   }
   .personName {
-    max-width: 20vw;
+    max-width: 19.6vw;
   }
   .personText {
-    max-width: 20vw;
+    max-width: 19.6vw;
   }
 }
 @media screen and (max-width: 800px) {

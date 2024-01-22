@@ -170,11 +170,6 @@ const CreatePost = () => {
           setShowCreatePostMobile(false);
         }
         if (response.status === 200) {
-          // if (isDeleted && selectedPost.postAttachments.length !== 0) {
-          //   deleteFile(selectedPost.postAttachments);
-          // } else {
-          //   console.log("no attachment to delete");
-          // }
           console.log("post updated successfully");
           const updatedPost = response.data.updatedPost;
 
@@ -225,7 +220,7 @@ const CreatePost = () => {
             ref={inputRef}
           />
         </div>
-        <div style={{ marginRight: "0.5rem" }}>
+        <div style={{ marginRight: "0.5rem", marginBottom: "0.3rem" }}>
           <EmojiList setInputValue={setInputValue} inputRef={inputRef} />
         </div>
         <div className="postAttachment">
