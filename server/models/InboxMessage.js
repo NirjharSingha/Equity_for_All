@@ -30,10 +30,6 @@ const inboxMessageSchema = mongoose.Schema(
       type: String,
       default: "",
     },
-    replyId: {
-      type: String,
-      default: "",
-    },
     updatedAt: {
       type: Date,
       default: null,

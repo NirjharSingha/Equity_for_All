@@ -8,10 +8,11 @@ import axios from "axios";
 import { useGlobals } from "../contexts/Globals";
 import jwtDecode from "jwt-decode";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import { useChat } from "../contexts/ChatContext";
 
 const Chat = () => {
   const { getUserInfo } = useUserInfoContext();
-  const [chatUsers, setChatUsers] = useState([]);
+  const { chatUsers, setChatUsers } = useChat();
   const [blockList, setBlockList] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
   const [selectedInbox, setSelectedInbox] = useState({});

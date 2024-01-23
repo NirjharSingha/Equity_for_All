@@ -9,11 +9,6 @@ const deleteChat = asyncHandler(async (req, res) => {
     console.log(deletedChat);
 
     if (deletedChat) {
-      const result = await InboxMessage.updateMany(
-        { replyId: chatId },
-        { $set: { replyId: "" } }
-      );
-
       res.status(200).json({
         message: "Chat deleted successfully",
         chat: deletedChat,

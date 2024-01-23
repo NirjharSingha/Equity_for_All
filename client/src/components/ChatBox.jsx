@@ -45,6 +45,8 @@ const ChatBox = ({ chatUser, setShowChat }) => {
   const [showLoading, setShowLoading] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const { setChatUsers, chatUsers } = useChat();
+  const [messageExchanged, setMessageExchanged] = useState(false);
 
   const currentUser = jwtDecode(localStorage.getItem("token")).email;
   const users = [chatUser.id, currentUser];
@@ -67,6 +69,9 @@ const ChatBox = ({ chatUser, setShowChat }) => {
       if (chat.sender === chatUser.id && chat.receiver === currentUser) {
         if (flag === "create") {
           setChats((prevChats) => [chat, ...prevChats]);
+          if (!messageExchanged) {
+            setMessageExchanged(true);
+          }
         } else if (flag === "update") {
           setChats((prevChats) => {
             const newChats = prevChats.map((cht) => {
@@ -102,12 +107,68 @@ const ChatBox = ({ chatUser, setShowChat }) => {
       }
     });
 
+    const makeSeen = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/chat/makeSeen/${chatUser.id}`,
+          {},
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setChatUsers((prevChatUsers) => {
+            const newChatUsers = prevChatUsers.map((chtUsr) => {
+              if (chtUsr.id === chatUser.id) {
+                return { ...chtUsr, unreadCount: 0 };
+              } else {
+                return chtUsr;
+              }
+            });
+            return newChatUsers;
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 401) {
+          setIsValidJWT(false);
+          console.log(401);
+        }
+      }
+    };
+
+    if (chatUser.unreadCount > 0) {
+      makeSeen();
+    }
+
     return () => {
       socket.off("connect");
       socket.off("receive_message");
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (messageExchanged) {
+      console.log("inside message exchanged");
+      setChatUsers((prevChatUsers) => {
+        const desiredId = chatUser.id;
+        const desiredIndex = prevChatUsers.findIndex(
+          (item) => item.id === desiredId
+        );
+
+        if (desiredIndex !== -1) {
+          const movedObject = prevChatUsers.splice(desiredIndex, 1)[0];
+          prevChatUsers.unshift(movedObject);
+        }
+
+        return prevChatUsers;
+      });
+    }
+  }, [messageExchanged]);
 
   const handleDelete = async (_id, setShowChatSideBar) => {
     const token = localStorage.getItem("token");
@@ -257,6 +318,9 @@ const ChatBox = ({ chatUser, setShowChat }) => {
 
         if (chatToEdit === "") {
           setChats((prevChats) => [response.data.chat, ...prevChats]);
+          if (!messageExchanged) {
+            setMessageExchanged(true);
+          }
           const socketData = {
             chat: response.data.chat,
             flag: "create",
