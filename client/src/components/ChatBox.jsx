@@ -13,6 +13,8 @@ import { useChat } from "../contexts/ChatContext";
 import { TbReload } from "react-icons/tb";
 import io from "socket.io-client";
 import jwtDecode from "jwt-decode";
+import Typing from "../animations/Typing.json";
+import Lottie from "lottie-react";
 
 let socket;
 const ENDPOINT = import.meta.env.VITE_SERVER_URL;
@@ -41,39 +43,31 @@ const ChatBox = ({ chatUser, setShowChat }) => {
   const Ref = useRef(null);
   const chatRef = useRef(null);
   const [showLoading, setShowLoading] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const currentUser = jwtDecode(localStorage.getItem("token")).email;
   const users = [chatUser.id, currentUser];
   users.sort();
   const room = users[0] + "_" + users[1];
-  console.log(room);
 
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.on("connect", () => {
-      console.log("connected");
+      setSocketConnected(true);
     });
     socket.emit("join_chat", room);
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop_typing", () => setIsTyping(false));
 
     socket.on("receive_message", (newMessageRecieved) => {
+      console.log("inside receive_message socket");
       const { chat, flag } = newMessageRecieved;
       const currentUser = jwtDecode(localStorage.getItem("token")).email;
-      console.log("socket");
-      console.log(chat);
-      console.log(flag);
       if (chat.sender === chatUser.id && chat.receiver === currentUser) {
-        console.log("inside if chatUser");
         if (flag === "create") {
           setChats((prevChats) => [chat, ...prevChats]);
         } else if (flag === "update") {
-          // const newChats = chats.map((cht) => {
-          //   if (cht._id === chat._id) {
-          //     return chat;
-          //   } else {
-          //     return cht;
-          //   }
-          // });
-          // setChats(newChats);
           setChats((prevChats) => {
             const newChats = prevChats.map((cht) => {
               if (cht._id === chat._id) {
@@ -114,36 +108,6 @@ const ChatBox = ({ chatUser, setShowChat }) => {
       socket.disconnect();
     };
   }, []);
-
-  // useEffect(() => {
-  //   console.log("useEffect");
-  //   socket = io(ENDPOINT);
-  //   socket.on("receive_message", (newMessageRecieved) => {
-  //     const { chat, flag } = newMessageRecieved;
-  //     const currentUser = jwtDecode(localStorage.getItem("token")).email;
-  //     if (chat.sender === chatUser.id && chat.receiver === currentUser) {
-  //       if (flag === "create") {
-  //         setChats((prevChats) => [chat, ...prevChats]);
-  //       } else if (flag === "update") {
-  //         const newChats = chats.map((cht) => {
-  //           if (cht._id === chat._id) {
-  //             return chat;
-  //           } else {
-  //             return cht;
-  //           }
-  //         });
-  //         setChats(newChats);
-  //       } else if (flag === "delete") {
-  //         const newChats = chats.filter((cht) => cht._id !== chat._id);
-  //         setChats(newChats);
-  //       }
-  //     }
-  //   });
-
-  //   return () => {
-  //     socket.off("receive_message");
-  //   };
-  // });
 
   const handleDelete = async (_id, setShowChatSideBar) => {
     const token = localStorage.getItem("token");
@@ -419,6 +383,21 @@ const ChatBox = ({ chatUser, setShowChat }) => {
         name={chatUser.name}
       />
       <div className="chatInboxContainer">
+        {isTyping ? (
+          <Lottie
+            animationData={Typing}
+            loop={true}
+            autoplay={true}
+            style={{
+              width: "2.8rem",
+              height: "1.2rem",
+              marginLeft: "0.2rem",
+              marginTop: "0.2rem",
+            }}
+          />
+        ) : (
+          <></>
+        )}
         {chats &&
           chats.map((chat) => (
             <ChatCard
@@ -461,7 +440,25 @@ const ChatBox = ({ chatUser, setShowChat }) => {
               minWidth: "calc(90% - 5.2rem)",
             }}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              if (!socketConnected) return;
+
+              if (!isTyping) {
+                socket.emit("typing", room);
+              }
+
+              let lastTypingTime = new Date().getTime();
+              let timerLength = 5000;
+              setTimeout(() => {
+                console.log("set timeout");
+                let timeNow = new Date().getTime();
+                let timeDiff = timeNow - lastTypingTime;
+                if (timeDiff >= timerLength) {
+                  socket.emit("stop_typing", room);
+                }
+              }, timerLength);
+            }}
             ref={inputRef}
             onKeyDown={handleKeyPress}
           />

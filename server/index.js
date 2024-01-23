@@ -65,19 +65,15 @@ const io = new Server(httpServer, {
   },
 });
 io.on("connection", (socket) => {
-  // socket.on("setup", (userData) => {
-  //   console.log("a user connected with id: " + userData);
-  //   socket.join(userData);
-  //   socket.emit("connected");
-  // });
   socket.on("join_chat", (room) => {
     socket.join(room);
     console.log("User Joined Room: " + room);
   });
   socket.on("send_message", (data) => {
-    console.log(data);
     socket.to(data.room).emit("receive_message", data);
   });
+  socket.on("typing", (room) => socket.to(room).emit("typing"));
+  socket.on("stop_typing", (room) => socket.to(room).emit("stop_typing"));
   socket.on("disconnect", () => {
     console.log("a user disconnected");
   });

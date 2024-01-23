@@ -11,7 +11,6 @@ import ChatLikes from "./ChatLikes";
 import { useChat } from "../contexts/ChatContext";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useGlobals } from "../contexts/Globals";
-import axios from "axios";
 
 const ChatCard = ({ chat, handleDelete, updateLike }) => {
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
@@ -77,56 +76,7 @@ const ChatCard = ({ chat, handleDelete, updateLike }) => {
     setShowChatSideBar(false);
   };
 
-  // const handleDelete = async () => {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     const response = await axios.delete(
-  //       `${import.meta.env.VITE_SERVER_URL}/chat/deleteChat/${_id}`,
-  //       {
-  //         headers: {
-  //           token: token,
-  //         },
-  //       }
-  //     );
-  //     if (response.status == 200) {
-  //       console.log("chat deleted successfully");
-  //       setShowChatSideBar(false);
-  //       setChats(chats.filter((chat) => chat._id !== _id));
-  //     }
-  //   } catch (error) {
-  //     if (error.response.status === 401) {
-  //       console.log("inside status code");
-  //       setIsValidJWT(false);
-  //     }
-  //   }
-  // };
-
   useEffect(() => {
-    // const updateLike = async () => {
-    //   const token = localStorage.getItem("token");
-    //   try {
-    //     const response = await axios.put(
-    //       `${import.meta.env.VITE_SERVER_URL}/chat/updateLike/${_id}`,
-    //       { selectedLike },
-    //       {
-    //         headers: {
-    //           token: token,
-    //         },
-    //       }
-    //     );
-    //     if (response.status == 200) {
-    //       console.log("like updated successfully");
-    //       setShouldDisplayAllLikes(false);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //     if (error.response.status === 401) {
-    //       setIsValidJWT(false);
-    //       console.log(401);
-    //     }
-    //   }
-    // };
-
     if (!isMount) {
       updateLike(_id, selectedLike, setShouldDisplayAllLikes);
     } else {
