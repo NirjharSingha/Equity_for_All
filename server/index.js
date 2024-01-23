@@ -12,10 +12,11 @@ import chatRouter from "./routes/chat.js";
 import cors from "cors";
 import dbConfig from "./configs/dbConfig.js";
 import bodyParser from "body-parser";
-import http from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import cloudinary from "cloudinary";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -55,8 +56,33 @@ app.use("/group", groupRouter);
 app.use("/notification", notificationRouter);
 app.use("/chat", chatRouter);
 
-const server = http.createServer(app);
+//socket.io
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  pingTimeout: 300000,
+  cors: {
+    origin: "*",
+  },
+});
+io.on("connection", (socket) => {
+  // socket.on("setup", (userData) => {
+  //   console.log("a user connected with id: " + userData);
+  //   socket.join(userData);
+  //   socket.emit("connected");
+  // });
+  socket.on("join_chat", (room) => {
+    socket.join(room);
+    console.log("User Joined Room: " + room);
+  });
+  socket.on("send_message", (data) => {
+    console.log(data);
+    socket.to(data.room).emit("receive_message", data);
+  });
+  socket.on("disconnect", () => {
+    console.log("a user disconnected");
+  });
+});
 
-server.listen(port, () => {
+httpServer.listen(port, () => {
   console.log("hello world");
 });

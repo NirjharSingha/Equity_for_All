@@ -11,6 +11,11 @@ import { useRef } from "react";
 import axios from "axios";
 import { useChat } from "../contexts/ChatContext";
 import { TbReload } from "react-icons/tb";
+import io from "socket.io-client";
+import jwtDecode from "jwt-decode";
+
+let socket;
+const ENDPOINT = import.meta.env.VITE_SERVER_URL;
 
 const ChatBox = ({ chatUser, setShowChat }) => {
   const [isRotating, setIsRotating] = useState(false);
@@ -36,6 +41,174 @@ const ChatBox = ({ chatUser, setShowChat }) => {
   const Ref = useRef(null);
   const chatRef = useRef(null);
   const [showLoading, setShowLoading] = useState(false);
+
+  const currentUser = jwtDecode(localStorage.getItem("token")).email;
+  const users = [chatUser.id, currentUser];
+  users.sort();
+  const room = users[0] + "_" + users[1];
+  console.log(room);
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+    socket.emit("join_chat", room);
+
+    socket.on("receive_message", (newMessageRecieved) => {
+      const { chat, flag } = newMessageRecieved;
+      const currentUser = jwtDecode(localStorage.getItem("token")).email;
+      console.log("socket");
+      console.log(chat);
+      console.log(flag);
+      if (chat.sender === chatUser.id && chat.receiver === currentUser) {
+        console.log("inside if chatUser");
+        if (flag === "create") {
+          setChats((prevChats) => [chat, ...prevChats]);
+        } else if (flag === "update") {
+          // const newChats = chats.map((cht) => {
+          //   if (cht._id === chat._id) {
+          //     return chat;
+          //   } else {
+          //     return cht;
+          //   }
+          // });
+          // setChats(newChats);
+          setChats((prevChats) => {
+            const newChats = prevChats.map((cht) => {
+              if (cht._id === chat._id) {
+                console.log(chat);
+                return chat;
+              } else {
+                return cht;
+              }
+            });
+            return newChats;
+          });
+        } else if (flag === "delete") {
+          console.log("delete socket");
+          setChats((prevChats) => {
+            return prevChats.filter((cht) => cht._id !== chat._id);
+          });
+        }
+      } else if (chat.receiver === chatUser.id && chat.sender === currentUser) {
+        if (flag === "updateLike") {
+          setChats((prevChats) => {
+            const newChats = prevChats.map((cht) => {
+              if (cht._id === chat._id) {
+                console.log(chat);
+                return chat;
+              } else {
+                return cht;
+              }
+            });
+            return newChats;
+          });
+        }
+      }
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("receive_message");
+      socket.disconnect();
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   socket = io(ENDPOINT);
+  //   socket.on("receive_message", (newMessageRecieved) => {
+  //     const { chat, flag } = newMessageRecieved;
+  //     const currentUser = jwtDecode(localStorage.getItem("token")).email;
+  //     if (chat.sender === chatUser.id && chat.receiver === currentUser) {
+  //       if (flag === "create") {
+  //         setChats((prevChats) => [chat, ...prevChats]);
+  //       } else if (flag === "update") {
+  //         const newChats = chats.map((cht) => {
+  //           if (cht._id === chat._id) {
+  //             return chat;
+  //           } else {
+  //             return cht;
+  //           }
+  //         });
+  //         setChats(newChats);
+  //       } else if (flag === "delete") {
+  //         const newChats = chats.filter((cht) => cht._id !== chat._id);
+  //         setChats(newChats);
+  //       }
+  //     }
+  //   });
+
+  //   return () => {
+  //     socket.off("receive_message");
+  //   };
+  // });
+
+  const handleDelete = async (_id, setShowChatSideBar) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/chat/deleteChat/${_id}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        console.log("chat deleted successfully");
+        setShowChatSideBar(false);
+        setChats((prevChats) => prevChats.filter((chat) => chat._id !== _id));
+
+        const socketData = {
+          chat: response.data.chat,
+          flag: "delete",
+          room: room,
+        };
+
+        socket.emit("send_message", socketData);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        console.log("inside status code");
+        setIsValidJWT(false);
+      }
+    }
+  };
+
+  const updateLike = async (_id, selectedLike, setShouldDisplayAllLikes) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/chat/updateLike/${_id}`,
+        { selectedLike },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        console.log("like updated successfully");
+        console.log(response.data);
+        setShouldDisplayAllLikes(false);
+
+        const socketData = {
+          chat: response.data,
+          flag: "updateLike",
+          room: room,
+        };
+        socket.emit("send_message", socketData);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        setIsValidJWT(false);
+        console.log(401);
+      }
+    }
+  };
 
   const handleRotateClick = () => {
     setIsRotating(true);
@@ -117,6 +290,32 @@ const ChatBox = ({ chatUser, setShowChat }) => {
         console.log(response.data);
         setSelectedFiles([]);
         setInputValue("");
+
+        if (chatToEdit === "") {
+          setChats((prevChats) => [response.data.chat, ...prevChats]);
+          const socketData = {
+            chat: response.data.chat,
+            flag: "create",
+            room: room,
+          };
+          socket.emit("send_message", socketData);
+        } else {
+          setChatToEdit("");
+          const newChats = chats.map((chat) => {
+            if (chat._id === chatToEdit) {
+              return response.data;
+            } else {
+              return chat;
+            }
+          });
+          setChats(newChats);
+          const socketData = {
+            chat: response.data,
+            flag: "update",
+            room: room,
+          };
+          socket.emit("send_message", socketData);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -220,9 +419,15 @@ const ChatBox = ({ chatUser, setShowChat }) => {
         name={chatUser.name}
       />
       <div className="chatInboxContainer">
-        {chats.map((chat) => (
-          <ChatCard key={chat._id} chat={chat} />
-        ))}
+        {chats &&
+          chats.map((chat) => (
+            <ChatCard
+              key={chat._id}
+              chat={chat}
+              handleDelete={handleDelete}
+              updateLike={updateLike}
+            />
+          ))}
       </div>
       <form className="chatInputLine" encType="multipart/form-data">
         <div style={{ display: "flex", width: "100%" }}>

@@ -38,12 +38,15 @@
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.14.0",
     "react-share": "^4.4.1",
+    "socket.io-client": "^4.7.4",
     "sort-by": "^0.0.2",
     "twemoji": "^14.0.2"
   },
   "snyk": {
     "axios": {
-      "vulnPaths": ["*"],
+      "vulnPaths": [
+        "*"
+      ],
       "ignore": true
     }
   },

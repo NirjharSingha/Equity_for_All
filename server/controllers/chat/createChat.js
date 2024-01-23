@@ -27,11 +27,10 @@ const createChat = asyncHandler(async (req, res) => {
   });
 
   await chat.save();
-  const chatId = chat._id;
 
   res.status(201).json({
     message: "chat created successfully",
-    chatId: chatId,
+    chat: chat,
   });
 });
 

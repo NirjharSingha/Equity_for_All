@@ -1,6 +1,12 @@
 import React, { useRef, useEffect } from "react";
 
-const ChatCardSideBar = ({ flag, setState, handleEdit, handleDelete }) => {
+const ChatCardSideBar = ({
+  flag,
+  setShowChatSideBar,
+  handleEdit,
+  handleDelete,
+  _id,
+}) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -9,7 +15,7 @@ const ChatCardSideBar = ({ flag, setState, handleEdit, handleDelete }) => {
         containerRef.current &&
         !containerRef.current.contains(event.target)
       ) {
-        setState(false);
+        setShowChatSideBar(false);
       }
     };
     document.addEventListener("mousedown", handleOutsideClick);
@@ -30,7 +36,10 @@ const ChatCardSideBar = ({ flag, setState, handleEdit, handleDelete }) => {
         </button>
       )}
       {flag === 1 && (
-        <button className="chatSidebarButton" onClick={handleDelete}>
+        <button
+          className="chatSidebarButton"
+          onClick={() => handleDelete(_id, setShowChatSideBar)}
+        >
           Delete
         </button>
       )}
