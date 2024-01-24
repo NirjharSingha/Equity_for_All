@@ -61,9 +61,24 @@ const ChatBox = ({ chatUser, setShowChat }) => {
     socket.emit("join_chat", room);
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop_typing", () => setIsTyping(false));
+    socket.on("seen", () => {
+      console.log("inside seen socket");
+      setChats((prevChats) => {
+        const newChats = prevChats.map((cht) => {
+          if (cht.sender === currentUser) {
+            return { ...cht, isSeen: true };
+          } else {
+            return cht;
+          }
+        });
+        return newChats;
+      });
+    });
 
     socket.on("receive_message", (newMessageRecieved) => {
       console.log("inside receive_message socket");
+      socket.emit("seen", room);
+
       const { chat, flag } = newMessageRecieved;
       const currentUser = jwtDecode(localStorage.getItem("token")).email;
       if (chat.sender === chatUser.id && chat.receiver === currentUser) {
@@ -106,43 +121,6 @@ const ChatBox = ({ chatUser, setShowChat }) => {
         }
       }
     });
-
-    const makeSeen = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/chat/makeSeen/${chatUser.id}`,
-          {},
-          {
-            headers: {
-              token: token,
-            },
-          }
-        );
-        if (response) {
-          setChatUsers((prevChatUsers) => {
-            const newChatUsers = prevChatUsers.map((chtUsr) => {
-              if (chtUsr.id === chatUser.id) {
-                return { ...chtUsr, unreadCount: 0 };
-              } else {
-                return chtUsr;
-              }
-            });
-            return newChatUsers;
-          });
-        }
-      } catch (error) {
-        console.log(error);
-        if (error.response.status === 401) {
-          setIsValidJWT(false);
-          console.log(401);
-        }
-      }
-    };
-
-    if (chatUser.unreadCount > 0) {
-      makeSeen();
-    }
 
     return () => {
       socket.off("connect");
@@ -315,6 +293,7 @@ const ChatBox = ({ chatUser, setShowChat }) => {
         console.log(response.data);
         setSelectedFiles([]);
         setInputValue("");
+        socket.emit("stop_typing", room);
 
         if (chatToEdit === "") {
           setChats((prevChats) => [response.data.chat, ...prevChats]);
@@ -396,6 +375,45 @@ const ChatBox = ({ chatUser, setShowChat }) => {
     };
 
     fetchChats();
+
+    const makeSeen = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/chat/makeSeen/${chatUser.id}`,
+          {},
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        if (response) {
+          setChatUsers((prevChatUsers) => {
+            const newChatUsers = prevChatUsers.map((chtUsr) => {
+              if (chtUsr.id === chatUser.id) {
+                return { ...chtUsr, unreadCount: 0 };
+              } else {
+                return chtUsr;
+              }
+            });
+            return newChatUsers;
+          });
+
+          socket.emit("seen", room);
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 401) {
+          setIsValidJWT(false);
+          console.log(401);
+        }
+      }
+    };
+
+    if (chatUser.unreadCount > 0) {
+      makeSeen();
+    }
 
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {

@@ -14,14 +14,14 @@ const getOtherStories = asyncHandler(async (req, res) => {
     {
       $match: {
         $and: [
-          { userEmail: { $in: [...friends] } }, // Include user and friends
+          { userEmail: { $in: [...friends] } },
           // { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
-          { storyVisibility: { $in: ["Anyone", "Friends"] } }, // Visibility is "anyone" or "friends"
+          { storyVisibility: { $in: ["Anyone", "Friends"] } },
         ],
       },
     },
     {
-      $limit: 100, // Limit the result to 100 stories
+      $limit: 100,
     },
   ]);
 
@@ -29,13 +29,9 @@ const getOtherStories = asyncHandler(async (req, res) => {
 
   stories.forEach((story) => {
     const { userEmail } = story;
-
-    // Check if the userEmail is already a key in userStories
     if (!userStories[userEmail]) {
-      // If not, create a new key with an array containing the current story
       userStories[userEmail] = [story];
     } else {
-      // If yes, push the current story to the existing array
       userStories[userEmail].push(story);
     }
   });
@@ -47,42 +43,31 @@ const getOtherStories = asyncHandler(async (req, res) => {
       {
         $match: {
           $and: [
-            { userEmail: { $nin: [...friends, email] } }, // Include user and friends
+            { userEmail: { $nin: [...friends, email] } },
             // { createdAt: { $gte: currentDate } }, // Created within the last 24 hours
-            { storyVisibility: { $in: ["Anyone"] } }, // Visibility is "anyone"
+            { storyVisibility: { $in: ["Anyone"] } },
           ],
         },
       },
       {
-        $limit: 50, // Limit the result to 100 stories
+        $limit: 50,
       },
     ]);
 
     otherStories.forEach((story) => {
       const { userEmail } = story;
-
-      // Check if the userEmail is already a key in userStories
       if (!userStories[userEmail]) {
-        // If not, create a new key with an array containing the current story
         userStories[userEmail] = [story];
       } else {
-        // If yes, push the current story to the existing array
         userStories[userEmail].push(story);
       }
     });
   }
 
   const reversedStoriesObject = {};
-
-  // Iterate over each user (key) in the object
   for (const userEmail in userStories) {
-    // userEmail is the user's email (e.g., 'user121@gmail.com')
-    const eachUserStories = userStories[userEmail]; // Array of story objects for the user
-
-    // Reverse the array to have the last created story at the top
+    const eachUserStories = userStories[userEmail];
     const reversedUserStories = eachUserStories.reverse();
-
-    // Add the reversed array to the new object
     reversedStoriesObject[userEmail] = reversedUserStories;
   }
 

@@ -74,6 +74,7 @@ io.on("connection", (socket) => {
   });
   socket.on("typing", (room) => socket.to(room).emit("typing"));
   socket.on("stop_typing", (room) => socket.to(room).emit("stop_typing"));
+  socket.on("seen", (room) => socket.to(room).emit("seen"));
   socket.on("disconnect", () => {
     console.log("a user disconnected");
   });

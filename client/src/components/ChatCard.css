@@ -20,6 +20,9 @@
   font-family: "Times New Roman", Times, serif;
   font-size: small;
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   text-align: right;
   padding-right: 0.2rem;
   margin-bottom: 0.2rem;

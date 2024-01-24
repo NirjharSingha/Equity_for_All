@@ -34,10 +34,6 @@ const inboxMessageSchema = mongoose.Schema(
       type: Date,
       default: null,
     },
-    deletedAt: {
-      type: Date,
-      default: null,
-    },
   },
   {
     collection: "InboxMessage",

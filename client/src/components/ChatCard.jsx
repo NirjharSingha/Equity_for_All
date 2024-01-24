@@ -11,6 +11,7 @@ import ChatLikes from "./ChatLikes";
 import { useChat } from "../contexts/ChatContext";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useGlobals } from "../contexts/Globals";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const ChatCard = ({ chat, handleDelete, updateLike }) => {
   const [shouldDisplayAllLikes, setShouldDisplayAllLikes] = useState(false);
@@ -23,9 +24,8 @@ const ChatCard = ({ chat, handleDelete, updateLike }) => {
     messageAttachments,
     time,
     react,
-    replyId,
     updatedAt,
-    deletedAt,
+    isSeen,
   } = chat;
 
   const {
@@ -141,6 +141,11 @@ const ChatCard = ({ chat, handleDelete, updateLike }) => {
           }
         >
           {new Date(time).toLocaleString()}
+          {flag === 1 && isSeen && (
+            <IoCheckmarkDoneOutline
+              style={{ marginLeft: "0.2rem", fontSize: "1rem", color: "blue" }}
+            />
+          )}
         </div>
         {selectedLike !== "" && (
           <div
