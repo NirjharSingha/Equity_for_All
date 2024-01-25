@@ -12,10 +12,16 @@ import { useChat } from "../contexts/ChatContext";
 
 const Chat = () => {
   const { getUserInfo } = useUserInfoContext();
-  const { chatUsers, setChatUsers } = useChat();
+  const {
+    chatUsers,
+    setChatUsers,
+    chatUser,
+    setChatUser,
+    showChat,
+    setShowChat,
+  } = useChat();
   const [blockList, setBlockList] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
-  const [selectedInbox, setSelectedInbox] = useState({});
   const { setIsValidJWT } = useGlobals();
 
   useEffect(() => {
@@ -119,13 +125,10 @@ const Chat = () => {
   }, []);
 
   const [selectedOption, setSelectedOption] = useState("inbox");
-  const [showChat, setShowChat] = useState(false);
 
   return (
     <div className="chatContainer">
-      {showChat && (
-        <ChatBox chatUser={selectedInbox} setShowChat={setShowChat} />
-      )}
+      {showChat && <ChatBox setShowChat={setShowChat} />}
       <p className="chatHeading">Chats</p>
       <ChatSearch />
       <div className="grpOptionBtn">
@@ -152,7 +155,7 @@ const Chat = () => {
             key={user.id}
             className="chatCard"
             onClick={() => {
-              setSelectedInbox(user);
+              setChatUser(user);
               setShowChat(true);
             }}
           >

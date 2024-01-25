@@ -65,12 +65,19 @@ const io = new Server(httpServer, {
   },
 });
 io.on("connection", (socket) => {
+  socket.on("global_chat_socket", (room) => {
+    socket.join(room);
+    console.log("User Joined Room: " + room);
+  });
   socket.on("join_chat", (room) => {
     socket.join(room);
     console.log("User Joined Room: " + room);
   });
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
+  });
+  socket.on("global_send_message", (data) => {
+    socket.to(data.chat.receiver).emit("global_receive_message", data);
   });
   socket.on("typing", (room) => socket.to(room).emit("typing"));
   socket.on("stop_typing", (room) => socket.to(room).emit("stop_typing"));

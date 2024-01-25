@@ -21,11 +21,16 @@ import DisplayStory from "../components/DisplayStory";
 import GroupsBar from "../components/GroupsBar";
 import EditPost from "../components/EditPost";
 import CreateStoryMobile from "../components/CreateStoryMobile";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Notification from "../components/Notification";
 import axios from "axios";
+import io from "socket.io-client";
+import { useChat } from "../contexts/ChatContext";
+
+let socket;
+const ENDPOINT = import.meta.env.VITE_SERVER_URL;
 
 const MainPage = () => {
   const {
@@ -39,6 +44,9 @@ const MainPage = () => {
   const { editPost } = usePostContext();
   const { groupsYouCreated, groupsYouJoined, selectedGroup, setAccess } =
     useGroupContext();
+  const { chatUser, showChat, chats } = useChat();
+  const [globalSocketChat, setGlobalSocketChat] = useState({});
+
   const navigate = useNavigate();
   const { divRef } = useFriendContext();
 
@@ -144,6 +152,43 @@ const MainPage = () => {
       eventSource.close();
     };
   }, []);
+
+  // socket setup
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.on("connect", () => {});
+    socket.emit(
+      "global_chat_socket",
+      jwtDecode(localStorage.getItem("token")).email
+    );
+
+    socket.on("global_receive_message", (newMessageRecieved) => {
+      setGlobalSocketChat(newMessageRecieved.chat);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("use effect");
+    if (globalSocketChat._id !== undefined && globalSocketChat._id !== null) {
+      if (chats.length > 0) {
+        const tempChat = chats[0];
+        const { sender, receiver } = tempChat;
+        let targetUser;
+        if (jwtDecode(localStorage.getItem("token")).email === sender) {
+          targetUser = receiver;
+        } else {
+          targetUser = sender;
+        }
+        if (targetUser === globalSocketChat.sender) {
+          console.log("return");
+        } else {
+          console.log("process");
+        }
+      } else {
+        console.log("process");
+      }
+    }
+  }, [globalSocketChat._id]);
 
   return (
     <>

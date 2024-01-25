@@ -19,7 +19,7 @@ import Lottie from "lottie-react";
 let socket;
 const ENDPOINT = import.meta.env.VITE_SERVER_URL;
 
-const ChatBox = ({ chatUser, setShowChat }) => {
+const ChatBox = ({ setShowChat }) => {
   const [isRotating, setIsRotating] = useState(false);
   const { setIsValidJWT, windowWidth } = useGlobals();
   const [showEmojis, setShowEmojis] = useState(false);
@@ -37,6 +37,8 @@ const ChatBox = ({ chatUser, setShowChat }) => {
     setPrevFiles,
     newFiles,
     setNewFiles,
+    chatUser,
+    setChatUser,
   } = useChat();
   const inputRef = useRef(null);
   const emojiRef = useRef(null);
@@ -151,6 +153,8 @@ const ChatBox = ({ chatUser, setShowChat }) => {
       socket.off("connect");
       socket.off("receive_message");
       socket.disconnect();
+      setChatUser({});
+      setChats([]);
     };
   }, []);
 
@@ -331,6 +335,11 @@ const ChatBox = ({ chatUser, setShowChat }) => {
             room: room,
           };
           socket.emit("send_message", socketData);
+          const globalSocketData = {
+            chat: response.data.chat,
+            room: chatUser.id,
+          };
+          socket.emit("global_send_message", globalSocketData);
         } else {
           setChatToEdit("");
           const newChats = chats.map((chat) => {
@@ -558,7 +567,6 @@ const ChatBox = ({ chatUser, setShowChat }) => {
               let lastTypingTime = new Date().getTime();
               let timerLength = 5000;
               setTimeout(() => {
-                console.log("set timeout");
                 let timeNow = new Date().getTime();
                 let timeDiff = timeNow - lastTypingTime;
                 if (timeDiff >= timerLength) {
