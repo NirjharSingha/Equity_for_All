@@ -53,6 +53,30 @@ const ChatBox = ({ chatUser, setShowChat }) => {
   users.sort();
   const room = users[0] + "_" + users[1];
 
+  const seenById = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/chat/seenById/${id}`,
+        {},
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response) {
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        setIsValidJWT(false);
+        console.log(401);
+      }
+    }
+  };
+
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.on("connect", () => {
@@ -78,6 +102,7 @@ const ChatBox = ({ chatUser, setShowChat }) => {
     socket.on("receive_message", (newMessageRecieved) => {
       console.log("inside receive_message socket");
       socket.emit("seen", room);
+      seenById(newMessageRecieved.chat._id);
 
       const { chat, flag } = newMessageRecieved;
       const currentUser = jwtDecode(localStorage.getItem("token")).email;

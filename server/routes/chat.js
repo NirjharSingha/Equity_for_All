@@ -8,6 +8,7 @@ import editChat from "../controllers/chat/editChat.js";
 import deleteChat from "../controllers/chat/deleteChat.js";
 import updateLike from "../controllers/chat/updateLike.js";
 import makeSeen from "../controllers/chat/makeSeen.js";
+import seenById from "../controllers/chat/seenById.js";
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.post(
 router.put("/editChat", [verifyJWT, upload.array("chatAttachments")], editChat);
 router.put("/updateLike/:id", verifyJWT, updateLike);
 router.put("/makeSeen/:sender", verifyJWT, makeSeen);
+router.put("/seenById/:id", verifyJWT, seenById);
 router.delete("/deleteChat/:chatId", verifyJWT, deleteChat);
 router.get("/getChats/:userId2", verifyJWT, getChats);
 
