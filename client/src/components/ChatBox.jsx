@@ -48,6 +48,16 @@ const ChatBox = ({ setShowChat, chatUser }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [messageExchanged, setMessageExchanged] = useState(false);
+  const numOfChatsPerPage = 15;
+  const [chatCount, setChatCount] = useState({
+    page: 1,
+    count:
+      chatUser.unreadCount <= numOfChatsPerPage
+        ? numOfChatsPerPage
+        : chatUser.unreadCount,
+  });
+  const [chatIds, setChatIds] = useState([]);
+  const chatScrollRef = useRef(null);
 
   const currentUser = jwtDecode(localStorage.getItem("token")).email;
   const users = [chatUser.id, currentUser];
@@ -110,6 +120,11 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       if (chat.sender === chatUser.id && chat.receiver === currentUser) {
         if (flag === "create") {
           setChats((prevChats) => [chat, ...prevChats]);
+
+          if (chatScrollRef && chatScrollRef.current) {
+            chatScrollRef.current.scrollTop = 0;
+          }
+
           if (!messageExchanged) {
             setMessageExchanged(true);
           }
@@ -153,6 +168,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       socket.off("receive_message");
       socket.disconnect();
       setChats([]);
+      setChatIds([]);
     };
   }, []);
 
@@ -324,6 +340,11 @@ const ChatBox = ({ setShowChat, chatUser }) => {
 
         if (chatToEdit === "") {
           setChats((prevChats) => [response.data.chat, ...prevChats]);
+
+          if (chatScrollRef && chatScrollRef.current) {
+            chatScrollRef.current.scrollTop = 0;
+          }
+
           if (!messageExchanged) {
             setMessageExchanged(true);
           }
@@ -380,13 +401,12 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       }
     };
 
-    const fetchChats = async () => {
-      console.log("fetchChats");
+    const fetchChatIds = async () => {
       try {
         setShowLoading(true);
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/chat/getChats/${chatUser.id}`,
+          `${import.meta.env.VITE_SERVER_URL}/chat/getChatIds/${chatUser.id}`,
           {
             headers: {
               token: token,
@@ -394,8 +414,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
           }
         );
         if (response) {
-          setChats(response.data);
-          console.log(response.data);
+          setChatIds(response.data);
           setShowLoading(false);
         }
       } catch (error) {
@@ -406,7 +425,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       }
     };
 
-    fetchChats();
+    fetchChatIds();
 
     const makeSeen = async () => {
       try {
@@ -458,6 +477,87 @@ const ChatBox = ({ setShowChat, chatUser }) => {
   }, []);
 
   useEffect(() => {
+    const fetchChats = async () => {
+      if (chatIds.length > 0) {
+        let arrayToSend = [];
+        let idx = 0;
+        if (chatCount.page !== 1) {
+          idx = chatCount.count - numOfChatsPerPage;
+        }
+        for (
+          let index = idx;
+          index < chatCount.count && index < chatIds.length;
+          index++
+        ) {
+          console.log(index);
+          const element = chatIds[index];
+          arrayToSend.push(element);
+        }
+        if (arrayToSend.length > 0) {
+          try {
+            setShowLoading(true);
+            const token = localStorage.getItem("token");
+            const response = await axios.get(
+              `${
+                import.meta.env.VITE_SERVER_URL
+              }/chat/getChats?ids=${arrayToSend}`,
+              {
+                headers: {
+                  token: token,
+                },
+              }
+            );
+            if (response) {
+              const data = response.data;
+              setChats((prevChats) => [...prevChats, ...data]);
+              setShowLoading(false);
+            }
+          } catch (error) {
+            console.error("Error fetching chats:", error);
+            if (error.response.status === 401) {
+              setIsValidJWT(false);
+            }
+          }
+        } else {
+          console.log("no more chats");
+        }
+      }
+    };
+
+    fetchChats();
+  }, [chatIds, chatCount.page]);
+
+  const handleScroll = () => {
+    const currentScrollTop = Math.abs(chatScrollRef.current.scrollTop);
+    const currentScrollHeight = chatScrollRef.current.scrollHeight;
+    const currentClientHeight = chatScrollRef.current.clientHeight;
+
+    if (currentScrollHeight - (currentScrollTop + currentClientHeight) < 1) {
+      console.log("updating page");
+      setChatCount((prev) => {
+        return {
+          ...prev,
+          page: prev.page + 1,
+          count: prev.count + numOfChatsPerPage,
+        };
+      });
+    }
+  };
+
+  useEffect(() => {
+    const currentDivRef = chatScrollRef.current;
+
+    if (currentDivRef) {
+      const scrollHandler = () => handleScroll();
+      currentDivRef.addEventListener("scroll", scrollHandler);
+
+      return () => {
+        currentDivRef.removeEventListener("scroll", scrollHandler);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (chatRef.current && !chatRef.current.contains(event.target)) {
         setShowChat(false);
@@ -500,7 +600,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
         icon="/profilePicIcon.svg"
         name={chatUser.name}
       />
-      <div className="chatInboxContainer">
+      <div className="chatInboxContainer" ref={chatScrollRef}>
         {isTyping ? (
           <Lottie
             animationData={Typing}

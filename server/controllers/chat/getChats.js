@@ -2,23 +2,24 @@ import asyncHandler from "express-async-handler";
 import InboxMessage from "../../models/InboxMessage.js";
 
 const getChats = asyncHandler(async (req, res) => {
-  const userId1 = req.email;
-  const userId2 = req.params.userId2;
+  const idsString = req.query.ids;
+  if (idsString.length <= 1) {
+    res.send([]);
+    return;
+  }
+  const idArray = idsString.split(",").filter((id) => id);
 
   try {
-    const chats = await InboxMessage.find({
-      $or: [
-        { sender: userId1, receiver: userId2 },
-        { sender: userId2, receiver: userId1 },
-      ],
-    })
-      .sort({ time: -1 })
-      .exec();
-
-    res.json(chats);
+    const dataToSend = await Promise.all(
+      idArray.map(async (id) => {
+        const chat = await InboxMessage.findOne({ _id: id });
+        return chat;
+      })
+    );
+    res.json(dataToSend);
   } catch (error) {
-    console.error(error);
-    res.json(error);
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "An error occurred while fetching posts" });
   }
 });
 

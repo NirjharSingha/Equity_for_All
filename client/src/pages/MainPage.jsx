@@ -242,10 +242,6 @@ const MainPage = () => {
     }
   }, [globalSocketChat._id]);
 
-  useEffect(() => {
-    console.log(unreadChat);
-  }, [unreadChat]);
-
   return (
     <>
       {editPost && <EditPost />}
