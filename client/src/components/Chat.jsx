@@ -9,6 +9,7 @@ import { useGlobals } from "../contexts/Globals";
 import jwtDecode from "jwt-decode";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useChat } from "../contexts/ChatContext";
+import Loading from "./Loading";
 
 const Chat = () => {
   const { getUserInfo } = useUserInfoContext();
@@ -71,9 +72,9 @@ const Chat = () => {
           const { mergedChatList, blockList } = response.data;
           setChatUsers(mergedChatList);
           setBlockList(blockList);
+          setShowLoading(false);
 
           if (mergedChatList.length > 0) {
-            setShowLoading(false);
             return;
           } else {
             const friendList = [];
@@ -145,6 +146,11 @@ const Chat = () => {
         </button>
       </div>
       <div className="chatCardContainer">
+        {showLoading && (
+          <div className="loadingContainer">
+            <Loading />
+          </div>
+        )}
         {chatUsers.map((user) => (
           <div
             key={user.id}

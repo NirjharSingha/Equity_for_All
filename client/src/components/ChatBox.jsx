@@ -15,6 +15,7 @@ import io from "socket.io-client";
 import jwtDecode from "jwt-decode";
 import Typing from "../animations/Typing.json";
 import Lottie from "lottie-react";
+import Loading from "./Loading";
 
 let socket;
 const ENDPOINT = import.meta.env.VITE_SERVER_URL;
@@ -625,6 +626,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
               updateLike={updateLike}
             />
           ))}
+        {showLoading && <Loading />}
       </div>
       <form className="chatInputLine" encType="multipart/form-data">
         <div style={{ display: "flex", width: "100%" }}>
