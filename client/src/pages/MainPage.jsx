@@ -28,6 +28,7 @@ import Notification from "../components/Notification";
 import axios from "axios";
 import io from "socket.io-client";
 import { useChat } from "../contexts/ChatContext";
+import { useUserInfoContext } from "../contexts/UserInfoContext";
 
 let socket;
 const ENDPOINT = import.meta.env.VITE_SERVER_URL;
@@ -44,8 +45,9 @@ const MainPage = () => {
   const { editPost } = usePostContext();
   const { groupsYouCreated, groupsYouJoined, selectedGroup, setAccess } =
     useGroupContext();
-  const { chatUser, showChat, chats } = useChat();
+  const { chats, unreadChat, setUnreadChat, setChatUsers } = useChat();
   const [globalSocketChat, setGlobalSocketChat] = useState({});
+  const { getUserInfo } = useUserInfoContext();
 
   const navigate = useNavigate();
   const { divRef } = useFriendContext();
@@ -167,6 +169,53 @@ const MainPage = () => {
     });
   }, []);
 
+  const handleProcess = async () => {
+    setUnreadChat((prev) => {
+      const senderExists = prev.some(
+        (item) => item.sender === globalSocketChat.sender
+      );
+      if (senderExists) {
+        return prev.map((item) =>
+          item.sender === globalSocketChat.sender
+            ? { ...item, count: item.count + 1 }
+            : item
+        );
+      } else {
+        return [...prev, { sender: globalSocketChat.sender, count: 1 }];
+      }
+    });
+    setChatUsers((prev) => {
+      const senderIndex = prev.findIndex(
+        (user) => user.id === globalSocketChat.sender
+      );
+
+      if (senderIndex !== -1) {
+        const updatedUser = {
+          ...prev[senderIndex],
+          unreadCount: prev[senderIndex].unreadCount + 1,
+        };
+        const updatedArray = [
+          updatedUser,
+          ...prev.slice(0, senderIndex),
+          ...prev.slice(senderIndex + 1),
+        ];
+
+        return updatedArray;
+      } else {
+        const { name, profilePic } = getUserInfo(globalSocketChat.sender);
+        return [
+          {
+            id: globalSocketChat.sender,
+            unreadCount: 1,
+            name: name,
+            profilePic: profilePic,
+          },
+          ...prev,
+        ];
+      }
+    });
+  };
+
   useEffect(() => {
     console.log("use effect");
     if (globalSocketChat._id !== undefined && globalSocketChat._id !== null) {
@@ -181,14 +230,21 @@ const MainPage = () => {
         }
         if (targetUser === globalSocketChat.sender) {
           console.log("return");
+          return;
         } else {
           console.log("process");
+          handleProcess();
         }
       } else {
         console.log("process");
+        handleProcess();
       }
     }
   }, [globalSocketChat._id]);
+
+  useEffect(() => {
+    console.log(unreadChat);
+  }, [unreadChat]);
 
   return (
     <>

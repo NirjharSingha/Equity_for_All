@@ -9,7 +9,7 @@ import { useGlobals } from "../contexts/Globals";
 import { useNavigate } from "react-router-dom";
 import CountIcon from "./CountIcon";
 
-const ProfileIconSidebar = ({ setState, Ref }) => {
+const ProfileIconSidebar = ({ setState, Ref, totalUnreadChat }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const { windowWidth, setShowNotifications, unseenNotificationCount } =
@@ -58,10 +58,13 @@ const ProfileIconSidebar = ({ setState, Ref }) => {
           >
             Notification
             <MdNotificationsActive style={{ marginLeft: "0.2rem" }} />
-            {unseenNotificationCount > 0 && <CountIcon />}
+            {unseenNotificationCount > 0 && (
+              <CountIcon count={unseenNotificationCount} />
+            )}
           </button>
           <button className="sidebarButton" onClick={handleProfile}>
             Chat <IoChatboxEllipses style={{ marginLeft: "0.2rem" }} />
+            {totalUnreadChat > 0 && <CountIcon count={totalUnreadChat} />}
           </button>
         </>
       )}

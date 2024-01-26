@@ -12,17 +12,12 @@ import { useChat } from "../contexts/ChatContext";
 
 const Chat = () => {
   const { getUserInfo } = useUserInfoContext();
-  const {
-    chatUsers,
-    setChatUsers,
-    chatUser,
-    setChatUser,
-    showChat,
-    setShowChat,
-  } = useChat();
+  const { chatUsers, setChatUsers } = useChat();
   const [blockList, setBlockList] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
   const { setIsValidJWT } = useGlobals();
+  const [chatUser, setChatUser] = useState({});
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     console.log("chat component loaded");
@@ -128,7 +123,7 @@ const Chat = () => {
 
   return (
     <div className="chatContainer">
-      {showChat && <ChatBox setShowChat={setShowChat} />}
+      {showChat && <ChatBox setShowChat={setShowChat} chatUser={chatUser} />}
       <p className="chatHeading">Chats</p>
       <ChatSearch />
       <div className="grpOptionBtn">

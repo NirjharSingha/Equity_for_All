@@ -1,8 +1,8 @@
 import React from "react";
 import { useGlobals } from "../contexts/Globals";
 
-const CountIcon = () => {
-  const { windowWidth, unseenNotificationCount } = useGlobals();
+const CountIcon = ({ count }) => {
+  const { windowWidth } = useGlobals();
   const notificationStyle = {
     borderRadius: "50%",
     backgroundColor: "red",
@@ -36,7 +36,7 @@ const CountIcon = () => {
             }
       }
     >
-      {unseenNotificationCount}
+      {count}
     </div>
   );
 };

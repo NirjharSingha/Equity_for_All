@@ -19,7 +19,7 @@ import Lottie from "lottie-react";
 let socket;
 const ENDPOINT = import.meta.env.VITE_SERVER_URL;
 
-const ChatBox = ({ setShowChat }) => {
+const ChatBox = ({ setShowChat, chatUser }) => {
   const [isRotating, setIsRotating] = useState(false);
   const { setIsValidJWT, windowWidth } = useGlobals();
   const [showEmojis, setShowEmojis] = useState(false);
@@ -37,8 +37,8 @@ const ChatBox = ({ setShowChat }) => {
     setPrevFiles,
     newFiles,
     setNewFiles,
-    chatUser,
-    setChatUser,
+    setChatUsers,
+    setUnreadChat,
   } = useChat();
   const inputRef = useRef(null);
   const emojiRef = useRef(null);
@@ -47,7 +47,6 @@ const ChatBox = ({ setShowChat }) => {
   const [showLoading, setShowLoading] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const { setChatUsers, chatUsers } = useChat();
   const [messageExchanged, setMessageExchanged] = useState(false);
 
   const currentUser = jwtDecode(localStorage.getItem("token")).email;
@@ -153,7 +152,6 @@ const ChatBox = ({ setShowChat }) => {
       socket.off("connect");
       socket.off("receive_message");
       socket.disconnect();
-      setChatUser({});
       setChats([]);
     };
   }, []);
@@ -448,6 +446,10 @@ const ChatBox = ({ setShowChat }) => {
     if (chatUser.unreadCount > 0) {
       makeSeen();
     }
+
+    setUnreadChat((prev) => {
+      return prev.filter((item) => item.sender !== chatUser.id);
+    });
 
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {

@@ -15,8 +15,7 @@ const ChatProvider = ({ children }) => {
   const [prevFiles, setPrevFiles] = useState([]);
   const [newFiles, setNewFiles] = useState([]);
   const [chatUsers, setChatUsers] = useState([]);
-  const [chatUser, setChatUser] = useState({});
-  const [showChat, setShowChat] = useState(false);
+  const [unreadChat, setUnreadChat] = useState([]);
 
   return (
     <ChatContext.Provider
@@ -35,10 +34,8 @@ const ChatProvider = ({ children }) => {
         setNewFiles,
         chatUsers,
         setChatUsers,
-        chatUser,
-        setChatUser,
-        showChat,
-        setShowChat,
+        unreadChat,
+        setUnreadChat,
       }}
     >
       {children}

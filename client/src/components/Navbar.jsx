@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import ProfileIconSidebar from "./ProfileIconSidebar";
 import { useGlobals } from "../contexts/Globals";
+import { useChat } from "../contexts/ChatContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import jwtDecode from "jwt-decode";
 import CountIcon from "./CountIcon";
@@ -25,6 +26,8 @@ export const Navbar = () => {
   const navIconRef = useRef(null);
   const [userImg, setUserImg] = useState("");
   const [showSideBar, setShowSideBar] = useState(false);
+  const [totalUnreadChat, setTotalUnreadChat] = useState(0);
+  const { unreadChat, setUnreadChat } = useChat();
 
   useEffect(() => {
     const displayUser = async () => {
@@ -37,6 +40,14 @@ export const Navbar = () => {
     displayUser();
   }, []);
 
+  useEffect(() => {
+    let ct = 0;
+    unreadChat.map((chat) => {
+      ct += chat.count;
+    });
+    setTotalUnreadChat(ct);
+  }, [unreadChat]);
+
   const handleProfileIcon = () => {
     setShowSideBar((prev) => !prev);
   };
@@ -44,7 +55,11 @@ export const Navbar = () => {
   return (
     <>
       {showSideBar && (
-        <ProfileIconSidebar setState={setShowSideBar} Ref={navIconRef} />
+        <ProfileIconSidebar
+          setState={setShowSideBar}
+          Ref={navIconRef}
+          totalUnreadChat={totalUnreadChat}
+        />
       )}
       <nav className="navBar">
         <div className="left">
@@ -84,7 +99,9 @@ export const Navbar = () => {
                 onClick={() => setShowNotifications((prev) => !prev)}
               >
                 <NotificationsRoundedIcon />
-                {unseenNotificationCount > 0 && <CountIcon />}
+                {unseenNotificationCount > 0 && (
+                  <CountIcon count={unseenNotificationCount} />
+                )}
               </div>
             </div>
           )}
@@ -92,6 +109,7 @@ export const Navbar = () => {
             <div className="gridItem">
               <div className="circle">
                 <ChatSharpIcon />
+                {totalUnreadChat > 0 && <CountIcon count={totalUnreadChat} />}
               </div>
             </div>
           )}
