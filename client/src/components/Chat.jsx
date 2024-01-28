@@ -120,31 +120,13 @@ const Chat = () => {
     fetchChatUsers();
   }, []);
 
-  const [selectedOption, setSelectedOption] = useState("inbox");
+  // const [selectedOption, setSelectedOption] = useState("inbox");
 
   return (
     <div className="chatContainer">
       {showChat && <ChatBox setShowChat={setShowChat} chatUser={chatUser} />}
       <p className="chatHeading">Chats</p>
       <ChatSearch />
-      <div className="grpOptionBtn">
-        <button
-          className={
-            selectedOption === "inbox" ? "selectedGrpOption" : "grpPageBtn"
-          }
-          onClick={() => setSelectedOption("inbox")}
-        >
-          Inbox
-        </button>
-        <button
-          className={
-            selectedOption === "groups" ? "selectedGrpOption" : "grpPageBtn"
-          }
-          onClick={() => setSelectedOption("groups")}
-        >
-          Groups
-        </button>
-      </div>
       <div className="chatCardContainer">
         {showLoading && (
           <div className="loadingContainer">

@@ -6,13 +6,17 @@
   font-size: 1.4rem;
   font-weight: bold;
   margin-left: 0.9rem;
-  margin-top: 0.4rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.3rem;
   color: rgb(66, 66, 66);
 }
 .chatCardContainer {
   width: 100%;
-  height: calc(100svh - 15.2rem);
-  max-height: calc(100svh - 15.2rem);
+  /* height: calc(100svh - 15.2rem);
+  max-height: calc(100svh - 15.2rem); */
+  margin-top: 0.7rem;
+  height: calc(100svh - 14rem);
+  max-height: calc(100svh - 14rem);
   overflow-y: auto;
 }
 .chatCard {
