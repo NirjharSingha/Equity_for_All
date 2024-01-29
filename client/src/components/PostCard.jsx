@@ -268,7 +268,9 @@ const PostCard = ({ post, shareFlag }) => {
                 ...
               </div>
             </div>
-            <p className="postTime">{post.createdAt}</p>
+            <p className="postTime">
+              {new Date(post.createdAt).toLocaleString()}
+            </p>
           </div>
         </div>
         <div className={expanded ? "expandedPostContent" : "postContent"}>

@@ -84,9 +84,9 @@ const CreateStory = () => {
     storyData.append("storyDescription", inputValue);
     storyData.append("storyVisibility", visibility);
     if (!isEdit) {
-      storyData.append("createdAt", new Date(Date.now()).toLocaleString());
+      storyData.append("createdAt", new Date(Date.now()));
     } else {
-      storyData.append("updatedAt", new Date(Date.now()).toLocaleString());
+      storyData.append("updatedAt", new Date(Date.now()));
       storyData.append(
         "prevBg",
         bgImgHandler === true ? storyToDisplay.backgroundImage : ""
