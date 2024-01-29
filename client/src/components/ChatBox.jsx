@@ -403,6 +403,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
     };
 
     const fetchChatIds = async () => {
+      console.log("fetching chat ids");
       try {
         setShowLoading(true);
         const token = localStorage.getItem("token");
@@ -416,6 +417,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
         );
         if (response) {
           setChatIds(response.data);
+          console.log(response.data);
           setShowLoading(false);
         }
       } catch (error) {
@@ -467,6 +469,8 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       makeSeen();
     }
 
+    console.log(chatUser);
+
     setUnreadChat((prev) => {
       return prev.filter((item) => item.sender !== chatUser.id);
     });
@@ -479,7 +483,9 @@ const ChatBox = ({ setShowChat, chatUser }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
+      console.log("fetching chats");
       if (chatIds.length > 0) {
+        console.log("length greater than 0");
         let arrayToSend = [];
         let idx = 0;
         if (chatCount.page !== 1) {
@@ -493,6 +499,8 @@ const ChatBox = ({ setShowChat, chatUser }) => {
           console.log(index);
           const element = chatIds[index];
           arrayToSend.push(element);
+
+          console.log(arrayToSend);
         }
         if (arrayToSend.length > 0) {
           try {

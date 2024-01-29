@@ -292,13 +292,12 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               <img src={selectedImage} className="selectedImage" />
             </div>
           </div>
-          <button
-            type="button"
-            className="imageButton"
-            onClick={handleButtonClick}
-          >
-            {isReg ? "Upload profile pic" : "Update profile pic"}
-          </button>
+          <div className="imageButton" onClick={handleButtonClick}>
+            <div className="buttonLeft"></div>
+            <div className="buttonRight">
+              {isReg ? "Upload image" : "Udate image"}
+            </div>
+          </div>
         </div>
         <div
           className={

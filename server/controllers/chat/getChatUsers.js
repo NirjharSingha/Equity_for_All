@@ -85,6 +85,8 @@ const getChatUsers = asyncHandler(async (req, res) => {
         });
       }
 
+      console.log(chatUserInfoList);
+
       const dataToSend = {
         mergedChatList: chatUserInfoList,
         blockList: friendsData.blockList,

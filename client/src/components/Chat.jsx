@@ -126,7 +126,7 @@ const Chat = () => {
     <div className="chatContainer">
       {showChat && <ChatBox setShowChat={setShowChat} chatUser={chatUser} />}
       <p className="chatHeading">Chats</p>
-      <ChatSearch />
+      <ChatSearch setShowChat={setShowChat} setChatUser={setChatUser} />
       <div className="chatCardContainer">
         {showLoading && (
           <div className="loadingContainer">

@@ -10,6 +10,7 @@ import updateLike from "../controllers/chat/updateLike.js";
 import makeSeen from "../controllers/chat/makeSeen.js";
 import seenById from "../controllers/chat/seenById.js";
 import getChats from "../controllers/chat/getChats.js";
+import chatSearchResult from "../controllers/chat/chatSearchResult.js";
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.post(
 );
 router.put("/editChat", [verifyJWT, upload.array("chatAttachments")], editChat);
 router.get("/getChats", verifyJWT, getChats);
+router.get("/chatSearchResult", chatSearchResult);
 router.put("/updateLike/:id", verifyJWT, updateLike);
 router.put("/makeSeen/:sender", verifyJWT, makeSeen);
 router.put("/seenById/:id", verifyJWT, seenById);

@@ -9,8 +9,10 @@ import { FaArrowLeft } from "react-icons/fa6";
 import SearchResult from "./SearchResult";
 import { useNavigate } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
+import { useChat } from "../contexts/ChatContext";
+import { set } from "mongoose";
 
-const ChatSearch = () => {
+const ChatSearch = ({ setShowChat, setChatUser }) => {
   const { windowWidth } = useGlobals();
   useEffect(() => {
     console.log("chat search loaded");
@@ -23,6 +25,7 @@ const ChatSearch = () => {
   const [inputValue, setInputValue] = useState("");
   const searchRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState({});
+  const { chatUsers } = useChat();
 
   const handleInputChange = async (value) => {
     setInputValue(value);
@@ -33,9 +36,12 @@ const ChatSearch = () => {
     }
     if (value.length === 1) {
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/searchResult?value=${value}`
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/chat/chatSearchResult?value=${value}`
       );
       if (response) {
+        console.log(response.data);
         setFetchedData(response.data);
         setFilteredData(response.data);
       }
@@ -65,7 +71,23 @@ const ChatSearch = () => {
     };
   }, []);
 
-  const handleSearchClick = (searchItem) => {};
+  const handleSearchClick = (searchItem) => {
+    setShowList(false);
+    setInputValue("");
+    setFilteredData([]);
+    setShowChat(true);
+    let ct = 0;
+    console.log(chatUsers);
+    for (let index = 0; index < chatUsers.length; index++) {
+      const element = chatUsers[index];
+      if (element.id === searchItem.id) {
+        ct = element.unreadCount;
+        break;
+      }
+    }
+
+    setChatUser({ ...searchItem, unreadCount: ct });
+  };
 
   return (
     <div
@@ -100,21 +122,17 @@ const ChatSearch = () => {
         <div className="chatSearchList">
           {filteredData.map((searchItem) => (
             <div
-              key={searchItem._id}
+              key={searchItem.id}
               onClick={() => handleSearchClick(searchItem)}
             >
               <ItemCard
-                key={searchItem._id}
+                key={searchItem.id}
                 containerClass="searchLine"
                 imgClass="optionListImg"
                 nameClass="optionListName"
-                shouldDisplayImg={!(searchItem.pic === "")}
-                imgSrc={searchItem.pic}
-                icon={
-                  searchItem.flag === "user"
-                    ? "/profilePicIcon.svg"
-                    : "/group.png"
-                }
+                shouldDisplayImg={!(searchItem.profilePic === "")}
+                imgSrc={searchItem.profilePic}
+                icon={"/profilePicIcon.svg"}
                 name={searchItem.name}
               />
             </div>
