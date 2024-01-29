@@ -296,9 +296,7 @@ const DisplayStory = () => {
                     ? "Your story"
                     : userName}
                 </p>
-                <p className="storyTime">
-                  {new Date(storyToDisplay.createdAt).toLocaleTimeString()}
-                </p>
+                <p className="storyTime">{storyToDisplay.createdAt}</p>
               </div>
               <div className="displayStoryIcons">
                 {storyToDisplay.userEmail ===
