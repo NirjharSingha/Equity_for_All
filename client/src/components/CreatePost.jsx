@@ -83,7 +83,7 @@ const CreatePost = () => {
     postData.append("postCategory", postCategory);
 
     if (!editPost) {
-      postData.append("createdAt", new Date(Date.now()).toLocaleString());
+      postData.append("createdAt", new Date(Date.now()));
       if (isGroupPost) {
         postData.append("group", selectedGroup._id);
       } else {
@@ -92,7 +92,7 @@ const CreatePost = () => {
     }
 
     if (editPost) {
-      postData.append("updatedAt", new Date(Date.now()).toLocaleString());
+      postData.append("updatedAt", new Date(Date.now()));
       postData.append("id", selectedPost._id);
       postData.append("isDeleted", isDeleted);
 
