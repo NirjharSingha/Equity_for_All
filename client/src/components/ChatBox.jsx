@@ -581,15 +581,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
 
   return (
     <div className="chatBox" ref={chatRef}>
-      <div
-        className="commentCrossContainer"
-        style={{
-          borderTopRightRadius: `${windowWidth > 440 ? 0 : "10px"}`,
-          backgroundColor: "rgb(162, 158, 158)",
-          height: "2.1rem",
-          backgroundColor: "rgb(197, 190, 190)",
-        }}
-      >
+      <div className="chatBoxCrossContainer">
         <TbReload
           className={`commentReload rotating-element ${
             isRotating ? "rotate-once" : ""

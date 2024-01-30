@@ -11,9 +11,11 @@ import { useChat } from "../contexts/ChatContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import jwtDecode from "jwt-decode";
 import CountIcon from "./CountIcon";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const { getUserInfo } = useUserInfoContext();
+  const navigate = useNavigate();
   const {
     windowWidth,
     setShowNotifications,
@@ -107,7 +109,14 @@ export const Navbar = () => {
           )}
           {windowWidth >= 800 && (
             <div className="gridItem">
-              <div className="circle">
+              <div
+                className="circle"
+                onClick={() => {
+                  if (windowWidth < 1150 && window.location.href !== `${import.meta.env.VITE_CLIENT_URL}main/chat`) {
+                    navigate("/main/chat");
+                  }
+                }}
+              >
                 <ChatSharpIcon />
                 {totalUnreadChat > 0 && <CountIcon count={totalUnreadChat} />}
               </div>

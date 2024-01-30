@@ -41,6 +41,10 @@ const ProfileIconSidebar = ({ setState, Ref, totalUnreadChat }) => {
     navigate("/main/yourProfile");
     setState(false);
   };
+  const handleChat = () => {
+    navigate("/main/chat");
+    setState(false);
+  };
 
   return (
     <div className="sideBarContainer" ref={containerRef}>
@@ -62,7 +66,7 @@ const ProfileIconSidebar = ({ setState, Ref, totalUnreadChat }) => {
               <CountIcon count={unseenNotificationCount} />
             )}
           </button>
-          <button className="sidebarButton" onClick={handleProfile}>
+          <button className="sidebarButton" onClick={handleChat}>
             Chat <IoChatboxEllipses style={{ marginLeft: "0.2rem" }} />
             {totalUnreadChat > 0 && <CountIcon count={totalUnreadChat} />}
           </button>

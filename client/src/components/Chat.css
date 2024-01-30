@@ -41,3 +41,56 @@
   display: flex;
   align-items: center;
 }
+
+@media screen and (max-width: 1150px) {
+  .chatCard {
+    max-width: calc(33.3vw - 1.1rem);
+  }
+}
+@media screen and (max-width: 800px) {
+  .chatContainer {
+    width: 60%;
+    margin-left: 20%;
+  }
+  .chatCard {
+    max-width: 57vw;
+  }
+}
+@media screen and (max-width: 650px) {
+  .chatContainer {
+    width: 70%;
+    margin-left: 15%;
+  }
+  .chatCard {
+    max-width: 66.5vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .chatContainer {
+    width: 80%;
+    margin-left: 2%;
+  }
+  .chatCard {
+    max-width: 73.6vw;
+  }
+  .chatCardContainer {
+    height: calc(100svh - 12.5rem);
+    max-height: calc(100svh - 12.5rem);
+  }
+}
+@media screen and (max-width: 390px) {
+  .chatContainer {
+    width: 90%;
+  }
+  .chatCard {
+    max-width: 83vw;
+  }
+}
+@media screen and (max-width: 340px) {
+  .chatContainer {
+    width: 98%;
+  }
+  .chatCard {
+    max-width: 90vw;
+  }
+}

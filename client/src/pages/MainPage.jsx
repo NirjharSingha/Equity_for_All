@@ -103,7 +103,11 @@ const MainPage = () => {
   useEffect(() => {
     if (windowWidth > 800) {
       const currentUrl = window.location.href;
-      if (currentUrl === `${import.meta.env.VITE_CLIENT_URL}main/yourProfile`) {
+      if (
+        currentUrl === `${import.meta.env.VITE_CLIENT_URL}main/yourProfile` ||
+        (currentUrl === `${import.meta.env.VITE_CLIENT_URL}main/chat` &&
+          windowWidth > 1150)
+      ) {
         navigate("/main");
       }
     }
@@ -378,6 +382,36 @@ const MainPage = () => {
                   >
                     <Profile profileCode={0} />
                   </div>
+                </>
+              }
+            />
+            <Route
+              path="/chat"
+              element={
+                <>
+                  <div
+                    className={
+                      windowWidth > 500 ? "leftComponent" : "mainComponent"
+                    }
+                  >
+                    <Chat />
+                  </div>
+                  {windowWidth > 800 && windowWidth < 1150 && (
+                    <div
+                      className="mainComponent"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontWeight: "bold",
+                        fontFamily: "sans",
+                      }}
+                    >
+                      Select a chat to view
+                    </div>
+                  )}
                 </>
               }
             />
