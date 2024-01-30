@@ -16,12 +16,12 @@ const groupSchema = mongoose.Schema(
       type: String,
     },
     createdAt: {
-      type: String,
-      default: "",
+      type: Date,
+      default: null,
     },
     updatedAt: {
-      type: String,
-      default: "",
+      type: Date,
+      default: null,
     },
     allMembers: {
       type: Array,

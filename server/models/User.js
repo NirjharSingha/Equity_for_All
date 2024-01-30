@@ -96,8 +96,8 @@ const userSchema = mongoose.Schema(
       default: [],
     },
     createdAt: {
-      type: String,
-      default: "",
+      type: Date,
+      default: null,
     },
     profilePic: {
       type: String,

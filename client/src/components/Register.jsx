@@ -173,7 +173,7 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       formData.append("reasonOfBeingHere", user.reasonOfBeingHere);
       formData.append("aboutYourself", user.aboutYourself);
       formData.append("profilePic", profilePic);
-      formData.append("createdAt", new Date(Date.now()).toISOString());
+      formData.append("createdAt", new Date(Date.now()));
       formData.append("isReg", isReg);
 
       console.log(profilePic);

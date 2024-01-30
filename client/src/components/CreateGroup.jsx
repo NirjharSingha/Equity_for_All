@@ -68,9 +68,9 @@ const CreateGroup = () => {
     groupData.append("groupVisibility", privacy);
     groupData.append("backgroundImage", imgUrl);
     if (!isEditGroup) {
-      groupData.append("createdAt", new Date(Date.now()).toLocaleString());
+      groupData.append("createdAt", new Date(Date.now()));
     } else {
-      groupData.append("updatedAt", new Date(Date.now()).toLocaleString());
+      groupData.append("updatedAt", new Date(Date.now()));
       groupData.append("_id", groupToEdit._id);
       if (!isFirst && groupToEdit.groupImage !== "") {
         groupData.append("deleteFile", "deleted");
