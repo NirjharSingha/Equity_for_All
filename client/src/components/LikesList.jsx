@@ -43,7 +43,7 @@ const LikesList = ({ setShowLikesList, likesData, total }) => {
   }, [listToDisplay]);
 
   useEffect(() => {
-    console.log("optionList component loaded");
+    console.log("LikesList component loaded");
     setHorizontalItems([
       AiFillLike,
       AiFillDislike,
@@ -67,7 +67,6 @@ const LikesList = ({ setShowLikesList, likesData, total }) => {
   }, []);
 
   useEffect(() => {
-    console.log(selectedItemIndex);
     let list = [];
     if (selectedItemIndex === 0) {
       list = list.concat(
@@ -92,7 +91,6 @@ const LikesList = ({ setShowLikesList, likesData, total }) => {
       list = list.concat(likesData.love);
     }
     setListToDisplay(list);
-    console.log(listToDisplay);
   }, [selectedItemIndex]);
 
   const getClassBasedOnIndex = (index) => {

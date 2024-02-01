@@ -48,6 +48,10 @@ const ChatCard = ({ chat, handleDelete, updateLike }) => {
   const [showChatSideBar, setShowChatSideBar] = useState(false);
   const { setIsValidJWT } = useGlobals();
 
+  useEffect(() => {
+    console.log("chat card loaded");
+  }, []);
+
   const toggleFullscreen = (index) => {
     const imageElement = imageRef.current[index];
 

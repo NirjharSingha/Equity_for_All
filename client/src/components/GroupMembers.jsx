@@ -19,7 +19,6 @@ const GroupMembers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(selectedGroup);
       const { name, profilePic } = await getUserInfo(selectedGroup.admin);
       setAdminName(name);
       setAdminPic(profilePic);
@@ -81,8 +80,6 @@ const GroupMembers = () => {
             (member) => member.email !== response.data.email
           );
         });
-      } else {
-        console.log(response);
       }
     } catch (error) {
       if (error.response.status === 401) {

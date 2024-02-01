@@ -37,7 +37,6 @@ const PostContextProvider = ({ children }) => {
   ) => {
     let arrayToSend = [];
     if (postIds.length > 0 && postPage * postPerPage <= postIds.length) {
-      console.log(postPage);
       for (
         let index = postPage * postPerPage;
         index < postIds.length && index < postPage * postPerPage + postPerPage;
@@ -64,7 +63,6 @@ const PostContextProvider = ({ children }) => {
         }
       } catch (error) {
         if (error.response.status === 401) {
-          console.log("inside status code");
           setIsValidJWT(false);
         }
         console.error("Error fetching posts:", error);

@@ -92,7 +92,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setProfilePic(file);
     setFileFlag(true);
 
@@ -100,7 +99,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setSelectedImage(reader.result);
-      console.log(selectedImage);
     };
   };
 
@@ -176,8 +174,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
       formData.append("createdAt", new Date(Date.now()));
       formData.append("isReg", isReg);
 
-      console.log(profilePic);
-
       if (isReg) {
         try {
           const response = await axios.post(
@@ -222,7 +218,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
               },
             }
           );
-          console.log(response);
           if (
             response.status == 200 &&
             response.data.message === "User updated successfully"
@@ -454,8 +449,6 @@ const Register = ({ isReg, profileData, handleMount, fetchProfileData }) => {
                 setUser({ ...user, [e.target.name]: e.target.value });
                 setWarning("");
                 setCountryName(country);
-                console.log(countryName);
-                console.log("country name");
                 setSelectedCity("");
                 if (e.target.value !== "") {
                   setCityTooltip("Select City");

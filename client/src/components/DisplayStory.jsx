@@ -146,12 +146,9 @@ const DisplayStory = () => {
         }
       );
       if (response.status == 200) {
-        console.log("inside Status");
         if (storyToDisplay.backgroundImage !== "") {
-          console.log("inside bg");
           deleteFile([storyToDisplay.backgroundImage]);
         }
-        console.log("story deleted successfully");
         if (otherStories[email].length > 1) {
           setOtherStories((prev) => {
             const updatedArray = [...prev[email]];
@@ -170,14 +167,10 @@ const DisplayStory = () => {
           setOtherStories((prevState) => {
             const newState = { ...prevState };
             delete newState[email];
-            console.log("other stories");
-            console.log(newState);
             return newState;
           });
           setStoryKeys((prevState) => {
             const newArray = prevState.filter((element) => element !== email);
-            console.log("story Keys");
-            console.log(newArray);
             return newArray;
           });
         }

@@ -41,7 +41,6 @@ const ChatSearch = ({ setShowChat, setChatUser }) => {
         }/chat/chatSearchResult?value=${value}`
       );
       if (response) {
-        console.log(response.data);
         setFetchedData(response.data);
         setFilteredData(response.data);
       }
@@ -77,7 +76,6 @@ const ChatSearch = ({ setShowChat, setChatUser }) => {
     setFilteredData([]);
     setShowChat(true);
     let ct = 0;
-    console.log(chatUsers);
     for (let index = 0; index < chatUsers.length; index++) {
       const element = chatUsers[index];
       if (element.id === searchItem.id) {

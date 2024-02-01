@@ -169,7 +169,7 @@ const Comment = ({ setShowComments, post }) => {
         }
       } catch (error) {
         if (error.response.status === 401) {
-          console.log("inside status code");
+          console.log("401");
           setIsValidJWT(false);
         }
         console.error("Error fetching comment count:", error);
@@ -197,7 +197,6 @@ const Comment = ({ setShowComments, post }) => {
         commentIds.length > 0 &&
         commentPage * commentLimit <= commentIds.length
       ) {
-        console.log(commentPage);
         for (
           let index = commentPage * commentLimit;
           index < commentIds.length &&
@@ -228,14 +227,13 @@ const Comment = ({ setShowComments, post }) => {
         }
       } catch (error) {
         if (error.response.status === 401) {
-          console.log("inside status code");
+          console.log("401");
           setIsValidJWT(false);
         }
         console.error("Error fetching comments:", error);
       }
     };
     if (commentIds.length > 0) {
-      console.log(commentIds);
       fetchAllComments();
     }
   }, [commentIds, commentPage]);
@@ -285,11 +283,10 @@ const Comment = ({ setShowComments, post }) => {
         setCommentInPlace(response.data);
       }
     } catch (error) {
+      console.log(error);
       if (error.response.status === 401) {
-        console.log("inside status code");
         setIsValidJWT(false);
       }
-      console.log(error);
     }
   };
 

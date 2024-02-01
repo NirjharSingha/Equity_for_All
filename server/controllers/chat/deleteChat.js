@@ -6,7 +6,6 @@ const deleteChat = asyncHandler(async (req, res) => {
 
   try {
     const deletedChat = await InboxMessage.findByIdAndDelete(chatId);
-    console.log(deletedChat);
 
     if (deletedChat) {
       res.status(200).json({

@@ -90,8 +90,6 @@ const GroupsBar = () => {
   };
   useEffect(() => {
     fetchGroupNames();
-    console.log("selected group :");
-    console.log(selectedGroup);
   }, []);
 
   useEffect(() => {
@@ -116,7 +114,6 @@ const GroupsBar = () => {
             }
           );
           if (res) {
-            console.log(res.data);
             setSuggestGroups((prev) => [...prev, res.data]);
           }
         }

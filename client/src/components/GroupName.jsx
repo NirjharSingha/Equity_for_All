@@ -76,8 +76,6 @@ const GroupName = ({ group, flag }) => {
         if (windowWidth < 800 || selectedGroup !== null) {
           setShowAlertMsg(true);
         }
-      } else {
-        console.log(response);
       }
     } catch (error) {
       console.log(error);
@@ -107,8 +105,6 @@ const GroupName = ({ group, flag }) => {
         );
         setAlertMsg("Group deleted successfully");
         setShowAlertMsg(true);
-      } else {
-        console.log(response);
       }
     } catch (error) {
       if (error.response.status === 401) {

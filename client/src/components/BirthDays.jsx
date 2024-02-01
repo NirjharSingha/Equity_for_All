@@ -50,7 +50,7 @@ const BirthDays = () => {
         }
       } catch (error) {
         if (error.response.status === 401) {
-          console.log("inside status code");
+          console.log("inside error code");
           setIsValidJWT(false);
         }
         console.error("Error fetching comment count:", error);
@@ -59,10 +59,6 @@ const BirthDays = () => {
 
     fetchBirthdays();
   }, []);
-
-  useEffect(() => {
-    console.log(birthDayInfo);
-  }, [birthDayInfo]);
 
   return (
     <div className="birthDayContainer">

@@ -85,7 +85,6 @@ const Friends = () => {
   };
 
   const fetchSuggessionData = async (dataToSend) => {
-    console.log("fetching suggessions");
     try {
       setShowLoading(true);
       const token = localStorage.getItem("token");

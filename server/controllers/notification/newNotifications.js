@@ -6,7 +6,6 @@ const newNotifications = asyncHandler(async (req, res) => {
 
   try {
     const notifications = await Notification.find({ userEmail, isSeen: false });
-    console.log(notifications);
 
     if (notifications.length > 0) {
       let ids = [];
@@ -20,7 +19,6 @@ const newNotifications = asyncHandler(async (req, res) => {
       );
 
       if (updatedNotifications) {
-        console.log(`notifications updated.`);
       }
     }
 

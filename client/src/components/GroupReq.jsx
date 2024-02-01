@@ -44,8 +44,6 @@ const GroupReq = ({ member, setState }) => {
           );
         });
         setShowAlertMsg(true);
-      } else {
-        console.log(response);
       }
     } catch (error) {
       console.log(error);

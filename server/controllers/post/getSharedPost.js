@@ -24,7 +24,6 @@ const getSharedPost = asyncHandler(async (req, res) => {
           postDescription: post.postDescription,
           createdAt: post.createdAt,
         };
-        console.log(dataToSend);
         res.json(dataToSend);
       }
     }

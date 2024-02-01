@@ -135,7 +135,6 @@ const CreatePost = () => {
       }
       if (response) {
         if (response.status === 201) {
-          console.log("post created");
           setInputValue("");
           setSelectedFiles([]);
           setPostCategory("public");
@@ -170,7 +169,6 @@ const CreatePost = () => {
           setShowCreatePostMobile(false);
         }
         if (response.status === 200) {
-          console.log("post updated successfully");
           const updatedPost = response.data.updatedPost;
 
           setYourPostArray((prevPosts) => {
@@ -194,7 +192,6 @@ const CreatePost = () => {
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
-        console.log("inside status code");
         setIsValidJWT(false);
       }
     }

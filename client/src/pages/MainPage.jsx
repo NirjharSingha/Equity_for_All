@@ -54,7 +54,6 @@ const MainPage = () => {
 
   useEffect(() => {
     let foundGroup = null;
-    console.log("inside access");
 
     if (selectedGroup) {
       for (let index = 0; index < groupsYouCreated.length; index++) {
@@ -221,7 +220,6 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    console.log("use effect");
     if (globalSocketChat._id !== undefined && globalSocketChat._id !== null) {
       if (chats.length > 0) {
         const tempChat = chats[0];
@@ -233,14 +231,11 @@ const MainPage = () => {
           targetUser = sender;
         }
         if (targetUser === globalSocketChat.sender) {
-          console.log("return");
           return;
         } else {
-          console.log("process");
           handleProcess();
         }
       } else {
-        console.log("process");
         handleProcess();
       }
     }

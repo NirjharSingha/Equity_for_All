@@ -24,7 +24,6 @@ const Chat = () => {
     console.log("chat component loaded");
 
     const fetchSuggessionData = async (dataToSend) => {
-      console.log("fetching suggessions");
       try {
         setShowLoading(true);
         const token = localStorage.getItem("token");
@@ -49,8 +48,8 @@ const Chat = () => {
           return suggessionsData;
         }
       } catch (error) {
+        console.log(error);
         if (error.response.status === 401) {
-          console.log("inside status code");
           setIsValidJWT(false);
         }
       }
@@ -111,7 +110,6 @@ const Chat = () => {
       } catch (error) {
         console.log(error);
         if (error.response.status === 401) {
-          console.log("inside status code");
           setIsValidJWT(false);
         }
       }

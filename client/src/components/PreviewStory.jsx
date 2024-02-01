@@ -34,7 +34,6 @@ const PreviewStory = () => {
       reader.readAsDataURL(selectedFile);
       reader.onload = () => {
         setSelectedImage(reader.result);
-        console.log(selectedImage);
       };
     }
   }, [selectedFile]);

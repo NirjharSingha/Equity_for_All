@@ -90,7 +90,6 @@ const PersonCard = ({
         );
         if (response) {
           setSearchValue(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -122,7 +121,6 @@ const PersonCard = ({
         }
       );
       if (response) {
-        console.log("update successful");
         if (num === 1) {
           func_1();
         }

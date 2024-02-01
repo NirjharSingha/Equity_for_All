@@ -76,7 +76,6 @@ const Searchbar = () => {
     setShowResult(true);
 
     if (searchItem.flag === "group") {
-      console.log("inside search click");
       setSelectedOption("stream");
       const tempGroup = {
         _id: searchItem._id,
@@ -87,12 +86,9 @@ const Searchbar = () => {
       };
       setSelectedGroup(tempGroup);
       const currentUrl = window.location.href;
-      console.log(currentUrl);
       if (currentUrl !== `${import.meta.env.VITE_CLIENT_URL}main/groups`) {
-        console.log("if");
         navigate("/main/groups");
       } else {
-        console.log("inside else");
         setSearchTime(tempGroup._id);
       }
     }

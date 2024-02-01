@@ -71,7 +71,6 @@ const Story = () => {
         );
         if (response) {
           setOtherStories((prev) => ({ ...prev, ...response.data }));
-          console.log(response.data);
           setshouldFetchOtherStories(false);
           setShowLoading(false);
         }
@@ -90,14 +89,11 @@ const Story = () => {
     if (!shouldFetchYourStories && shouldFetchOtherStories) {
       fetchOtherStories();
     }
-
-    console.log(otherStories);
   }, [shouldFetchYourStories, setshouldFetchOtherStories]);
 
   useEffect(() => {
     const arrayKeys = Object.keys(otherStories);
     setStoryKeys(arrayKeys);
-    console.log(arrayKeys);
   }, [otherStories]);
 
   return (

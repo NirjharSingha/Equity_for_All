@@ -105,7 +105,6 @@ const CreateGroup = () => {
       }
       if (response) {
         if (!isEditGroup) {
-          console.log("group created successfully");
           setShowCreateGroup(false);
           setGroupsYouCreated((prev) => [...prev, response.data.group]);
           if (windowWidth < 800 || selectedGroup !== null) {
@@ -131,10 +130,8 @@ const CreateGroup = () => {
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
-        console.log("inside status code");
         setIsValidJWT(false);
       }
-      console.log(error);
     }
   };
   useEffect(() => {

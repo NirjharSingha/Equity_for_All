@@ -113,7 +113,6 @@ const CreateStory = () => {
           }
         );
       } else {
-        console.log("inside else block");
         response = await axios.put(
           `${import.meta.env.VITE_SERVER_URL}/story/editStory`,
           storyData,
@@ -127,7 +126,6 @@ const CreateStory = () => {
       }
       const email = jwtDecode(localStorage.getItem("token")).email;
       if (response.status === 201) {
-        console.log("story created successfully");
         resetValues();
         if (email in otherStories) {
           setOtherStories((prev) => {
@@ -147,21 +145,17 @@ const CreateStory = () => {
         }
       } else if (response.status === 200) {
         // deleteFile(filesToDelete);
-        console.log("story updated successfully");
         resetValues();
         setOtherStories((prev) => {
           const updatedArray = [...prev[email]];
           const updatedStory = response.data.updatedStory;
-          console.log(updatedStory);
           const indexOfStoryToUpdate = updatedArray.findIndex(
             (story) => story._id === updatedStory._id
           );
-          console.log(indexOfStoryToUpdate);
           // Check if the story with the given _id was found
           if (indexOfStoryToUpdate !== -1) {
             updatedArray[indexOfStoryToUpdate] = updatedStory; // Replace updatedStoryData with the new data for the story
           }
-          console.log(updatedArray);
           return {
             ...prev,
             [email]: updatedArray,
@@ -172,10 +166,8 @@ const CreateStory = () => {
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
-        console.log("inside status code");
         setIsValidJWT(false);
       }
-      console.log(error);
     }
   };
 

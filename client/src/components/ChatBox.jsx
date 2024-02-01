@@ -78,7 +78,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
         }
       );
       if (response) {
-        console.log(response.data);
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +97,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop_typing", () => setIsTyping(false));
     socket.on("seen", () => {
-      console.log("inside seen socket");
       setChats((prevChats) => {
         const newChats = prevChats.map((cht) => {
           if (cht.sender === currentUser) {
@@ -112,7 +110,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
     });
 
     socket.on("receive_message", (newMessageRecieved) => {
-      console.log("inside receive_message socket");
       socket.emit("seen", room);
       seenById(newMessageRecieved.chat._id);
 
@@ -133,7 +130,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
           setChats((prevChats) => {
             const newChats = prevChats.map((cht) => {
               if (cht._id === chat._id) {
-                console.log(chat);
                 return chat;
               } else {
                 return cht;
@@ -142,7 +138,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
             return newChats;
           });
         } else if (flag === "delete") {
-          console.log("delete socket");
           setChats((prevChats) => {
             return prevChats.filter((cht) => cht._id !== chat._id);
           });
@@ -152,7 +147,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
           setChats((prevChats) => {
             const newChats = prevChats.map((cht) => {
               if (cht._id === chat._id) {
-                console.log(chat);
                 return chat;
               } else {
                 return cht;
@@ -175,7 +169,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
 
   useEffect(() => {
     if (messageExchanged) {
-      console.log("inside message exchanged");
       setChatUsers((prevChatUsers) => {
         const desiredId = chatUser.id;
         const desiredIndex = prevChatUsers.findIndex(
@@ -204,7 +197,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
         }
       );
       if (response.status == 200) {
-        console.log("chat deleted successfully");
         setShowChatSideBar(false);
         setChats((prevChats) => prevChats.filter((chat) => chat._id !== _id));
 
@@ -218,7 +210,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       }
     } catch (error) {
       if (error.response.status === 401) {
-        console.log("inside status code");
         setIsValidJWT(false);
       }
     }
@@ -237,8 +228,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
         }
       );
       if (response.status == 200) {
-        console.log("like updated successfully");
-        console.log(response.data);
         setShouldDisplayAllLikes(false);
 
         const socketData = {
@@ -334,7 +323,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       }
 
       if (response) {
-        console.log(response.data);
         setSelectedFiles([]);
         setInputValue("");
         socket.emit("stop_typing", room);
@@ -381,7 +369,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
-        console.log("inside status code");
+        console.log("401");
         setIsValidJWT(false);
       }
     }
@@ -403,7 +391,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
     };
 
     const fetchChatIds = async () => {
-      console.log("fetching chat ids");
       try {
         setShowLoading(true);
         const token = localStorage.getItem("token");
@@ -417,7 +404,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
         );
         if (response) {
           setChatIds(response.data);
-          console.log(response.data);
           setShowLoading(false);
         }
       } catch (error) {
@@ -469,8 +455,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
       makeSeen();
     }
 
-    console.log(chatUser);
-
     setUnreadChat((prev) => {
       return prev.filter((item) => item.sender !== chatUser.id);
     });
@@ -483,9 +467,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
-      console.log("fetching chats");
       if (chatIds.length > 0) {
-        console.log("length greater than 0");
         let arrayToSend = [];
         let idx = 0;
         if (chatCount.page !== 1) {
@@ -496,11 +478,8 @@ const ChatBox = ({ setShowChat, chatUser }) => {
           index < chatCount.count && index < chatIds.length;
           index++
         ) {
-          console.log(index);
           const element = chatIds[index];
           arrayToSend.push(element);
-
-          console.log(arrayToSend);
         }
         if (arrayToSend.length > 0) {
           try {
@@ -527,8 +506,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
               setIsValidJWT(false);
             }
           }
-        } else {
-          console.log("no more chats");
         }
       }
     };
@@ -542,7 +519,6 @@ const ChatBox = ({ setShowChat, chatUser }) => {
     const currentClientHeight = chatScrollRef.current.clientHeight;
 
     if (currentScrollHeight - (currentScrollTop + currentClientHeight) < 1) {
-      console.log("updating page");
       setChatCount((prev) => {
         return {
           ...prev,
@@ -653,7 +629,7 @@ const ChatBox = ({ setShowChat, chatUser }) => {
           <input
             type="text"
             className="chatSearchInput"
-            placeholder="Search in chat"
+            placeholder="Type here"
             style={{
               borderRadius: "0",
               borderRight: "none",

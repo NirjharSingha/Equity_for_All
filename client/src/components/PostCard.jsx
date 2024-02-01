@@ -90,7 +90,6 @@ const PostCard = ({ post, shareFlag }) => {
         }
       );
       if (response.status == 200) {
-        console.log("post deleted successfully");
         setShowEdit(false);
         setYourPostArray((prevPosts) => {
           return prevPosts.filter((post) => post._id !== response.data.id);
@@ -103,8 +102,6 @@ const PostCard = ({ post, shareFlag }) => {
           setAlertMsg("Post deleted successfully");
           setShowAlertMsg(true);
         }
-      } else {
-        console.log(response);
       }
     } catch (error) {
       if (error.response.status === 401) {
