@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  nexus_sphere_server:
+    image: nexus_sphere_server
+    build:
+      context: ./server
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+
+  nexus_sphere_client:
+    image: nexus_sphere_client
+    build:
+      context: ./client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - nexus_sphere_server
+    env_file:
+      - ./client/.env

@@ -1,11 +1,11 @@
 FROM node:18.17.1
 
-WORKDIR /app
+WORKDIR /nexus_sphere_server
 
 COPY . .
 
 RUN bash -c "npm install"
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD ["npm", "start"]
