@@ -7,7 +7,6 @@ import CommentCard from "./CommentCard";
 import EmojiList from "./EmojiList";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { useUserInfoContext } from "../contexts/UserInfoContext";
 import Loading from "./Loading";
 import { useGlobals } from "../contexts/Globals";
 
@@ -18,7 +17,6 @@ const Comment = ({ setShowComments, post }) => {
   const [commentInput, setCommentInput] = useState("");
   const emojiRef = useRef(null);
   const [comments, setComments] = useState([]);
-  const { getUserInfo } = useUserInfoContext();
   const [commentPage, setCommentPage] = useState(0);
   const [commentLimit] = useState(3);
   const [commentIds, setCommentIds] = useState([]);
@@ -243,15 +241,11 @@ const Comment = ({ setShowComments, post }) => {
       return;
     }
     const decodedToken = jwtDecode(localStorage.getItem("token"));
-    const userInfo = await getUserInfo(decodedToken.email);
-    const { name, profilePic } = userInfo;
     const commentID = `${Date.now()}${decodedToken.email}`;
     const sendData = {
       postId: post._id,
       commentID: commentID,
       userEmail: decodedToken.email,
-      userName: name,
-      profilePic: profilePic,
       commentDesc: commentInput,
       timeStamp: new Date(Date.now()).toLocaleString(),
       parentID: "",

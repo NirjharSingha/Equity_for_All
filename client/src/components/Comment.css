@@ -69,6 +69,7 @@
   border-left: 2px solid #8096a8;
 }
 .writeAComment {
+  position: relative;
   margin-top: 10px;
   display: flex;
   align-items: center;
@@ -80,7 +81,7 @@
 }
 .commentMainEmoji {
   position: absolute;
-  bottom: 3.4rem;
+  bottom: 2.6rem;
   z-index: 999;
   width: 125px;
   height: 120px;

@@ -55,6 +55,8 @@ const CommentCard = ({
   const { loadLikesListData } = useLikesListContext();
   const [showLikesList, setShowLikesList] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userImg, setUserImg] = useState("");
 
   useEffect(() => {
     if (isEdit) {
@@ -147,6 +149,15 @@ const CommentCard = ({
   }, []);
 
   useEffect(() => {
+    const displayCommentUser = async () => {
+      const { name, profilePic } = await getUserInfo(comment.userEmail);
+      setUserName(name), setUserImg(profilePic);
+    };
+
+    displayCommentUser();
+  }, []);
+
+  useEffect(() => {
     console.log("Comment card loaded");
 
     const handleOutsideClick = (event) => {
@@ -194,16 +205,12 @@ const CommentCard = ({
     }
     if (isReply) {
       const decodedToken = jwtDecode(localStorage.getItem("token"));
-      const userInfo = await getUserInfo(decodedToken.email);
-      const { name, profilePic } = userInfo;
       const commentID = `${Date.now()}${decodedToken.email}`;
 
       const sendData = {
         postId: postID,
         commentID: commentID,
         userEmail: decodedToken.email,
-        userName: name,
-        profilePic: profilePic,
         commentDesc: inputValue,
         timeStamp: new Date(Date.now()).toLocaleString(),
         parentID: comment.commentID,
@@ -321,14 +328,10 @@ const CommentCard = ({
         <div className="comment">
           <div className="commentFirstRow">
             <div className="commentPicContainer">
-              {comment.deletedAt === "" && comment.profilePic !== "" && (
-                <img
-                  src={comment.profilePic}
-                  alt=""
-                  className="commentUserProfilePic"
-                />
+              {comment.deletedAt === "" && userImg !== "" && (
+                <img src={userImg} alt="" className="commentUserProfilePic" />
               )}
-              {comment.deletedAt === "" && comment.profilePic === "" && (
+              {comment.deletedAt === "" && userImg === "" && (
                 <img
                   src="/profilePicIcon.svg" // Use the path to the SVG in the public folder
                   alt=""
@@ -347,7 +350,7 @@ const CommentCard = ({
                 comment.deletedAt === "" ? "commentUser" : "displayNone"
               }
             >
-              <h3 className="commentUserName">{comment.userName}</h3>
+              <h3 className="commentUserName">{userName}</h3>
               <div className="time">{comment.timeStamp}</div>
             </div>
           </div>

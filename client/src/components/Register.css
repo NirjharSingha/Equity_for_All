@@ -49,7 +49,7 @@
   color: rgb(99, 96, 96);
   font-size: 0.7rem;
   font-family: sans-serif;
-  width: 10rem;
+  width: 15rem;
   border-radius: 6rem;
   cursor: pointer;
   border: 2px solid gray;
@@ -413,7 +413,7 @@
     height: 62%;
   }
   .imageButton {
-    width: 9rem;
+    width: 11rem;
   }
 }
 @media screen and (max-width: 400px) {

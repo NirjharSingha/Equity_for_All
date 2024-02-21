@@ -217,7 +217,12 @@ const CreatePost = () => {
             ref={inputRef}
           />
         </div>
-        <div style={{ marginRight: "0.5rem", marginBottom: "0.3rem" }}>
+        <div
+          style={{
+            marginRight: "0.5rem",
+            marginBottom: "0.3rem",
+          }}
+        >
           <EmojiList setInputValue={setInputValue} inputRef={inputRef} />
         </div>
         <div className="postAttachment">

@@ -9,6 +9,8 @@
   background-color: azure;
   border-radius: 0.3rem;
   box-shadow: -3px 3px 6px rgba(0, 0, 0, 0.2);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .allEmojis::-webkit-scrollbar {
   display: none;

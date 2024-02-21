@@ -90,11 +90,14 @@ const ChatSearch = ({ setShowChat, setChatUser }) => {
   return (
     <div
       className="searchbar"
-      style={{ position: "relative", marginLeft: "0.9rem" }}
+      style={{
+        position: "relative",
+        marginLeft: "0.9rem",
+      }}
       ref={searchRef}
     >
       <div className="chatSearchInputContainer">
-        <div className="chatSearchIconConainer">
+        <div className="chatSearchIconConainer" style={{ minHeight: "2rem" }}>
           {inputValue.length === 0 && (
             <IoSearchOutline style={{ color: "grey", fontSize: "1.1rem" }} />
           )}
@@ -114,6 +117,7 @@ const ChatSearch = ({ setShowChat, setChatUser }) => {
           placeholder="Search in chat"
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
+          style={{ minHeight: "2rem" }}
         />
       </div>
       {showSearchList && (

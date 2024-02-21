@@ -1,7 +1,7 @@
 .storyCard {
   height: 100%;
   width: 13vw;
-  min-width: 12rem;
+  min-width: 14rem;
   margin-right: 0.4rem;
   display: grid;
   grid-template-columns: 1fr;

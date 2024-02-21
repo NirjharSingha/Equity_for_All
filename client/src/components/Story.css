@@ -1,6 +1,6 @@
 .storyDiv {
   width: calc(100% - 0.6rem);
-  height: 36vh;
+  height: 38vh;
   max-width: calc(50vw - 0.5rem);
   overflow-x: auto;
   overflow-y: hidden;
