@@ -104,8 +104,11 @@ docker compose up -d --build
 ```
 
 This will build your client and server in docker containers including all necessary dependencies.
+<br /><br />
+<span style="color:green">
+NB: Your client running in docker container is mapped with port 5173 of your localhost. Your server running in docker container is mapped with port 5000 of your localhost.
+</span>
 <br />
-<u>NB: Your client running in docker container is mapped with port 5173 of your localhost. Your server running in docker container is mapped with port 5000 of your localhost.</u><br />
 <br />
 You can open your client on this link: 
 
@@ -141,7 +144,10 @@ You can open your app on this link:
 
 http://localhost:5173
 
-<u>NB: Whether you build the app with docker or without docker, your MongoDB database will be on mongodb atlas and you will need internet connection to communicate with database. By this you can access the already present sample data of the database. For connecting with database, all required credentials defined in .env file is also pushed on github as there is no sensitive data on the database and without this, one cannot access the database and some other services. You can connect a local database as well but in that case that database will be empty initially.</u><br /><br />
+<span style="color:green">
+NB: Whether you build the app with docker or without docker, your MongoDB database will be on mongodb atlas and you will need internet connection to communicate with database. By this you can access the already present sample data of the database. For connecting with database, all required credentials defined in .env file is also pushed on github as there is no sensitive data on the database and without this, one cannot access the database and some other services. You can connect a local database as well but in that case that database will be empty initially.
+</span>
+<br /><br />
 
 <h3>Some images of the project:</h3> <br />
 

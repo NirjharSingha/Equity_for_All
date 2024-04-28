@@ -214,7 +214,7 @@ const CommentCard = ({
         commentDesc: inputValue,
         timeStamp: new Date(Date.now()).toLocaleString(),
         parentID: comment.commentID,
-        parentName: comment.userName,
+        parentName: userName,
         level: comment.level === 3 ? comment.level : comment.level + 1,
         levelParent:
           comment.level === 0
