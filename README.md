@@ -1,5 +1,48 @@
 <h1>Nexus Sphere (A Social Media App)</h1> 
 <br />
+<h3>Links:</h3> <br />
+
+The frontend of the app is hosted on Vercel and the backend is hosted on Render. The database is hosted on MongoDB Atlas. Images and other file are stored on Cloudinary.
+
+
+<br/>
+
+<b> The live link of the app is: </b>
+
+<p align="center">
+  <a href="https://nexus-sphere.vercel.app/">
+    <img src="./README/url_img.png" alt="Nexus Sphere" width="300" height="200">
+  </a>
+</p>
+
+
+<br/>
+
+<b> Sample Users: </b>
+<br/>
+These are some sample user accounts using which you can login to the app and see the features.
+<br/>
+
+- **Email**: nir@gmail.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Password**: testN1
+- **Email**: dummydummy004400@gmail.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Password**: testN1
+- **Email**: webprojecttest63@gmail.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Password**: testN1
+
+<br/>
+
+<b> Youtube demonstration link: </b>
+<br/>
+<p> A youtube demonstration link of the app is also given below. You can see the demonstration and know the features of the app: </p>
+<br/>
+
+<p align="center">
+  <a href="https://youtu.be/6fwOk78XaFU?si=CFE05Iq6jhj9pqo9">
+    <img src="./README/youtube_logo.png" alt="Nexus Sphere" width="300" height="200">
+  </a>
+</p>
+<br/>
+<br/>
+<hr/>
+<br/>
 Nexus Sphere is a comprehensive social media web application designed to provide users with a rich and interactive platform for social networking. It incorporates a wide range of features to enhance user engagement and connectivity.
 <br /> <br />
 <h3>Features:</h3> <br />
@@ -64,34 +107,7 @@ Enables users to log in to the platform securely using their Gmail accounts thro
 
 <br />
 
-<h3>Links:</h3> <br />
 
-The frontend of the app is hosted on Vercel and the backend is hosted on Render. The database is hosted on MongoDB Atlas. Images and other file are stored on Cloudinary.
-
-
-<br/>
-
-<b> The live link of the app is: </b>
-
-<p align="center">
-  <a href="https://nexus-sphere.vercel.app/">
-    <img src="./README/url_img.png" alt="Nexus Sphere" width="300" height="200">
-  </a>
-</p>
-
-
-<br/>
-
-A youtube demonstration link of the app is also given below. You can see the demonstration and know the features of the app:
-
-<b> Youtube demonstration link: </b>
-
-<p align="center">
-  <a href="https://nexus-sphere.vercel.app/">
-    <img src="./README/url_img.png" alt="Nexus Sphere" width="300" height="200">
-  </a>
-</p>
-<br />
 <br />
 <h3>Local Development:</h3> <br />
 You have the flexibility to build the project either locally or with Docker. Building locally involves installing necessary tools and executing build commands, while Docker provides a consistent environment with its Dockerfile and image creation process. 
@@ -214,5 +230,3 @@ NB: Whether you build the app with docker or without docker, your MongoDB databa
 <br/><br/>
 
 Nexus Sphere is a feature-rich social media web application designed to offer users an immersive platform for social networking. With a focus on user engagement and connectivity, it provides a wide array of functionalities such as making posts, sharing stories, creating or joining groups, managing friendships, and engaging in private chats. The platform also offers personalized user profiles, real-time notifications, and customizable privacy settings to enhance user experience and security. Additionally, Nexus Sphere integrates advanced features including Gmail authentication via OAuth 2.0, nested comment sections with reply functionality, real-time updates using Server-Sent Events (SSE), and a Socket.IO-powered real-time chat feature. With a responsive design, seamless animations, and infinite scrolling for effortless content exploration, Nexus Sphere offers a modern and dynamic social media experience for users. Powered by technologies such as React JS, Node.js, Express.js, and MongoDB, Nexus Sphere ensures a robust and scalable solution for social networking needs.
-
-// test git push
