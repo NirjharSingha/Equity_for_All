@@ -9,12 +9,6 @@ services:
       - "5000:5000"
     env_file:
       - ./server/.env
-    depends_on:
-      - mongo
-    links:
-      - mongo
-    networks:
-      - app-network
 
   nexus_sphere_client:
     image: nexus_sphere_client
@@ -26,15 +20,4 @@ services:
       - nexus_sphere_server
     env_file:
       - ./client/.env
-    networks:
-      - app-network
-
-  mongo:
-    image: mongo:latest
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
 

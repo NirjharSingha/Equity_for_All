@@ -23,9 +23,13 @@ The frontend of the app is hosted on Vercel and the backend is hosted on Render.
 These are some sample user accounts using which you can login to the app and see the features.
 <br/>
 
-- **Email**: nir@gmail.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Password**: testN1
-- **Email**: dummydummy004400@gmail.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Password**: testN1
-- **Email**: webprojecttest63@gmail.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Password**: testN1
+
+| Serial No | Email                       | Password |
+|-----------|-----------------------------|----------|
+| 1         | nir@gmail.com               | testN1   |
+| 2         | dummydummy004400@gmail.com  | testN1   |
+| 3         | webprojecttest63@gmail.com  | testN1   |
+
 
 <br/>
 
@@ -45,7 +49,7 @@ These are some sample user accounts using which you can login to the app and see
 <br/>
 Nexus Sphere is a comprehensive social media web application designed to provide users with a rich and interactive platform for social networking. It incorporates a wide range of features to enhance user engagement and connectivity.
 <br /> <br />
-<h3>Features:</h3> <br />
+<h3>Feature Details:</h3> <br />
 <b>Making Posts:</b> Users can create and share posts with text, images, videos to express themselves and interact with their network.
 <br /> <br />
 <b>Stories:</b> Similar to popular social media platforms, Nexus Sphere allows users to share temporary stories consisting of photos, videos, or text updates that disappear after a set period.
@@ -112,7 +116,7 @@ Enables users to log in to the platform securely using their Gmail accounts thro
 <h3>Local Development:</h3> <br />
 You have the flexibility to build the project either locally or with Docker. Building locally involves installing necessary tools and executing build commands, while Docker provides a consistent environment with its Dockerfile and image creation process. 
 <br /> <br />
-<b>Using Docker:</b><br />
+<b>Using Docker:</b><br /><br />
 At first come to the base directory of the project and then run the following command in terminal.
 
 ```bash
@@ -121,6 +125,34 @@ docker compose up -d --build
 
 This will build your client and server in docker containers including all necessary dependencies.
 <br /><br />
+
+Another way to run the project is to pull the docker images from the dockerhub and run them locally using the following commands. In this method you won't need to build the project locally on your device. Instead just run the following command in the terminal.
+
+```bash
+docker pull nirjharsingha/nexus_sphere_server
+docker pull nirjharsingha/nexus_sphere_client
+docker run -d --name nexus_sphere_server -p 5000:5000 nirjharsingha/nexus_sphere_server
+docker run -d --name nexus_sphere_client -p 5173:5173 --link nexus_sphere_server:nexus_sphere_server nirjharsingha/nexus_sphere_client
+```
+
+To stop the containers, run the following command in the terminal.
+
+```bash
+docker stop nexus_sphere_server nexus_sphere_client
+```
+
+To start the containers again, run this command.
+
+```bash
+docker start nexus_sphere_server nexus_sphere_client
+```
+
+To check the status of your containers, run the following command.
+
+```bash
+docker ps -a
+```
+
 <span style="color:green">
 NB: Your client running in docker container is mapped with port 5173 of your localhost. Your server running in docker container is mapped with port 5000 of your localhost.
 </span>
@@ -130,7 +162,7 @@ You can open your client on this link:
 
 http://localhost:5173
 
-<b>Without Docker:</b><br />
+<b>Without Docker:</b><br /><br />
 At first let's build the client locally. Come to the base directory of the project and then run the following command in terminal.
 
 ```bash
